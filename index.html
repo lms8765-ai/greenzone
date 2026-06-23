@@ -1,0 +1,2570 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+  <!-- PWA 설정 -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2e7d32">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="포항 녹지관리">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="72x72"  href="icons/icon-72.png">
+  <link rel="apple-touch-icon" sizes="96x96"  href="icons/icon-96.png">
+  <link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+  <meta name="msapplication-TileColor" content="#2e7d32">
+  <meta name="msapplication-TileImage" content="icons/icon-192.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>포항시 녹지 관리구역 시스템</title>
+<script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=10h233ymi8&submodules=geocoder"></script>
+<style>
+/* ══════════════════════════════════════════════════
+   기본 리셋 & 변수
+══════════════════════════════════════════════════ */
+:root {
+  --green:     #2e7d32;
+  --green-l:   #388e3c;
+  --green-bg:  #e8f5e9;
+  --green-br:  #c8e6c9;
+  --rose:      #c2185b;
+  --rose-bg:   #fce4ec;
+  --rose-br:   #f48fb1;
+  --blue:      #1565c0;
+  --blue-bg:   #e3f2fd;
+  --blue-br:   #90caf9;
+  --orange:    #e65100;
+  --orange-bg: #fff8e1;
+  --orange-br: #ffcc80;
+  --red:       #c62828;
+  --red-bg:    #ffebee;
+  --red-br:    #ef9a9a;
+  --gray:      #546e7a;
+  --gray-bg:   #f5f5f5;
+  --gray-br:   #cfd8dc;
+  --text:      #1a2e1a;
+  --text-m:    #4a6a4a;
+  --text-l:    #8aaa8a;
+  --border:    #e0ece0;
+  --panel-bg:  #fafffe;
+  --sidebar-w: 320px;
+  --detail-w:  300px;
+  --header-h:  52px;
+  --toolbar-h: 42px;
+  --searchbar-h: 40px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+  background: #f0f4f0;
+  color: var(--text);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: 13px;
+}
+
+/* ══════════════════════════════════════════════════
+   헤더
+══════════════════════════════════════════════════ */
+#header {
+  height: var(--header-h);
+  background: var(--green);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px #0003;
+  z-index: 400;
+}
+.hd-logo { font-size: 22px; }
+.hd-info { flex: 1; }
+.hd-title { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: -.3px; }
+.hd-sub   { font-size: 10px; color: #a5d6a7; margin-top: 1px; }
+.hd-stats { display: flex; gap: 8px; }
+.hd-stat {
+  background: #ffffff1a;
+  border: 1px solid #ffffff2a;
+  border-radius: 8px;
+  padding: 5px 14px;
+  text-align: center;
+  min-width: 72px;
+  cursor: default;
+  transition: background .15s;
+}
+.hd-stat:hover { background: #ffffff2a; }
+.hd-stat-n { font-size: 17px; font-weight: 800; color: #e8f5e9; }
+.hd-stat-l { font-size: 9px; color: #a5d6a7; margin-top: 1px; }
+.hd-stat.red .hd-stat-n { color: #ffcdd2; }
+.hd-divider { width: 1px; height: 28px; background: #ffffff25; }
+.hd-btn {
+  background: #ffffff18;
+  border: 1px solid #ffffff2a;
+  color: #e8f5e9;
+  border-radius: 7px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.hd-btn:hover { background: #ffffff2e; }
+
+/* ══════════════════════════════════════════════════
+   툴바
+══════════════════════════════════════════════════ */
+#toolbar {
+  height: var(--toolbar-h);
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 4px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px #0001;
+  z-index: 300;
+}
+.tb-sep { width: 1px; height: 22px; background: var(--border); margin: 0 4px; }
+.tb-label { font-size: 10px; color: var(--text-l); font-weight: 700; margin-right: 2px; white-space: nowrap; }
+.tb-btn {
+  padding: 5px 12px;
+  border-radius: 5px;
+  border: 1.5px solid var(--green-br);
+  background: var(--green-bg);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .12s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.tb-btn:hover  { background: #d4edda; }
+.tb-btn:active { transform: scale(.96); }
+.tb-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
+.tb-btn.draw-active { background: var(--rose); color: #fff; border-color: var(--rose); box-shadow: 0 0 0 3px #c2185b22; }
+.tb-btn.rose   { background: var(--rose-bg);   color: var(--rose);   border-color: var(--rose-br);   }
+.tb-btn.rose:hover  { background: #f8bbd0; }
+.tb-btn.blue   { background: var(--blue-bg);   color: var(--blue);   border-color: var(--blue-br);   }
+.tb-btn.blue.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.tb-btn.blue:hover  { background: #bbdefb; }
+.tb-btn.orange { background: var(--orange-bg); color: var(--orange); border-color: var(--orange-br); }
+.tb-btn.orange:hover { background: #ffe0b2; }
+.tb-btn.red    { background: var(--red-bg);    color: var(--red);    border-color: var(--red-br);    }
+.tb-btn.red:hover    { background: #ffcdd2; }
+.tb-btn.gray   { background: var(--gray-bg);   color: var(--gray);   border-color: var(--gray-br);   }
+.tb-btn.gray:hover   { background: #eceff1; }
+.tb-btn:disabled { opacity: .4; cursor: not-allowed; transform: none !important; }
+
+/* ══════════════════════════════════════════════════
+   검색바
+══════════════════════════════════════════════════ */
+#searchbar {
+  height: var(--searchbar-h);
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 6px;
+  flex-shrink: 0;
+  z-index: 200;
+}
+#searchbar-label { font-size: 11px; color: var(--text-l); font-weight: 700; white-space: nowrap; }
+#addr-wrap { position: relative; flex: 1; max-width: 500px; }
+#addr-input {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1.5px solid var(--green-br);
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  background: var(--green-bg);
+  color: var(--text);
+  transition: border-color .15s, background .15s;
+}
+#addr-input:focus { border-color: var(--green); background: #fff; }
+#addr-input::placeholder { color: var(--text-l); }
+#addr-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1.5px solid var(--green-br);
+  border-radius: 8px;
+  z-index: 600;
+  max-height: 240px;
+  overflow-y: auto;
+  box-shadow: 0 4px 16px #0002;
+  display: none;
+}
+.addr-item { padding: 9px 14px; cursor: pointer; border-bottom: 1px solid #f0f9f0; }
+.addr-item:last-child { border-bottom: none; }
+.addr-item:hover { background: var(--green-bg); }
+.addr-road { font-size: 12px; font-weight: 600; color: var(--text); }
+.addr-jibun { font-size: 10px; color: var(--text-l); margin-top: 1px; }
+#searchbar-tip {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-l);
+  background: var(--gray-bg);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--gray-br);
+}
+
+/* ══════════════════════════════════════════════════
+   메인 레이아웃
+══════════════════════════════════════════════════ */
+#main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════════════
+   좌측 사이드바
+══════════════════════════════════════════════════ */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: 280px;
+  background: var(--panel-bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 2px 0 6px #0001;
+  flex-shrink: 0;
+}
+#sidebar-tabs {
+  display: flex;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sidebar-tab {
+  flex: 1;
+  padding: 9px 4px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  color: var(--text-l);
+  transition: all .12s;
+  user-select: none;
+}
+.sidebar-tab:hover { color: var(--green); }
+.sidebar-tab.active { color: var(--green); border-bottom-color: var(--green); background: var(--green-bg); }
+#sidebar-filter {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: #fff;
+}
+#zone-search {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1.5px solid var(--green-br);
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  background: var(--green-bg);
+  margin-bottom: 7px;
+  transition: border-color .15s;
+}
+#zone-search:focus { border-color: var(--green); background: #fff; }
+#zone-search::placeholder { color: var(--text-l); }
+.filter-row { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 4px; }
+.fchip {
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid;
+  background: #fff;
+  transition: all .1s;
+  user-select: none;
+}
+.fchip:hover { opacity: .8; }
+.fchip.on { color: #fff !important; }
+#sidebar-body { flex: 1; overflow-y: auto; }
+
+/* ══ 그룹 헤더 ══ */
+.grp-hd {
+  padding: 7px 12px;
+  background: #f0f7f0;
+  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .1s;
+}
+.grp-hd:hover { background: #e8f5e9; }
+.grp-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.grp-name { font-size: 12px; font-weight: 800; color: var(--text); flex: 1; }
+.grp-cnt  { font-size: 10px; color: var(--text-l); }
+.grp-arr  { font-size: 10px; color: var(--text-l); transition: transform .18s; }
+.grp-arr.open { transform: rotate(90deg); }
+.grp-body { display: none; }
+.grp-body.open { display: block; }
+
+/* ══ 구역 카드 ══ */
+.zcard {
+  padding: 10px 13px;
+  border-bottom: 1px solid #f0f5f0;
+  cursor: pointer;
+  transition: background .1s;
+  border-left: 4px solid transparent;
+  user-select: none;
+}
+.zcard:hover  { background: #f5fbf5; }
+.zcard.active { background: #eaf5ea; border-left-color: var(--green); }
+.zcard-top  { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.zcard-name { font-size: 12px; font-weight: 800; color: var(--text); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.zcard-team { font-size: 10px; color: var(--text-l); margin-bottom: 5px; }
+.zcard-tags { display: flex; gap: 3px; flex-wrap: wrap; }
+.zcard-meta { font-size: 9px; color: #aabcaa; margin-top: 4px; }
+
+/* ══ 배지 ══ */
+.badge {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ══ 통계 탭 ══ */
+.stats-wrap { padding: 12px; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.stat-box { border-radius: 10px; padding: 12px 10px; text-align: center; border: 1.5px solid; }
+.stat-box-n { font-size: 22px; font-weight: 800; }
+.stat-box-l { font-size: 10px; margin-top: 2px; }
+.sbar-item { margin-bottom: 9px; }
+.sbar-labels { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; margin-bottom: 3px; }
+.sbar-bg  { background: var(--green-bg); border-radius: 4px; height: 8px; }
+.sbar-fill { height: 8px; border-radius: 4px; transition: width .4s; }
+.stats-section-title { font-size: 11px; font-weight: 800; color: var(--green); margin: 12px 0 8px; }
+.upcoming-item {
+  border-radius: 7px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  border-left: 4px solid;
+  transition: opacity .1s;
+}
+.upcoming-item:hover { opacity: .85; }
+.recent-log-item {
+  background: var(--green-bg);
+  border-left: 4px solid;
+  border-radius: 6px;
+  padding: 7px 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.recent-log-item:hover { opacity: .85; }
+
+/* ══════════════════════════════════════════════════
+   지도 영역
+══════════════════════════════════════════════════ */
+#map-area { flex: 1; position: relative; overflow: hidden; }
+#map { width: 100%; height: 100%; }
+
+/* 그리기 HUD */
+#draw-hud {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--rose);
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  z-index: 200;
+  pointer-events: none;
+  display: none;
+  white-space: nowrap;
+  box-shadow: 0 3px 12px #c2185b44;
+  letter-spacing: .2px;
+}
+#area-hud {
+  position: absolute;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: var(--green);
+  padding: 7px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  z-index: 200;
+  pointer-events: none;
+  display: none;
+  white-space: nowrap;
+  box-shadow: 0 3px 12px #0002;
+  border: 2px solid var(--green-br);
+}
+#undo-btn {
+  position: absolute;
+  bottom: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: var(--orange);
+  padding: 7px 18px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  z-index: 200;
+  cursor: pointer;
+  display: none;
+  border: 2px solid var(--orange-br);
+  box-shadow: 0 2px 8px #0001;
+  white-space: nowrap;
+  font-family: inherit;
+}
+#undo-btn:hover { background: var(--orange-bg); }
+
+/* 지도 컨트롤 */
+#map-ctrl {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 200;
+}
+.map-ctrl-btn {
+  width: 36px; height: 36px;
+  background: #fff;
+  border: 1.5px solid var(--green-br);
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--green);
+  box-shadow: 0 2px 6px #0001;
+  transition: background .12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.map-ctrl-btn:hover { background: var(--green-bg); }
+
+/* 검색 핀 안내 */
+#search-pin-info {
+  position: absolute;
+  bottom: 44px;
+  right: 14px;
+  background: #fff;
+  border: 1.5px solid var(--green-br);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--text-m);
+  z-index: 200;
+  display: none;
+  box-shadow: 0 2px 8px #0001;
+  max-width: 220px;
+}
+
+/* ══════════════════════════════════════════════════
+   우측 상세 패널
+══════════════════════════════════════════════════ */
+#detail-panel {
+  width: var(--detail-w);
+  min-width: 260px;
+  background: var(--panel-bg);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: -2px 0 6px #0001;
+}
+#dp-head {
+  padding: 12px 14px;
+  background: #fff;
+  border-bottom: 2px solid var(--green-br);
+  flex-shrink: 0;
+}
+.dp-zone-name { font-size: 14px; font-weight: 800; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dp-zone-team { font-size: 10px; color: var(--text-l); margin-top: 2px; }
+.dp-zone-area { font-size: 11px; color: var(--green); font-weight: 700; margin-top: 3px; }
+#dp-body { flex: 1; overflow-y: auto; }
+
+.dp-info-sec { padding: 10px 14px; border-bottom: 1px solid #f0f5f0; }
+.dp-info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.dp-info-k { font-size: 10px; color: var(--text-l); font-weight: 600; }
+.dp-info-v { font-size: 11px; color: var(--text); font-weight: 700; }
+.dp-memo {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--green-bg);
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--text-m);
+  line-height: 1.6;
+  border-left: 3px solid #81c784;
+}
+.dp-action-row { display: flex; gap: 6px; margin-top: 10px; }
+.dp-action-btn {
+  flex: 1;
+  padding: 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  border: 1.5px solid;
+  transition: all .12s;
+  text-align: center;
+}
+.dp-action-btn:hover { opacity: .85; }
+
+.dp-log-sec-head {
+  padding: 7px 14px;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--green);
+  background: var(--green-bg);
+  border-bottom: 1px solid var(--green-br);
+  letter-spacing: .3px;
+}
+.dp-log-item {
+  padding: 9px 13px;
+  border-bottom: 1px solid #f0f5f0;
+  border-left: 3px solid transparent;
+}
+.dp-log-top { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
+.dp-log-date { font-size: 10px; color: var(--text-l); margin-left: auto; }
+.dp-log-detail { font-size: 11px; color: var(--text); line-height: 1.6; }
+.dp-log-worker { font-size: 10px; color: var(--text-l); margin-top: 2px; }
+.dp-log-next   { font-size: 10px; color: var(--orange); font-weight: 700; margin-top: 2px; }
+.dp-log-btns { display: flex; gap: 4px; margin-top: 6px; }
+.dp-log-btn {
+  padding: 2px 9px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  border: 1.5px solid;
+  transition: opacity .12s;
+}
+.dp-log-btn:hover { opacity: .75; }
+
+/* ══════════════════════════════════════════════════
+   모달 (바텀시트 아닌 중앙 다이얼로그)
+══════════════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: #00000050;
+  z-index: 800;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 480px;
+  max-width: 96vw;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 40px #0004;
+  animation: modalIn .18s ease;
+}
+@keyframes modalIn { from { opacity:0; transform: scale(.95) translateY(-10px); } to { opacity:1; transform: scale(1) translateY(0); } }
+.modal-header {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modal-title { font-size: 14px; font-weight: 800; color: var(--text); flex: 1; }
+.modal-close {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--gray-bg);
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--gray);
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .12s;
+}
+.modal-close:hover { background: var(--red-bg); color: var(--red); }
+.modal-body  { padding: 18px 20px; }
+.modal-footer {
+  padding: 12px 20px 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.modal-btn {
+  padding: 8px 20px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  border: 1.5px solid;
+  transition: all .12s;
+  min-width: 80px;
+  text-align: center;
+}
+.modal-btn.primary { background: var(--green); color: #fff; border-color: var(--green); }
+.modal-btn.primary:hover { background: var(--green-l); }
+.modal-btn.secondary { background: var(--gray-bg); color: var(--gray); border-color: var(--gray-br); }
+.modal-btn.secondary:hover { background: #eceff1; }
+.modal-btn.danger { background: var(--red-bg); color: var(--red); border-color: var(--red-br); }
+.modal-btn.danger:hover { background: #ffcdd2; }
+
+/* ══ 폼 ══ */
+.fg { margin-bottom: 13px; }
+.fg:last-child { margin-bottom: 0; }
+.fl { font-size: 11px; color: var(--text-m); font-weight: 700; display: block; margin-bottom: 5px; }
+.fi, .fsel, .fta {
+  width: 100%;
+  padding: 8px 11px;
+  border: 1.5px solid var(--green-br);
+  border-radius: 7px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--green-bg);
+  outline: none;
+  transition: border-color .15s, background .15s;
+}
+.fi:focus, .fsel:focus, .fta:focus { border-color: var(--green); background: #fff; }
+.fi::placeholder, .fta::placeholder { color: var(--text-l); }
+.fsel { cursor: pointer; }
+.fta  { resize: vertical; min-height: 70px; line-height: 1.6; }
+.fg-row { display: flex; gap: 10px; }
+.fg-row .fg { flex: 1; }
+
+/* 작업유형 선택 */
+.wt-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+.wt-btn {
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid;
+  background: #f8f8f8;
+  transition: all .1s;
+  font-family: inherit;
+}
+.wt-btn:hover { opacity: .8; }
+.wt-btn.on { color: #fff; }
+
+/* 색상 선택 */
+.color-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+.color-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: all .12s;
+  box-shadow: 0 1px 3px #0002;
+}
+.color-dot:hover  { transform: scale(1.15); }
+.color-dot.on { border-color: #1a2e1a; transform: scale(1.2); }
+
+/* ══════════════════════════════════════════════════
+   확인 다이얼로그
+══════════════════════════════════════════════════ */
+#confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: #00000060;
+  z-index: 900;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+#confirm-overlay.show { display: flex; }
+#confirm-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 320px;
+  padding: 24px 22px;
+  text-align: center;
+  box-shadow: 0 8px 32px #0004;
+  animation: modalIn .18s ease;
+}
+#confirm-icon { font-size: 32px; margin-bottom: 10px; }
+#confirm-msg  { font-size: 13px; color: var(--text); margin-bottom: 18px; line-height: 1.7; }
+#confirm-btns { display: flex; gap: 8px; justify-content: center; }
+
+/* ══════════════════════════════════════════════════
+   토스트
+══════════════════════════════════════════════════ */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: #1b5e20;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 700;
+  z-index: 9999;
+  opacity: 0;
+  transition: all .22s;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px #0003;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════════════════════════
+   빈 상태
+══════════════════════════════════════════════════ */
+.empty-state { text-align: center; padding: 36px 16px; color: var(--text-l); }
+.empty-state .ei { font-size: 36px; margin-bottom: 10px; }
+.empty-state p { font-size: 12px; line-height: 1.8; }
+
+/* ══════════════════════════════════════════════════
+   스크롤바
+══════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #f0f5f0; }
+::-webkit-scrollbar-thumb { background: var(--green-br); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #81c784; }
+
+/* ══════════════════════════════════════════════════
+   태블릿 읽기전용 뷰 (1024px 이하)
+══════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  :root { --sidebar-w: 280px; --detail-w: 260px; }
+}
+@media (max-width: 1024px) {
+  #detail-panel { display: none; }
+  :root { --sidebar-w: 260px; }
+}
+@media (max-width: 768px) {
+  /* 태블릿: 사이드바 숨기고 하단 바 */
+  #sidebar { display: none; }
+  #tablet-bar { display: flex !important; }
+  #toolbar .tb-label { display: none; }
+  .tb-btn { padding: 5px 8px; font-size: 10px; }
+  :root { --header-h: 46px; }
+  .hd-title { font-size: 13px; }
+  .hd-stats { display: none; }
+}
+
+/* 태블릿 하단 네비 */
+#tablet-bar {
+  display: none;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding: 4px 0 6px;
+  flex-shrink: 0;
+  z-index: 300;
+  box-shadow: 0 -2px 6px #0001;
+}
+.tab-nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 0;
+  cursor: pointer;
+  color: var(--text-l);
+  font-size: 9px;
+  font-weight: 700;
+  border: none;
+  background: none;
+  font-family: inherit;
+  transition: color .12s;
+}
+.tab-nav-btn.on { color: var(--green); }
+.tab-nav-btn .ti { font-size: 21px; }
+
+/* 태블릿 오버레이 패널 */
+#tablet-panel {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 500;
+  flex-direction: column;
+  overflow: hidden;
+}
+#tablet-panel.show { display: flex; }
+#tp-head {
+  background: var(--green);
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+#tp-title { font-size: 14px; font-weight: 800; flex: 1; }
+#tp-close { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; }
+#tp-body { flex: 1; overflow-y: auto; }
+
+/* 인쇄 스타일 */
+@media print {
+  #toolbar, #searchbar, #sidebar, #detail-panel, #tablet-bar, #toast { display: none !important; }
+  #map-area { width: 100% !important; }
+  #header { background: var(--green) !important; -webkit-print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ 헤더 ══ -->
+<div id="header">
+  <div class="hd-logo">🌹</div>
+  <div class="hd-info">
+    <div class="hd-title">포항시 녹지 관리구역 시스템</div>
+    <div class="hd-sub">그린웨이추진과 도시숲관리팀 · 천만송이 장미도시 포항</div>
+  </div>
+  <div class="hd-stats">
+    <div class="hd-stat"><div class="hd-stat-n" id="hs-zones">0</div><div class="hd-stat-l">관리구역</div></div>
+    <div class="hd-stat"><div class="hd-stat-n" id="hs-logs">0</div><div class="hd-stat-l">작업기록</div></div>
+    <div class="hd-stat"><div class="hd-stat-n" id="hs-area">0</div><div class="hd-stat-l">총면적 ㎡</div></div>
+    <div class="hd-stat red"><div class="hd-stat-n" id="hs-issue">0</div><div class="hd-stat-l">문제발생</div></div>
+    <div class="hd-divider"></div>
+    <button class="hd-btn" onclick="exportData()">💾 내보내기</button>
+    <button class="hd-btn" onclick="importData()">📂 불러오기</button>
+    <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
+    <div class="hd-divider"></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <button class="hd-btn" id="btn-cloud-save" onclick="saveToGitHub()"
+        style="background:#1565c0;border-color:#1565c0;font-size:12px;padding:6px 14px"
+        title="GitHub에 저장하여 모든 기기에서 동기화">
+        ☁️ 클라우드 저장
+      </button>
+      <div id="sync-status" style="font-size:9px;color:#a5d6a7"></div>
+    </div>
+    <button class="hd-btn" onclick="openGitHubSettings()" title="GitHub 연동 설정" style="padding:6px 10px">⚙️ 동기화 설정</button>
+    <button class="hd-btn" onclick="loadFromGitHub(false)" title="지금 동기화" style="padding:6px 10px">🔄</button>
+  </div>
+</div>
+
+<!-- ══ 툴바 ══ -->
+<div id="toolbar">
+  <!-- 지도 타입 -->
+  <span class="tb-label">지도</span>
+  <button class="tb-btn blue active" id="btn-normal"    onclick="setMapType('normal')">🗺 일반</button>
+  <button class="tb-btn blue"        id="btn-satellite" onclick="setMapType('satellite')">🛰 위성</button>
+  <button class="tb-btn blue"        id="btn-hybrid"    onclick="setMapType('hybrid')">🌍 하이브리드</button>
+  <div class="tb-sep"></div>
+  <!-- 구역 -->
+  <span class="tb-label">구역</span>
+  <button class="tb-btn rose" id="btn-draw" onclick="toggleDraw()">✏️ 구역 그리기</button>
+  <button class="tb-btn gray" id="btn-edit" onclick="openEditModal()" disabled>⚙️ 구역 편집</button>
+  <button class="tb-btn red"  id="btn-del"  onclick="confirmDeleteZone()" disabled>🗑 삭제</button>
+  <div class="tb-sep"></div>
+  <!-- 기록 -->
+  <span class="tb-label">기록</span>
+  <button class="tb-btn" id="btn-log" onclick="openLogModal()" disabled>📝 작업기록 추가</button>
+  <div class="tb-sep"></div>
+  <!-- 그룹 -->
+  <span class="tb-label">그룹</span>
+  <button class="tb-btn orange" onclick="openGroupModal()">📁 그룹 관리</button>
+  <button class="tb-btn orange active" id="btn-grp-vis" onclick="toggleGroupVis()" title="지도에서 그룹 라벨 표시/숨김">👁 그룹 표시</button>
+  <div class="tb-sep"></div>
+  <!-- 보기 -->
+  <span class="tb-label">보기</span>
+  <button class="tb-btn gray" onclick="fitAll()" title="전체 구역 보기">🔭 전체보기</button>
+  <button class="tb-btn gray" onclick="goMyLocation()" title="현재 위치">📍 내 위치</button>
+  <button class="tb-btn gray" onclick="toggleFullscreen()" title="전체화면">⛶</button>
+</div>
+
+<!-- ══ 주소 검색바 ══ -->
+<div id="searchbar">
+  <span id="searchbar-label">🔍 주소 검색</span>
+  <div id="addr-wrap">
+    <input id="addr-input" placeholder="도로명 또는 지번 주소 입력 후 Enter (예: 포항시 남구 해도동)" autocomplete="off"
+      oninput="onAddrInput(this.value)"
+      onkeydown="if(event.key==='Enter'){clearTimeout(searchTimer);doSearch();}">
+    <div id="addr-dropdown"></div>
+  </div>
+  <button class="tb-btn" onclick="doSearch()" style="flex-shrink:0">검색</button>
+  <button class="tb-btn gray" onclick="clearSearch()" style="flex-shrink:0">✕ 초기화</button>
+  <div class="tb-sep"></div>
+  <div id="searchbar-tip">💡 Tip: 구역 그리기 → 지도 클릭으로 꼭짓점 추가 → <strong>Enter 또는 더블클릭</strong>으로 완성 · ESC로 취소</div>
+</div>
+
+<!-- ══ 메인 ══ -->
+<div id="main">
+
+  <!-- 좌측 사이드바 -->
+  <div id="sidebar">
+    <div id="sidebar-tabs">
+      <div class="sidebar-tab active" onclick="switchTab('list')">📋 구역 목록</div>
+      <div class="sidebar-tab" onclick="switchTab('stats')">📊 현황 통계</div>
+    </div>
+    <div id="sidebar-filter">
+      <input id="zone-search" placeholder="🔍 구역명·담당자 검색..." oninput="onZoneSearch(this.value)">
+      <div id="filter-grp-row"  class="filter-row"></div>
+      <div id="filter-stat-row" class="filter-row"></div>
+    </div>
+    <div id="sidebar-body"></div>
+  </div>
+
+  <!-- 지도 -->
+  <div id="map-area">
+    <div id="map"></div>
+    <div id="draw-hud">📍 클릭 → 꼭짓점 추가 &nbsp;|&nbsp; 더블클릭 또는 Enter → 완성 &nbsp;|&nbsp; ESC → 취소</div>
+    <div id="area-hud"></div>
+    <button id="undo-btn" onclick="undoLast()">↩ 마지막 점 되돌리기</button>
+    <div id="map-ctrl">
+      <button class="map-ctrl-btn" onclick="map.setZoom(map.getZoom()+1)" title="확대">+</button>
+      <button class="map-ctrl-btn" onclick="map.setZoom(map.getZoom()-1)" title="축소">−</button>
+    </div>
+    <div id="search-pin-info"></div>
+  </div>
+
+  <!-- 우측 상세 패널 -->
+  <div id="detail-panel">
+    <div id="dp-head">
+      <div class="dp-zone-name" id="dp-name">구역 상세 정보</div>
+      <div class="dp-zone-team" id="dp-team">구역을 선택하면 상세 정보가 표시됩니다</div>
+      <div class="dp-zone-area" id="dp-area"></div>
+    </div>
+    <div id="dp-body">
+      <div class="empty-state"><div class="ei">🗺️</div><p>지도 또는 목록에서<br>구역을 선택해주세요</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 태블릿 하단 네비 ══ -->
+<div id="tablet-bar">
+  <button class="tab-nav-btn on" id="tnb-map"   onclick="tabNav('map')"><span class="ti">🗺️</span>지도</button>
+  <button class="tab-nav-btn"    id="tnb-list"  onclick="tabNav('list')"><span class="ti">📋</span>목록</button>
+  <button class="tab-nav-btn"    id="tnb-stats" onclick="tabNav('stats')"><span class="ti">📊</span>통계</button>
+  <button class="tab-nav-btn"    id="tnb-det"   onclick="tabNav('detail')"><span class="ti">📄</span>상세</button>
+</div>
+
+<!-- 태블릿 오버레이 패널 -->
+<div id="tablet-panel">
+  <div id="tp-head">
+    <span id="tp-title">목록</span>
+    <button id="tp-close" onclick="closeTabletPanel()">✕</button>
+  </div>
+  <div id="tp-body"></div>
+</div>
+
+<!-- ══ 구역 편집 모달 ══ -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" id="edit-modal-title">구역 정보 입력</span>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="fg-row">
+        <div class="fg" style="flex:2">
+          <label class="fl">구역명 *</label>
+          <input class="fi" id="f-name" placeholder="예) 영일대 해변 장미길">
+        </div>
+        <div class="fg" style="flex:1">
+          <label class="fl">담당자</label>
+          <input class="fi" id="f-manager" placeholder="예) 홍길동">
+        </div>
+      </div>
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">그룹</label>
+          <select class="fsel" id="f-group"><option value="">그룹 없음</option></select>
+        </div>
+        <div class="fg">
+          <label class="fl">담당 부서</label>
+          <select class="fsel" id="f-team">
+            <option value="greenway">그린웨이추진과 도시숲관리팀</option>
+            <option value="parks">공원관리팀</option>
+            <option value="facility">시설관리팀</option>
+            <option value="road">도로관리팀</option>
+            <option value="other">기타 부서</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="fl">관리 현황</label>
+          <select class="fsel" id="f-status">
+            <option value="active">관리중</option>
+            <option value="pending">예정</option>
+            <option value="issue">문제발생</option>
+            <option value="completed">완료</option>
+            <option value="suspended">중단</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">구역 식별 색상</label>
+        <div class="color-grid" id="f-color-grid"></div>
+      </div>
+      <div class="fg">
+        <label class="fl">작업 유형 <span style="font-weight:400;color:var(--text-l)">(복수 선택 가능)</span></label>
+        <div class="wt-grid" id="f-wt-grid"></div>
+      </div>
+      <div class="fg">
+        <label class="fl">메모 / 특이사항</label>
+        <textarea class="fta" id="f-memo" placeholder="구역 특이사항, 식재 현황, 주의사항 등..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn secondary" onclick="closeEditModal()">취소</button>
+      <button class="modal-btn primary"   onclick="saveZone()">💾 저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 작업기록 추가 모달 ══ -->
+<div class="modal-overlay" id="log-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📝 작업 기록 추가</span>
+      <button class="modal-close" onclick="closeLogModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:var(--green-bg);border:1.5px solid var(--green-br);border-radius:8px;padding:8px 12px;margin-bottom:14px;font-size:12px;color:var(--green);font-weight:700;" id="log-zone-label"></div>
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">작업일 *</label>
+          <input type="date" class="fi" id="l-date">
+        </div>
+        <div class="fg">
+          <label class="fl">작업 유형 *</label>
+          <select class="fsel" id="l-type">
+            <option value="rose">🌹 장미관리 (전정/약제/시비)</option>
+            <option value="mowing">🌿 풀베기</option>
+            <option value="pruning">✂️ 수목전정</option>
+            <option value="planting">🌱 식재</option>
+            <option value="pest">🛡️ 병해충방제</option>
+            <option value="watering">💧 관수</option>
+            <option value="fertilize">🌾 시비</option>
+            <option value="inspect">🔍 점검/순찰</option>
+            <option value="other">📋 기타</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">작업자 / 업체</label>
+          <input class="fi" id="l-worker" placeholder="예) 홍길동 또는 (주)포항조경">
+        </div>
+        <div class="fg">
+          <label class="fl">다음 작업 예정일</label>
+          <input type="date" class="fi" id="l-next">
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">작업 상세내용 *</label>
+        <textarea class="fta" id="l-detail" style="min-height:90px;"
+          placeholder="예) 하이브리드티 30주 전정 완료&#10;흰가루병 발생 → 마이클로부타닐 살포 (1,000배액)&#10;고사주 2주 확인 → 보식 예정"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn secondary" onclick="closeLogModal()">취소</button>
+      <button class="modal-btn primary"   onclick="saveLog()">💾 저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 작업기록 수정 모달 ══ -->
+<div class="modal-overlay" id="log-edit-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">✏️ 작업 기록 수정</span>
+      <button class="modal-close" onclick="closeLogEditModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="le-id">
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">작업일</label>
+          <input type="date" class="fi" id="le-date">
+        </div>
+        <div class="fg">
+          <label class="fl">작업 유형</label>
+          <select class="fsel" id="le-type">
+            <option value="rose">🌹 장미관리</option><option value="mowing">🌿 풀베기</option>
+            <option value="pruning">✂️ 수목전정</option><option value="planting">🌱 식재</option>
+            <option value="pest">🛡️ 병해충방제</option><option value="watering">💧 관수</option>
+            <option value="fertilize">🌾 시비</option><option value="inspect">🔍 점검/순찰</option>
+            <option value="other">📋 기타</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">작업자</label>
+          <input class="fi" id="le-worker">
+        </div>
+        <div class="fg">
+          <label class="fl">다음 작업 예정일</label>
+          <input type="date" class="fi" id="le-next">
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">상세내용</label>
+        <textarea class="fta" id="le-detail" style="min-height:90px;"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn secondary" onclick="closeLogEditModal()">취소</button>
+      <button class="modal-btn primary"   onclick="saveLogEdit()">💾 수정 저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 그룹 관리 모달 ══ -->
+<div class="modal-overlay" id="group-modal">
+  <div class="modal-box" style="width:420px">
+    <div class="modal-header">
+      <span class="modal-title">📁 그룹 관리</span>
+      <button class="modal-close" onclick="closeGroupModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="group-list-area"></div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+        <div class="fl" style="margin-bottom:8px">새 그룹 추가</div>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+          <input class="fi" id="new-grp-name" placeholder="그룹명 (예: 장미 관리구역)" style="flex:1">
+          <div class="color-grid" id="new-grp-color-grid" style="flex-shrink:0"></div>
+        </div>
+        <button class="modal-btn primary" onclick="addGroup()" style="width:100%">+ 그룹 추가</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn secondary" onclick="closeGroupModal()">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 확인 다이얼로그 ══ -->
+<div id="confirm-overlay">
+  <div id="confirm-box">
+    <div id="confirm-icon">⚠️</div>
+    <div id="confirm-msg"></div>
+    <div id="confirm-btns"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* ══════════════════════════════════════════════
+   상수
+══════════════════════════════════════════════ */
+const WT = [
+  {id:'rose',      label:'장미관리',    color:'#c2185b', icon:'🌹'},
+  {id:'mowing',    label:'풀베기',      color:'#2e7d32', icon:'🌿'},
+  {id:'pruning',   label:'수목전정',    color:'#e65100', icon:'✂️'},
+  {id:'planting',  label:'식재',        color:'#1565c0', icon:'🌱'},
+  {id:'pest',      label:'병해충방제',  color:'#b71c1c', icon:'🛡️'},
+  {id:'watering',  label:'관수',        color:'#0277bd', icon:'💧'},
+  {id:'fertilize', label:'시비',        color:'#827717', icon:'🌾'},
+  {id:'inspect',   label:'점검/순찰',   color:'#6a1b9a', icon:'🔍'},
+  {id:'other',     label:'기타',        color:'#546e7a', icon:'📋'},
+];
+const TEAMS = {
+  greenway:'그린웨이추진과 도시숲관리팀',
+  parks:'공원관리팀',
+  facility:'시설관리팀',
+  road:'도로관리팀',
+  other:'기타 부서'
+};
+const ST = {
+  active:    {label:'관리중',   color:'#2e7d32', bg:'#e8f5e9'},
+  pending:   {label:'예정',     color:'#e65100', bg:'#fff8e1'},
+  issue:     {label:'문제발생', color:'#c62828', bg:'#ffebee'},
+  completed: {label:'완료',     color:'#1565c0', bg:'#e3f2fd'},
+  suspended: {label:'중단',     color:'#546e7a', bg:'#f5f5f5'},
+};
+const ZONE_COLORS = ['#c2185b','#2e7d32','#1565c0','#e65100','#6a1b9a','#00838f','#c62828','#558b2f','#37474f','#f57f17'];
+const GROUP_COLORS= ['#2e7d32','#c2185b','#1565c0','#e65100','#6a1b9a','#00838f','#795548','#37474f','#558b2f','#c62828'];
+const KEY = 'phgz_v5';
+
+/* ══════════════════════════════════════════════
+   상태
+══════════════════════════════════════════════ */
+let map, zones = [], groups = [];
+let drawing = false, dPath = [], dMarkers = [], dPolyline = null, dPolygon = null;
+let selId = null, editId = null, selWTs = [], pickedZoneColor = '#2e7d32';
+let newGrpColor = '#2e7d32';
+let curTab = 'list', zoneQ = '', fGrp = 'all', fSt = 'all';
+let clickEv, dblEv, moveEv, clickGuard = false;
+let confirmCb = null, searchMarker = null, searchTimer = null;
+const openGroups = new Set(['g1','g2','__none__']);
+let showGroupLabels = true;
+
+// ── GitHub 동기화 설정 ──────────────────────────────────────
+const GH_CONFIG = {
+  owner: 'lms8765-ai',
+  repo:  'greenzone',
+  path:  'data.json',
+  branch: 'main',
+};
+let ghToken = ''; // 앱 내 ⚙️ 동기화 설정에서 입력
+let lastSha  = '';              // GitHub 파일의 현재 SHA (업데이트 시 필요)
+let unsavedChanges = false;     // 미저장 변경 여부
+let autoSyncTimer = null;       // 자동 동기화 타이머
+let isSyncing = false;          // 동기화 중 여부
+
+/* ══════════════════════════════════════════════
+   데이터 로드/저장
+══════════════════════════════════════════════ */
+function loadAll() {
+  // GitHub 토큰 복원 (localStorage 저장값 우선, 없으면 기본값 유지)
+  const savedToken = localStorage.getItem('gh_token');
+  if (savedToken) ghToken = savedToken;
+  // 기본 토큰을 localStorage에도 저장
+  if (!savedToken && ghToken) localStorage.setItem('gh_token', ghToken);
+
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) { const d = JSON.parse(raw); zones = d.zones||[]; groups = d.groups||[]; return; }
+  } catch(e) {}
+  zones  = sampleZones();
+  groups = sampleGroups();
+}
+// ── 로컬 임시저장 (즉시) ───────────────────────────────────
+function saveAll() {
+  const data = buildDataObj();
+  try {
+    localStorage.setItem(KEY, JSON.stringify(data));
+  } catch(e) {
+    if (e.name === 'QuotaExceededError') {
+      showToast('⚠️ 저장 공간 부족. 내보내기 후 데이터를 정리해주세요.');
+    }
+  }
+  updateHeaderStats();
+  markUnsaved();   // 미저장 상태 표시
+}
+
+function buildDataObj() {
+  return {
+    zones: zones.map(z=>({
+      id:z.id, name:z.name, team:z.team, status:z.status,
+      workTypes:z.workTypes, memo:z.memo, manager:z.manager||'',
+      color:z.color||'#2e7d32', groupId:z.groupId||'',
+      path:z.path, area:z.area, logs:z.logs
+    })),
+    groups,
+    savedAt: new Date().toISOString(),
+    savedBy: ghToken ? GH_CONFIG.owner : 'local'
+  };
+}
+
+// ── 미저장 상태 표시 ────────────────────────────────────────
+function markUnsaved() {
+  unsavedChanges = true;
+  const btn = document.getElementById('btn-cloud-save');
+  if (btn) {
+    btn.style.background = '#c62828';
+    btn.style.borderColor = '#c62828';
+    btn.style.color = '#fff';
+    btn.innerHTML = '☁️ 저장 필요';
+    btn.title = '변경사항이 있습니다. 클릭하여 저장하세요.';
+  }
+  // 제목에 ● 표시
+  document.title = '● 포항시 녹지 관리구역 시스템';
+}
+
+function markSaved() {
+  unsavedChanges = false;
+  const btn = document.getElementById('btn-cloud-save');
+  if (btn) {
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+    btn.innerHTML = '☁️ 클라우드 저장';
+    btn.title = 'GitHub에 저장하여 모든 기기에서 동기화';
+  }
+  document.title = '포항시 녹지 관리구역 시스템';
+}
+
+// ── GitHub 저장 (클라우드 동기화) ───────────────────────────
+async function saveToGitHub() {
+  if (!ghToken) {
+    openGitHubSettings();
+    return;
+  }
+  if (isSyncing) { showToast('⏳ 저장 중입니다...'); return; }
+
+  isSyncing = true;
+  const btn = document.getElementById('btn-cloud-save');
+  if (btn) btn.innerHTML = '⏳ 저장 중...';
+
+  try {
+    const data   = buildDataObj();
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    const apiUrl  = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}`;
+
+    const body = {
+      message: `데이터 업데이트 ${new Date().toLocaleString('ko-KR')}`,
+      content,
+      branch: GH_CONFIG.branch,
+    };
+    if (lastSha) body.sha = lastSha;
+
+    const res = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${ghToken}`,
+        'Content-Type':  'application/json',
+        'Accept':        'application/vnd.github.v3+json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      if (res.status === 409) {
+        // SHA 충돌 → 최신 SHA 가져와서 재시도
+        await fetchLatestSha();
+        isSyncing = false;
+        return saveToGitHub();
+      }
+      throw new Error(err.message || `HTTP ${res.status}`);
+    }
+
+    const result = await res.json();
+    lastSha = result.content?.sha || lastSha;
+    markSaved();
+    showToast('☁️ 클라우드에 저장되었습니다! 모든 기기에 동기화됩니다.');
+    // 마지막 저장 시간 표시
+    localStorage.setItem('lastGHSave', new Date().toISOString());
+    updateSyncStatus('saved');
+
+  } catch(e) {
+    console.error('[GitHub Save]', e);
+    if (e.message?.includes('Bad credentials') || e.message?.includes('401')) {
+      showToast('❌ 토큰 오류. GitHub 설정을 확인해주세요.');
+      openGitHubSettings();
+    } else {
+      showToast(`❌ 저장 실패: ${e.message}`);
+    }
+  } finally {
+    isSyncing = false;
+    if (btn && unsavedChanges) btn.innerHTML = '☁️ 저장 필요';
+    else if (btn) btn.innerHTML = '☁️ 클라우드 저장';
+  }
+}
+
+// ── GitHub에서 불러오기 (자동 동기화) ───────────────────────
+async function loadFromGitHub(silent = false) {
+  if (!ghToken) return false;
+  if (isSyncing) return false;
+
+  try {
+    const apiUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}?ref=${GH_CONFIG.branch}&t=${Date.now()}`;
+    const res = await fetch(apiUrl, {
+      headers: {
+        'Authorization': `token ${ghToken}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Cache-Control': 'no-cache',
+      }
+    });
+
+    if (res.status === 404) {
+      // 아직 data.json 없음 → 첫 저장 필요
+      if (!silent) showToast('ℹ️ 클라우드 데이터 없음. 저장 버튼으로 업로드하세요.');
+      return false;
+    }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const file = await res.json();
+    lastSha = file.sha;
+
+    const json   = decodeURIComponent(escape(atob(file.content.replace(/\n/g,''))));
+    const data   = JSON.parse(json);
+    const remote = data.savedAt || '';
+    const local  = localStorage.getItem('lastGHSave') || '';
+
+    // 원격이 더 최신이면 업데이트
+    if (!local || remote > local) {
+      applyData(data);
+      localStorage.setItem('lastGHSave', remote);
+      markSaved();
+      if (!silent) showToast('🔄 최신 데이터로 업데이트되었습니다!');
+      updateSyncStatus('synced');
+      return true;
+    } else {
+      if (!silent) showToast('✅ 이미 최신 상태입니다.');
+      updateSyncStatus('synced');
+      return false;
+    }
+  } catch(e) {
+    console.warn('[GitHub Load]', e);
+    if (!silent) showToast(`⚠️ 동기화 실패: ${e.message}`);
+    updateSyncStatus('error');
+    return false;
+  }
+}
+
+// ── 데이터 적용 ─────────────────────────────────────────────
+function applyData(data) {
+  // 기존 폴리곤 제거
+  zones.forEach(z => {
+    ['polygon','label','labelD'].forEach(k => { if(z[k]) z[k].setMap(null); });
+  });
+  zones  = data.zones  || [];
+  groups = data.groups || [];
+  zones.forEach(z => {
+    z.polygon=null; z.label=null; z.labelD=null;
+    z.area = z.area || calcArea(z.path||[]);
+    drawPoly(z);
+  });
+  // openGroups 갱신
+  groups.forEach(g => openGroups.add(g.id));
+  buildFilters(); renderSidebar(); renderDetail(); updateHeaderStats();
+}
+
+// ── 최신 SHA 가져오기 ───────────────────────────────────────
+async function fetchLatestSha() {
+  if (!ghToken) return;
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}`,
+      { headers: { 'Authorization': `token ${ghToken}`, 'Accept': 'application/vnd.github.v3+json' } }
+    );
+    if (res.ok) { const f = await res.json(); lastSha = f.sha; }
+  } catch(e) {}
+}
+
+// ── 자동 동기화 (30초마다) ──────────────────────────────────
+function startAutoSync() {
+  if (autoSyncTimer) clearInterval(autoSyncTimer);
+  if (!ghToken) return;
+  autoSyncTimer = setInterval(async () => {
+    if (!unsavedChanges && !isSyncing) {
+      await loadFromGitHub(true);
+    }
+  }, 30000); // 30초
+  console.log('[AutoSync] 시작 - 30초마다 동기화');
+}
+
+// ── 동기화 상태 표시 ────────────────────────────────────────
+function updateSyncStatus(status) {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  const now = new Date().toLocaleTimeString('ko-KR', {hour:'2-digit',minute:'2-digit'});
+  const map = {
+    saved:  { icon:'☁️', text:`저장완료 ${now}`, color:'#2e7d32' },
+    synced: { icon:'🔄', text:`동기화 ${now}`,   color:'#1565c0' },
+    error:  { icon:'⚠️', text:'오류',             color:'#c62828' },
+  };
+  const s = map[status] || map.synced;
+  el.innerHTML = `<span style="color:${s.color};font-size:10px;font-weight:700">${s.icon} ${s.text}</span>`;
+}
+
+// ── GitHub 설정 모달 ────────────────────────────────────────
+function openGitHubSettings() {
+  document.getElementById('gh-settings-modal').classList.add('show');
+  const saved = localStorage.getItem('gh_token') || '';
+  document.getElementById('gh-token-input').value = saved ? '●'.repeat(20) : '';
+  document.getElementById('gh-token-real').value  = saved;
+}
+function closeGitHubSettings() {
+  document.getElementById('gh-settings-modal').classList.remove('show');
+}
+function saveGitHubToken() {
+  const token = document.getElementById('gh-token-real').value.trim();
+  if (!token) { showToast('⚠️ 토큰을 입력해주세요'); return; }
+  ghToken = token;
+  localStorage.setItem('gh_token', token);
+  closeGitHubSettings();
+  showToast('✅ GitHub 연동 완료! 첫 동기화를 시작합니다...');
+  loadFromGitHub(false).then(() => startAutoSync());
+}
+function clearGitHubToken() {
+  ghToken = '';
+  lastSha = '';
+  localStorage.removeItem('gh_token');
+  if (autoSyncTimer) { clearInterval(autoSyncTimer); autoSyncTimer = null; }
+  closeGitHubSettings();
+  showToast('🔌 GitHub 연동이 해제되었습니다');
+  updateSyncStatus('error');
+}
+
+// ── 토큰 입력창 표시 처리 ───────────────────────────────────
+function onTokenInputFocus() {
+  const real  = document.getElementById('gh-token-real');
+  const disp  = document.getElementById('gh-token-input');
+  disp.style.display = 'none';
+  real.style.display = 'block';
+  real.focus();
+}
+function sampleGroups() {
+  return [
+    {id:'g1', name:'장미 관리구역',     color:'#c2185b'},
+    {id:'g2', name:'수목·녹지 관리구역', color:'#2e7d32'},
+  ];
+}
+function sampleZones() {
+  return [
+    { id:'z1', name:'영일대 해변 장미길', team:'greenway', status:'active', workTypes:['rose','mowing'],
+      memo:'덩굴장미 및 관목장미 혼식 구간. 개화기(5~6월) 집중관리 필요.', manager:'홍길동', color:'#c2185b', groupId:'g1',
+      path:[{lat:36.0568,lng:129.3810},{lat:36.0575,lng:129.3835},{lat:36.0562,lng:129.3845},{lat:36.0555,lng:129.3820}], area:0,
+      logs:[
+        {id:'l1',date:'2025-05-10',type:'rose',  worker:'홍길동',detail:'하이브리드티 15주 전정 완료\n흰가루병 → 마이클로부타닐 살포',next:'2025-06-10'},
+        {id:'l2',date:'2025-04-20',type:'mowing',worker:'김철수',detail:'전 구간 풀베기 완료 (1,200㎡)',next:''},
+      ]
+    },
+    { id:'z2', name:'인덕산 장미원', team:'greenway', status:'issue', workTypes:['rose','pest','watering'],
+      memo:'흰가루병 발생 중. 지속 모니터링 필요.', manager:'이영희', color:'#c62828', groupId:'g1',
+      path:[{lat:36.0310,lng:129.3600},{lat:36.0330,lng:129.3625},{lat:36.0315,lng:129.3645},{lat:36.0295,lng:129.3630},{lat:36.0290,lng:129.3610}], area:0,
+      logs:[{id:'l3',date:'2025-05-15',type:'pest',worker:'이영희',detail:'흰가루병 발생 → 살균제 살포',next:'2025-05-29'}]
+    },
+    { id:'z3', name:'우현학산 장미특화거리', team:'greenway', status:'pending', workTypes:['rose','planting'],
+      memo:'2025년 신규 조성 예정. 주민참여형.', manager:'', color:'#e65100', groupId:'g1',
+      path:[{lat:36.0480,lng:129.3760},{lat:36.0490,lng:129.3780},{lat:36.0478,lng:129.3792},{lat:36.0468,lng:129.3772}], area:0, logs:[]
+    },
+    { id:'z4', name:'형산강 수변 녹지', team:'greenway', status:'active', workTypes:['pruning','mowing'],
+      memo:'형산강 좌안 수변 녹지 구간.', manager:'박지수', color:'#2e7d32', groupId:'g2',
+      path:[{lat:36.0200,lng:129.3450},{lat:36.0215,lng:129.3480},{lat:36.0200,lng:129.3500},{lat:36.0185,lng:129.3470}], area:0, logs:[]
+    },
+  ];
+}
+
+/* ══════════════════════════════════════════════
+   초기화
+══════════════════════════════════════════════ */
+window.onload = function() {
+  loadAll();
+  map = new naver.maps.Map('map', {
+    center: new naver.maps.LatLng(36.042, 129.370),
+    zoom: 14,
+    mapTypeId: naver.maps.MapTypeId.NORMAL,
+    mapTypeControl: false,
+    scaleControl: true,
+    logoControlOptions: { position: naver.maps.Position.BOTTOM_LEFT },
+  });
+  naver.maps.Event.addListener(map, 'click', () => {
+    if (!drawing) document.getElementById('addr-dropdown').style.display = 'none';
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (drawing) cancelDraw();
+      closeAllModals();
+    }
+    // 그리기 중 Enter → 구역 완성
+    if (e.key === 'Enter' && drawing) {
+      // 주소 검색창에 포커스가 있을 때는 제외
+      if (document.activeElement && document.activeElement.id === 'addr-input') return;
+      finishDraw();
+    }
+  });
+  zones.forEach(z => { z.polygon=null; z.label=null; z.labelD=null; z.area=calcArea(z.path); drawPoly(z); });
+  buildWTGrid(); buildColorGrid(); buildGroupColorGrid();
+  buildFilters(); renderSidebar(); updateHeaderStats();
+
+  // GitHub 동기화 초기화
+  if (ghToken) {
+    // 앱 로드 시 최신 데이터 가져오기
+    loadFromGitHub(true).then(() => startAutoSync());
+  }
+
+  // 페이지 닫기 전 미저장 경고
+  window.addEventListener('beforeunload', e => {
+    if (unsavedChanges) {
+      e.preventDefault();
+      e.returnValue = '저장되지 않은 변경사항이 있습니다. 클라우드 저장 후 닫으세요.';
+    }
+  });
+};
+
+/* ══════════════════════════════════════════════
+   지도 타입
+══════════════════════════════════════════════ */
+function setMapType(t) {
+  const types = {normal:naver.maps.MapTypeId.NORMAL, satellite:naver.maps.MapTypeId.SATELLITE, hybrid:naver.maps.MapTypeId.HYBRID};
+  map.setMapTypeId(types[t]);
+  ['normal','satellite','hybrid'].forEach(k => {
+    document.getElementById('btn-'+k).classList.toggle('active', k===t);
+  });
+}
+
+/* ══════════════════════════════════════════════
+   주소 검색
+══════════════════════════════════════════════ */
+function onAddrInput(v) {
+  clearTimeout(searchTimer);
+  if (!v.trim()) { document.getElementById('addr-dropdown').style.display='none'; return; }
+  searchTimer = setTimeout(doSearch, 500);
+}
+function doSearch() {
+  const q = document.getElementById('addr-input').value.trim();
+  if (!q) return;
+  const dd = document.getElementById('addr-dropdown');
+  dd.innerHTML = '<div style="padding:10px 14px;font-size:11px;color:#8aaa8a">검색 중...</div>';
+  dd.style.display = 'block';
+  naver.maps.Service.geocode({query: q}, function(status, res) {
+    if (status !== naver.maps.Service.Status.OK || !res.v2.addresses.length) {
+      dd.innerHTML = '<div style="padding:10px 14px;font-size:11px;color:#c62828">검색 결과가 없습니다.<br><span style="color:#8aaa8a">도로명/지번 주소로 다시 검색해보세요.</span></div>';
+      return;
+    }
+    dd.innerHTML = res.v2.addresses.slice(0,6).map(a => `
+      <div class="addr-item" onclick="goToAddr(${a.y},${a.x},'${(a.roadAddress||a.jibunAddress||'').replace(/'/g,"\\'")}')">
+        <div class="addr-road">${a.roadAddress || a.jibunAddress || '주소 없음'}</div>
+        ${a.roadAddress && a.jibunAddress ? `<div class="addr-jibun">지번: ${a.jibunAddress}</div>` : ''}
+      </div>`).join('');
+  });
+}
+function goToAddr(lat, lng, addr) {
+  const pos = new naver.maps.LatLng(lat, lng);
+  map.setCenter(pos); map.setZoom(17);
+  document.getElementById('addr-dropdown').style.display = 'none';
+  document.getElementById('addr-input').value = addr;
+  if (searchMarker) searchMarker.setMap(null);
+  searchMarker = new naver.maps.Marker({
+    position: pos, map,
+    icon: {
+      content: `<div style="font-size:28px;transform:translateX(-50%) translateY(-100%)">📍</div>`,
+      anchor: new naver.maps.Point(0, 0)
+    }, zIndex: 300
+  });
+  const info = document.getElementById('search-pin-info');
+  info.innerHTML = `📍 <strong>${addr}</strong>`;
+  info.style.display = 'block';
+  showToast(`📍 ${addr}`);
+}
+function clearSearch() {
+  document.getElementById('addr-input').value = '';
+  document.getElementById('addr-dropdown').style.display = 'none';
+  document.getElementById('search-pin-info').style.display = 'none';
+  if (searchMarker) { searchMarker.setMap(null); searchMarker = null; }
+}
+
+/* ══════════════════════════════════════════════
+   구역 그리기
+══════════════════════════════════════════════ */
+function toggleDraw() { drawing ? cancelDraw() : startDraw(); }
+
+function startDraw() {
+  drawing = true; dPath = []; dMarkers = [];
+  document.getElementById('btn-draw').innerHTML = '✕ 그리기 취소';
+  document.getElementById('btn-draw').classList.add('draw-active');
+  document.getElementById('draw-hud').style.display = 'block';
+  document.getElementById('area-hud').style.display = 'block';
+  document.getElementById('area-hud').textContent = '첫 번째 점을 클릭하세요 (완성: Enter 또는 더블클릭)';
+  map.setCursor('crosshair');
+
+  dblEv = naver.maps.Event.addListener(map, 'dblclick', () => {
+    clickGuard = true; finishDraw(); setTimeout(() => { clickGuard = false; }, 300);
+  });
+  clickEv = naver.maps.Event.addListener(map, 'click', e => {
+    if (clickGuard) return; addPoint(e.coord);
+  });
+  moveEv = naver.maps.Event.addListener(map, 'mousemove', e => updatePreview(e.coord));
+}
+
+function addPoint(coord) {
+  dPath.push({lat: coord.lat(), lng: coord.lng()});
+  dMarkers.push(new naver.maps.Marker({
+    position: coord, map,
+    icon: {content:`<div style="width:10px;height:10px;background:#c2185b;border:2px solid #fff;border-radius:50%;margin:-5px 0 0 -5px;box-shadow:0 1px 4px #0004"></div>`, anchor: new naver.maps.Point(0,0)},
+    zIndex: 200
+  }));
+  updatePreview(coord); updateAreaHud();
+  document.getElementById('undo-btn').style.display = 'block';
+}
+
+function undoLast() {
+  if (!dPath.length) return;
+  dPath.pop(); const m = dMarkers.pop(); if (m) m.setMap(null);
+  updatePreview(null); updateAreaHud();
+  if (!dPath.length) document.getElementById('undo-btn').style.display = 'none';
+}
+
+function updatePreview(cur) {
+  if (dPolyline) { dPolyline.setMap(null); dPolyline = null; }
+  if (dPolygon)  { dPolygon.setMap(null);  dPolygon = null; }
+  if (!dPath.length) return;
+  const pts = dPath.map(p => new naver.maps.LatLng(p.lat, p.lng));
+  if (cur) pts.push(cur);
+  dPolyline = new naver.maps.Polyline({path:pts, strokeColor:'#c2185b', strokeWeight:2.5, strokeStyle:'dash', map});
+  if (dPath.length >= 2) dPolygon = new naver.maps.Polygon({paths:pts, fillColor:'#c2185b', fillOpacity:.1, strokeColor:'#c2185b', strokeWeight:2, strokeStyle:'dash', map});
+}
+
+function updateAreaHud() {
+  const n = dPath.length;
+  document.getElementById('area-hud').textContent =
+    n < 3 ? `점 ${n}개 · 더블클릭 또는 Enter로 완성` : `점 ${n}개 · 면적: ${calcArea(dPath).toLocaleString()} ㎡ · 더블클릭 또는 Enter로 완성`;
+}
+
+function finishDraw() {
+  if (dPath.length < 3) { showToast('⚠️ 최소 3개 점이 필요합니다'); return; }
+  cleanListeners(); cleanPreview(); dMarkers.forEach(m => m.setMap(null)); dMarkers = [];
+  const nz = {
+    id:'z_'+Date.now(), name:'새 관리구역', team:'greenway', status:'pending',
+    workTypes:[], memo:'', manager:'', color:'#2e7d32', groupId:'',
+    path:[...dPath], area:calcArea(dPath), logs:[], polygon:null, label:null, labelD:null
+  };
+  zones.push(nz); drawPoly(nz); saveAll(); renderSidebar();
+  selId = nz.id; drawing = false;
+  document.getElementById('btn-draw').innerHTML = '✏️ 구역 그리기';
+  document.getElementById('btn-draw').classList.remove('draw-active');
+  document.getElementById('draw-hud').style.display = 'none';
+  document.getElementById('area-hud').style.display = 'none';
+  document.getElementById('undo-btn').style.display = 'none';
+  map.setCursor('');  dPath = [];
+  updateToolbar(); editId = nz.id; openEditModal(); showToast('✅ 구역이 완성되었습니다. 정보를 입력해주세요.');
+}
+
+function cancelDraw() {
+  cleanListeners(); cleanPreview(); dMarkers.forEach(m => m.setMap(null)); dMarkers = []; dPath = [];
+  drawing = false;
+  document.getElementById('btn-draw').innerHTML = '✏️ 구역 그리기';
+  document.getElementById('btn-draw').classList.remove('draw-active');
+  document.getElementById('draw-hud').style.display = 'none';
+  document.getElementById('area-hud').style.display = 'none';
+  document.getElementById('undo-btn').style.display = 'none';
+  map.setCursor('');
+}
+
+function cleanListeners() {
+  if (clickEv) { naver.maps.Event.removeListener(clickEv); clickEv=null; }
+  if (dblEv)   { naver.maps.Event.removeListener(dblEv);   dblEv=null; }
+  if (moveEv)  { naver.maps.Event.removeListener(moveEv);  moveEv=null; }
+}
+
+/* ══════════════════════════════════════════════
+   그룹 라벨 표시/숨김 토글
+══════════════════════════════════════════════ */
+function toggleGroupVis() {
+  showGroupLabels = !showGroupLabels;
+  const btn = document.getElementById('btn-grp-vis');
+
+  if (showGroupLabels) {
+    btn.classList.add('active');
+    btn.innerHTML = '👁 그룹 표시';
+    // 모든 구역 라벨 및 폴리곤 다시 표시
+    zones.forEach(z => {
+      if (z.polygon) z.polygon.setMap(map);
+      if (z.label)   z.label.setMap(map);
+      if (z.labelD)  z.labelD.setMap(map);
+    });
+    showToast('👁 그룹 라벨 표시됨');
+  } else {
+    btn.classList.remove('active');
+    btn.innerHTML = '🚫 그룹 숨김';
+    // 그룹에 속한 구역의 라벨만 숨김 (폴리곤은 유지, 라벨만 숨김)
+    zones.forEach(z => {
+      if (z.groupId && groups.find(g => g.id === z.groupId)) {
+        // 그룹에 속한 구역: 라벨 숨김
+        if (z.label)  z.label.setMap(null);
+        if (z.labelD) z.labelD.setMap(null);
+      }
+    });
+    showToast('🚫 그룹 라벨 숨김');
+  }
+}
+function cleanPreview() {
+  if (dPolyline) { dPolyline.setMap(null); dPolyline=null; }
+  if (dPolygon)  { dPolygon.setMap(null);  dPolygon=null; }
+}
+
+/* ══════════════════════════════════════════════
+   폴리곤 렌더
+══════════════════════════════════════════════ */
+function drawPoly(z) {
+  if (z.polygon) z.polygon.setMap(null);
+  if (z.label)   z.label.setMap(null);
+  if (z.labelD)  z.labelD.setMap(null);
+  if (!z.path || z.path.length < 3) return;
+
+  const isSel = z.id === selId;
+  const col   = z.color || '#2e7d32';
+
+  z.polygon = new naver.maps.Polygon({
+    paths: z.path.map(p => new naver.maps.LatLng(p.lat, p.lng)),
+    fillColor: col, fillOpacity: isSel ? .38 : .18,
+    strokeColor: col, strokeWeight: isSel ? 3.5 : 2,
+    strokeOpacity: isSel ? 1 : .75,
+    map, clickable: true, zIndex: isSel ? 10 : 1
+  });
+
+  const icons = (z.workTypes||[]).slice(0,3).map(id => (WT.find(w=>w.id===id)||{icon:''}).icon).join('');
+  const center = pathCenter(z.path);
+
+  // 그룹 라벨 숨김 상태면 그룹 소속 구역 라벨은 null
+  const labelMap = (!showGroupLabels && z.groupId && groups.find(g=>g.id===z.groupId)) ? null : map;
+  z.label = new naver.maps.Marker({
+    position: new naver.maps.LatLng(center.lat, center.lng),
+    map: labelMap, clickable: true,
+    icon: {
+      content: `<div style="background:${isSel?col:'#fff'};color:${isSel?'#fff':'#1a2e1a'};border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;white-space:nowrap;border:2px solid ${col};box-shadow:0 2px 8px #0002;transform:translateX(-50%);cursor:pointer">${icons}${icons?' ':''}${escapeHTML(z.name)}</div>`,
+      anchor: new naver.maps.Point(0,0)
+    }, zIndex: isSel ? 20 : 5
+  });
+
+  // D-Day 마커
+  const nl = (z.logs||[]).filter(l=>l.next).sort((a,b)=>a.next>b.next?1:-1)[0];
+  if (nl?.next) {
+    const d = Math.ceil((new Date(nl.next) - new Date(todayStr())) / 864e5);
+    const dc = d < 0 ? '#c62828' : d <= 7 ? '#e65100' : '#2e7d32';
+    const dl = d < 0 ? `D+${Math.abs(d)} 지남` : d === 0 ? 'D-Day' : `D-${d}`;
+    z.labelD = new naver.maps.Marker({
+      position: new naver.maps.LatLng(center.lat-.0007, center.lng),
+      map: labelMap, clickable: false,
+      icon: {
+        content: `<div style="background:${dc};color:#fff;border-radius:5px;padding:2px 8px;font-size:10px;font-weight:800;transform:translateX(-50%);box-shadow:0 1px 4px #0003">${dl}</div>`,
+        anchor: new naver.maps.Point(0,0)
+      }, zIndex: 4
+    });
+  }
+
+  naver.maps.Event.addListener(z.polygon, 'click', () => selectZone(z.id));
+  naver.maps.Event.addListener(z.label,   'click', () => selectZone(z.id));
+}
+
+function redrawAll() { zones.forEach(z => drawPoly(z)); }
+
+/* ══════════════════════════════════════════════
+   구역 선택
+══════════════════════════════════════════════ */
+function selectZone(id) {
+  selId = id;
+  redrawAll(); renderSidebar(); renderDetail(); updateToolbar();
+  const z = zones.find(z=>z.id===id);
+  if (z?.path?.length) map.panTo(new naver.maps.LatLng(pathCenter(z.path).lat, pathCenter(z.path).lng));
+  // 사이드바 카드로 스크롤
+  requestAnimationFrame(() => {
+    const card = document.querySelector('.zcard.active');
+    if (card) card.scrollIntoView({block:'nearest', behavior:'smooth'});
+  });
+  // 태블릿: 상세 패널 자동 오픈
+  if (window.innerWidth <= 768) { tabNav('det'); }
+}
+
+function updateToolbar() {
+  const has = !!selId;
+  document.getElementById('btn-edit').disabled = !has;
+  document.getElementById('btn-del').disabled  = !has;
+  document.getElementById('btn-log').disabled  = !has;
+}
+
+function confirmDeleteZone() {
+  if (!selId) return;
+  const z = zones.find(z=>z.id===selId);
+  showConfirm(`"${z?.name}"을 삭제하시겠습니까?\n작업 기록도 모두 삭제됩니다.`, '🗑', [
+    {label:'삭제', cls:'danger', fn:() => {
+      if (z) { ['polygon','label','labelD'].forEach(k=>{if(z[k])z[k].setMap(null);}); }
+      zones = zones.filter(z=>z.id!==selId);
+      selId = null;
+      saveAll(); renderSidebar(); renderDetail(); updateToolbar();
+      showToast('🗑 구역이 삭제되었습니다');
+    }},
+    {label:'취소', cls:'secondary', fn:null},
+  ]);
+}
+
+/* ══════════════════════════════════════════════
+   유틸 버튼
+══════════════════════════════════════════════ */
+function fitAll() {
+  if (!zones.length) return;
+  const all = zones.flatMap(z=>z.path||[]);
+  if (!all.length) return;
+  const lats=all.map(p=>p.lat), lngs=all.map(p=>p.lng);
+  map.fitBounds(new naver.maps.LatLngBounds(
+    new naver.maps.LatLng(Math.min(...lats)-.003, Math.min(...lngs)-.003),
+    new naver.maps.LatLng(Math.max(...lats)+.003, Math.max(...lngs)+.003)
+  ));
+}
+function goMyLocation() {
+  if (!navigator.geolocation) { showToast('⚠️ 위치 정보를 사용할 수 없습니다'); return; }
+  navigator.geolocation.getCurrentPosition(
+    p => { map.setCenter(new naver.maps.LatLng(p.coords.latitude,p.coords.longitude)); map.setZoom(16); showToast('📍 현재 위치로 이동했습니다'); },
+    () => showToast('⚠️ 위치를 가져올 수 없습니다')
+  );
+}
+function toggleFullscreen() {
+  document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(()=>{});
+}
+
+/* ══════════════════════════════════════════════
+   사이드바 렌더
+══════════════════════════════════════════════ */
+function switchTab(t) {
+  curTab = t;
+  document.querySelectorAll('.sidebar-tab').forEach((el,i) => el.classList.toggle('active', (i===0&&t==='list')||(i===1&&t==='stats')));
+  document.getElementById('sidebar-filter').style.display = t==='list' ? 'block' : 'none';
+  renderSidebar();
+}
+function onZoneSearch(q) { zoneQ=q; renderSidebar(); }
+
+function buildFilters() {
+  // 그룹 필터
+  const gr = document.getElementById('filter-grp-row');
+  gr.innerHTML = [{id:'all',name:'전체그룹',color:'#2e7d32'},...groups].map(g => {
+    const on = g.id===fGrp;
+    return `<span class="fchip ${on?'on':''}" onclick="setFGrp('${g.id}')" style="border-color:${g.color};color:${on?'#fff':g.color};${on?'background:'+g.color:''}">${g.name}</span>`;
+  }).join('');
+  // 상태 필터
+  const sr = document.getElementById('filter-stat-row');
+  sr.innerHTML = [{id:'all',label:'전체상태',color:'#2e7d32'},...Object.entries(ST).map(([k,v])=>({id:k,...v}))].map(s => {
+    const on = s.id===fSt;
+    return `<span class="fchip ${on?'on':''}" onclick="setFSt('${s.id}')" style="border-color:${s.color};color:${on?'#fff':s.color};${on?'background:'+s.color:''}">${s.label}</span>`;
+  }).join('');
+}
+function setFGrp(v) { fGrp=v; buildFilters(); renderSidebar(); }
+function setFSt(v)  { fSt=v;  buildFilters(); renderSidebar(); }
+
+function getFiltered() {
+  return zones.filter(z => {
+    if (zoneQ && !z.name.includes(zoneQ) && !(z.memo||'').includes(zoneQ) && !(z.manager||'').includes(zoneQ)) return false;
+    if (fGrp!=='all' && z.groupId!==fGrp) return false;
+    if (fSt !=='all' && z.status !==fSt)  return false;
+    return true;
+  });
+}
+
+function renderSidebar() {
+  const el = document.getElementById('sidebar-body');
+  curTab==='list' ? renderList(el) : renderStats(el);
+}
+
+function renderList(el) {
+  const list = getFiltered();
+  if (!list.length) {
+    el.innerHTML = `<div class="empty-state"><div class="ei">🌿</div><p>${zoneQ||fGrp!=='all'||fSt!=='all'?'검색/필터 결과 없음':'등록된 구역이 없습니다<br>툴바의 ✏️ 구역 그리기로 시작하세요'}</p></div>`;
+    return;
+  }
+  // 그룹별 정렬
+  const grouped = {}, noGrp = [];
+  list.forEach(z => {
+    if (z.groupId && groups.find(g=>g.id===z.groupId)) { (grouped[z.groupId]||(grouped[z.groupId]=[])).push(z); }
+    else noGrp.push(z);
+  });
+  let html = '';
+  groups.forEach(g => {
+    if (!grouped[g.id]) return;
+    const isOpen = openGroups.has(g.id);
+    html += `<div class="grp-hd" onclick="toggleGrp(this)">
+      <div class="grp-dot" style="background:${g.color}"></div>
+      <div class="grp-name">${g.name}</div>
+      <div class="grp-cnt">${grouped[g.id].length}개</div>
+      <div class="grp-arr ${isOpen?'open':''}">▶</div>
+    </div>
+    <div class="grp-body ${isOpen?'open':''}" data-gid="${g.id}">${grouped[g.id].map(zcardHTML).join('')}</div>`;
+  });
+  if (noGrp.length) {
+    const isNoGrpOpen = openGroups.has('__none__');
+    html += `<div class="grp-hd" onclick="toggleGrp(this)">
+      <div class="grp-dot" style="background:#aabcaa"></div>
+      <div class="grp-name">그룹 없음</div>
+      <div class="grp-cnt">${noGrp.length}개</div>
+      <div class="grp-arr ${isNoGrpOpen?'open':''}">▶</div>
+    </div>
+    <div class="grp-body ${isNoGrpOpen?'open':''}" data-gid="__none__">${noGrp.map(zcardHTML).join('')}</div>`;
+  }
+  el.innerHTML = html;
+}
+
+function toggleGrp(hd) {
+  const arr = hd.querySelector('.grp-arr');
+  arr.classList.toggle('open');
+  hd.nextElementSibling.classList.toggle('open');
+  const gid = hd.nextElementSibling.dataset.gid;
+  if (gid) {
+    if (openGroups.has(gid)) openGroups.delete(gid);
+    else openGroups.add(gid);
+  }
+}
+
+function zcardHTML(z) {
+  const st=ST[z.status]||ST.active, col=z.color||st.color;
+  const tags=(z.workTypes||[]).map(id=>{const w=WT.find(x=>x.id===id);return w?`<span class="badge" style="background:${w.color}18;color:${w.color};border:1px solid ${w.color}33">${w.icon}${w.label}</span>`:''}).join('');
+  const nl=(z.logs||[]).filter(l=>l.next).sort((a,b)=>a.next>b.next?1:-1)[0];
+  return `<div class="zcard ${selId===z.id?'active':''}" onclick="selectZone('${z.id}')" style="border-left-color:${selId===z.id?col:'transparent'}">
+    <div class="zcard-top">
+      <div class="zcard-name">${z.name}</div>
+      <span class="badge" style="background:${st.bg};color:${st.color};border:1px solid ${st.color}33">${st.label}</span>
+    </div>
+    <div class="zcard-team">${TEAMS[z.team]||z.team}${z.manager?' · '+z.manager:''}</div>
+    <div class="zcard-tags">${tags}</div>
+    <div class="zcard-meta">${z.area>0?`📐 ${z.area.toLocaleString()}㎡ · `:''}기록 ${(z.logs||[]).length}건${nl?.next?` · ⏰ ${nl.next}`:''}</div>
+  </div>`;
+}
+
+function renderStats(el) {
+  const total=zones.length, tl=zones.reduce((a,z)=>a+(z.logs||[]).length,0), ta=Math.round(zones.reduce((a,z)=>a+(z.area||0),0));
+  const byStatus=Object.entries(ST).map(([k,v])=>({...v,count:zones.filter(z=>z.status===k).length}));
+  const byWT=WT.map(w=>({...w,count:zones.filter(z=>(z.workTypes||[]).includes(w.id)).length})).filter(w=>w.count>0);
+  const byGrp=groups.map(g=>({...g,count:zones.filter(z=>z.groupId===g.id).length}));
+  const rl=zones.flatMap(z=>(z.logs||[]).map(l=>({...l,zn:z.name,zid:z.id}))).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8);
+  const up=zones.flatMap(z=>(z.logs||[]).filter(l=>l.next).map(l=>({...l,zn:z.name,zid:z.id}))).sort((a,b)=>a.next.localeCompare(b.next)).slice(0,6);
+  el.innerHTML=`<div class="stats-wrap">
+    <div class="stats-grid">
+      <div class="stat-box" style="background:#e8f5e9;border-color:#c8e6c9"><div class="stat-box-n" style="color:#2e7d32">${total}</div><div class="stat-box-l" style="color:#5a8a5a">총 구역</div></div>
+      <div class="stat-box" style="background:#e3f2fd;border-color:#90caf9"><div class="stat-box-n" style="color:#1565c0">${tl}</div><div class="stat-box-l" style="color:#1565c0">작업기록</div></div>
+      <div class="stat-box" style="background:#fff8e1;border-color:#ffcc80"><div class="stat-box-n" style="color:#e65100">${ta.toLocaleString()}</div><div class="stat-box-l" style="color:#e65100">총면적㎡</div></div>
+      <div class="stat-box" style="background:#ffebee;border-color:#ef9a9a"><div class="stat-box-n" style="color:#c62828">${zones.filter(z=>z.status==='issue').length}</div><div class="stat-box-l" style="color:#c62828">문제발생</div></div>
+    </div>
+    ${byGrp.length?`<div class="stats-section-title">📁 그룹별 현황</div>
+    ${byGrp.map(g=>`<div class="sbar-item"><div class="sbar-labels"><span style="color:${g.color};font-weight:700">● ${g.name}</span><span style="color:#8aaa8a">${g.count}개</span></div><div class="sbar-bg"><div class="sbar-fill" style="width:${total?g.count/total*100:0}%;background:${g.color}"></div></div></div>`).join('')}`:''}
+    <div class="stats-section-title">관리 현황별</div>
+    ${byStatus.map(s=>`<div class="sbar-item"><div class="sbar-labels"><span style="color:${s.color}">${s.label}</span><span style="color:#8aaa8a">${s.count}개</span></div><div class="sbar-bg"><div class="sbar-fill" style="width:${total?s.count/total*100:0}%;background:${s.color}"></div></div></div>`).join('')}
+    <div class="stats-section-title">작업 유형별</div>
+    ${byWT.map(w=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:14px">${w.icon}</span><span style="flex:1;font-size:11px;font-weight:600;color:#2a4a2a">${w.label}</span><span class="badge" style="background:${w.color}18;color:${w.color};border:1px solid ${w.color}33">${w.count}개</span></div>`).join('')}
+    ${up.length?`<div class="stats-section-title" style="color:#e65100">⏰ 예정 작업</div>
+    ${up.map(l=>{const d=Math.ceil((new Date(l.next)-new Date(todayStr()))/864e5);const dc=d<0?'#c62828':d<=3?'#e65100':'#2e7d32';
+    return`<div class="upcoming-item" style="background:${d<0?'#ffebee':d<=3?'#fff8e1':'#e8f5e9'};border-left-color:${dc}" onclick="selectZone('${l.zid}');switchTab('list')">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:11px;font-weight:700;color:#1a2e1a">${l.zn}</span><span style="font-size:11px;font-weight:800;color:${dc}">${d<0?'D+'+Math.abs(d)+' 지남':d===0?'D-Day':'D-'+d}</span></div>
+      <div style="font-size:10px;color:#5a8a5a">${l.next} · ${(WT.find(w=>w.id===l.type)||{icon:'',label:''}).icon} ${(WT.find(w=>w.id===l.type)||{label:'기타'}).label}</div>
+    </div>`;}).join('')}`:''}
+    <div class="stats-section-title">최근 작업 이력</div>
+    ${rl.map(l=>{const w=WT.find(x=>x.id===l.type)||WT[8];return`<div class="recent-log-item" style="border-left-color:${w.color}" onclick="selectZone('${l.zid}');switchTab('list')"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:11px;font-weight:700;color:#2e7d32">${l.zn}</span><span style="font-size:10px;color:#8aaa8a">${l.date}</span></div><div style="font-size:10px;color:#4a7a4a">${w.icon} ${l.detail.split('\n')[0].slice(0,36)}${l.detail.length>36?'…':''}</div></div>`;}).join('')}
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════
+   우측 상세 패널
+══════════════════════════════════════════════ */
+function renderDetail() {
+  const z = zones.find(z=>z.id===selId);
+  document.getElementById('dp-name').textContent  = z ? z.name : '구역 상세 정보';
+  document.getElementById('dp-team').textContent  = z ? (TEAMS[z.team]||z.team)+(z.manager?' · '+z.manager:'') : '구역을 선택하면 상세 정보가 표시됩니다';
+  document.getElementById('dp-area').textContent  = z?.area>0 ? `📐 ${z.area.toLocaleString()} ㎡` : '';
+  renderDetailBody(document.getElementById('dp-body'));
+}
+
+function renderDetailBody(el) {
+  const z = zones.find(z=>z.id===selId);
+  if (!z) { el.innerHTML=`<div class="empty-state"><div class="ei">🗺️</div><p>지도 또는 목록에서<br>구역을 선택해주세요</p></div>`; return; }
+  const st=ST[z.status]||ST.active, col=z.color||st.color;
+  const grp=groups.find(g=>g.id===z.groupId);
+  const tags=(z.workTypes||[]).map(id=>{const w=WT.find(x=>x.id===id);return w?`<span class="badge" style="background:${w.color}18;color:${w.color};border:1px solid ${w.color}33">${w.icon}${w.label}</span>`:''}).join('');
+  const logs=(z.logs||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
+  el.innerHTML=`
+    <div class="dp-info-sec">
+      ${grp?`<div class="dp-info-row"><span class="dp-info-k">그룹</span><span class="badge" style="background:${grp.color}18;color:${grp.color};border:1px solid ${grp.color}33">📁 ${grp.name}</span></div>`:''}
+      <div class="dp-info-row"><span class="dp-info-k">관리현황</span><span class="badge" style="background:${st.bg};color:${st.color};border:1px solid ${st.color}33">${st.label}</span></div>
+      ${tags?`<div class="dp-info-row" style="align-items:flex-start;margin-top:4px"><span class="dp-info-k">작업유형</span><div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end">${tags}</div></div>`:''}
+      ${z.memo?`<div class="dp-memo">📌 ${z.memo}</div>`:''}
+      <div class="dp-action-row">
+        <div class="dp-action-btn" onclick="openEditModal()" style="background:#e8f5e9;color:#2e7d32;border-color:#c8e6c9">⚙️ 편집</div>
+        <div class="dp-action-btn" onclick="openLogModal()" style="background:#e3f2fd;color:#1565c0;border-color:#90caf9">📝 기록추가</div>
+        <div class="dp-action-btn" onclick="confirmDeleteZone()" style="background:#ffebee;color:#c62828;border-color:#ef9a9a">🗑 삭제</div>
+      </div>
+    </div>
+    <div class="dp-log-sec-head">작업 기록 (${logs.length}건)</div>
+    ${logs.length===0?`<div class="empty-state" style="padding:20px"><div class="ei" style="font-size:24px">📋</div><p>작업 기록이 없습니다</p></div>`:
+    logs.map(l=>{const w=WT.find(x=>x.id===l.type)||WT[8];return`
+      <div class="dp-log-item" style="border-left-color:${w.color}">
+        <div class="dp-log-top"><span class="badge" style="background:${w.color}18;color:${w.color};border:1px solid ${w.color}33">${w.icon}${w.label}</span><span class="dp-log-date">${l.date}</span></div>
+        <div class="dp-log-detail">${l.detail.replace(/\n/g,'<br>')}</div>
+        ${l.worker?`<div class="dp-log-worker">👤 ${l.worker}</div>`:''}
+        ${l.next?`<div class="dp-log-next">⏰ 다음 예정: ${l.next}</div>`:''}
+        <div class="dp-log-btns">
+          <button class="dp-log-btn" onclick="openLogEditModal('${l.id}')" style="background:#e3f2fd;color:#1565c0;border-color:#90caf9">✏️ 수정</button>
+          <button class="dp-log-btn" onclick="confirmDelLog('${l.id}')" style="background:#ffebee;color:#c62828;border-color:#ef9a9a">🗑 삭제</button>
+        </div>
+      </div>`;}).join('')}`;
+}
+
+/* ══════════════════════════════════════════════
+   구역 편집 모달
+══════════════════════════════════════════════ */
+function buildWTGrid() {
+  document.getElementById('f-wt-grid').innerHTML = WT.map(w =>
+    `<button class="wt-btn" id="wt-${w.id}" onclick="toggleWT('${w.id}')" style="border-color:${w.color};color:${w.color}">${w.icon} ${w.label}</button>`
+  ).join('');
+}
+function buildColorGrid() {
+  document.getElementById('f-color-grid').innerHTML = ZONE_COLORS.map(c =>
+    `<div class="color-dot" id="cdot-${c.replace('#','')}" onclick="setZoneColor('${c}')" style="background:${c}"></div>`
+  ).join('');
+}
+function buildGroupColorGrid() {
+  document.getElementById('new-grp-color-grid').innerHTML = GROUP_COLORS.map(c =>
+    `<div class="color-dot" id="gcdot-${c.replace('#','')}" onclick="selNewGrpColor('${c}')" style="background:${c};width:20px;height:20px"></div>`
+  ).join('');
+}
+function toggleWT(id) {
+  selWTs = selWTs.includes(id) ? selWTs.filter(x=>x!==id) : [...selWTs,id];
+  WT.forEach(w => {
+    const b=document.getElementById('wt-'+w.id); if(!b)return;
+    const on=selWTs.includes(w.id);
+    b.classList.toggle('on',on); b.style.background=on?w.color:'#f8f8f8'; b.style.color=on?'#fff':w.color;
+  });
+}
+function setZoneColor(c) {
+  pickedZoneColor = c;
+  document.querySelectorAll('#f-color-grid .color-dot').forEach(el=>{el.classList.remove('on');el.style.borderColor='transparent';});
+  const el=document.getElementById('cdot-'+c.replace('#',''));
+  if(el){el.classList.add('on');el.style.borderColor='#1a2e1a';}
+}
+function selNewGrpColor(c) {
+  newGrpColor = c;
+  document.querySelectorAll('#new-grp-color-grid .color-dot').forEach(el=>{el.classList.remove('on');el.style.borderColor='transparent';});
+  const el=document.getElementById('gcdot-'+c.replace('#',''));
+  if(el){el.classList.add('on');el.style.borderColor='#1a2e1a';}
+}
+function populateGroupSel() {
+  document.getElementById('f-group').innerHTML =
+    '<option value="">그룹 없음</option>' + groups.map(g=>`<option value="${g.id}">${g.name}</option>`).join('');
+}
+function openEditModal() {
+  const id=editId||selId; if(!id)return; editId=id;
+  const z=zones.find(z=>z.id===id); if(!z)return;
+  document.getElementById('edit-modal-title').textContent = z.name==='새 관리구역' ? '새 구역 정보 입력' : `구역 편집 — ${z.name}`;
+  populateGroupSel();
+  document.getElementById('f-name').value = z.name;
+  document.getElementById('f-group').value = z.groupId||'';
+  document.getElementById('f-team').value  = z.team;
+  document.getElementById('f-status').value= z.status;
+  document.getElementById('f-memo').value  = z.memo||'';
+  document.getElementById('f-manager').value=z.manager||'';
+  selWTs=[...(z.workTypes||[])];
+  WT.forEach(w=>{const b=document.getElementById('wt-'+w.id);if(!b)return;const on=selWTs.includes(w.id);b.classList.toggle('on',on);b.style.background=on?w.color:'#f8f8f8';b.style.color=on?'#fff':w.color;});
+  pickedZoneColor=z.color||'#2e7d32';
+  document.querySelectorAll('#f-color-grid .color-dot').forEach(el=>{el.classList.remove('on');el.style.borderColor='transparent';});
+  const cd=document.getElementById('cdot-'+(z.color||'#2e7d32').replace('#',''));
+  if(cd){cd.classList.add('on');cd.style.borderColor='#1a2e1a';}
+  document.getElementById('edit-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('f-name').focus(),100);
+}
+function closeEditModal(){document.getElementById('edit-modal').classList.remove('show');editId=null;}
+function saveZone(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name){showToast('⚠️ 구역명을 입력해주세요');return;}
+  const z=zones.find(z=>z.id===editId);if(!z)return;
+  z.name=name; z.groupId=document.getElementById('f-group').value;
+  z.team=document.getElementById('f-team').value; z.status=document.getElementById('f-status').value;
+  z.workTypes=[...selWTs]; z.memo=document.getElementById('f-memo').value.trim();
+  z.manager=document.getElementById('f-manager').value.trim(); z.color=pickedZoneColor;
+  saveAll(); drawPoly(z); renderSidebar(); renderDetail(); closeEditModal();
+  showToast('✅ 구역 정보가 저장되었습니다');
+}
+
+/* ══════════════════════════════════════════════
+   작업기록 모달
+══════════════════════════════════════════════ */
+function openLogModal(){
+  if(!selId)return;
+  const z=zones.find(z=>z.id===selId);
+  document.getElementById('log-zone-label').textContent='📍 '+z?.name;
+  document.getElementById('l-date').value=todayStr();
+  document.getElementById('l-worker').value=z?.manager||'';
+  document.getElementById('l-detail').value=''; document.getElementById('l-next').value='';
+  document.getElementById('log-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('l-detail').focus(),100);
+}
+function closeLogModal(){document.getElementById('log-modal').classList.remove('show');}
+function saveLog(){
+  const date=document.getElementById('l-date').value, detail=document.getElementById('l-detail').value.trim();
+  if(!date||!detail){showToast('⚠️ 작업일과 상세내용을 입력해주세요');return;}
+  const z=zones.find(z=>z.id===selId);if(!z)return;if(!z.logs)z.logs=[];
+  z.logs.unshift({id:'l_'+Date.now(),date,type:document.getElementById('l-type').value,worker:document.getElementById('l-worker').value.trim(),detail,next:document.getElementById('l-next').value});
+  saveAll(); drawPoly(z); renderSidebar(); renderDetail(); closeLogModal();
+  showToast('✅ 작업 기록이 저장되었습니다');
+}
+function openLogEditModal(lid){
+  const z=zones.find(z=>z.id===selId),l=z?.logs?.find(x=>x.id===lid);if(!l)return;
+  document.getElementById('le-id').value=lid;document.getElementById('le-date').value=l.date;
+  document.getElementById('le-type').value=l.type;document.getElementById('le-worker').value=l.worker||'';
+  document.getElementById('le-detail').value=l.detail;document.getElementById('le-next').value=l.next||'';
+  document.getElementById('log-edit-modal').classList.add('show');
+}
+function closeLogEditModal(){document.getElementById('log-edit-modal').classList.remove('show');}
+function saveLogEdit(){
+  const lid=document.getElementById('le-id').value;
+  const z=zones.find(z=>z.id===selId),l=z?.logs?.find(x=>x.id===lid);if(!l)return;
+  l.date=document.getElementById('le-date').value; l.type=document.getElementById('le-type').value;
+  l.worker=document.getElementById('le-worker').value.trim(); l.detail=document.getElementById('le-detail').value.trim();
+  l.next=document.getElementById('le-next').value;
+  saveAll();drawPoly(z);renderDetail();renderSidebar();closeLogEditModal();showToast('✅ 작업 기록이 수정되었습니다');
+}
+function confirmDelLog(lid){
+  showConfirm('이 작업 기록을 삭제하시겠습니까?','🗑',[
+    {label:'삭제',cls:'danger',fn:()=>{
+      const z=zones.find(z=>z.id===selId);if(!z)return;
+      z.logs=(z.logs||[]).filter(l=>l.id!==lid);
+      saveAll();drawPoly(z);renderDetail();renderSidebar();showToast('🗑 작업 기록이 삭제되었습니다');
+    }},
+    {label:'취소',cls:'secondary',fn:null},
+  ]);
+}
+
+/* ══════════════════════════════════════════════
+   그룹 관리 모달
+══════════════════════════════════════════════ */
+function openGroupModal(){renderGroupList();document.getElementById('group-modal').classList.add('show');}
+function closeGroupModal(){document.getElementById('group-modal').classList.remove('show');buildFilters();renderSidebar();}
+function renderGroupList(){
+  const el=document.getElementById('group-list-area');
+  if(!groups.length){el.innerHTML='<div style="text-align:center;padding:14px;color:#aabcaa;font-size:12px">그룹이 없습니다</div>';return;}
+  el.innerHTML=groups.map(g=>{
+    const cnt=zones.filter(z=>z.groupId===g.id).length;
+    return`<div style="display:flex;align-items:center;gap:8px;padding:8px 2px;border-bottom:1px solid #eef4ee;">
+      <div style="width:14px;height:14px;border-radius:50%;background:${g.color};flex-shrink:0"></div>
+      <span style="flex:1;font-size:13px;font-weight:700;color:#1a2e1a">${g.name}</span>
+      <span class="badge" style="background:#f0f5f0;color:#5a8a5a;border:1px solid #c8e6c9">${cnt}개 구역</span>
+      <button onclick="delGroup('${g.id}')" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;border-radius:5px;padding:3px 10px;font-size:10px;cursor:pointer;font-family:inherit">삭제</button>
+    </div>`;
+  }).join('');
+}
+function addGroup(){
+  const name=document.getElementById('new-grp-name').value.trim();
+  if(!name){showToast('⚠️ 그룹명을 입력해주세요');return;}
+  const newGid = 'g_'+Date.now();
+  groups.push({id:newGid,name,color:newGrpColor});
+  openGroups.add(newGid);
+  document.getElementById('new-grp-name').value='';
+  saveAll();renderGroupList();showToast('✅ 그룹이 추가되었습니다');
+}
+function delGroup(gid){
+  showConfirm('그룹을 삭제하시겠습니까?\n해당 그룹의 구역은 "그룹 없음"으로 변경됩니다.','⚠️',[
+    {label:'삭제',cls:'danger',fn:()=>{
+      zones.forEach(z=>{if(z.groupId===gid)z.groupId='';});
+      groups=groups.filter(g=>g.id!==gid);
+      openGroups.delete(gid);
+      saveAll();renderGroupList();showToast('🗑 그룹이 삭제되었습니다');
+    }},
+    {label:'취소',cls:'secondary',fn:null},
+  ]);
+}
+
+/* ══════════════════════════════════════════════
+   태블릿 네비
+══════════════════════════════════════════════ */
+function tabNav(v) {
+  ['map','list','stats','det'].forEach(k=>{document.getElementById('tnb-'+k)?.classList.toggle('on',k===v);});
+  const panel=document.getElementById('tablet-panel'), pb=document.getElementById('tp-body');
+  if(v==='map'){panel.classList.remove('show');return;}
+  const titles={'list':'📋 구역 목록','stats':'📊 현황 통계','det':'📄 구역 상세'};
+  document.getElementById('tp-title').textContent=titles[v]||v;
+  pb.innerHTML='';
+  if(v==='list'){const tmp=document.createElement('div');renderList(tmp);pb.appendChild(tmp);}
+  else if(v==='stats'){const tmp=document.createElement('div');renderStats(tmp);pb.appendChild(tmp);}
+  else if(v==='det'){renderDetailBody(pb);}
+  panel.classList.add('show');
+}
+function closeTabletPanel(){document.getElementById('tablet-panel').classList.remove('show');}
+
+/* ══════════════════════════════════════════════
+   내보내기 / 불러오기
+══════════════════════════════════════════════ */
+function exportData(){
+  const data={
+    zones:zones.map(z=>({id:z.id,name:z.name,team:z.team,status:z.status,workTypes:z.workTypes,memo:z.memo,manager:z.manager||'',color:z.color||'#2e7d32',groupId:z.groupId||'',path:z.path,area:z.area,logs:z.logs})),
+    groups
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download=`포항시_녹지관리구역_${todayStr()}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  showToast('💾 데이터가 저장되었습니다');
+}
+function importData(){document.getElementById('import-file').click();}
+function handleImport(e){
+  const file=e.target.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      const nz=d.zones||d, ng=d.groups||[];
+      if(!Array.isArray(nz))throw new Error();
+      showConfirm(`${nz.length}개 구역을 불러옵니다.\n기존 데이터와 병합됩니다 (중복 ID 제외).`,'📂',[
+        {label:'불러오기',cls:'primary',fn:()=>{
+          zones.forEach(z=>{['polygon','label','labelD'].forEach(k=>{if(z[k])z[k].setMap(null);});});
+          const eZids=new Set(zones.map(z=>z.id)), eGids=new Set(groups.map(g=>g.id));
+          zones=[...zones,...nz.filter(z=>!eZids.has(z.id))];
+          groups=[...groups,...ng.filter(g=>!eGids.has(g.id))];
+          zones.forEach(z=>{z.polygon=null;z.label=null;z.labelD=null;z.area=z.area||calcArea(z.path||[]);drawPoly(z);});
+          saveAll();buildFilters();renderSidebar();renderDetail();showToast('✅ 데이터를 불러왔습니다');
+        }},
+        {label:'취소',cls:'secondary',fn:null},
+      ]);
+    }catch{showToast('⚠️ 파일 형식이 올바르지 않습니다');}
+  };
+  reader.readAsText(file); e.target.value='';
+}
+
+/* ══════════════════════════════════════════════
+   헤더 통계
+══════════════════════════════════════════════ */
+function updateHeaderStats(){
+  document.getElementById('hs-zones').textContent = zones.length;
+  document.getElementById('hs-logs').textContent  = zones.reduce((a,z)=>a+(z.logs||[]).length,0);
+  document.getElementById('hs-area').textContent  = Math.round(zones.reduce((a,z)=>a+(z.area||0),0)).toLocaleString();
+  document.getElementById('hs-issue').textContent = zones.filter(z=>z.status==='issue').length;
+}
+
+/* ══════════════════════════════════════════════
+   확인 다이얼로그
+══════════════════════════════════════════════ */
+function showConfirm(msg, icon, btns) {
+  document.getElementById('confirm-icon').textContent = icon||'⚠️';
+  document.getElementById('confirm-msg').innerHTML = msg.replace(/\n/g,'<br>');
+  document.getElementById('confirm-btns').innerHTML = btns.map((b,i)=>
+    `<button class="modal-btn ${b.cls}" id="cfm-btn-${i}">${b.label}</button>`
+  ).join('');
+  btns.forEach((b,i)=>{document.getElementById('cfm-btn-'+i).onclick=()=>{b.fn&&b.fn();closeCfm();};});
+  document.getElementById('confirm-overlay').classList.add('show');
+}
+function closeCfm(){document.getElementById('confirm-overlay').classList.remove('show');}
+
+/* ══════════════════════════════════════════════
+   모달 닫기 유틸
+══════════════════════════════════════════════ */
+function closeAllModals(){
+  ['edit-modal','log-modal','log-edit-modal','group-modal','gh-settings-modal'].forEach(id=>document.getElementById(id).classList.remove('show'));
+  closeCfm(); editId=null;
+}
+['edit-modal','log-modal','log-edit-modal','group-modal','gh-settings-modal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this) {
+      if(id==='edit-modal')closeEditModal();
+      else if(id==='log-modal')closeLogModal();
+      else if(id==='log-edit-modal')closeLogEditModal();
+      else if(id==='group-modal')closeGroupModal();
+      else if(id==='gh-settings-modal')closeGitHubSettings();
+    }
+  });
+});
+document.getElementById('confirm-overlay').addEventListener('click',function(e){if(e.target===this)closeCfm();});
+
+/* ══════════════════════════════════════════════
+   토스트
+══════════════════════════════════════════════ */
+let _tt=null;
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+/* ══════════════════════════════════════════════
+   수학 유틸
+══════════════════════════════════════════════ */
+function calcArea(path){
+  if(!path||path.length<3)return 0;
+  const R=6371000,rad=d=>d*Math.PI/180;
+  const clat=path.reduce((a,p)=>a+p.lat,0)/path.length;
+  let area=0;
+  for(let i=0,n=path.length;i<n;i++){
+    const j=(i+1)%n;
+    const x1=rad(path[i].lng)*Math.cos(rad(path[i].lat)), y1=rad(path[i].lat);
+    const x2=rad(path[j].lng)*Math.cos(rad(path[j].lat)), y2=rad(path[j].lat);
+    area+=x1*y2-x2*y1;
+  }
+  return Math.round(Math.abs(area/2)*R*R*Math.cos(rad(clat)));
+}
+function pathCenter(path){
+  if(!path||!path.length)return{lat:36.042,lng:129.370};
+  return{lat:path.reduce((a,p)=>a+p.lat,0)/path.length,lng:path.reduce((a,p)=>a+p.lng,0)/path.length};
+}
+function todayStr(){return new Date().toISOString().slice(0,10);}
+
+function escapeHTML(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+</script>
+
+
+<!-- GitHub 연동 설정 모달 -->
+<div class="modal-overlay" id="gh-settings-modal">
+  <div class="modal-box" style="width:460px">
+    <div class="modal-header">
+      <span class="modal-title">⚙️ GitHub 클라우드 동기화 설정</span>
+      <button class="modal-close" onclick="closeGitHubSettings()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- 설명 -->
+      <div style="background:#e3f2fd;border:1.5px solid #90caf9;border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#1a3a5a;line-height:1.7">
+        <strong>☁️ 클라우드 동기화란?</strong><br>
+        GitHub에 데이터를 저장하여 <strong>PC·태블릿·스마트폰</strong> 어디서든 같은 데이터를 사용할 수 있습니다.<br>
+        PC에서 저장하면 30초 내에 모든 기기에 자동 반영됩니다.
+      </div>
+
+      <!-- 토큰 발급 안내 -->
+      <div style="background:#fff8e1;border:1.5px solid #ffcc80;border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:11px;color:#4a3a00;line-height:1.8">
+        <strong>📋 GitHub Personal Access Token 발급 방법</strong><br>
+        ① <a href="https://github.com/settings/tokens/new" target="_blank" style="color:#1565c0;font-weight:700">github.com/settings/tokens/new</a> 접속<br>
+        ② Note: <code>greenzone-app</code> 입력<br>
+        ③ Expiration: <code>No expiration</code> 선택<br>
+        ④ Select scopes: <strong>repo</strong> 체크 ✅<br>
+        ⑤ <strong>Generate token</strong> 클릭 → 토큰 복사 (ghp_로 시작하는 문자열)
+      </div>
+
+      <!-- 토큰 입력 -->
+      <div class="fg">
+        <label class="fl">GitHub Personal Access Token *</label>
+        <div style="position:relative">
+          <input class="fi" id="gh-token-input" type="text" placeholder="클릭하여 토큰 입력..."
+            onfocus="onTokenInputFocus()" readonly
+            style="cursor:pointer;background:#f8fff8;padding-right:40px">
+          <input class="fi" id="gh-token-real" type="password" placeholder="ghp_로 시작하는 토큰 붙여넣기"
+            style="display:none">
+        </div>
+      </div>
+
+      <!-- 현재 상태 -->
+      <div id="gh-current-status" style="font-size:11px;color:#5a8a5a;margin-top:4px;padding:6px 10px;background:#f0f9f0;border-radius:5px">
+        ${ghToken ? '✅ 연동됨: lms8765-ai/greenzone' : '❌ 미연동 — 토큰 입력 후 저장하세요'}
+      </div>
+
+      <!-- 저장소 정보 -->
+      <div style="margin-top:12px;padding:10px 12px;background:#f5f5f5;border-radius:7px;font-size:11px;color:#546e7a">
+        📁 저장 위치: <strong>github.com/lms8765-ai/greenzone/data.json</strong><br>
+        🔄 자동 동기화: <strong>30초마다</strong> (변경사항 없을 때)<br>
+        📱 접속 URL: <strong>https://lms8765-ai.github.io/greenzone</strong>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn danger" onclick="clearGitHubToken()" style="margin-right:auto">🔌 연동 해제</button>
+      <button class="modal-btn secondary" onclick="closeGitHubSettings()">취소</button>
+      <button class="modal-btn primary" onclick="saveGitHubToken()">✅ 저장 및 연동</button>
+    </div>
+  </div>
+</div>
+
+<!-- PWA 설치 배너 -->
+<div id="pwa-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#2e7d32;color:#fff;padding:12px 16px;z-index:9999;display:flex;align-items:center;gap:10px;box-shadow:0 -2px 10px #0003;flex-shrink:0;">
+  <span style="font-size:20px">🌹</span>
+  <div style="flex:1">
+    <div style="font-size:13px;font-weight:800">앱으로 설치하기</div>
+    <div style="font-size:11px;opacity:.85">홈 화면에 추가하면 앱처럼 사용할 수 있습니다</div>
+  </div>
+  <button id="pwa-install-btn" style="background:#fff;color:#2e7d32;border:none;border-radius:7px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">설치</button>
+  <button onclick="document.getElementById('pwa-banner').style.display='none';localStorage.setItem('pwa-dismissed','1')" style="background:transparent;border:none;color:#fff;font-size:18px;cursor:pointer;padding:0 4px">✕</button>
+</div>
+
+<script>
+// ── Service Worker 등록 ──────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js', {scope: './'})
+      .then(reg => console.log('[SW] 등록 완료:', reg.scope))
+      .catch(err => console.warn('[SW] 등록 실패:', err));
+  });
+}
+
+// ── PWA 설치 배너 ────────────────────────────
+let deferredPrompt = null;
+const banner = document.getElementById('pwa-banner');
+const installBtn = document.getElementById('pwa-install-btn');
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // 이전에 닫지 않았으면 배너 표시
+  if (!localStorage.getItem('pwa-dismissed') && !localStorage.getItem('pwa-installed')) {
+    banner.style.display = 'flex';
+  }
+});
+
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      localStorage.setItem('pwa-installed', '1');
+      showToast('✅ 앱이 홈 화면에 설치되었습니다!');
+    }
+    deferredPrompt = null;
+    banner.style.display = 'none';
+  });
+}
+
+window.addEventListener('appinstalled', () => {
+  localStorage.setItem('pwa-installed', '1');
+  banner.style.display = 'none';
+  showToast('🌹 포항 녹지관리 앱이 설치되었습니다!');
+});
+
+// ── D-Day 알림 권한 요청 ─────────────────────
+function requestNotificationPermission() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'default') {
+    setTimeout(() => {
+      Notification.requestPermission().then(perm => {
+        if (perm === 'granted') {
+          showToast('🔔 작업 예정일 알림이 활성화되었습니다');
+          scheduleNotifications();
+        }
+      });
+    }, 5000); // 5초 후 요청
+  } else if (Notification.permission === 'granted') {
+    scheduleNotifications();
+  }
+}
+
+// D-Day 알림 스케줄
+function scheduleNotifications() {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  try {
+    const data = JSON.parse(localStorage.getItem('phgz_v5') || '{}');
+    const zones = data.zones || [];
+    const today = new Date().toISOString().slice(0,10);
+    
+    zones.forEach(z => {
+      (z.logs || []).forEach(l => {
+        if (!l.next) return;
+        const diff = Math.ceil((new Date(l.next) - new Date(today)) / 864e5);
+        if (diff === 0) {
+          new Notification('📋 오늘 작업 예정', {
+            body: `${z.name}: ${(l.detail||'').split('\n')[0].slice(0,40)}`,
+            icon: 'icons/icon-192.png',
+            tag: 'today-' + l.id
+          });
+        } else if (diff === 3) {
+          new Notification('⏰ 3일 후 작업 예정', {
+            body: `${z.name}: ${l.next} 예정`,
+            icon: 'icons/icon-192.png',
+            tag: 'soon-' + l.id
+          });
+        }
+      });
+    });
+  } catch(e) {}
+}
+
+// 앱 로드 시 알림 설정
+window.addEventListener('load', () => {
+  setTimeout(requestNotificationPermission, 3000);
+});
+</script>
+
+</body>
+</html>
