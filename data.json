@@ -1,0 +1,43 @@
+{
+  "zones": [],
+  "groups": [
+    {
+      "id": "g1",
+      "name": "장미 관리구역",
+      "color": "#c2185b",
+      "parentId": null
+    },
+    {
+      "id": "g1-1",
+      "name": "영일대 장미",
+      "color": "#e91e63",
+      "parentId": "g1"
+    },
+    {
+      "id": "g1-2",
+      "name": "인덕산 장미",
+      "color": "#f06292",
+      "parentId": "g1"
+    },
+    {
+      "id": "g2",
+      "name": "수목·녹지 관리구역",
+      "color": "#2e7d32",
+      "parentId": null
+    },
+    {
+      "id": "g2-1",
+      "name": "형산강 수변",
+      "color": "#388e3c",
+      "parentId": "g2"
+    }
+  ],
+  "customDepts": [],
+  "workProjects": [],
+  "customWT": [],
+  "complaints": [],
+  "roseZones": [],
+  "hiddenGroups": [],
+  "savedAt": "2026-06-24T22:42:49.671Z",
+  "savedBy": "lms8765-ai"
+}
