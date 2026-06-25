@@ -1253,7 +1253,7 @@
       "id": "z_1782355538884",
       "name": "두산위브 측면 장미길",
       "team": "greenway",
-      "status": "pending",
+      "status": "active",
       "zoneType": "rose",
       "workTypes": [],
       "memo": "",
@@ -1833,6 +1833,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-25T07:41:39.989Z",
+  "savedAt": "2026-06-25T07:41:57.267Z",
   "savedBy": "lms8765-ai"
 }
