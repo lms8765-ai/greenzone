@@ -2862,8 +2862,10 @@
     }
   ],
   "roseZones": [],
-  "hiddenGroups": [],
+  "hiddenGroups": [
+    "g_1782431358951"
+  ],
   "hiddenZones": [],
-  "savedAt": "2026-06-25T23:59:43.106Z",
+  "savedAt": "2026-06-25T23:59:49.915Z",
   "savedBy": "lms8765-ai"
 }
