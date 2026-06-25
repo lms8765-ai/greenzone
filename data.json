@@ -2294,6 +2294,12 @@
       "id": "g2",
       "name": "수목·녹지 관리구역",
       "color": "#2e7d32"
+    },
+    {
+      "id": "g_1782431358951",
+      "name": "녹지대 풀베기(지곡단지)",
+      "color": "#2e7d32",
+      "parentId": "g2"
     }
   ],
   "customDepts": [
@@ -2366,6 +2372,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-25T23:48:32.179Z",
+  "savedAt": "2026-06-25T23:49:21.955Z",
   "savedBy": "lms8765-ai"
 }
