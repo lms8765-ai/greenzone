@@ -13116,8 +13116,8 @@
       ],
       "memo": "",
       "manager": "이민성",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#00838f",
+      "groupId": "g_1782440186735",
       "paths": [
         [
           {
@@ -14934,6 +14934,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-26T02:16:35.953Z",
+  "savedAt": "2026-06-26T02:16:43.261Z",
   "savedBy": "lms8765-ai"
 }
