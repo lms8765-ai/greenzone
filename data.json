@@ -2777,15 +2777,15 @@
     },
     {
       "id": "z_1782432663718",
-      "name": "새 관리구역",
+      "name": "녹지대 풀베기(우현지구)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
-      "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "manager": "이민성",
+      "color": "#f57f17",
+      "groupId": "g_1782432359703",
       "paths": [
         [
           {
@@ -3058,6 +3058,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-26T00:11:06.721Z",
+  "savedAt": "2026-06-26T00:11:45.489Z",
   "savedBy": "lms8765-ai"
 }
