@@ -25178,11 +25178,13 @@
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
-      "workTypes": [],
+      "workTypes": [
+        "mowing"
+      ],
       "memo": "",
       "manager": "이민성",
       "color": "#c62828",
-      "groupId": "",
+      "groupId": "g_1782458931126",
       "paths": [
         [
           {
@@ -25541,6 +25543,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-26T07:29:13.443Z",
+  "savedAt": "2026-06-26T07:29:29.909Z",
   "savedBy": "lms8765-ai"
 }
