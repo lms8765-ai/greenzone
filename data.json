@@ -2817,6 +2817,12 @@
       "name": "두호지구",
       "color": "#e65100",
       "parentId": "g_1782432109295"
+    },
+    {
+      "id": "g_1782432308021",
+      "name": "녹지대 풀베기(대이/효자/상대지구)",
+      "color": "#6a1b9a",
+      "parentId": "g_1782432109295"
     }
   ],
   "customDepts": [
@@ -2889,6 +2895,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-26T00:04:53.535Z",
+  "savedAt": "2026-06-26T00:05:11.036Z",
   "savedBy": "lms8765-ai"
 }
