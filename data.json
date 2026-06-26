@@ -2799,6 +2799,12 @@
       "name": "녹지대 풀베기(지곡단지)",
       "color": "#2e7d32",
       "parentId": "g_1782432109295"
+    },
+    {
+      "id": "g_1782432247943",
+      "name": "녹지대 풀베기(냉천지구)",
+      "color": "#c2185b",
+      "parentId": null
     }
   ],
   "customDepts": [
@@ -2871,6 +2877,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-26T00:03:24.914Z",
+  "savedAt": "2026-06-26T00:04:10.948Z",
   "savedBy": "lms8765-ai"
 }
