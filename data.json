@@ -2847,6 +2847,12 @@
       "name": "녹지대 풀베기(용흥지구)",
       "color": "#558b2f",
       "parentId": "g_1782432109295"
+    },
+    {
+      "id": "g_1782432359703",
+      "name": "녹지대 풀베기(우현지구)",
+      "color": "#c62828",
+      "parentId": "g_1782432109295"
     }
   ],
   "customDepts": [
@@ -2919,6 +2925,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-26T00:05:53.355Z",
+  "savedAt": "2026-06-26T00:06:02.704Z",
   "savedBy": "lms8765-ai"
 }
