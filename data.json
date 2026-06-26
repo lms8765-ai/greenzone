@@ -2829,6 +2829,12 @@
       "name": "녹지대 풀베기(연일지구)",
       "color": "#00838f",
       "parentId": "g_1782432109295"
+    },
+    {
+      "id": "g_1782432330171",
+      "name": "녹지대 풀베기(형산지구)",
+      "color": "#795548",
+      "parentId": "g_1782432109295"
     }
   ],
   "customDepts": [
@@ -2901,6 +2907,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-26T00:05:23.115Z",
+  "savedAt": "2026-06-26T00:05:33.183Z",
   "savedBy": "lms8765-ai"
 }
