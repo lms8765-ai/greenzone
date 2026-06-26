@@ -2787,7 +2787,7 @@
       "memo": "",
       "manager": "이민성",
       "color": "#c62828",
-      "groupId": "g_1782432359703",
+      "groupId": "",
       "paths": [
         [
           {
@@ -2934,12 +2934,6 @@
       "name": "녹지대 풀베기(지곡단지)",
       "color": "#2e7d32",
       "parentId": "g_1782432109295"
-    },
-    {
-      "id": "g_1782432359703",
-      "name": "녹지대 풀베기(우현지구)",
-      "color": "#c62828",
-      "parentId": "g_1782432109295"
     }
   ],
   "customDepts": [
@@ -3012,6 +3006,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-26T00:13:18.805Z",
+  "savedAt": "2026-06-26T00:13:21.837Z",
   "savedBy": "lms8765-ai"
 }
