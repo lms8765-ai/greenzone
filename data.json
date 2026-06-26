@@ -25174,14 +25174,14 @@
     },
     {
       "id": "z_1782458879517",
-      "name": "새 관리구역",
+      "name": "녹지대 풀베기(대이/효자/상대지구)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
-      "manager": "",
-      "color": "#2e7d32",
+      "manager": "이민성",
+      "color": "#c62828",
       "groupId": "",
       "paths": [
         [
@@ -25541,6 +25541,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-26T07:28:54.132Z",
+  "savedAt": "2026-06-26T07:29:13.443Z",
   "savedBy": "lms8765-ai"
 }
