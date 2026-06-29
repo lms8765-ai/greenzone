@@ -26257,6 +26257,26 @@
   "customWT": [],
   "complaints": [
     {
+      "id": "cp_1782720816472",
+      "cpNo": "2026-민원-008",
+      "updatedAt": "2026-06-29",
+      "date": "2026-06-29",
+      "route": "국민신문고",
+      "category": "수목",
+      "deadline": "2026-07-06",
+      "person": "1",
+      "contact": "",
+      "manager": "박가혜",
+      "location": "남구 괴동동 501-3",
+      "lat": "",
+      "lng": "",
+      "content": "나뭇가지가 부러져 차량위로 떨어질것 같다고 조치요청",
+      "status": "접수",
+      "reply": "",
+      "memo": "",
+      "createdAt": "2026-06-29"
+    },
+    {
       "id": "cp_1782719873951",
       "cpNo": "2026-민원-007",
       "updatedAt": "2026-06-29",
@@ -26397,6 +26417,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-29T07:57:57.103Z",
+  "savedAt": "2026-06-29T08:13:39.479Z",
   "savedBy": "lms8765-ai"
 }
