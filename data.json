@@ -26291,7 +26291,7 @@
       "lat": "",
       "lng": "",
       "content": "나뭇가지가 부러져 차량위로 떨어질것 같다고 조치요청",
-      "status": "접수",
+      "status": "처리중",
       "reply": "",
       "memo": "",
       "createdAt": "2026-06-29"
@@ -26437,6 +26437,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-29T08:20:25.459Z",
+  "savedAt": "2026-06-29T23:33:17.931Z",
   "savedBy": "lms8765-ai"
 }
