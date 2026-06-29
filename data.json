@@ -26257,6 +26257,26 @@
   "customWT": [],
   "complaints": [
     {
+      "id": "cp_1782721222452",
+      "cpNo": "2026-민원-009",
+      "updatedAt": "2026-06-29",
+      "date": "2026-06-29",
+      "route": "국민신문고",
+      "category": "수목",
+      "deadline": "2026-07-06",
+      "person": "1",
+      "contact": "010-9364-9924",
+      "manager": "유선혜",
+      "location": "문덕서로사거리",
+      "lat": "",
+      "lng": "",
+      "content": "통행불편 도복목 처리 및 전정요청",
+      "status": "접수",
+      "reply": "",
+      "memo": "",
+      "createdAt": "2026-06-29"
+    },
+    {
       "id": "cp_1782720816472",
       "cpNo": "2026-민원-008",
       "updatedAt": "2026-06-29",
@@ -26417,6 +26437,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-29T08:13:39.479Z",
+  "savedAt": "2026-06-29T08:20:25.459Z",
   "savedBy": "lms8765-ai"
 }
