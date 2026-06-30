@@ -28088,14 +28088,14 @@
     },
     {
       "id": "z_1782812213649",
-      "name": "새 관리구역",
+      "name": "녹지대 풀베기(장성/양덕지구)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
-      "manager": "",
-      "color": "#2e7d32",
+      "manager": "이민성",
+      "color": "#6a1b9a",
       "groupId": "",
       "paths": [
         [
@@ -28343,6 +28343,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-30T09:37:36.753Z",
+  "savedAt": "2026-06-30T09:37:40.405Z",
   "savedBy": "lms8765-ai"
 }
