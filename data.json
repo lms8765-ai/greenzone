@@ -30154,7 +30154,7 @@
     {
       "id": "cp_1782345155596",
       "cpNo": "2026-민원-001",
-      "updatedAt": "2026-06-24",
+      "updatedAt": "2026-06-30",
       "date": "2026-06-24",
       "route": "전화",
       "deadline": "2026-06-24",
@@ -30168,12 +30168,13 @@
       "status": "완료",
       "reply": "현장 확인 후 접수방법 안내",
       "memo": "우현학산 일원 장미길 특화거리 조성사업",
-      "createdAt": "2026-06-24"
+      "createdAt": "2026-06-24",
+      "category": "청소"
     }
   ],
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-30T10:13:47.990Z",
+  "savedAt": "2026-06-30T11:54:51.452Z",
   "savedBy": "lms8765-ai"
 }
