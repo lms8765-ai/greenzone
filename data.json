@@ -29894,6 +29894,12 @@
       "name": "녹지대 풀베기(장성/양덕지구)",
       "color": "#558b2f",
       "parentId": "g_1782432109295"
+    },
+    {
+      "id": "g_1782813730002",
+      "name": "녹지대 풀베기(냉천지구)",
+      "color": "#c62828",
+      "parentId": "g_1782432109295"
     }
   ],
   "customDepts": [
@@ -29986,6 +29992,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-30T10:01:55.308Z",
+  "savedAt": "2026-06-30T10:02:13.008Z",
   "savedBy": "lms8765-ai"
 }
