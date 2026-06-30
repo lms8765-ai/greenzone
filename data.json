@@ -27229,14 +27229,14 @@
     },
     {
       "id": "z_1782811388911",
-      "name": "새 관리구역",
+      "name": "녹지대 풀베기(두호지구)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
-      "manager": "",
-      "color": "#2e7d32",
+      "manager": "이민성",
+      "color": "#37474f",
       "groupId": "",
       "paths": [
         [
@@ -27510,6 +27510,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-06-30T09:23:46.147Z",
+  "savedAt": "2026-06-30T09:23:52.698Z",
   "savedBy": "lms8765-ai"
 }
