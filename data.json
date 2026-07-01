@@ -32028,14 +32028,14 @@
     },
     {
       "id": "z_1782887738570",
-      "name": "새 관리구역",
+      "name": "설머리지구 교통섬",
       "team": "greenway",
       "status": "pending",
       "zoneType": "rose",
       "workTypes": [],
       "memo": "",
-      "manager": "",
-      "color": "#c0392b",
+      "manager": "이민성",
+      "color": "#c2185b",
       "groupId": "",
       "paths": [
         [
@@ -32322,6 +32322,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-01T06:35:41.578Z",
+  "savedAt": "2026-07-01T06:36:17.418Z",
   "savedBy": "lms8765-ai"
 }
