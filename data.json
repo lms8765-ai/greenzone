@@ -32148,7 +32148,28 @@
         }
       ],
       "area": 260,
-      "logs": [],
+      "logs": [
+        {
+          "id": "l_1782888108434",
+          "date": "2026-07-01",
+          "type": "rose_prune",
+          "worker": "주식회사 제일산업개발",
+          "detail": "특이사항 - 기존 환호해변로 옹벽 하부 식재 예정에서 낙석위험구간 공원과 협의 불가로 식재지 변경",
+          "next": "",
+          "isProject": true,
+          "project": {
+            "name": "영일대 해변산책로 장미길 조성사업",
+            "type": "construction",
+            "company": "주식회사 제일산업개발",
+            "contact": "김대건 사장(010-6323-3931)",
+            "amount": 75748300,
+            "contractDate": "2026-05-22",
+            "startDate": "2026-05-28",
+            "endDate": "2026-07-26",
+            "status": "ongoing"
+          }
+        }
+      ],
       "workerDefault": ""
     }
   ],
@@ -32322,6 +32343,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-01T06:36:17.418Z",
+  "savedAt": "2026-07-01T06:41:51.438Z",
   "savedBy": "lms8765-ai"
 }
