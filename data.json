@@ -32151,8 +32151,8 @@
       "logs": [
         {
           "id": "l_1782888108434",
-          "date": "2026-07-01",
-          "type": "rose_prune",
+          "date": "2026-07-07",
+          "type": "rose_plant",
           "worker": "주식회사 제일산업개발",
           "detail": "특이사항 - 기존 환호해변로 옹벽 하부 식재 예정에서 낙석위험구간 공원과 협의 불가로 식재지 변경",
           "next": "",
@@ -32343,6 +32343,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-01T06:41:59.640Z",
+  "savedAt": "2026-07-01T06:42:26.763Z",
   "savedBy": "lms8765-ai"
 }
