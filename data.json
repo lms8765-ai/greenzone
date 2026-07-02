@@ -32577,6 +32577,12 @@
       "name": "녹지대 풀베기(냉천지구)",
       "color": "#c62828",
       "parentId": "g_1782432109295"
+    },
+    {
+      "id": "g_1782950840174",
+      "name": "녹지대 풀베기(직영관리)",
+      "color": "#2e7d32",
+      "parentId": "g_1782432109295"
     }
   ],
   "customDepts": [
@@ -32670,6 +32676,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-02T00:06:51.610Z",
+  "savedAt": "2026-07-02T00:07:23.190Z",
   "savedBy": "lms8765-ai"
 }
