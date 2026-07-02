@@ -32336,14 +32336,14 @@
     },
     {
       "id": "z_1782950808595",
-      "name": "새 관리구역",
+      "name": "녹지대 풀베기(직영관리)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
-      "manager": "",
-      "color": "#2e7d32",
+      "manager": "이민성",
+      "color": "#37474f",
       "groupId": "",
       "paths": [
         [
@@ -32676,6 +32676,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-02T00:07:23.190Z",
+  "savedAt": "2026-07-02T00:07:40.940Z",
   "savedBy": "lms8765-ai"
 }
