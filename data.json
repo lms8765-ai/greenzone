@@ -25532,7 +25532,7 @@
     },
     {
       "id": "z_1782458879517",
-      "name": "녹지대 풀베기(대이/효자/상대지구)",
+      "name": "녹지대 풀베기(대이/효지구)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -33732,6 +33732,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-03T07:03:44.449Z",
+  "savedAt": "2026-07-03T07:03:50.452Z",
   "savedBy": "lms8765-ai"
 }
