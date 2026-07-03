@@ -4892,7 +4892,7 @@
     },
     {
       "id": "z_1782438820380",
-      "name": "녹지대 풀베기(형산지구)",
+      "name": "녹지대 풀베기(상대/형산지구)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -33802,6 +33802,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-03T07:03:07.693Z",
+  "savedAt": "2026-07-03T07:03:36.004Z",
   "savedBy": "lms8765-ai"
 }
