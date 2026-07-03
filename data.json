@@ -33703,13 +33703,15 @@
     },
     {
       "id": "z_1783063658458",
-      "name": "새 관리구역",
+      "name": "녹지대 풀베기(상대지구)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
-      "workTypes": [],
+      "workTypes": [
+        "mowing"
+      ],
       "memo": "",
-      "manager": "",
+      "manager": "이민성",
       "color": "#2e7d32",
       "groupId": "",
       "paths": [
@@ -33923,6 +33925,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-03T07:27:41.476Z",
+  "savedAt": "2026-07-03T07:28:00.217Z",
   "savedBy": "lms8765-ai"
 }
