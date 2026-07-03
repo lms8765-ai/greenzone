@@ -33721,26 +33721,6 @@
   "customWT": [],
   "complaints": [
     {
-      "id": "cp-1783057325023",
-      "cpNo": "2026-민원-005",
-      "date": "2026-07-03",
-      "route": "국민신문고",
-      "category": "관수",
-      "deadline": "2026-07-10",
-      "person": "1111",
-      "contact": "111",
-      "manager": "111",
-      "location": "111",
-      "lat": "",
-      "lng": "",
-      "content": "1111",
-      "status": "접수",
-      "reply": "",
-      "memo": "",
-      "createdAt": "2026-07-03T05:42:05.023Z",
-      "updatedAt": "2026-07-03T05:42:05.023Z"
-    },
-    {
       "id": "cp_1782459038789",
       "cpNo": "2026-민원-004",
       "updatedAt": "2026-07-01",
@@ -33822,6 +33802,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-03T05:42:08.033Z",
+  "savedAt": "2026-07-03T05:47:20.967Z",
   "savedBy": "lms8765-ai"
 }
