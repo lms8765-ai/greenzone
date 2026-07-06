@@ -26453,7 +26453,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "",
+      "memo": "장성동 : 39,118㎡/(50%) 19,559㎡\n양덕동 : 19,460㎡/(50%) 8,730㎡",
       "manager": "이민성",
       "color": "#6a1b9a",
       "groupId": "g_1782813526990",
@@ -33995,6 +33995,6 @@
     "g_1782950840174"
   ],
   "hiddenZones": [],
-  "savedAt": "2026-07-06T04:23:36.154Z",
+  "savedAt": "2026-07-06T04:25:21.386Z",
   "savedBy": "lms8765-ai"
 }
