@@ -25552,7 +25552,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "",
+      "memo": "두호동 : 16,495㎡/(50%) 8,248㎡",
       "manager": "이민성",
       "color": "#f57f17",
       "groupId": "g_1782432811728",
@@ -33995,6 +33995,6 @@
     "g_1782950840174"
   ],
   "hiddenZones": [],
-  "savedAt": "2026-07-06T04:21:47.693Z",
+  "savedAt": "2026-07-06T04:23:36.154Z",
   "savedBy": "lms8765-ai"
 }
