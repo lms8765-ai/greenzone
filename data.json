@@ -32466,7 +32466,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "",
+      "memo": "대이동 : 14,600㎡/(35%) 5,110㎡",
       "manager": "",
       "color": "#f57f17",
       "groupId": "g_1782433258456",
@@ -33993,6 +33993,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-06T05:01:58.016Z",
+  "savedAt": "2026-07-06T05:04:27.527Z",
   "savedBy": "lms8765-ai"
 }
