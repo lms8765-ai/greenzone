@@ -33905,8 +33905,8 @@
       "lat": "",
       "lng": "",
       "content": "데크길에서 대이초가는 방향 보행자 시야확보 전정요청",
-      "status": "처리중",
-      "reply": "",
+      "status": "완료",
+      "reply": "7월6일 작업완료",
       "memo": "",
       "createdAt": "2026-07-06T02:28:39.768Z",
       "updatedAt": "2026-07-06"
@@ -33993,6 +33993,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-06T04:52:13.529Z",
+  "savedAt": "2026-07-06T04:53:39.183Z",
   "savedBy": "lms8765-ai"
 }
