@@ -34073,7 +34073,7 @@
     },
     {
       "id": "z_1783304879253",
-      "name": "새 관리구역",
+      "name": "녹지대 풀베기(대이지구)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -34383,6 +34383,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-06T02:29:04.142Z",
+  "savedAt": "2026-07-06T02:29:21.261Z",
   "savedBy": "lms8765-ai"
 }
