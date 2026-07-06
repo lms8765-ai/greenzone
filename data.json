@@ -33977,6 +33977,51 @@
       "area": 14576,
       "logs": [],
       "workerDefault": ""
+    },
+    {
+      "id": "z_1783317183853",
+      "name": "새 관리구역",
+      "team": "greenway",
+      "status": "pending",
+      "zoneType": "park",
+      "workTypes": [],
+      "memo": "",
+      "manager": "",
+      "color": "#2e7d32",
+      "groupId": "",
+      "paths": [
+        [
+          {
+            "lat": 36.0489438,
+            "lng": 129.3500451
+          },
+          {
+            "lat": 36.0414487,
+            "lng": 129.3493585
+          },
+          {
+            "lat": 36.0428368,
+            "lng": 129.3575982
+          }
+        ]
+      ],
+      "path": [
+        {
+          "lat": 36.0489438,
+          "lng": 129.3500451
+        },
+        {
+          "lat": 36.0414487,
+          "lng": 129.3493585
+        },
+        {
+          "lat": 36.0428368,
+          "lng": 129.3575982
+        }
+      ],
+      "area": 245764,
+      "logs": [],
+      "workerDefault": ""
     }
   ],
   "groups": [
@@ -34195,6 +34240,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-06T05:50:20.596Z",
+  "savedAt": "2026-07-06T05:53:06.867Z",
   "savedBy": "lms8765-ai"
 }
