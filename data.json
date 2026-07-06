@@ -34115,13 +34115,13 @@
     },
     {
       "id": "z_1783304879253",
-      "name": "녹지대 풀베기(대이지구)",
+      "name": "새 관리구역",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
-      "manager": "이민성",
+      "manager": "",
       "color": "#2e7d32",
       "groupId": "",
       "paths": [
@@ -34163,85 +34163,113 @@
     {
       "id": "g1",
       "name": "장미 관리구역",
-      "color": "#c2185b"
+      "color": "#c2185b",
+      "tier": "top",
+      "order": 0
     },
     {
       "id": "g_1782431358951",
       "name": "녹지대 풀베기(지곡단지)",
       "color": "#2e7d32",
-      "parentId": "g2"
+      "parentId": "g2",
+      "tier": "mid",
+      "order": 1
     },
     {
       "id": "g_1782432109295",
       "name": "녹지대 풀베기",
       "color": "#2e7d32",
-      "parentId": null
+      "parentId": null,
+      "tier": "top",
+      "order": 2
     },
     {
       "id": "g_1782432140403",
       "name": "녹지대 풀베기(지곡단지)",
       "color": "#2e7d32",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 3
     },
     {
       "id": "g_1782432811728",
       "name": "녹지대 풀베기(우현지구)",
       "color": "#c2185b",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 4
     },
     {
       "id": "g_1782433258456",
       "name": "녹지대 풀베기(용흥지구)",
       "color": "#1565c0",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 5
     },
     {
       "id": "g_1782438263845",
       "name": "녹지대 풀베기(송림지구)",
       "color": "#e65100",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 6
     },
     {
       "id": "g_1782438848807",
       "name": "녹지대 풀베기(상대/형산지구)",
       "color": "#6a1b9a",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 7
     },
     {
       "id": "g_1782440186735",
       "name": "녹지대 풀베기(연일지구)",
       "color": "#00838f",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 8
     },
     {
       "id": "g_1782458931126",
       "name": "녹지대 풀베기(대이/효자지구)",
       "color": "#795548",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 9
     },
     {
       "id": "g_1782811423139",
       "name": "녹지대 풀베기(두호지구)",
       "color": "#37474f",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 10
     },
     {
       "id": "g_1782813526990",
       "name": "녹지대 풀베기(장성/양덕지구)",
       "color": "#558b2f",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 11
     },
     {
       "id": "g_1782813730002",
       "name": "녹지대 풀베기(냉천지구)",
       "color": "#c62828",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 12
     },
     {
       "id": "g_1782950840174",
       "name": "녹지대 풀베기(직영관리)",
       "color": "#2e7d32",
-      "parentId": "g_1782432109295"
+      "parentId": "g_1782432109295",
+      "tier": "mid",
+      "order": 13
     }
   ],
   "customDepts": [
@@ -34253,6 +34281,26 @@
   "workProjects": [],
   "customWT": [],
   "complaints": [
+    {
+      "id": "cp-1783304919769",
+      "cpNo": "2026-민원-005",
+      "date": "2026-07-03",
+      "route": "전화",
+      "category": "잡초",
+      "deadline": "2026-07-17",
+      "person": "포항교육지원청",
+      "contact": "054-288-6824",
+      "manager": "유선혜",
+      "location": "대잠그린파트옆 대잠동 990-1",
+      "lat": "",
+      "lng": "",
+      "content": "데크길에서 대이초가는 방향 보행자 시야확보 전정요청",
+      "status": "접수",
+      "reply": "",
+      "memo": "",
+      "createdAt": "2026-07-06T02:28:39.768Z",
+      "updatedAt": "2026-07-06T02:28:39.768Z"
+    },
     {
       "id": "cp_1782459038789",
       "cpNo": "2026-민원-004",
@@ -34335,6 +34383,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-06T02:28:17.202Z",
+  "savedAt": "2026-07-06T02:28:45.015Z",
   "savedBy": "lms8765-ai"
 }
