@@ -33980,15 +33980,17 @@
     },
     {
       "id": "z_1783300413412",
-      "name": "새 관리구역",
+      "name": "녹지대 풀베기(동빈나루)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
-      "workTypes": [],
+      "workTypes": [
+        "mowing"
+      ],
       "memo": "",
-      "manager": "",
+      "manager": "이민성",
       "color": "#2e7d32",
-      "groupId": "",
+      "groupId": "g_1782433258456",
       "paths": [
         [
           {
@@ -34200,6 +34202,6 @@
   "roseZones": [],
   "hiddenGroups": [],
   "hiddenZones": [],
-  "savedAt": "2026-07-06T01:13:36.427Z",
+  "savedAt": "2026-07-06T01:14:06.976Z",
   "savedBy": "lms8765-ai"
 }
