@@ -34230,8 +34230,39 @@
     }
   ],
   "roseZones": [],
-  "hiddenGroups": [],
+  "hiddenGroups": [
+    "g_1782432140403",
+    "g_1782432811728",
+    "g_1782433258456",
+    "g_1782438263845",
+    "g_1782438848807"
+  ],
   "hiddenZones": [],
-  "savedAt": "2026-07-06T06:32:03.464Z",
+  "treeData": {
+    "layers": [
+      {
+        "id": "layer-default",
+        "name": "기본 레이어",
+        "visible": true,
+        "color": "#2e7d32",
+        "locked": false
+      },
+      {
+        "id": "layer-road",
+        "name": "🛣 도로",
+        "visible": true,
+        "color": "#78909c",
+        "locked": false
+      }
+    ],
+    "trees": [],
+    "shrubs": [],
+    "borders": [],
+    "hedges": [],
+    "roads": [],
+    "estimates": [],
+    "activeLayerId": "layer-default"
+  },
+  "savedAt": "2026-07-10T02:27:11.203Z",
   "savedBy": "lms8765-ai"
 }
