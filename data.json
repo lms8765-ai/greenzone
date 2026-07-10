@@ -2730,7 +2730,7 @@
       ],
       "memo": "우현동 : 19,423㎡/(50%) 9,712㎡",
       "manager": "이민성",
-      "color": "#c62828",
+      "color": "#c2185b",
       "groupId": "g_1782432811728",
       "paths": [
         [
@@ -34267,6 +34267,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-07-10T02:28:42.887Z",
+  "savedAt": "2026-07-10T02:29:46.749Z",
   "savedBy": "lms8765-ai"
 }
