@@ -5235,7 +5235,7 @@
       ],
       "memo": "형산제방 : 20,103㎡/(60%) 12,061㎡",
       "manager": "이민성",
-      "color": "#c62828",
+      "color": "#e65100",
       "groupId": "g_1782438848807",
       "paths": [
         [
@@ -34268,6 +34268,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-07-10T02:33:32.481Z",
+  "savedAt": "2026-07-10T02:33:39.853Z",
   "savedBy": "lms8765-ai"
 }
