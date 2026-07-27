@@ -32706,7 +32706,7 @@
       "workTypes": [],
       "memo": "대이동 : 14,600㎡/(35%) 5,110㎡",
       "manager": "",
-      "color": "#1565c0",
+      "color": "#c62828",
       "groupId": "g_1782433258456",
       "paths": [
         [
@@ -34457,6 +34457,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-07-27T07:35:00.493Z",
+  "savedAt": "2026-07-27T07:35:06.539Z",
   "savedBy": "lms8765-ai"
 }
