@@ -32702,7 +32702,7 @@
       "name": "녹지대 풀베기(대이지구)",
       "team": "greenway",
       "status": "pending",
-      "zoneType": "green",
+      "zoneType": "mowing",
       "workTypes": [],
       "memo": "대이동 : 14,600㎡/(35%) 5,110㎡",
       "manager": "",
@@ -34442,6 +34442,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-03T04:44:33.315Z",
+  "savedAt": "2026-08-03T04:44:41.849Z",
   "savedBy": "lms8765-ai"
 }
