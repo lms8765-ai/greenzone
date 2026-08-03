@@ -26689,7 +26689,7 @@
       "name": "녹지대 풀베기(장성/양덕지구)",
       "team": "greenway",
       "status": "pending",
-      "zoneType": "green",
+      "zoneType": "mowing",
       "workTypes": [],
       "memo": "장성동 : 39,118㎡/(50%) 19,559㎡\n양덕동 : 19,460㎡/(50%) 8,730㎡",
       "manager": "이민성",
@@ -34073,6 +34073,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-03T04:46:00.496Z",
+  "savedAt": "2026-08-03T04:46:09.192Z",
   "savedBy": "lms8765-ai"
 }
