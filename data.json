@@ -1755,7 +1755,7 @@
       "name": "녹지대풀베기(지곡단지)",
       "team": "greenway",
       "status": "pending",
-      "zoneType": "green",
+      "zoneType": "mowing",
       "workTypes": [
         "mowing"
       ],
@@ -34450,6 +34450,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-07-29T04:12:55.720Z",
+  "savedAt": "2026-08-03T04:43:52.312Z",
   "savedBy": "lms8765-ai"
 }
