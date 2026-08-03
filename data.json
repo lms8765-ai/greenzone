@@ -25788,7 +25788,7 @@
       "name": "녹지대 풀베기(두호지구)",
       "team": "greenway",
       "status": "pending",
-      "zoneType": "green",
+      "zoneType": "mowing",
       "workTypes": [],
       "memo": "두호동 : 16,495㎡/(50%) 8,248㎡",
       "manager": "이민성",
@@ -34073,6 +34073,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-03T04:46:09.192Z",
+  "savedAt": "2026-08-03T04:46:17.793Z",
   "savedBy": "lms8765-ai"
 }
