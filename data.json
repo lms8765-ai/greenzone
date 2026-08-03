@@ -3111,7 +3111,7 @@
       "name": "녹지대 풀베기(용흥지구)",
       "team": "greenway",
       "status": "pending",
-      "zoneType": "green",
+      "zoneType": "mowing",
       "workTypes": [
         "mowing"
       ],
@@ -34073,6 +34073,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-03T04:46:25.473Z",
+  "savedAt": "2026-08-03T04:46:33.719Z",
   "savedBy": "lms8765-ai"
 }
