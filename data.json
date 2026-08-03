@@ -4432,7 +4432,7 @@
       "name": "녹지대 풀베기(송림지구)",
       "team": "greenway",
       "status": "pending",
-      "zoneType": "green",
+      "zoneType": "mowing",
       "workTypes": [
         "mowing"
       ],
@@ -34073,6 +34073,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-03T04:45:49.987Z",
+  "savedAt": "2026-08-03T04:46:00.496Z",
   "savedBy": "lms8765-ai"
 }
