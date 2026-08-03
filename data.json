@@ -31366,7 +31366,7 @@
       "name": "녹지대 풀베기(동빈나루)",
       "team": "greenway",
       "status": "pending",
-      "zoneType": "green",
+      "zoneType": "mowing",
       "workTypes": [
         "mowing"
       ],
@@ -34073,6 +34073,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-03T04:46:17.793Z",
+  "savedAt": "2026-08-03T04:46:25.473Z",
   "savedBy": "lms8765-ai"
 }
