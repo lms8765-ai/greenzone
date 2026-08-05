@@ -37470,7 +37470,7 @@
       "memo": "지번 경계 자동 불러오기(브이월드 연속지적도): 경상북도 포항시 남구 이동 663-2",
       "manager": "",
       "color": "#c2185b",
-      "groupId": "",
+      "groupId": "g_1785907641419",
       "paths": [
         [
           {
@@ -38440,6 +38440,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T05:27:31.506Z",
+  "savedAt": "2026-08-05T05:27:42.820Z",
   "savedBy": "lms8765-ai"
 }
