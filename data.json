@@ -45003,6 +45003,15 @@
       "order": 4,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785911930038",
+      "name": "장성동",
+      "color": "#6a1b9a",
+      "parentId": null,
+      "order": 5,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -45335,6 +45344,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T06:36:00.970Z",
+  "savedAt": "2026-08-05T06:38:53.055Z",
   "savedBy": "lms8765-ai"
 }
