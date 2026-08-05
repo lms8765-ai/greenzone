@@ -4291,9 +4291,17 @@ async function createZoneFromParcel(lat, lng, addr) {
     const path = toPath(f.geometry);
     if (path && pointInPolygon(lat, lng, path)) { matched = path; matchedProps = f.properties||{}; break; }
   }
-  if (!matched) { // 경계 바로 위 등으로 포함 필지를 못 찾으면 첫 결과로 대체
-    matched = toPath(feats[0].geometry);
-    matchedProps = feats[0].properties || {};
+  if (!matched) {
+    // 경계 바로 위 등으로 정확히 포함하는 필지를 못 찾으면
+    // "첫 결과"가 아니라 중심점이 검색 지점과 가장 가까운 필지로 대체 (엉뚱한 인접 필지 선택 방지)
+    let bestDist = Infinity;
+    feats.forEach(f => {
+      const path = toPath(f.geometry);
+      if (!path) return;
+      const c = pathCenter(path);
+      const dist = Math.hypot(c.lat - lat, c.lng - lng);
+      if (dist < bestDist) { bestDist = dist; matched = path; matchedProps = f.properties || {}; }
+    });
   }
   if (!matched) {
     showToast('❌ 필지 경계 데이터를 해석하지 못했습니다.');
@@ -4605,7 +4613,10 @@ function drawPoly(z) {
   const roseInfo = roseZones.find(r => r.zoneId === z.id);
   const roseBadge = roseInfo ? '<span style="font-size:9px;background:#fce4ec;color:#c0392b;border:1px solid #f8a5a5;border-radius:8px;padding:1px 5px;margin-left:3px">🌹</span>' : '';
   // 라벨 표시 대상 (숨김이면 null, 그룹라벨 숨김이면 null)
+  // 🌿 녹지관리 탭: 구역명이 많아지면 지도가 어지러워지므로 기본은 숨기고,
+  //    해당 구역을 클릭(선택)했을 때만 이름을 보이게 함
   const labelMap = mapTarget === null ? null :
+    (zt === 'green' && !isSel) ? null :
     (!showGroupLabels && z.groupId && groups.find(g=>g.id===z.groupId)) ? null : map;
 
   // grpHidden/mapTarget은 위에서 선언됨
