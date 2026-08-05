@@ -33828,7 +33828,7 @@
       "memo": "지번 경계 자동 불러오기(브이월드 연속지적도): 경상북도 포항시 남구 지곡동 660-1",
       "manager": "",
       "color": "#2e7d32",
-      "groupId": "",
+      "groupId": "g_1785906237531",
       "paths": [
         [
           {
@@ -35197,6 +35197,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T05:05:07.169Z",
+  "savedAt": "2026-08-05T05:05:12.285Z",
   "savedBy": "lms8765-ai"
 }
