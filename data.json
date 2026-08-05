@@ -42329,6 +42329,15 @@
       "order": 2,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785910611519",
+      "name": "효자동",
+      "color": "#e65100",
+      "parentId": null,
+      "order": 3,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -42661,6 +42670,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T06:15:39.782Z",
+  "savedAt": "2026-08-05T06:16:54.537Z",
   "savedBy": "lms8765-ai"
 }
