@@ -4205,6 +4205,131 @@ function startDrawAtAddr(lat, lng, addr) {
   showToast('📍 ' + addr + ' — 지도 클릭으로 꼭짓점을 추가하고, Enter로 구역을 완성하세요.');
 }
 
+/* ══════════════════════════════════════════════
+   📐 지번(필지) 경계 자동 불러오기 — 브이월드(VWorld) 데이터API
+   — 연속지적도(LP_PA_CBND_BUBUN) 서비스로 실제 필지 경계를 가져와
+     그대로 구역 폴리곤으로 사용 (1필지 = 1구역, MVP)
+   — 무료 API 키 필요: www.vworld.kr → Open API 신청 시
+     "2D 데이터API" 서비스 체크 + 도메인(예: lms8765-ai.github.io) 등록
+     (🛣 도로망 참조 레이어와 같은 키를 재사용 — 서비스 항목만 추가 체크하면 됨)
+   — 검색 지점(주소 지오코딩 좌표) 주변을 bbox로 조회한 뒤,
+     그 지점을 실제로 포함하는 필지를 pointInPolygon으로 선별
+══════════════════════════════════════════════ */
+async function createZoneFromParcel(lat, lng, addr) {
+  const key = getVWorldKey();
+  if (!key) {
+    showConfirm(
+      '📐 지번 경계 자동 불러오기 (브이월드)\n\n'
+      + '실제 지적도(필지 경계) 데이터를 가져와 구역 폴리곤으로 바로 사용합니다.\n\n'
+      + '무료 API 키가 필요합니다 (🛣 도로망 참조와 같은 키 재사용 가능):\n'
+      + '1. www.vworld.kr 접속 → 회원가입 → 오픈API → 인증키 신청\n'
+      + '2. 활용 API에서 "2D 데이터API" 체크 (연속지적도 포함)\n'
+      + '3. 도메인: ' + location.hostname + ' 등록\n'
+      + '4. 발급된 키를 아래에서 입력',
+      '📐',
+      [
+        { label:'키 입력하기', cls:'primary', fn: () => {
+          const k = prompt('브이월드 Open API 인증키를 입력하세요:');
+          if (k && k.trim()) {
+            localStorage.setItem('phgz_vworld_key', k.trim());
+            showToast('✅ 저장 완료. 다시 버튼을 눌러 지번 경계를 불러오세요.');
+          }
+        }},
+        { label:'나중에', cls:'secondary', fn: null }
+      ]
+    );
+    return;
+  }
+
+  showToast('📐 지번 경계 조회 중...');
+
+  // 검색 지점 주변 소범위(bbox)로 연속지적도 조회 → 실제 포함 필지 판별 (경계 인접 오차 대비)
+  const d = 0.0006; // 약 60~70m 반경
+  const bbox = (lng-d)+','+(lat-d)+','+(lng+d)+','+(lat+d);
+  const url = 'https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LP_PA_CBND_BUBUN'
+    + '&key=' + encodeURIComponent(key)
+    + '&domain=' + encodeURIComponent(location.hostname)
+    + '&geomFilter=' + encodeURIComponent('BOX(' + bbox + ')')
+    + '&geometry=true&attribute=true&crs=EPSG:4326&format=json&size=30&page=1';
+
+  let feats = [];
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+    const r = json && json.response;
+    if (!r || r.status !== 'OK') {
+      const errMsg = (r && r.error && r.error.text) || (r && r.status) || '응답 형식 오류';
+      throw new Error(errMsg);
+    }
+    feats = (r.result && r.result.featureCollection && r.result.featureCollection.features) || [];
+  } catch(e) {
+    showConfirm(
+      '❌ 지번 경계 조회 실패\n\n원인: ' + (e.message||e) + '\n\n'
+      + '확인해주세요:\n'
+      + '1. 브이월드 콘솔에서 이 키에 "2D 데이터API" 서비스가 체크되어 있는지\n'
+      + '2. 도메인이 정확히 등록되어 있는지 (' + location.hostname + ')\n'
+      + '3. 브라우저 콘솔(F12)에 CORS 오류가 보이는지 — 보이면 화면을 캡처해 전달해주세요',
+      '❌',
+      [{ label:'확인', cls:'secondary', fn:null }]
+    );
+    return;
+  }
+
+  if (!feats.length) {
+    showToast('❌ 이 위치에서 필지 경계를 찾지 못했습니다. 위치를 조정하거나 [직접 그리기]를 이용해주세요.');
+    return;
+  }
+
+  // GeoJSON 좌표([lng,lat]) → {lat,lng} 변환
+  function toPath(geom) {
+    if (!geom) return null;
+    let ring = null;
+    if (geom.type === 'Polygon') ring = geom.coordinates[0];
+    else if (geom.type === 'MultiPolygon') ring = geom.coordinates[0][0];
+    if (!ring) return null;
+    return ring.map(c => ({ lat: c[1], lng: c[0] }));
+  }
+
+  // 검색 지점을 실제로 포함하는 필지를 우선 선택 (인접 필지가 함께 조회되므로 필요)
+  let matched = null, matchedProps = null;
+  for (const f of feats) {
+    const path = toPath(f.geometry);
+    if (path && pointInPolygon(lat, lng, path)) { matched = path; matchedProps = f.properties||{}; break; }
+  }
+  if (!matched) { // 경계 바로 위 등으로 포함 필지를 못 찾으면 첫 결과로 대체
+    matched = toPath(feats[0].geometry);
+    matchedProps = feats[0].properties || {};
+  }
+  if (!matched) {
+    showToast('❌ 필지 경계 데이터를 해석하지 못했습니다.');
+    return;
+  }
+
+  const jibunAddr = (matchedProps && (matchedProps.addr || matchedProps.jibun)) || addr;
+  const area = calcArea(matched);
+  const nz = {
+    id: 'z_'+Date.now(),
+    name: jibunAddr.split(' ').slice(-2).join(' ') || jibunAddr,
+    zoneType: getCurrentZoneType(),
+    team: 'greenway', status: 'pending',
+    workTypes: [], memo: '지번 경계 자동 불러오기(브이월드 연속지적도): '+jibunAddr,
+    manager: '', workerDefault: '',
+    color: currentAppTab === 'rose' ? '#c0392b' : '#2e7d32', groupId: '',
+    path: matched, paths: [matched], area,
+    logs: [], polygon: null, polygons: [], label: null, labelD: null
+  };
+  zones.push(nz);
+  drawPoly(nz);
+  saveAll(); renderSidebar();
+  selId = nz.id; editId = nz.id;
+  redrawAll(); renderDetail(); updateToolbar();
+  const info = document.getElementById('search-pin-info');
+  if (info) info.style.display = 'none';
+  if (window._siw) { window._siw.close(); window._siw = null; }
+  openEditModal();
+  showToast('✅ "'+nz.name+'" 구역이 실제 지번 경계로 생성되었습니다. (필지: '+jibunAddr+')');
+}
+
 function clearSearch() {
   document.getElementById('addr-input').value = '';
   document.getElementById('addr-dropdown').style.display = 'none';
@@ -13958,19 +14083,25 @@ function closeAllModals(){
   ['edit-modal','log-modal','log-edit-modal','group-modal','gh-settings-modal','dept-modal','wp-modal','wp-detail-modal','wt-modal','cp-modal','rose-modal','cp-map-modal','report-modal','schedule-modal','checklist-modal','bulk-log-modal'].forEach(id=>document.getElementById(id).classList.remove('show'));
   closeCfm(); editId=null;
 }
-['edit-modal','log-modal','log-edit-modal','group-modal','gh-settings-modal','dept-modal','wp-modal','wp-detail-modal','wt-modal'].forEach(id=>{
-  document.getElementById(id).addEventListener('click',function(e){
-    if(e.target===this) {
-      if(id==='edit-modal')closeEditModal();
-      else if(id==='log-modal')closeLogModal();
-      else if(id==='log-edit-modal')closeLogEditModal();
-      else if(id==='group-modal')closeGroupModal();
-      else if(id==='gh-settings-modal')closeGitHubSettings();
-      else if(id==='dept-modal')closeDeptModal();
-      else if(id==='wp-modal')closeWorkProjectModal();
-      else if(id==='wp-detail-modal')closeWpDetailModal();
-      else if(id==='wt-modal')closeWtModal();
-    }
+// 🩹 안전패치: 이 시점에 아직 파싱되지 않은 모달(wp/wt/dept/gh-settings 등)이 있어
+// getElementById가 null을 반환해 addEventListener가 죽는 문제 → DOMContentLoaded 이후로 지연
+document.addEventListener('DOMContentLoaded', function(){
+  ['edit-modal','log-modal','log-edit-modal','group-modal','gh-settings-modal','dept-modal','wp-modal','wp-detail-modal','wt-modal'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('click',function(e){
+      if(e.target===this) {
+        if(id==='edit-modal')closeEditModal();
+        else if(id==='log-modal')closeLogModal();
+        else if(id==='log-edit-modal')closeLogEditModal();
+        else if(id==='group-modal')closeGroupModal();
+        else if(id==='gh-settings-modal')closeGitHubSettings();
+        else if(id==='dept-modal')closeDeptModal();
+        else if(id==='wp-modal')closeWorkProjectModal();
+        else if(id==='wp-detail-modal')closeWpDetailModal();
+        else if(id==='wt-modal')closeWtModal();
+      }
+    });
   });
 });
 document.getElementById('confirm-overlay').addEventListener('click',function(e){if(e.target===this)closeCfm();});
