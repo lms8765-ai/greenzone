@@ -43763,15 +43763,15 @@
     },
     {
       "id": "z_1785911031573",
-      "name": "새 관리구역",
+      "name": "대잠동 780-292",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1785907641419",
       "paths": [
         [
           {
@@ -44279,6 +44279,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T06:23:54.581Z",
+  "savedAt": "2026-08-05T06:24:05.478Z",
   "savedBy": "lms8765-ai"
 }
