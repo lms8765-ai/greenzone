@@ -4228,7 +4228,7 @@ async function createZoneFromParcel(lat, lng, addr) {
   // 검색 지점 주변 소범위(bbox)로 연속지적도 조회 → 실제 포함 필지 판별 (경계 인접 오차 대비)
   // ※ 브이월드 데이터API는 브라우저 fetch()에 CORS를 열어주지 않아(직접 확인됨),
   //   대신 JSONP(callback 파라미터 + <script> 태그)로 우회한다 — 서버 프록시 불필요
-  const d = 0.0006; // 약 60~70m 반경
+  const d = 0.0012; // 약 120~140m 반경 (지번 텍스트 매칭을 우선 쓰므로 넉넉하게 조회)
   const bbox = (lng-d)+','+(lat-d)+','+(lng+d)+','+(lat+d);
   const cbName = '_vworldCb' + Date.now();
   const url = 'https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LP_PA_CBND_BUBUN'
@@ -4285,21 +4285,51 @@ async function createZoneFromParcel(lat, lng, addr) {
     return ring.map(c => ({ lat: c[1], lng: c[0] }));
   }
 
-  // 검색 지점을 실제로 포함하는 필지를 우선 선택 (인접 필지가 함께 조회되므로 필요)
-  let matched = null, matchedProps = null;
-  for (const f of feats) {
-    const path = toPath(f.geometry);
-    if (path && pointInPolygon(lat, lng, path)) { matched = path; matchedProps = f.properties||{}; break; }
+  // 점(point)-선분 최단거리 (평면 근사 — 소범위 내 순위 비교용이라 충분)
+  function distToSegment(px, py, ax, ay, bx, by) {
+    const dx = bx-ax, dy = by-ay;
+    const len2 = dx*dx + dy*dy;
+    let t = len2 === 0 ? 0 : ((px-ax)*dx + (py-ay)*dy) / len2;
+    t = Math.max(0, Math.min(1, t));
+    const cx = ax + t*dx, cy = ay + t*dy;
+    return Math.hypot(px-cx, py-cy);
   }
+  // 필지 경계선까지의 최단거리 (안쪽이면 0에 가까움, 꼭짓점 평균 중심 대신 경계 자체까지의 거리라 길쭉한 필지에도 정확)
+  function distToPolygonBoundary(lat, lng, path) {
+    let minD = Infinity;
+    for (let i = 0, n = path.length; i < n; i++) {
+      const a = path[i], b = path[(i+1) % n];
+      minD = Math.min(minD, distToSegment(lat, lng, a.lat, a.lng, b.lat, b.lng));
+    }
+    return minD;
+  }
+
+  // 검색 주소 끝의 지번(번지) 텍스트 추출 — 예) "경상북도 포항시 남구 지곡동 958-10" → "958-10"
+  const jibunQuery = (addr.match(/(\d+(?:-\d+)?)\s*$/) || [])[1] || '';
+
+  let matched = null, matchedProps = null;
+
+  // 1순위: 지번 텍스트가 정확히 일치하는 필지 (가장 신뢰할 수 있음 — 좌표 오차와 무관)
+  if (jibunQuery) {
+    const exact = feats.find(f => f.properties && String(f.properties.jibun||'').trim() === jibunQuery);
+    if (exact) { matched = toPath(exact.geometry); matchedProps = exact.properties || {}; }
+  }
+
+  // 2순위: 검색 지점을 실제로 포함하는 필지
   if (!matched) {
-    // 경계 바로 위 등으로 정확히 포함하는 필지를 못 찾으면
-    // "첫 결과"가 아니라 중심점이 검색 지점과 가장 가까운 필지로 대체 (엉뚱한 인접 필지 선택 방지)
+    for (const f of feats) {
+      const path = toPath(f.geometry);
+      if (path && pointInPolygon(lat, lng, path)) { matched = path; matchedProps = f.properties||{}; break; }
+    }
+  }
+
+  // 3순위: 그래도 못 찾으면 필지 경계선까지의 거리가 가장 가까운 필지로 대체
+  if (!matched) {
     let bestDist = Infinity;
     feats.forEach(f => {
       const path = toPath(f.geometry);
       if (!path) return;
-      const c = pathCenter(path);
-      const dist = Math.hypot(c.lat - lat, c.lng - lng);
+      const dist = distToPolygonBoundary(lat, lng, path);
       if (dist < bestDist) { bestDist = dist; matched = path; matchedProps = f.properties || {}; }
     });
   }
