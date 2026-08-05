@@ -46201,6 +46201,15 @@
       "order": 5,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785912190751",
+      "name": "양덕동",
+      "color": "#c62828",
+      "parentId": null,
+      "order": 6,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -46533,6 +46542,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T06:42:59.403Z",
+  "savedAt": "2026-08-05T06:43:13.768Z",
   "savedBy": "lms8765-ai"
 }
