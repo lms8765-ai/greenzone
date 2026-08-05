@@ -4304,14 +4304,23 @@ async function createZoneFromParcel(lat, lng, addr) {
     return minD;
   }
 
-  // 검색 주소 끝의 지번(번지) 텍스트 추출 — 예) "경상북도 포항시 남구 지곡동 958-10" → "958-10"
-  const jibunQuery = (addr.match(/(\d+(?:-\d+)?)\s*$/) || [])[1] || '';
+  // 검색 주소 끝의 지번(번지)을 본번/부번으로 분리 — 예) "...지곡동 958-10" → 본번 958, 부번 10
+  //   ※ jibun 필드는 포맷이 불확실(하이픈 유무 등)해서 신뢰하지 않고,
+  //     bonbun/bubun을 각각 숫자로 정규화해서 비교한다 (앞자리 0, 하이픈 표기 차이에 안전)
+  const jm = addr.match(/(\d+)(?:-(\d+))?\s*$/);
+  const bonbunQuery = jm ? String(parseInt(jm[1], 10)) : '';
+  const bubunQuery  = (jm && jm[2]) ? String(parseInt(jm[2], 10)) : '0';
 
   let matched = null, matchedProps = null;
 
-  // 1순위: 지번 텍스트가 정확히 일치하는 필지 (가장 신뢰할 수 있음 — 좌표 오차와 무관)
-  if (jibunQuery) {
-    const exact = feats.find(f => f.properties && String(f.properties.jibun||'').trim() === jibunQuery);
+  // 1순위: 본번/부번이 정확히 일치하는 필지 (가장 신뢰할 수 있음 — 좌표 오차와 무관)
+  if (bonbunQuery) {
+    const exact = feats.find(f => {
+      const p = f.properties || {};
+      const fb  = String(parseInt(p.bonbun || '0', 10));
+      const fbu = String(parseInt(p.bubun  || '0', 10));
+      return fb === bonbunQuery && fbu === bubunQuery;
+    });
     if (exact) { matched = toPath(exact.geometry); matchedProps = exact.properties || {}; }
   }
 
