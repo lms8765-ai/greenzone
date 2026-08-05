@@ -42403,8 +42403,8 @@
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 효자동 621-4",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#e65100",
+      "groupId": "g_1785910611519",
       "paths": [
         [
           {
@@ -42928,6 +42928,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T06:17:28.017Z",
+  "savedAt": "2026-08-05T06:17:32.002Z",
   "savedBy": "lms8765-ai"
 }
