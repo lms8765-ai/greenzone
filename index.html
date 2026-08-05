@@ -4244,18 +4244,29 @@ async function createZoneFromParcel(lat, lng, addr) {
   showToast('📐 지번 경계 조회 중...');
 
   // 검색 지점 주변 소범위(bbox)로 연속지적도 조회 → 실제 포함 필지 판별 (경계 인접 오차 대비)
+  // ※ 브이월드 데이터API는 브라우저 fetch()에 CORS를 열어주지 않아(직접 확인됨),
+  //   대신 JSONP(callback 파라미터 + <script> 태그)로 우회한다 — 서버 프록시 불필요
   const d = 0.0006; // 약 60~70m 반경
   const bbox = (lng-d)+','+(lat-d)+','+(lng+d)+','+(lat+d);
+  const cbName = '_vworldCb' + Date.now();
   const url = 'https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LP_PA_CBND_BUBUN'
     + '&key=' + encodeURIComponent(key)
     + '&domain=' + encodeURIComponent(location.hostname)
     + '&geomFilter=' + encodeURIComponent('BOX(' + bbox + ')')
-    + '&geometry=true&attribute=true&crs=EPSG:4326&format=json&size=30&page=1';
+    + '&geometry=true&attribute=true&crs=EPSG:4326&format=json&size=30&page=1'
+    + '&callback=' + cbName;
 
   let feats = [];
+  let script = null;
   try {
-    const res = await fetch(url);
-    const json = await res.json();
+    const json = await new Promise((resolve, reject) => {
+      const timer = setTimeout(() => reject(new Error('요청 시간 초과(10초) — 네트워크 상태를 확인해주세요')), 10000);
+      window[cbName] = (data) => { clearTimeout(timer); resolve(data); };
+      script = document.createElement('script');
+      script.src = url;
+      script.onerror = () => { clearTimeout(timer); reject(new Error('스크립트 로드 실패 — 키/도메인 설정을 확인해주세요')); };
+      document.body.appendChild(script);
+    });
     const r = json && json.response;
     if (!r || r.status !== 'OK') {
       const errMsg = (r && r.error && r.error.text) || (r && r.status) || '응답 형식 오류';
@@ -4267,12 +4278,14 @@ async function createZoneFromParcel(lat, lng, addr) {
       '❌ 지번 경계 조회 실패\n\n원인: ' + (e.message||e) + '\n\n'
       + '확인해주세요:\n'
       + '1. 브이월드 콘솔에서 이 키에 "2D 데이터API" 서비스가 체크되어 있는지\n'
-      + '2. 도메인이 정확히 등록되어 있는지 (' + location.hostname + ')\n'
-      + '3. 브라우저 콘솔(F12)에 CORS 오류가 보이는지 — 보이면 화면을 캡처해 전달해주세요',
+      + '2. 도메인이 정확히 등록되어 있는지 (' + location.hostname + ')',
       '❌',
       [{ label:'확인', cls:'secondary', fn:null }]
     );
     return;
+  } finally {
+    delete window[cbName];
+    if (script && script.parentNode) script.parentNode.removeChild(script);
   }
 
   if (!feats.length) {
