@@ -47120,8 +47120,8 @@
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 양덕동 464-2",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1785912190751",
       "paths": [
         [
           {
@@ -47792,6 +47792,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T06:46:18.629Z",
+  "savedAt": "2026-08-05T06:46:23.225Z",
   "savedBy": "lms8765-ai"
 }
