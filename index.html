@@ -4225,36 +4225,91 @@ async function createZoneFromParcel(lat, lng, addr) {
 
   showToast('📐 지번 경계 조회 중...');
 
-  // 검색 지점 주변 소범위(bbox)로 연속지적도 조회 → 실제 포함 필지 판별 (경계 인접 오차 대비)
-  // ※ 브이월드 데이터API는 브라우저 fetch()에 CORS를 열어주지 않아(직접 확인됨),
-  //   대신 JSONP(callback 파라미터 + <script> 태그)로 우회한다 — 서버 프록시 불필요
-  const d = 0.0012; // 약 120~140m 반경 (지번 텍스트 매칭을 우선 쓰므로 넉넉하게 조회)
-  const bbox = (lng-d)+','+(lat-d)+','+(lng+d)+','+(lat+d);
-  const cbName = '_vworldCb' + Date.now();
-  const url = 'https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LP_PA_CBND_BUBUN'
-    + '&key=' + encodeURIComponent(key)
-    + '&domain=' + encodeURIComponent(location.hostname)
-    + '&geomFilter=' + encodeURIComponent('BOX(' + bbox + ')')
-    + '&geometry=true&attribute=true&crs=EPSG:4326&format=json&size=30&page=1'
-    + '&callback=' + cbName;
-
-  let feats = [];
-  let script = null;
-  try {
-    const json = await new Promise((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error('요청 시간 초과(10초) — 네트워크 상태를 확인해주세요')), 10000);
-      window[cbName] = (data) => { clearTimeout(timer); resolve(data); };
+  // ※ 브이월드 데이터API/검색API는 브라우저 fetch()에 CORS를 열어주지 않아(직접 확인됨),
+  //   JSONP(callback 파라미터 + <script> 태그)로 우회한다 — 서버 프록시 불필요
+  function vworldJsonp(url, cbName) {
+    return new Promise((resolve, reject) => {
+      let script = null;
+      const timer = setTimeout(() => { cleanup(); reject(new Error('요청 시간 초과(10초) — 네트워크 상태를 확인해주세요')); }, 10000);
+      function cleanup() {
+        delete window[cbName];
+        if (script && script.parentNode) script.parentNode.removeChild(script);
+      }
+      window[cbName] = (data) => { clearTimeout(timer); cleanup(); resolve(data); };
       script = document.createElement('script');
       script.src = url;
-      script.onerror = () => { clearTimeout(timer); reject(new Error('스크립트 로드 실패 — 키/도메인 설정을 확인해주세요')); };
+      script.onerror = () => { clearTimeout(timer); cleanup(); reject(new Error('스크립트 로드 실패 — 키/도메인 설정을 확인해주세요')); };
       document.body.appendChild(script);
     });
-    const r = json && json.response;
-    if (!r || r.status !== 'OK') {
-      const errMsg = (r && r.error && r.error.text) || (r && r.status) || '응답 형식 오류';
-      throw new Error(errMsg);
+  }
+
+  try {
+    // 1단계: 검색한 지번 주소 → PNU(필지고유번호) 정확히 조회 (좌표 근접 추정 방식 전부 폐기)
+    const searchCb = '_vwSearchCb' + Date.now();
+    const searchUrl = 'https://api.vworld.kr/req/search?service=search&request=search&version=2.0'
+      + '&crs=EPSG:4326&type=address&category=parcel&format=json&errorformat=json&size=5&page=1'
+      + '&query=' + encodeURIComponent(addr)
+      + '&key=' + encodeURIComponent(key)
+      + '&callback=' + searchCb;
+    const searchJson = await vworldJsonp(searchUrl, searchCb);
+    const sr = searchJson && searchJson.response;
+    const items = sr && sr.result && sr.result.items;
+    if (!sr || sr.status !== 'OK' || !items || !items.length) {
+      throw new Error('이 주소로 필지를 찾지 못했습니다 (' + ((sr&&sr.status)||'응답 없음') + ')');
     }
-    feats = (r.result && r.result.featureCollection && r.result.featureCollection.features) || [];
+    const pnu = items[0].id;
+    const jibunAddr = (items[0].address && items[0].address.parcel) || addr;
+
+    // 2단계: PNU로 연속지적도 조회 → 필지가 정확히 하나로 특정됨 (인접 필지 오인 불가능)
+    const featCb = '_vwFeatCb' + Date.now();
+    const featUrl = 'https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LP_PA_CBND_BUBUN'
+      + '&key=' + encodeURIComponent(key)
+      + '&domain=' + encodeURIComponent(location.hostname)
+      + '&attrFilter=' + encodeURIComponent('pnu:=:' + pnu)
+      + '&geometry=true&attribute=true&crs=EPSG:4326&format=json&size=5&page=1'
+      + '&callback=' + featCb;
+    const featJson = await vworldJsonp(featUrl, featCb);
+    const fr = featJson && featJson.response;
+    if (!fr || fr.status !== 'OK') {
+      throw new Error('필지 경계 조회 실패 (' + ((fr&&fr.status)||'응답 없음') + ')');
+    }
+    const feats = (fr.result && fr.result.featureCollection && fr.result.featureCollection.features) || [];
+    if (!feats.length) throw new Error('해당 PNU로 필지 경계를 찾지 못했습니다');
+
+    // GeoJSON 좌표([lng,lat]) → {lat,lng} 변환
+    function toPath(geom) {
+      if (!geom) return null;
+      let ring = null;
+      if (geom.type === 'Polygon') ring = geom.coordinates[0];
+      else if (geom.type === 'MultiPolygon') ring = geom.coordinates[0][0];
+      if (!ring) return null;
+      return ring.map(c => ({ lat: c[1], lng: c[0] }));
+    }
+    const matched = toPath(feats[0].geometry);
+    if (!matched) throw new Error('필지 경계 데이터를 해석하지 못했습니다');
+
+    const area = calcArea(matched);
+    const nz = {
+      id: 'z_'+Date.now(),
+      name: jibunAddr.split(' ').slice(-2).join(' ') || jibunAddr,
+      zoneType: getCurrentZoneType(),
+      team: 'greenway', status: 'pending',
+      workTypes: [], memo: '지번 경계 자동 불러오기(브이월드 PNU 정확매칭): '+jibunAddr,
+      manager: '', workerDefault: '',
+      color: currentAppTab === 'rose' ? '#c0392b' : '#2e7d32', groupId: '',
+      path: matched, paths: [matched], area,
+      logs: [], polygon: null, polygons: [], label: null, labelD: null
+    };
+    zones.push(nz);
+    drawPoly(nz);
+    saveAll(); renderSidebar();
+    selId = nz.id; editId = nz.id;
+    redrawAll(); renderDetail(); updateToolbar();
+    const info = document.getElementById('search-pin-info');
+    if (info) info.style.display = 'none';
+    if (window._siw) { window._siw.close(); window._siw = null; }
+    openEditModal();
+    showToast('✅ "'+nz.name+'" 구역이 실제 지번 경계로 생성되었습니다. (필지: '+jibunAddr+')');
   } catch(e) {
     showConfirm(
       '❌ 지번 경계 조회 실패\n\n원인: ' + (e.message||e) + '\n\n'
@@ -4265,113 +4320,8 @@ async function createZoneFromParcel(lat, lng, addr) {
       [{ label:'확인', cls:'secondary', fn:null }]
     );
     return;
-  } finally {
-    delete window[cbName];
-    if (script && script.parentNode) script.parentNode.removeChild(script);
   }
-
-  if (!feats.length) {
-    showToast('❌ 이 위치에서 필지 경계를 찾지 못했습니다. 위치를 조정하거나 [직접 그리기]를 이용해주세요.');
-    return;
-  }
-
-  // GeoJSON 좌표([lng,lat]) → {lat,lng} 변환
-  function toPath(geom) {
-    if (!geom) return null;
-    let ring = null;
-    if (geom.type === 'Polygon') ring = geom.coordinates[0];
-    else if (geom.type === 'MultiPolygon') ring = geom.coordinates[0][0];
-    if (!ring) return null;
-    return ring.map(c => ({ lat: c[1], lng: c[0] }));
-  }
-
-  // 점(point)-선분 최단거리 (평면 근사 — 소범위 내 순위 비교용이라 충분)
-  function distToSegment(px, py, ax, ay, bx, by) {
-    const dx = bx-ax, dy = by-ay;
-    const len2 = dx*dx + dy*dy;
-    let t = len2 === 0 ? 0 : ((px-ax)*dx + (py-ay)*dy) / len2;
-    t = Math.max(0, Math.min(1, t));
-    const cx = ax + t*dx, cy = ay + t*dy;
-    return Math.hypot(px-cx, py-cy);
-  }
-  // 필지 경계선까지의 최단거리 (안쪽이면 0에 가까움, 꼭짓점 평균 중심 대신 경계 자체까지의 거리라 길쭉한 필지에도 정확)
-  function distToPolygonBoundary(lat, lng, path) {
-    let minD = Infinity;
-    for (let i = 0, n = path.length; i < n; i++) {
-      const a = path[i], b = path[(i+1) % n];
-      minD = Math.min(minD, distToSegment(lat, lng, a.lat, a.lng, b.lat, b.lng));
-    }
-    return minD;
-  }
-
-  // 검색 주소 끝의 지번(번지)을 본번/부번으로 분리 — 예) "...지곡동 958-10" → 본번 958, 부번 10
-  //   ※ jibun 필드는 포맷이 불확실(하이픈 유무 등)해서 신뢰하지 않고,
-  //     bonbun/bubun을 각각 숫자로 정규화해서 비교한다 (앞자리 0, 하이픈 표기 차이에 안전)
-  const jm = addr.match(/(\d+)(?:-(\d+))?\s*$/);
-  const bonbunQuery = jm ? String(parseInt(jm[1], 10)) : '';
-  const bubunQuery  = (jm && jm[2]) ? String(parseInt(jm[2], 10)) : '0';
-
-  let matched = null, matchedProps = null;
-
-  // 1순위: 본번/부번이 정확히 일치하는 필지 (가장 신뢰할 수 있음 — 좌표 오차와 무관)
-  if (bonbunQuery) {
-    const exact = feats.find(f => {
-      const p = f.properties || {};
-      const fb  = String(parseInt(p.bonbun || '0', 10));
-      const fbu = String(parseInt(p.bubun  || '0', 10));
-      return fb === bonbunQuery && fbu === bubunQuery;
-    });
-    if (exact) { matched = toPath(exact.geometry); matchedProps = exact.properties || {}; }
-  }
-
-  // 2순위: 검색 지점을 실제로 포함하는 필지
-  if (!matched) {
-    for (const f of feats) {
-      const path = toPath(f.geometry);
-      if (path && pointInPolygon(lat, lng, path)) { matched = path; matchedProps = f.properties||{}; break; }
-    }
-  }
-
-  // 3순위: 그래도 못 찾으면 필지 경계선까지의 거리가 가장 가까운 필지로 대체
-  if (!matched) {
-    let bestDist = Infinity;
-    feats.forEach(f => {
-      const path = toPath(f.geometry);
-      if (!path) return;
-      const dist = distToPolygonBoundary(lat, lng, path);
-      if (dist < bestDist) { bestDist = dist; matched = path; matchedProps = f.properties || {}; }
-    });
-  }
-  if (!matched) {
-    showToast('❌ 필지 경계 데이터를 해석하지 못했습니다.');
-    return;
-  }
-
-  const jibunAddr = (matchedProps && (matchedProps.addr || matchedProps.jibun)) || addr;
-  const area = calcArea(matched);
-  const nz = {
-    id: 'z_'+Date.now(),
-    name: jibunAddr.split(' ').slice(-2).join(' ') || jibunAddr,
-    zoneType: getCurrentZoneType(),
-    team: 'greenway', status: 'pending',
-    workTypes: [], memo: '지번 경계 자동 불러오기(브이월드 연속지적도): '+jibunAddr,
-    manager: '', workerDefault: '',
-    color: currentAppTab === 'rose' ? '#c0392b' : '#2e7d32', groupId: '',
-    path: matched, paths: [matched], area,
-    logs: [], polygon: null, polygons: [], label: null, labelD: null
-  };
-  zones.push(nz);
-  drawPoly(nz);
-  saveAll(); renderSidebar();
-  selId = nz.id; editId = nz.id;
-  redrawAll(); renderDetail(); updateToolbar();
-  const info = document.getElementById('search-pin-info');
-  if (info) info.style.display = 'none';
-  if (window._siw) { window._siw.close(); window._siw = null; }
-  openEditModal();
-  showToast('✅ "'+nz.name+'" 구역이 실제 지번 경계로 생성되었습니다. (필지: '+jibunAddr+')');
 }
-
 function clearSearch() {
   document.getElementById('addr-input').value = '';
   document.getElementById('addr-dropdown').style.display = 'none';
