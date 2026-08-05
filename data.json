@@ -33644,51 +33644,6 @@
       "area": 14576,
       "logs": [],
       "workerDefault": ""
-    },
-    {
-      "id": "z_1785898036215",
-      "name": "새 관리구역",
-      "team": "greenway",
-      "status": "pending",
-      "zoneType": "green",
-      "workTypes": [],
-      "memo": "",
-      "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
-      "paths": [
-        [
-          {
-            "lat": 36.0080555,
-            "lng": 129.3335732
-          },
-          {
-            "lat": 36.007691,
-            "lng": 129.334335
-          },
-          {
-            "lat": 36.0082378,
-            "lng": 129.3342062
-          }
-        ]
-      ],
-      "path": [
-        {
-          "lat": 36.0080555,
-          "lng": 129.3335732
-        },
-        {
-          "lat": 36.007691,
-          "lng": 129.334335
-        },
-        {
-          "lat": 36.0082378,
-          "lng": 129.3342062
-        }
-      ],
-      "area": 1495,
-      "logs": [],
-      "workerDefault": ""
     }
   ],
   "groups": [
@@ -34103,6 +34058,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T02:47:23.155Z",
+  "savedAt": "2026-08-05T02:47:32.489Z",
   "savedBy": "lms8765-ai"
 }
