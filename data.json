@@ -45572,8 +45572,8 @@
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 장성동 1506-1",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1785911930038",
       "paths": [
         [
           {
@@ -46355,6 +46355,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T06:42:18.000Z",
+  "savedAt": "2026-08-05T06:42:22.897Z",
   "savedBy": "lms8765-ai"
 }
