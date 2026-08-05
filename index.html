@@ -4037,27 +4037,9 @@ function goToAddr(lat, lng, addr) {
     }, zIndex: 300
   });
 
-  // ── 🟦 주소 근사 경계 표시 (점선 사각형) ──
-  // 네이버 Geocoding API는 경계 폴리곤 미제공
-  // → 주소 레벨에 따라 근사 크기 사각형으로 표현
+  // ── 주소 레벨 판별 (근사 경계 사각형은 더 이상 표시하지 않음 —
+  //    실제 필지 경계는 📐 지번 경계 불러오기로 정확히 확인 가능하므로 혼동을 줄이기 위해 제거) ──
   const addrLevel = _getAddrLevel(addr);
-  const halfSize  = addrLevel.half; // 위경도 단위 반경
-  const boundary  = [
-    new naver.maps.LatLng(lat + halfSize, lng - halfSize * 1.3),
-    new naver.maps.LatLng(lat + halfSize, lng + halfSize * 1.3),
-    new naver.maps.LatLng(lat - halfSize, lng + halfSize * 1.3),
-    new naver.maps.LatLng(lat - halfSize, lng - halfSize * 1.3),
-  ];
-  searchBoundary = new naver.maps.Polygon({
-    map, paths: [boundary],
-    strokeColor:   '#1565c0',
-    strokeOpacity: 0.8,
-    strokeWeight:  2,
-    strokeStyle:   'shortdash',
-    fillColor:     '#1565c0',
-    fillOpacity:   0.07,
-    zIndex: 200,
-  });
 
   // ── 핀 클릭 → 구역 설정 InfoWindow ──
   naver.maps.Event.addListener(searchMarker, 'click', function() {
