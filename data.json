@@ -33899,6 +33899,15 @@
       "parentId": "g_1782432109295",
       "tier": "mid",
       "order": 13
+    },
+    {
+      "id": "g_1785906237531",
+      "name": "지곡동",
+      "color": "#2e7d32",
+      "parentId": null,
+      "order": 0,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -34231,6 +34240,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T05:03:44.143Z",
+  "savedAt": "2026-08-05T05:04:00.543Z",
   "savedBy": "lms8765-ai"
 }
