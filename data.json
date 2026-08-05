@@ -39750,8 +39750,8 @@
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 연속지적도): 경상북도 포항시 남구 대잠동 595-1",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1785907641419",
       "paths": [
         [
           {
@@ -40345,6 +40345,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-05T05:32:45.966Z",
+  "savedAt": "2026-08-05T05:32:49.167Z",
   "savedBy": "lms8765-ai"
 }
