@@ -52568,6 +52568,15 @@
       "order": 10,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785977882565",
+      "name": "상도동",
+      "color": "#1565c0",
+      "parentId": null,
+      "order": 11,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -52900,6 +52909,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T00:50:30.568Z",
+  "savedAt": "2026-08-06T00:58:05.586Z",
   "savedBy": "lms8765-ai"
 }
