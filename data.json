@@ -58519,7 +58519,7 @@
     },
     {
       "id": "z_1785995968429",
-      "name": "산 1-1",
+      "name": "송도동 산 1-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -58527,7 +58527,7 @@
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 송도동 산 1-1",
       "manager": "",
       "color": "#2e7d32",
-      "groupId": "",
+      "groupId": "g_1785995915131",
       "paths": [
         [
           {
@@ -59224,6 +59224,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T05:59:31.450Z",
+  "savedAt": "2026-08-06T05:59:39.922Z",
   "savedBy": "lms8765-ai"
 }
