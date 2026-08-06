@@ -54830,7 +54830,9 @@
   ],
   "roseZones": [],
   "hiddenGroups": [],
-  "hiddenZones": [],
+  "hiddenZones": [
+    "z_1785978302764"
+  ],
   "pinnedZones": [],
   "treeData": {
     "layers": [
@@ -55048,6 +55050,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T01:05:05.784Z",
+  "savedAt": "2026-08-06T01:05:36.822Z",
   "savedBy": "lms8765-ai"
 }
