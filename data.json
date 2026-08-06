@@ -58245,7 +58245,7 @@
     },
     {
       "id": "z_1785995898067",
-      "name": "산 2-1",
+      "name": "송도동 산 2-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -58982,6 +58982,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T05:58:38.137Z",
+  "savedAt": "2026-08-06T05:58:52.287Z",
   "savedBy": "lms8765-ai"
 }
