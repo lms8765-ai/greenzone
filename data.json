@@ -60102,7 +60102,7 @@
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 송도동 388-1",
       "manager": "",
       "color": "#2e7d32",
-      "groupId": "",
+      "groupId": "g_1785995915131",
       "paths": [
         [
           {
@@ -60711,6 +60711,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T06:08:32.743Z",
+  "savedAt": "2026-08-06T06:08:37.392Z",
   "savedBy": "lms8765-ai"
 }
