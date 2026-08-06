@@ -49676,6 +49676,15 @@
       "order": 7,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785976566296",
+      "name": "창포동",
+      "color": "#2e7d32",
+      "parentId": null,
+      "order": 8,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -50008,6 +50017,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T00:35:48.458Z",
+  "savedAt": "2026-08-06T00:36:09.302Z",
   "savedBy": "lms8765-ai"
 }
