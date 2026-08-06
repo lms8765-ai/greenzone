@@ -54447,7 +54447,7 @@
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 대도동 422-20",
       "manager": "",
       "color": "#1565c0",
-      "groupId": "g_1785977882565",
+      "groupId": "g_1785979835445",
       "paths": [
         [
           {
@@ -58784,6 +58784,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T01:32:19.855Z",
+  "savedAt": "2026-08-06T01:32:24.135Z",
   "savedBy": "lms8765-ai"
 }
