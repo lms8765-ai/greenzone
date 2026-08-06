@@ -1793,6 +1793,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   <span class="tb-label">보기</span>
   <button class="tb-btn gray" onclick="fitAll()" title="전체 구역 보기">🔭 전체보기</button>
   <button class="tb-btn gray" onclick="goMyLocation()" title="현재 위치">📍 내 위치</button>
+  <button class="tb-btn gray" id="btn-cadastral" onclick="toggleCadastralLayer()" title="실제 지적(필지) 경계선 표시/숨김 — 화면을 확대할수록 정확하게 표시됩니다">📐 지적경계</button>
   <button class="tb-btn gray" onclick="toggleFullscreen()" title="전체화면">⛶</button>
 </div>
 
@@ -4228,24 +4229,6 @@ async function createZoneFromParcel(lat, lng, addr) {
 
   showToast('📐 지번 경계 조회 중...');
 
-  // ※ 브이월드 데이터API/검색API는 브라우저 fetch()에 CORS를 열어주지 않아(직접 확인됨),
-  //   JSONP(callback 파라미터 + <script> 태그)로 우회한다 — 서버 프록시 불필요
-  function vworldJsonp(url, cbName) {
-    return new Promise((resolve, reject) => {
-      let script = null;
-      const timer = setTimeout(() => { cleanup(); reject(new Error('요청 시간 초과(10초) — 네트워크 상태를 확인해주세요')); }, 10000);
-      function cleanup() {
-        delete window[cbName];
-        if (script && script.parentNode) script.parentNode.removeChild(script);
-      }
-      window[cbName] = (data) => { clearTimeout(timer); cleanup(); resolve(data); };
-      script = document.createElement('script');
-      script.src = url;
-      script.onerror = () => { clearTimeout(timer); cleanup(); reject(new Error('스크립트 로드 실패 — 키/도메인 설정을 확인해주세요')); };
-      document.body.appendChild(script);
-    });
-  }
-
   try {
     // 네이버 지번주소는 뒤에 건물/장소명이 붙어 나오는 경우가 있음
     // (예: "...상도동 188-3 포항시 평생학습원") → 번지 뒤 텍스트는 잘라내고 순수 지번 주소만 사용
@@ -4330,6 +4313,131 @@ async function createZoneFromParcel(lat, lng, addr) {
     return;
   }
 }
+
+/* ══════════════════════════════════════════════
+   📐 지적경계(연속지적도) 표시/숨김 레이어
+   — 공유 지도(녹지관리/풀베기사업/초화식재/장미관리)에서
+     현재 화면 범위의 실제 필지 경계선을 얇은 선으로 표시
+   — 브이월드 GetFeature(LP_PA_CBND_BUBUN) + JSONP, 화면 idle마다 재조회
+══════════════════════════════════════════════ */
+let cadastralEnabled = false;
+let cadastralPolys = [];
+let cadastralIdleListenerId = null;
+
+function clearCadastralPolys() {
+  cadastralPolys.forEach(p => { try { p.setMap(null); } catch(e) {} });
+  cadastralPolys = [];
+}
+
+async function renderCadastralLayer() {
+  if (!cadastralEnabled || !map) return;
+  const key = getVWorldKey();
+  if (!key) return;
+
+  const zoom = map.getZoom();
+  if (zoom < 17) {
+    clearCadastralPolys();
+    return;
+  }
+
+  const bounds = map.getBounds();
+  const sw = bounds.getSW ? bounds.getSW() : bounds.min;
+  const ne = bounds.getNE ? bounds.getNE() : bounds.max;
+  const bbox = sw.lng() + ',' + sw.lat() + ',' + ne.lng() + ',' + ne.lat();
+
+  const cb = '_vwCadCb' + Date.now();
+  const url = 'https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LP_PA_CBND_BUBUN'
+    + '&key=' + encodeURIComponent(key)
+    + '&domain=' + encodeURIComponent(location.hostname)
+    + '&geomFilter=' + encodeURIComponent('BOX(' + bbox + ')')
+    + '&geometry=true&attribute=false&crs=EPSG:4326&format=json&size=1000&page=1'
+    + '&callback=' + cb;
+
+  let json;
+  try {
+    json = await vworldJsonp(url, cb);
+  } catch(e) {
+    console.warn('[지적경계]', e);
+    return;
+  }
+  if (!cadastralEnabled) return; // 조회 중 꺼졌으면 그리지 않음
+  const fr = json && json.response;
+  if (!fr || fr.status !== 'OK') return;
+  const feats = (fr.result && fr.result.featureCollection && fr.result.featureCollection.features) || [];
+
+  clearCadastralPolys();
+
+  function toRings(geom) {
+    if (!geom) return [];
+    if (geom.type === 'Polygon') return [geom.coordinates[0]];
+    if (geom.type === 'MultiPolygon') return geom.coordinates.map(poly => poly[0]);
+    return [];
+  }
+
+  feats.forEach(ft => {
+    toRings(ft.geometry).forEach(ring => {
+      const path = ring.map(c => new naver.maps.LatLng(c[1], c[0]));
+      try {
+        const poly = new naver.maps.Polygon({
+          map: map, paths: [path],
+          strokeColor: '#ff6f00', strokeOpacity: 0.85, strokeWeight: 1.5,
+          fillOpacity: 0, clickable: false, zIndex: 50
+        });
+        cadastralPolys.push(poly);
+      } catch(e) {}
+    });
+  });
+}
+
+function toggleCadastralLayer() {
+  const key = getVWorldKey();
+  if (!key) {
+    showConfirm(
+      '📐 지적경계(실제 필지 경계) 표시\n\n'
+      + '국토교통부 연속지적도 데이터를 지도 위에 선으로 표시합니다.\n\n'
+      + '무료 API 키가 필요합니다 (다른 브이월드 기능과 같은 키 재사용 가능):\n'
+      + '1. www.vworld.kr 접속 → 회원가입 → 오픈API → 인증키 신청\n'
+      + '2. 활용 API에서 "2D 데이터API" 체크 (연속지적도 포함)\n'
+      + '3. 도메인: ' + location.hostname + ' 등록\n'
+      + '4. 발급된 키를 아래에서 입력',
+      '📐',
+      [
+        { label:'키 입력하기', cls:'primary', fn: () => {
+          const k = prompt('브이월드 Open API 인증키를 입력하세요:');
+          if (k && k.trim()) {
+            localStorage.setItem('phgz_vworld_key', k.trim());
+            showToast('✅ 저장 완료. 다시 버튼을 눌러 지적경계를 표시하세요.');
+          }
+        }},
+        { label:'나중에', cls:'secondary', fn: null }
+      ]
+    );
+    return;
+  }
+
+  cadastralEnabled = !cadastralEnabled;
+  const btn = document.getElementById('btn-cadastral');
+  if (cadastralEnabled) {
+    btn?.classList.add('active');
+    if (map.getZoom() < 17) {
+      showToast('📐 지적경계 표시 켜짐 — 화면을 확대하면 필지 경계선이 나타납니다.');
+    }
+    renderCadastralLayer();
+    if (cadastralIdleListenerId === null) {
+      cadastralIdleListenerId = naver.maps.Event.addListener(map, 'idle', () => {
+        if (!cadastralEnabled) return;
+        clearTimeout(window._cadastralTimer);
+        window._cadastralTimer = setTimeout(renderCadastralLayer, 300);
+      });
+    }
+    if (map.getZoom() >= 17) showToast('📐 지적경계가 표시되었습니다.');
+  } else {
+    btn?.classList.remove('active');
+    clearCadastralPolys();
+    showToast('📐 지적경계를 숨겼습니다.');
+  }
+}
+
 function clearSearch() {
   document.getElementById('addr-input').value = '';
   document.getElementById('addr-dropdown').style.display = 'none';
@@ -9622,6 +9730,24 @@ let vworldIdleListenerId = null;
 
 function getVWorldKey() {
   return localStorage.getItem('phgz_vworld_key') || '';
+}
+
+// ※ 브이월드 데이터API/검색API는 브라우저 fetch()에 CORS를 열어주지 않아(직접 확인됨),
+//   JSONP(callback 파라미터 + <script> 태그)로 우회한다 — 서버 프록시 불필요 (전역 공용)
+function vworldJsonp(url, cbName) {
+  return new Promise((resolve, reject) => {
+    let script = null;
+    const timer = setTimeout(() => { cleanup(); reject(new Error('요청 시간 초과(10초) — 네트워크 상태를 확인해주세요')); }, 10000);
+    function cleanup() {
+      delete window[cbName];
+      if (script && script.parentNode) script.parentNode.removeChild(script);
+    }
+    window[cbName] = (data) => { clearTimeout(timer); cleanup(); resolve(data); };
+    script = document.createElement('script');
+    script.src = url;
+    script.onerror = () => { clearTimeout(timer); cleanup(); reject(new Error('스크립트 로드 실패 — 키/도메인 설정을 확인해주세요')); };
+    document.body.appendChild(script);
+  });
 }
 
 function lonLatToTileXY(lon, lat, zoom) {
