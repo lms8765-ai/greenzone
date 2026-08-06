@@ -56557,15 +56557,15 @@
     },
     {
       "id": "z_1785978471035",
-      "name": "새 관리구역",
+      "name": "곡강리 1742",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1785978243275",
       "paths": [
         [
           {
@@ -57141,6 +57141,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T01:07:54.050Z",
+  "savedAt": "2026-08-06T01:08:06.588Z",
   "savedBy": "lms8765-ai"
 }
