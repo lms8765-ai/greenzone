@@ -4010,7 +4010,7 @@ function doSearch() {
         return;
       }
       dd.innerHTML = res.v2.addresses.slice(0,6).map(a => `
-        <div class="addr-item" onclick="goToAddr(${a.y},${a.x},'${(a.roadAddress||a.jibunAddress||'').replace(/'/g,"\\'")}')">
+        <div class="addr-item" onclick="goToAddr(${a.y},${a.x},'${(a.roadAddress||a.jibunAddress||'').replace(/'/g,"\\'")}','${(a.jibunAddress||'').replace(/'/g,"\\'")}')">
           <div class="addr-road">${a.roadAddress || a.jibunAddress || '주소 없음'}</div>
           ${a.roadAddress && a.jibunAddress ? `<div class="addr-jibun">지번: ${a.jibunAddress}</div>` : ''}
         </div>`).join('');
@@ -4019,7 +4019,10 @@ function doSearch() {
     dd.innerHTML = '<div style="padding:10px 14px;font-size:11px;color:#c62828">⚠️ 검색 중 오류가 발생했습니다.<br><span style="color:#8aaa8a">' + (e.message||'') + '</span></div>';
   }
 }
-function goToAddr(lat, lng, addr) {
+function goToAddr(lat, lng, addr, jibunAddr) {
+  // 📐 지번 경계 불러오기는 반드시 "지번" 형식 주소로 조회해야 함 —
+  // 도로명주소가 있는 곳은 addr이 도로명으로 채워지므로, 지번 주소를 별도로 보관해둔다
+  jibunAddr = jibunAddr || addr;
   // ── 기존 검색 마커·경계·InfoWindow 먼저 제거 (깜빡임 방지) ──
   _clearSearchOverlays();
 
@@ -4043,7 +4046,7 @@ function goToAddr(lat, lng, addr) {
 
   // ── 핀 클릭 → 구역 설정 InfoWindow ──
   naver.maps.Event.addListener(searchMarker, 'click', function() {
-    _showSearchInfoWindow(lat, lng, addr);
+    _showSearchInfoWindow(lat, lng, addr, jibunAddr);
   });
 
   // ── 사이드 패널 안내 (간략) ──
@@ -4064,8 +4067,8 @@ function goToAddr(lat, lng, addr) {
         style="width:100%;padding:6px 4px;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">
         ✏️ 직접 그리기
       </button>
-      <button data-lat="${lat}" data-lng="${lng}" data-addr="${addr.replace(/"/g,'&quot;')}"
-        onclick="createZoneFromParcel(+this.dataset.lat,+this.dataset.lng,this.dataset.addr)"
+      <button data-lat="${lat}" data-lng="${lng}" data-jibun="${jibunAddr.replace(/"/g,'&quot;')}"
+        onclick="createZoneFromParcel(+this.dataset.lat,+this.dataset.lng,this.dataset.jibun)"
         style="width:100%;margin-top:6px;padding:6px 4px;background:#1565c0;color:#fff;border:none;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">
         📐 지번 경계 불러오기 (브이월드)
       </button>`;
@@ -4073,7 +4076,7 @@ function goToAddr(lat, lng, addr) {
   }
 
   // 첫 접근 시 자동으로 InfoWindow 열기
-  setTimeout(() => _showSearchInfoWindow(lat, lng, addr), 300);
+  setTimeout(() => _showSearchInfoWindow(lat, lng, addr, jibunAddr), 300);
   showToast('📍 ' + addrLevel.label + ' — 핀 클릭 또는 아래 버튼으로 구역을 설정하세요.');
 }
 
@@ -4114,12 +4117,12 @@ function _getAddrLevel(addr) {
 }
 
 // 검색 InfoWindow 표시 (핀 클릭 시)
-function _showSearchInfoWindow(lat, lng, addr) {
+function _showSearchInfoWindow(lat, lng, addr, jibunAddr) {
   // 기존 InfoWindow 제거
   if (searchInfoWindow) { searchInfoWindow.close(); searchInfoWindow = null; }
 
   // 핀 클릭 정보를 전역에 임시 저장 (특수문자 안전 처리)
-  window._pendingAddr = { lat, lng, addr };
+  window._pendingAddr = { lat, lng, addr, jibunAddr: jibunAddr || addr };
   const dispAddr = escapeHTML(addr);
   const content = `
     <div style="background:#fff;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.2);padding:14px 16px;min-width:220px;font-family:'Malgun Gothic',sans-serif;position:relative">
@@ -4133,7 +4136,7 @@ function _showSearchInfoWindow(lat, lng, addr) {
           style="padding:8px 12px;background:#2e7d32;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left">
           ✏️ 직접 그리기 — 지도 클릭으로 경계 설정
         </button>
-        <button onclick="if(window._siw){window._siw.close();}const p=window._pendingAddr;if(p)createZoneFromParcel(p.lat,p.lng,p.addr);"
+        <button onclick="if(window._siw){window._siw.close();}const p=window._pendingAddr;if(p)createZoneFromParcel(p.lat,p.lng,p.jibunAddr||p.addr);"
           style="padding:8px 12px;background:#00695c;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left">
           📐 지번 경계 불러오기 — 브이월드 실제 필지 경계 사용
         </button>
@@ -4244,11 +4247,16 @@ async function createZoneFromParcel(lat, lng, addr) {
   }
 
   try {
+    // 네이버 지번주소는 뒤에 건물/장소명이 붙어 나오는 경우가 있음
+    // (예: "...상도동 188-3 포항시 평생학습원") → 번지 뒤 텍스트는 잘라내고 순수 지번 주소만 사용
+    const jm0 = addr.match(/^(.*?[0-9]+(?:-[0-9]+)?)(?=\s|$)/);
+    const cleanAddr = jm0 ? jm0[1].trim() : addr.trim();
+
     // 1단계: 검색한 지번 주소 → PNU(필지고유번호) 정확히 조회 (좌표 근접 추정 방식 전부 폐기)
     const searchCb = '_vwSearchCb' + Date.now();
     const searchUrl = 'https://api.vworld.kr/req/search?service=search&request=search&version=2.0'
       + '&crs=EPSG:4326&type=address&category=parcel&format=json&errorformat=json&size=5&page=1'
-      + '&query=' + encodeURIComponent(addr)
+      + '&query=' + encodeURIComponent(cleanAddr)
       + '&key=' + encodeURIComponent(key)
       + '&callback=' + searchCb;
     const searchJson = await vworldJsonp(searchUrl, searchCb);
