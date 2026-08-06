@@ -49414,6 +49414,15 @@
       "order": 6,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785976535546",
+      "name": "두호동",
+      "color": "#c2185b",
+      "parentId": null,
+      "order": 7,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -49746,6 +49755,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T00:35:12.460Z",
+  "savedAt": "2026-08-06T00:35:38.550Z",
   "savedBy": "lms8765-ai"
 }
