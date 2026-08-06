@@ -49187,7 +49187,7 @@
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 장성동 1349",
       "manager": "",
       "color": "#2e7d32",
-      "groupId": "",
+      "groupId": "g_1785911930038",
       "paths": [
         [
           {
@@ -49746,6 +49746,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T00:34:57.135Z",
+  "savedAt": "2026-08-06T00:35:04.608Z",
   "savedBy": "lms8765-ai"
 }
