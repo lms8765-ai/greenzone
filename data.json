@@ -49279,8 +49279,8 @@
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 두호동 1109",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1785976535546",
       "paths": [
         [
           {
@@ -50008,6 +50008,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T00:35:43.996Z",
+  "savedAt": "2026-08-06T00:35:48.458Z",
   "savedBy": "lms8765-ai"
 }
