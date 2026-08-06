@@ -52559,6 +52559,15 @@
       "order": 9,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785977242694",
+      "name": "학산동",
+      "color": "#1565c0",
+      "parentId": null,
+      "order": 10,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -52891,6 +52900,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T00:45:56.012Z",
+  "savedAt": "2026-08-06T00:47:25.704Z",
   "savedBy": "lms8765-ai"
 }
