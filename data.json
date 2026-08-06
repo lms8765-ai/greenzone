@@ -51081,6 +51081,15 @@
       "order": 8,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785976972552",
+      "name": "우현동",
+      "color": "#e65100",
+      "parentId": null,
+      "order": 9,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -51413,6 +51422,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T00:42:30.464Z",
+  "savedAt": "2026-08-06T00:42:55.568Z",
   "savedBy": "lms8765-ai"
 }
