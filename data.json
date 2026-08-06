@@ -50215,8 +50215,8 @@
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 두호동 1022-5",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1785976535546",
       "paths": [
         [
           {
@@ -50801,6 +50801,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T00:38:39.339Z",
+  "savedAt": "2026-08-06T00:38:43.875Z",
   "savedBy": "lms8765-ai"
 }
