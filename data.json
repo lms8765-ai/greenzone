@@ -58639,6 +58639,15 @@
       "order": 0,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785995915131",
+      "name": "송도동",
+      "color": "#2e7d32",
+      "parentId": null,
+      "order": 13,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -58973,6 +58982,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T05:58:21.076Z",
+  "savedAt": "2026-08-06T05:58:38.137Z",
   "savedBy": "lms8765-ai"
 }
