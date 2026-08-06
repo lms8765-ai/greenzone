@@ -58441,6 +58441,15 @@
       "order": 12,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785979835445",
+      "name": "평생학습원",
+      "color": "#1565c0",
+      "parentId": "g_1785977882565",
+      "order": 0,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -58775,6 +58784,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T01:28:43.113Z",
+  "savedAt": "2026-08-06T01:30:38.453Z",
   "savedBy": "lms8765-ai"
 }
