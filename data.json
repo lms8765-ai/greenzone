@@ -52577,6 +52577,15 @@
       "order": 11,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1785978243275",
+      "name": "흥해읍",
+      "color": "#c62828",
+      "parentId": null,
+      "order": 12,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [
@@ -52909,6 +52918,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T01:01:52.726Z",
+  "savedAt": "2026-08-06T01:04:06.285Z",
   "savedBy": "lms8765-ai"
 }
