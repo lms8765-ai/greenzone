@@ -53235,7 +53235,7 @@
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 상도동 191-10",
       "manager": "",
       "color": "#1565c0",
-      "groupId": "g_1785977882565",
+      "groupId": "g_1785979835445",
       "paths": [
         [
           {
@@ -58784,6 +58784,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T01:31:18.421Z",
+  "savedAt": "2026-08-06T01:31:23.044Z",
   "savedBy": "lms8765-ai"
 }
