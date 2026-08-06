@@ -49788,7 +49788,7 @@
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 창포동 655",
       "manager": "",
       "color": "#2e7d32",
-      "groupId": "",
+      "groupId": "g_1785976566296",
       "paths": [
         [
           {
@@ -50437,6 +50437,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T00:37:31.847Z",
+  "savedAt": "2026-08-06T00:37:35.500Z",
   "savedBy": "lms8765-ai"
 }
