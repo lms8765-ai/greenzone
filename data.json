@@ -53274,15 +53274,15 @@
     },
     {
       "id": "z_1785978584794",
-      "name": "새 관리구역",
+      "name": "곡강리 1818",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1785978243275",
       "paths": [
         [
           {
@@ -53857,6 +53857,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T01:09:47.802Z",
+  "savedAt": "2026-08-06T01:10:10.413Z",
   "savedBy": "lms8765-ai"
 }
