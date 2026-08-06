@@ -52397,8 +52397,8 @@
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 흥해읍 곡강리 1818",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1785978243275",
       "paths": [
         [
           {
@@ -53595,6 +53595,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T01:04:12.141Z",
+  "savedAt": "2026-08-06T01:04:19.808Z",
   "savedBy": "lms8765-ai"
 }
