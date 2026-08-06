@@ -50928,7 +50928,7 @@
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 우현동 568",
       "manager": "",
-      "color": "#2e7d32",
+      "color": "#e65100",
       "groupId": "",
       "paths": [
         [
@@ -51571,6 +51571,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-06T00:43:03.433Z",
+  "savedAt": "2026-08-06T00:43:06.970Z",
   "savedBy": "lms8765-ai"
 }
