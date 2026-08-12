@@ -1716,6 +1716,11 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
       title="GitHub에 저장 → 모든 기기 동기화">
       ☁️ 클라우드 저장
     </button>
+    <button class="hd-btn" id="btn-cloud-load" onclick="manualLoadFromGitHub()"
+      style="background:#2e7d32;border:1.5px solid #66bb6a;font-weight:800;flex-shrink:0"
+      title="다른 기기에서 저장한 최신 데이터를 지금 바로 불러오기">
+      🔄 최신 불러오기
+    </button>
     <button class="hd-btn" onclick="openMonthlyReport()"
       style="color:#ffd700;font-weight:700;flex-shrink:0"
       title="월간 업무보고서 자동 생성">
@@ -3707,7 +3712,13 @@ function startAutoSync() {
   if (autoSyncTimer) clearInterval(autoSyncTimer);
   if (!ghToken) return;
   autoSyncTimer = setInterval(async () => {
-    if (!unsavedChanges && !isSyncing) {
+    if (isSyncing) return;
+    if (unsavedChanges) {
+      // 이전 자동저장(3초 디바운스)이 네트워크 문제 등으로 실패해 계속 "미저장" 상태로
+      // 남아있으면, 그 이후로는 다른 기기의 최신 변경사항을 절대 받아오지 못하고
+      // 영원히 멈춰버리는 문제가 있었음 → 저장을 계속 재시도해서 스스로 복구되게 함
+      await saveToGitHub(true);
+    } else {
       await loadFromGitHub(true);
     }
   }, 30000); // 30초
@@ -8081,6 +8092,51 @@ async function loadFromGitHubSafe() {
   } catch(e) {
     console.error('[Sync] 데이터 로드/적용 실패:', e);
     return 'error';
+  }
+}
+
+// ── 수동 "최신 불러오기" 버튼 ────────────────────────────────
+// 자동 동기화(30초 주기)가 여러 사유(네트워크 순단, 미저장 변경 등)로
+// 지연될 수 있어, 사용자가 원할 때 즉시 클라우드 최신본을 확인하는 버튼.
+async function manualLoadFromGitHub() {
+  if (!ghToken) { openGitHubSettings(); return; }
+  if (isSyncing) { showToast('⏳ 동기화 중입니다. 잠시 후 다시 시도해주세요.'); return; }
+  if (unsavedChanges) {
+    showConfirm(
+      '⚠️ 이 기기에 아직 클라우드에 저장되지 않은 변경사항이 있습니다.\n\n'
+      + '지금 최신 데이터를 불러오면 이 기기의 저장되지 않은 변경사항이 사라집니다.\n'
+      + '먼저 "☁️ 클라우드 저장"을 눌러 저장한 뒤 다시 시도하는 것을 권장합니다.\n\n'
+      + '그래도 최신 데이터를 불러오시겠습니까?',
+      '⚠️',
+      [
+        { label:'그래도 불러오기', cls:'danger', fn: () => forceLoadFromGitHub() },
+        { label:'취소', cls:'secondary', fn:null }
+      ]
+    );
+    return;
+  }
+  await forceLoadFromGitHub();
+}
+
+async function forceLoadFromGitHub() {
+  isSyncing = true;
+  updateSyncStatus('checking');
+  showToast('🔄 클라우드에서 최신 데이터를 확인하는 중...');
+  let result;
+  try {
+    result = await loadFromGitHubSafe();
+  } finally {
+    isSyncing = false;
+  }
+  if (result === 'ok') {
+    showToast('✅ 최신 데이터로 갱신되었습니다!');
+    updateSyncStatus('synced');
+  } else if (result === 'empty') {
+    showToast('ℹ️ 클라우드에 저장된 데이터가 없습니다.');
+    updateSyncStatus('synced');
+  } else {
+    showToast('⚠️ 최신 데이터를 불러오지 못했습니다. 인터넷 연결 또는 토큰을 확인해주세요.');
+    updateSyncStatus('error');
   }
 }
 
