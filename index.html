@@ -2765,39 +2765,77 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
           </select>
         </div>
       </div>
-      <div class="fg-row">
-        <div class="fg">
-          <label class="fl">👤 관리자 <span style="font-size:9px;color:var(--text-l)">(내부 담당자)</span></label>
-          <input class="fi" id="f-manager" placeholder="예) 홍길동 (내선 1234)">
-        </div>
-        <div class="fg">
-          <label class="fl">🔧 작업자 <span style="font-size:9px;color:var(--text-l)">(현장 작업 담당)</span></label>
-          <input class="fi" id="f-worker-default" placeholder="예) 김철수 또는 (주)포항조경">
-        </div>
-      </div>
-      <div class="fg-row">
-        <div class="fg" style="flex:1.5">
-          <label class="fl">📅 다음 작업 예정일</label>
-          <input type="date" class="fi" id="f-next-work-date">
-        </div>
-        <div class="fg" style="flex:1">
-          <label class="fl">예정 작업유형</label>
-          <select class="fsel" id="f-next-work-type" style="width:100%">
-            <option value="">선택 안 함</option>
-          </select>
-        </div>
-      </div>
       <div class="fg">
         <label class="fl">구역 식별 색상</label>
         <div class="color-grid" id="f-color-grid"></div>
       </div>
-      <div class="fg">
-        <label class="fl">작업 유형 <span style="font-weight:400;color:var(--text-l)">(복수 선택 가능)</span></label>
-        <div class="wt-grid" id="f-wt-grid"></div>
+
+      <!-- ══ 📊 구역별 수량 관리 (신규) ══ -->
+      <div class="fg" style="background:#f1f8e9;border:1.5px solid #c5e1a5;border-radius:8px;padding:10px 12px">
+        <label class="fl" style="color:#33691e">📊 구역별 수량 관리</label>
+        <div class="fg-row">
+          <div class="fg">
+            <label class="fl" style="font-size:10px">✂️ 풀베기 면적 (㎡)</label>
+            <input type="number" min="0" step="1" class="fi" id="f-mowing-area" placeholder="0">
+          </div>
+          <div class="fg">
+            <label class="fl" style="font-size:10px">🏗 시설물 (EA)</label>
+            <input type="number" min="0" step="1" class="fi" id="f-facility-count" placeholder="0">
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <div style="display:flex;align-items:center;margin-bottom:4px">
+            <label class="fl" style="font-size:10px;margin:0">🌳 교목 (수종별 수량)</label>
+            <button type="button" onclick="addZoneCountRow('tree')" style="margin-left:auto;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:5px;padding:2px 9px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">➕ 교목 추가</button>
+          </div>
+          <div id="f-tree-count-rows"></div>
+        </div>
+        <div style="margin-top:8px">
+          <div style="display:flex;align-items:center;margin-bottom:4px">
+            <label class="fl" style="font-size:10px;margin:0">🌿 관목 (수종별 수량)</label>
+            <button type="button" onclick="addZoneCountRow('shrub')" style="margin-left:auto;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:5px;padding:2px 9px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">➕ 관목 추가</button>
+          </div>
+          <div id="f-shrub-count-rows"></div>
+        </div>
       </div>
+
       <div class="fg">
         <label class="fl">메모 / 특이사항</label>
         <textarea class="fta" id="f-memo" placeholder="구역 특이사항, 식재 현황, 주의사항 등..."></textarea>
+      </div>
+
+      <!-- ══ 🔧 추가 정보 (평소엔 숨김 — 필요할 때만 펼침) ══ -->
+      <button type="button" id="f-advanced-toggle" onclick="toggleEditAdvanced()"
+        style="width:100%;text-align:left;background:#f5f5f5;border:1px dashed #ccc;border-radius:7px;padding:8px 12px;font-size:11px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;margin-bottom:10px">
+        🔧 담당자·작업유형·예정일 더보기 ▾
+      </button>
+      <div id="f-advanced-section" style="display:none">
+        <div class="fg-row">
+          <div class="fg">
+            <label class="fl">👤 관리자 <span style="font-size:9px;color:var(--text-l)">(내부 담당자)</span></label>
+            <input class="fi" id="f-manager" placeholder="예) 홍길동 (내선 1234)">
+          </div>
+          <div class="fg">
+            <label class="fl">🔧 작업자 <span style="font-size:9px;color:var(--text-l)">(현장 작업 담당)</span></label>
+            <input class="fi" id="f-worker-default" placeholder="예) 김철수 또는 (주)포항조경">
+          </div>
+        </div>
+        <div class="fg-row">
+          <div class="fg" style="flex:1.5">
+            <label class="fl">📅 다음 작업 예정일</label>
+            <input type="date" class="fi" id="f-next-work-date">
+          </div>
+          <div class="fg" style="flex:1">
+            <label class="fl">예정 작업유형</label>
+            <select class="fsel" id="f-next-work-type" style="width:100%">
+              <option value="">선택 안 함</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="fl">작업 유형 <span style="font-weight:400;color:var(--text-l)">(복수 선택 가능)</span></label>
+          <div class="wt-grid" id="f-wt-grid"></div>
+        </div>
       </div>
       <!-- ══ 사업별 관리 (작업묶음 배정) ══ -->
       <div class="fg" id="f-project-section" style="display:none">
@@ -3420,7 +3458,11 @@ function buildDataObj() {
       workTypes:z.workTypes, memo:z.memo, manager:z.manager||'',
       color:z.color||'#2e7d32', groupId:z.groupId||'',
       paths:z.paths||null, path:z.path, area:z.area, logs:z.logs,
-      workerDefault:z.workerDefault||''
+      workerDefault:z.workerDefault||'',
+      nextWorkDate:z.nextWorkDate||'', nextWorkType:z.nextWorkType||'',
+      // 📊 구역별 수량 관리
+      mowingArea:z.mowingArea||0, facilityCount:z.facilityCount||0,
+      treeCounts:z.treeCounts||[], shrubCounts:z.shrubCounts||[]
     })),
     groups, customDepts, workProjects, customWT,
     complaints, roseZones,
@@ -3472,6 +3514,15 @@ function markSaved() {
 }
 
 // ── GitHub 저장 (클라우드 동기화) ───────────────────────────
+// 🚨 2026-08-12 사고 재발 방지 안전장치
+// 구역 수가 큰 폭(60% 미만)으로 갑자기 줄어드는 것은 거의 항상 동기화 사고(다른 기기와의
+// 저장 경합, 빈 데이터로 기기 초기화 등)이지 정상적인 데이터 정리가 아님 → 자동/수동 저장,
+// 자동/수동 불러오기 전부 이 함수로 위험 여부를 먼저 확인한다.
+function isSuspiciousShrink(oldLen, newLen) {
+  if (!oldLen || oldLen < 10) return false; // 원래 데이터가 적으면(초기 세팅 등) 보호 불필요
+  return newLen < oldLen * 0.6;
+}
+
 async function saveToGitHub(silent = false) {
   if (!ghToken) {
     if (!silent) openGitHubSettings();
@@ -3498,6 +3549,60 @@ async function saveToGitHub(silent = false) {
 
   try {
     const data   = buildDataObj();
+
+    // 🚨 안전장치: 실제 저장 직전, 클라우드에 지금 있는 구역 수와 비교해서
+    // 급격히 줄어드는 상황이면 저장을 막고 경고한다 (2026-08-12 데이터 유실 사고 재발 방지)
+    try {
+      const checkUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}?ref=${GH_CONFIG.branch}&t=${Date.now()}`;
+      const checkRes = await fetch(checkUrl, { headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' } });
+      if (checkRes.ok) {
+        const checkFile = await checkRes.json();
+        lastSha = checkFile.sha;
+        const cb64 = checkFile.content.replace(/\n/g,'');
+        const cbin = atob(cb64);
+        const cbytes = new Uint8Array(cbin.length);
+        for (let i=0;i<cbin.length;i++) cbytes[i]=cbin.charCodeAt(i);
+        const remoteCheck = JSON.parse(new TextDecoder().decode(cbytes));
+        if (remoteCheck && Array.isArray(remoteCheck.zones) && isSuspiciousShrink(remoteCheck.zones.length, data.zones.length)) {
+          isSyncing = false;
+          if (btn && !silent) btn.innerHTML = '☁️ 클라우드 저장';
+          if (silent) {
+            console.warn('[Save] 🚨 자동저장 보류 — 구역 수 급감 감지:', remoteCheck.zones.length, '→', data.zones.length);
+            updateSyncStatus('error');
+            showToast('🚨 자동저장이 보류되었습니다 — 클라우드(' + remoteCheck.zones.length + '개) 대비 지금 화면(' + data.zones.length + '개) 구역이 크게 줄어 있습니다. 화면을 확인 후 필요시 수동으로 저장해주세요.');
+          } else {
+            showConfirm(
+              '🚨 위험: 클라우드에는 현재 ' + remoteCheck.zones.length + '개 구역이 있는데, 지금 저장하면 ' + data.zones.length + '개로 줄어듭니다.\n\n'
+              + '실수로 다른 기기의 빈/샘플 데이터가 화면에 떠 있는 상태일 수 있습니다.\n'
+              + '정말 의도한 변경이 맞다면 계속 저장하세요. 그렇지 않다면 취소 후 "🔄 최신 불러오기"로 클라우드 데이터를 먼저 확인해보세요.',
+              '🚨',
+              [
+                { label:'그래도 저장', cls:'danger', fn: () => saveToGitHubForced(silent) },
+                { label:'취소', cls:'secondary', fn: null }
+              ]
+            );
+          }
+          return;
+        }
+      }
+    } catch(checkErr) {
+      console.warn('[Save] 사전 확인 실패(네트워크 등) — 저장은 계속 진행합니다:', checkErr);
+    }
+
+    return await saveToGitHubForced(silent, data);
+  } catch(e) {
+    isSyncing = false;
+    console.error('[GitHub Save 사전확인]', e);
+  }
+}
+
+async function saveToGitHubForced(silent = false, preBuiltData = null) {
+  isSyncing = true;
+  const btn = document.getElementById('btn-cloud-save');
+  if (btn && !silent) btn.innerHTML = '⏳ 저장 중...';
+
+  try {
+    const data   = preBuiltData || buildDataObj();
     // 한글 포함 데이터 안전 인코딩
     const jsonStr = JSON.stringify(data, null, 2);
     const bytes = new TextEncoder().encode(jsonStr);
@@ -3599,6 +3704,30 @@ async function loadFromGitHub(silent = false) {
 
     // 원격이 더 최신이면 업데이트
     if (!local || remote > local) {
+      // 🚨 안전장치: 원격 데이터가 화면(local zones)보다 훨씬 적으면 자동 적용하지 않음
+      if (Array.isArray(data.zones) && isSuspiciousShrink(zones.length, data.zones.length)) {
+        console.warn('[Sync] 🚨 원격 데이터 급감 감지 — 자동 적용 보류:', zones.length, '→', data.zones.length);
+        if (!silent) {
+          showConfirm(
+            '🚨 클라우드 데이터(' + data.zones.length + '개 구역)가 지금 화면(' + zones.length + '개 구역)보다 훨씬 적습니다.\n\n'
+            + '이대로 불러오면 화면의 데이터가 사라집니다. 정말 불러오시겠습니까?',
+            '🚨',
+            [
+              { label:'그래도 불러오기', cls:'danger', fn: () => {
+                  applyData(data);
+                  localStorage.setItem('lastGHSave', remote);
+                  markSaved();
+                  showToast('🔄 최신 데이터로 업데이트되었습니다!');
+                  updateSyncStatus('synced');
+                } },
+              { label:'취소', cls:'secondary', fn: null }
+            ]
+          );
+        } else {
+          updateSyncStatus('error');
+        }
+        return false;
+      }
       applyData(data);
       localStorage.setItem('lastGHSave', remote);
       markSaved();
@@ -3970,6 +4099,7 @@ window.onload = function() {
     }
   });
   loadTreeData(); // 수목 도면 데이터 로드
+  loadSpeciesLists(); // 🌳🌿 수종 사전(교목/관목) — 구역별 수량 관리에서도 공용으로 사용
   switchAppTab('green');
   checkSeasonalAlerts(); // 계절별 작업 알림 (포항 기후 기준)
   setTimeout(() => checkStorageUsage(false), 2000); // 로드 후 2초 뒤 용량 확인
@@ -5217,7 +5347,27 @@ function renderStats(el) {
 
   const byStatus = Object.entries(ST).map(([k,v]) => ({...v, count: tabZones.filter(z=>z.status===k).length}));
   const byWT     = WT.map(w => ({...w, count: tabZones.filter(z=>(z.workTypes||[]).includes(w.id)).length})).filter(w=>w.count>0);
-  const byGrp    = groups.map(g => ({...g, count: tabZones.filter(z=>z.groupId===g.id).length})).filter(g=>g.count>0);
+  // 📊 그룹별 집계: 구역 수·총 면적뿐 아니라 풀베기 면적, 교목/관목 수종별 수량, 시설물 개수까지 확장
+  function aggregateSpeciesCounts(zList, field) {
+    const map = {};
+    zList.forEach(z => (z[field]||[]).forEach(r => {
+      const sp = (r.species||'').trim(); if (!sp) return;
+      map[sp] = (map[sp]||0) + (r.qty||0);
+    }));
+    return Object.entries(map).sort((a,b)=>b[1]-a[1]);
+  }
+  const byGrp = groups.map(g => {
+    const gZones = tabZones.filter(z=>z.groupId===g.id);
+    return {
+      ...g,
+      count: gZones.length,
+      area: gZones.reduce((s,z)=>s+(z.area||0),0),
+      mowingArea: gZones.reduce((s,z)=>s+(z.mowingArea||0),0),
+      facilityCount: gZones.reduce((s,z)=>s+(z.facilityCount||0),0),
+      treeAgg: aggregateSpeciesCounts(gZones, 'treeCounts'),
+      shrubAgg: aggregateSpeciesCounts(gZones, 'shrubCounts'),
+    };
+  }).filter(g=>g.count>0);
   const rl       = tabZones.flatMap(z=>(z.logs||[]).map(l=>({...l,zn:z.name,zid:z.id}))).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,8);
 
   // 민원 월별 집계 (최근 6개월)
@@ -5295,15 +5445,34 @@ function renderStats(el) {
     <!-- 그룹별 현황 -->
     ${byGrp.length > 0 ? `
     <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
-      <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px">📁 그룹별 구역 현황</div>
-      ${byGrp.map(g=>`
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px">📁 그룹별 구역 현황 <span style="font-weight:400;color:var(--text-l)">(👆 클릭하면 면적·수종·시설물 상세)</span></div>
+      ${byGrp.map((g,gi)=>`
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;cursor:pointer" onclick="toggleGroupStatDetail(${gi})">
           <div style="width:10px;height:10px;border-radius:50%;background:${g.color||'#888'};flex-shrink:0"></div>
           <span style="flex:1;font-size:11px">${escapeHTML(g.name)}</span>
+          <span style="font-size:10px;color:var(--text-l)">${formatArea(g.area)}</span>
           <div style="background:var(--green-bg);color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">${g.count}개</div>
+          <span id="grp-stat-caret-${gi}" style="font-size:9px;color:#999">▾</span>
         </div>
         <div style="height:4px;background:#f0f0f0;border-radius:2px;margin-bottom:8px;margin-left:18px">
           <div style="height:100%;background:${g.color||'#888'};border-radius:2px;width:${Math.round(g.count/Math.max(total,1)*100)}%;opacity:.7"></div>
+        </div>
+        <div id="grp-stat-detail-${gi}" style="display:none;margin:0 0 12px 18px;padding:10px 12px;background:#fafafa;border:1px solid #eee;border-radius:8px;font-size:11px">
+          <div style="display:flex;gap:16px;margin-bottom:8px;flex-wrap:wrap">
+            <div><span style="color:#888">총 면적</span> <strong>${formatArea(g.area)}</strong></div>
+            <div><span style="color:#888">✂️ 풀베기 면적</span> <strong>${g.mowingArea.toLocaleString()}㎡</strong></div>
+            <div><span style="color:#888">🏗 시설물</span> <strong>${g.facilityCount.toLocaleString()}EA</strong></div>
+          </div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap">
+            <div style="flex:1;min-width:140px">
+              <div style="font-weight:700;color:#2e7d32;margin-bottom:4px">🌳 교목</div>
+              ${g.treeAgg.length ? g.treeAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${q.toLocaleString()}주</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
+            </div>
+            <div style="flex:1;min-width:140px">
+              <div style="font-weight:700;color:#558b2f;margin-bottom:4px">🌿 관목</div>
+              ${g.shrubAgg.length ? g.shrubAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${q.toLocaleString()}주</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
+            </div>
+          </div>
         </div>`).join('')}
     </div>` : ''}
 
@@ -5330,6 +5499,15 @@ function renderStats(el) {
     _drawCpMonthChart(cpByMonth);
     if (byWT.length > 0) _drawWtChart(byWT);
   });
+}
+
+function toggleGroupStatDetail(gi) {
+  const det = document.getElementById('grp-stat-detail-'+gi);
+  const car = document.getElementById('grp-stat-caret-'+gi);
+  if (!det) return;
+  const willShow = det.style.display === 'none';
+  det.style.display = willShow ? 'block' : 'none';
+  if (car) car.textContent = willShow ? '▴' : '▾';
 }
 
 function _drawStatusChart(byStatus) {
@@ -5545,6 +5723,20 @@ function openEditModal() {
   }
   document.getElementById('f-manager').value=z.manager||'';
   document.getElementById('f-worker-default').value=z.workerDefault||'';
+  // 📊 구역별 수량 관리 필드 불러오기
+  const maEl = document.getElementById('f-mowing-area');
+  const fcEl = document.getElementById('f-facility-count');
+  if (maEl) maEl.value = z.mowingArea || '';
+  if (fcEl) fcEl.value = z.facilityCount || '';
+  window._editTreeCounts  = JSON.parse(JSON.stringify(z.treeCounts  || []));
+  window._editShrubCounts = JSON.parse(JSON.stringify(z.shrubCounts || []));
+  renderZoneCountRows('tree');
+  renderZoneCountRows('shrub');
+  // 추가 정보 섹션은 매번 접힌 상태로 시작 (평소엔 숨김)
+  const advSec = document.getElementById('f-advanced-section');
+  const advBtn = document.getElementById('f-advanced-toggle');
+  if (advSec) advSec.style.display = 'none';
+  if (advBtn) advBtn.textContent = '🔧 담당자·작업유형·예정일 더보기 ▾';
   const ztEl = document.getElementById('f-zone-type');
   if (ztEl) ztEl.value = z.zoneType || (getCurrentZoneType());
   selWTs=[...(z.workTypes||[])];
@@ -5673,6 +5865,67 @@ function removePartFromZone(idx) {
   );
 }
 function closeEditModal(){document.getElementById('edit-modal').classList.remove('show');editId=null;}
+
+/* ══════════════════════════════════════════════
+   🔧 구역 편집 모달 — 추가 정보 접기/펼치기
+══════════════════════════════════════════════ */
+function toggleEditAdvanced() {
+  const sec = document.getElementById('f-advanced-section');
+  const btn = document.getElementById('f-advanced-toggle');
+  if (!sec || !btn) return;
+  const willShow = sec.style.display === 'none';
+  sec.style.display = willShow ? 'block' : 'none';
+  btn.textContent = willShow ? '🔧 담당자·작업유형·예정일 접기 ▴' : '🔧 담당자·작업유형·예정일 더보기 ▾';
+}
+
+/* ══════════════════════════════════════════════
+   📊 구역별 수량 관리 — 교목/관목 수종별 수량 행 편집
+   (모달이 열려있는 동안만 window._editTreeCounts / _editShrubCounts 에 임시 보관,
+    저장(saveZone) 시점에 zone 객체로 확정 반영)
+══════════════════════════════════════════════ */
+function renderZoneCountRows(kind) {
+  const isTree = kind === 'tree';
+  const rows = isTree ? window._editTreeCounts : window._editShrubCounts;
+  const el = document.getElementById(isTree ? 'f-tree-count-rows' : 'f-shrub-count-rows');
+  if (!el) return;
+  const datalistId = isTree ? 'tp-species-datalist' : 'sp-species-datalist';
+  if (!rows.length) {
+    el.innerHTML = '<div style="font-size:10px;color:#aaa;padding:4px 2px">등록된 ' + (isTree?'교목':'관목') + '이 없습니다</div>';
+    return;
+  }
+  el.innerHTML = rows.map((r, i) => `
+    <div style="display:flex;gap:5px;align-items:center;margin-bottom:5px">
+      <input class="fi" list="${datalistId}" placeholder="수종명 선택/입력" value="${escapeHTML(r.species||'')}"
+        oninput="updateZoneCountRow('${kind}',${i},'species',this.value)"
+        style="flex:2;font-size:11px">
+      <input type="number" min="0" step="1" class="fi" placeholder="수량" value="${r.qty||''}"
+        oninput="updateZoneCountRow('${kind}',${i},'qty',this.value)"
+        style="width:70px;font-size:11px">
+      <span style="font-size:10px;color:#888;flex-shrink:0">주</span>
+      <button type="button" onclick="removeZoneCountRow('${kind}',${i})"
+        style="flex-shrink:0;background:#ffebee;color:#c62828;border:none;border-radius:5px;width:22px;height:22px;font-size:12px;cursor:pointer;font-family:inherit">✕</button>
+    </div>`).join('');
+}
+function addZoneCountRow(kind) {
+  const list = kind === 'tree' ? window._editTreeCounts : window._editShrubCounts;
+  list.push({ species:'', qty:1 });
+  renderZoneCountRows(kind);
+}
+function removeZoneCountRow(kind, idx) {
+  const list = kind === 'tree' ? window._editTreeCounts : window._editShrubCounts;
+  list.splice(idx, 1);
+  renderZoneCountRows(kind);
+}
+function updateZoneCountRow(kind, idx, field, value) {
+  const list = kind === 'tree' ? window._editTreeCounts : window._editShrubCounts;
+  if (!list[idx]) return;
+  if (field === 'qty') {
+    list[idx].qty = value === '' ? '' : Math.max(0, parseInt(value) || 0);
+  } else {
+    list[idx].species = value;
+  }
+}
+
 function saveZone(){
   const name=document.getElementById('f-name').value.trim();
   if(!name){showToast('⚠️ 구역명을 입력해주세요');return;}
@@ -5684,6 +5937,15 @@ function saveZone(){
   z.manager=document.getElementById('f-manager').value.trim();
   z.workerDefault=document.getElementById('f-worker-default').value.trim();
   z.color=pickedZoneColor;
+  // 📊 구역별 수량 관리 저장 (수종명 비어있는 행은 제외, 새 배열로 할당하여 기본값과 참조 공유 방지)
+  const maVal = parseFloat(document.getElementById('f-mowing-area')?.value);
+  const fcVal = parseInt(document.getElementById('f-facility-count')?.value);
+  z.mowingArea = isFinite(maVal) ? maVal : 0;
+  z.facilityCount = isFinite(fcVal) ? fcVal : 0;
+  z.treeCounts = (window._editTreeCounts||[]).filter(r=>r.species && r.species.trim()).map(r=>({species:r.species.trim(), qty: r.qty||0}));
+  z.shrubCounts = (window._editShrubCounts||[]).filter(r=>r.species && r.species.trim()).map(r=>({species:r.species.trim(), qty: r.qty||0}));
+  z.treeCounts.forEach(r => addSpeciesIfNew('tree', r.species));
+  z.shrubCounts.forEach(r => addSpeciesIfNew('shrub', r.species));
   // 분류가 현재 탭과 다르면 다른 탭으로 이동한 것 → 안내
   const newType = z.zoneType;
   const curType = getCurrentZoneType();
@@ -8026,6 +8288,10 @@ async function verifyTokenAndSync() {
       // 데이터는 받았지만 적용 중 오류 — 사용자에게 명확히 알림
       updateSyncStatus('error');
       showToast('⚠️ 데이터를 불러왔지만 적용 중 오류가 발생했습니다. 새로고침 해주세요.');
+    } else if (loadResult === 'blocked') {
+      // 🚨 클라우드 데이터가 화면보다 훨씬 적음 — 자동으로 덮어쓰지 않고 경고만 표시
+      updateSyncStatus('error');
+      showToast('🚨 클라우드 데이터가 화면보다 훨씬 적어 자동 동기화를 보류했습니다. "🔄 최신 불러오기"로 직접 확인해주세요.');
     }
     // 3) 자동 동기화 시작
     startAutoSync();
@@ -8084,6 +8350,15 @@ async function loadFromGitHubSafe() {
 
     console.log('[Sync] 클라우드 데이터 수신:', data.zones.length, '개 구역,', (data.complaints||[]).length, '개 민원');
 
+    // 🚨 안전장치: 클라우드 데이터가 지금 화면보다 훨씬 적으면 자동 적용하지 않음
+    // (2026-08-12 사고: 다른 기기의 빈/샘플 데이터가 클라우드를 덮어써서, 정상 기기가
+    //  페이지 새로고침 시 그걸 그대로 받아 화면 데이터까지 사라진 사고의 재발 방지)
+    if (isSuspiciousShrink(zones.length, data.zones.length)) {
+      console.error('[Sync] 🚨 원격 데이터 급감 감지 — 자동 적용 중단:', zones.length, '→', data.zones.length);
+      window._blockedRemoteData = data; // 사용자가 그래도 불러오길 원할 경우를 위해 보관
+      return 'blocked';
+    }
+
     applyData(data);
     localStorage.setItem('lastGHSave', data.savedAt || new Date().toISOString());
     markSaved();
@@ -8134,6 +8409,26 @@ async function forceLoadFromGitHub() {
   } else if (result === 'empty') {
     showToast('ℹ️ 클라우드에 저장된 데이터가 없습니다.');
     updateSyncStatus('synced');
+  } else if (result === 'blocked') {
+    updateSyncStatus('error');
+    const blocked = window._blockedRemoteData;
+    const remoteN = blocked && Array.isArray(blocked.zones) ? blocked.zones.length : '?';
+    showConfirm(
+      '🚨 클라우드 데이터(' + remoteN + '개 구역)가 지금 화면(' + zones.length + '개 구역)보다 훨씬 적습니다.\n\n'
+      + '이대로 불러오면 화면의 데이터가 사라집니다. 정말 불러오시겠습니까?',
+      '🚨',
+      [
+        { label:'그래도 불러오기', cls:'danger', fn: () => {
+            if (!blocked) { showToast('⚠️ 데이터가 만료되었습니다. 다시 시도해주세요.'); return; }
+            applyData(blocked);
+            localStorage.setItem('lastGHSave', blocked.savedAt || new Date().toISOString());
+            markSaved();
+            showToast('🔄 최신 데이터로 업데이트되었습니다!');
+            updateSyncStatus('synced');
+          } },
+        { label:'취소', cls:'secondary', fn: null }
+      ]
+    );
   } else {
     showToast('⚠️ 최신 데이터를 불러오지 못했습니다. 인터넷 연결 또는 토큰을 확인해주세요.');
     updateSyncStatus('error');
@@ -8221,6 +8516,26 @@ async function manualRefresh() {
   } else if (result === 'empty') {
     updateSyncStatus('synced');
     showToast('ℹ️ 클라우드에 저장된 데이터가 없습니다. ☁️ 클라우드 저장으로 업로드해주세요.');
+  } else if (result === 'blocked') {
+    updateSyncStatus('error');
+    const blocked = window._blockedRemoteData;
+    const remoteN = blocked && Array.isArray(blocked.zones) ? blocked.zones.length : '?';
+    showConfirm(
+      '🚨 클라우드 데이터(' + remoteN + '개 구역)가 지금 화면(' + before + '개 구역)보다 훨씬 적습니다.\n\n'
+      + '이대로 불러오면 화면의 데이터가 사라집니다. 정말 불러오시겠습니까?',
+      '🚨',
+      [
+        { label:'그래도 불러오기', cls:'danger', fn: () => {
+            if (!blocked) { showToast('⚠️ 데이터가 만료되었습니다. 다시 시도해주세요.'); return; }
+            applyData(blocked);
+            localStorage.setItem('lastGHSave', blocked.savedAt || new Date().toISOString());
+            markSaved();
+            showToast('🔄 최신 데이터로 업데이트되었습니다!');
+            updateSyncStatus('synced');
+          } },
+        { label:'취소', cls:'secondary', fn: null }
+      ]
+    );
   } else {
     updateSyncStatus('error');
     showToast('❌ 동기화 실패 — 콘솔(F12)에서 자세한 오류를 확인하거나 관리자에게 문의하세요.');
@@ -11551,6 +11866,8 @@ function toggleMapToolsMore() {
 const ZONE_ITEM_DEFAULTS = {
   zoneType:'green', groupId:'', team:'', status:'active', workTypes:[], memo:'',
   manager:'', workerDefault:'', logs:[], area:0,
+  // 🌳 구역별 수량 관리 (풀베기 면적/교목·관목 수종별 수량/시설물 개수)
+  mowingArea: 0, treeCounts: [], shrubCounts: [], facilityCount: 0,
 };
 const CP_ITEM_DEFAULTS = {
   status:'접수', category:'', route:'', manager:'', contact:'', location:'', reply:'',
