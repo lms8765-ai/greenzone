@@ -3323,6 +3323,8 @@ let isMultiMode = false;  // 다중 구간 모드 여부
 let hiddenZones = new Set();   // 지도에서 숨긴 구역 ID 목록
 let hiddenGroups = new Set();  // 지도에서 숨긴 그룹 ID 목록
 let pinnedZones = new Set();   // 📌 즐겨찾기(고정)한 구역 ID 목록 — 목록 맨 위에 항상 노출
+let isSampleData = false;      // 🔒 현재 데이터가 데모/샘플인지 (실 클라우드 동기화 전 저장 방지)
+const MAP_LABEL_ZOOM_MIN = 14; // 🔧 이 줌 레벨 미만(더 축소)에서는 구역 이름표를 숨기고 도형만 표시 (라벨 겹침 방지)
 let customWT = [];             // 커스텀 작업유형 목록
 let selId = null, editId = null, selWTs = [], pickedZoneColor = '#2e7d32';
 let newGrpColor = '#2e7d32';
@@ -3383,6 +3385,7 @@ function loadAll() {
   } catch(e) {}
   zones  = sampleZones();
   groups = sampleGroups();
+  isSampleData = true; // 🔒 데모 데이터임을 표시 — 실제 클라우드 동기화 전 저장 방지용
 }
 // ── 로컬 임시저장 (즉시) ───────────────────────────────────
 let autoCloudTimer = null;
@@ -3478,10 +3481,15 @@ async function saveToGitHub(silent = false) {
   }
   if (isSyncing) { if (!silent) showToast('⏳ 저장 중입니다...'); return; }
 
-  // 안전장치: 초기 동기화 전에 구역이 0개인 채로 수동 저장하면 클라우드 데이터를 날릴 수 있음 → 확인
-  if (!silent && !initialSyncDone && zones.length === 0) {
+  // 안전장치: 초기 동기화 전에 구역이 0개이거나 "데모 데이터" 상태로 저장하면
+  // 클라우드의 실제 데이터를 덮어쓰거나 오염시킬 수 있음 → 반드시 확인
+  // (🔧 실제로 이 구멍 때문에 데모 그룹이 클라우드에 섞여 들어간 사례 발견 → 강화)
+  if (!silent && !initialSyncDone && (zones.length === 0 || isSampleData)) {
     showConfirm(
-      '아직 클라우드 데이터를 확인하지 않았습니다.\n구역이 0개인 상태로 저장하면 기존 클라우드 데이터가 사라질 수 있습니다.\n계속하시겠습니까?',
+      (isSampleData
+        ? '지금 화면은 아직 클라우드와 동기화되지 않은 "샘플 데모 데이터"입니다.\n이 상태로 저장하면 실제 클라우드 데이터가 데모 데이터로 덮어써질 수 있습니다.'
+        : '아직 클라우드 데이터를 확인하지 않았습니다.\n구역이 0개인 상태로 저장하면 기존 클라우드 데이터가 사라질 수 있습니다.') +
+      '\n계속하시겠습니까?',
       '⚠️',
       [
         {label:'계속 저장', cls:'danger', fn:() => { initialSyncDone = true; saveToGitHub(false); }},
@@ -3636,6 +3644,7 @@ async function loadFromGitHub(silent = false, force = false) {
 
 // ── 데이터 적용 ─────────────────────────────────────────────
 function applyData(data) {
+  isSampleData = false; // 🔒 실제 데이터(클라우드/불러오기)가 반영되므로 데모 상태 해제
   // 기존 폴리곤 완전 제거 (polygon, polygons 배열, label 모두)
   zones.forEach(z => {
     if (z.polygon)  { z.polygon.setMap(null);  z.polygon  = null; }
@@ -3929,6 +3938,19 @@ window.onload = function() {
   });
   naver.maps.Event.addListener(map, 'click', () => {
     if (!drawing) document.getElementById('addr-dropdown').style.display = 'none';
+  });
+  // 🔧 줌 레벨이 MAP_LABEL_ZOOM_MIN 경계를 넘나들 때만 라벨 표시를 갱신 (매 틱마다 다시 그리지 않도록 디바운스)
+  let _lastLabelZoomState = map.getZoom() >= MAP_LABEL_ZOOM_MIN;
+  naver.maps.Event.addListener(map, 'zoom_changed', () => {
+    clearTimeout(window._mapLabelZoomTimer);
+    window._mapLabelZoomTimer = setTimeout(() => {
+      const nowState = map.getZoom() >= MAP_LABEL_ZOOM_MIN;
+      if (nowState !== _lastLabelZoomState) {
+        _lastLabelZoomState = nowState;
+        redrawAll();
+        if (!nowState) showToast('🔍 구역이 많아 이름표를 숨겼습니다. 확대하면 다시 보입니다.');
+      }
+    }, 200);
   });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
@@ -4534,8 +4556,10 @@ function drawPoly(z) {
   // 장미 정보 연동 뱃지
   const roseInfo = roseZones.find(r => r.zoneId === z.id);
   const roseBadge = roseInfo ? '<span style="font-size:9px;background:#fce4ec;color:#c0392b;border:1px solid #f8a5a5;border-radius:8px;padding:1px 5px;margin-left:3px">🌹</span>' : '';
-  // 라벨 표시 대상 (숨김이면 null, 그룹라벨 숨김이면 null)
-  const labelMap = mapTarget === null ? null :
+  // 라벨 표시 대상 (숨김이면 null, 그룹라벨 숨김이면 null, 줄어들면 null)
+  // 🔧 217개 등 구역 수가 많아지면 라벨이 서로 겹쳐 지도를 뒤덮는 문제 → 일정 축소 이상에서는 라벨 숨기고 도형만 표시
+  const zoomOkForLabel = !map || map.getZoom() >= MAP_LABEL_ZOOM_MIN;
+  const labelMap = (mapTarget === null || !zoomOkForLabel) ? null :
     (!showGroupLabels && z.groupId && groups.find(g=>g.id===z.groupId)) ? null : map;
 
   // grpHidden/mapTarget은 위에서 선언됨
@@ -4550,7 +4574,7 @@ function drawPoly(z) {
 
   // D-Day 마커
   const nl = (z.logs||[]).filter(l=>l.next).sort((a,b)=>a.next>b.next?1:-1)[0];
-  if (nl?.next) {
+  if (nl?.next && labelMap) { // 이름표가 숨겨진 상태(축소)면 D-Day 마커도 함께 숨김
     const d = Math.ceil((new Date(nl.next) - new Date(todayStr())) / 864e5);
     const dc = d < 0 ? '#c62828' : d <= 7 ? '#e65100' : '#2e7d32';
     const dl = d < 0 ? `D+${Math.abs(d)} 지남` : d === 0 ? 'D-Day' : `D-${d}`;
