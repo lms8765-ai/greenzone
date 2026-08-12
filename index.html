@@ -44,6 +44,7 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2e7d32">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="포항 녹지관리">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -3380,6 +3381,17 @@ const GH_CONFIG = {
   path:  'data.json',
   branch: 'main',
 };
+
+// 🌐 모바일 데이터/불안정한 네트워크에서 fetch가 응답 없이 무한 대기하는 것을 방지
+// (타임아웃 없이 fetch만 쓰면, 응답이 영영 안 오는 경우 "불러오는 중" 화면에서
+//  영원히 멈춰버릴 수 있음 — 특히 모바일에서 자주 발생)
+function fetchWithTimeout(url, options, timeoutMs) {
+  timeoutMs = timeoutMs || 12000;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  return fetch(url, Object.assign({}, options||{}, { signal: controller.signal }))
+    .finally(() => clearTimeout(timer));
+}
 var ghToken = ''; // 앱 내 ⚙️ 동기화 설정에서 입력
 var lastSha  = '';              // GitHub 파일의 현재 SHA (업데이트 시 필요)
 var unsavedChanges = false;     // 미저장 변경 여부
@@ -3554,7 +3566,7 @@ async function saveToGitHub(silent = false) {
     // 급격히 줄어드는 상황이면 저장을 막고 경고한다 (2026-08-12 데이터 유실 사고 재발 방지)
     try {
       const checkUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}?ref=${GH_CONFIG.branch}&t=${Date.now()}`;
-      const checkRes = await fetch(checkUrl, { headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' } });
+      const checkRes = await fetchWithTimeout(checkUrl, { headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' } });
       if (checkRes.ok) {
         const checkFile = await checkRes.json();
         lastSha = checkFile.sha;
@@ -3568,7 +3580,7 @@ async function saveToGitHub(silent = false) {
           if (btn && !silent) btn.innerHTML = '☁️ 클라우드 저장';
           if (silent) {
             console.warn('[Save] 🚨 자동저장 보류 — 구역 수 급감 감지:', remoteCheck.zones.length, '→', data.zones.length);
-            updateSyncStatus('error');
+            updateSyncStatus('blocked');
             showToast('🚨 자동저장이 보류되었습니다 — 클라우드(' + remoteCheck.zones.length + '개) 대비 지금 화면(' + data.zones.length + '개) 구역이 크게 줄어 있습니다. 화면을 확인 후 필요시 수동으로 저장해주세요.');
           } else {
             showConfirm(
@@ -3617,7 +3629,7 @@ async function saveToGitHubForced(silent = false, preBuiltData = null) {
     };
     if (lastSha) body.sha = lastSha;
 
-    const res = await fetch(apiUrl, {
+    const res = await fetchWithTimeout(apiUrl, {
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + ghToken,
@@ -3675,7 +3687,7 @@ async function loadFromGitHub(silent = false) {
 
   try {
     const apiUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}?ref=${GH_CONFIG.branch}&t=${Date.now()}`;
-    const res = await fetch(apiUrl, {
+    const res = await fetchWithTimeout(apiUrl, {
       headers: {
         'Authorization': 'Bearer ' + ghToken,
         'Accept': 'application/vnd.github+json',
@@ -3724,7 +3736,7 @@ async function loadFromGitHub(silent = false) {
             ]
           );
         } else {
-          updateSyncStatus('error');
+          updateSyncStatus('blocked');
         }
         return false;
       }
@@ -3741,15 +3753,20 @@ async function loadFromGitHub(silent = false) {
     }
   } catch(e) {
     console.warn('[GitHub Load]', e);
-    var loadErrMsg = e && e.message ? e.message : String(e);
-    if (loadErrMsg.indexOf('Failed to fetch') >= 0 || loadErrMsg.indexOf('NetworkError') >= 0) {
+    var loadErrMsg = e && e.name === 'AbortError' ? '요청 시간 초과' : (e && e.message ? e.message : String(e));
+    if (e && e.name === 'AbortError') {
+      if (!silent) showToast('⏱ 응답이 너무 늦어 요청을 중단했습니다 — 네트워크 상태를 확인해주세요 (모바일 데이터가 약한 경우 흔합니다)');
+      updateSyncStatus('syncerror');
+    } else if (loadErrMsg.indexOf('Failed to fetch') >= 0 || loadErrMsg.indexOf('NetworkError') >= 0) {
       if (!silent) showToast('⚠️ 네트워크 오류 — 인터넷 연결 또는 방화벽을 확인해주세요');
+      updateSyncStatus('syncerror');
     } else if (loadErrMsg.indexOf('401') >= 0 || loadErrMsg.indexOf('Bad credentials') >= 0) {
       if (!silent) showToast('❌ 토큰 오류 — ⚙️ 동기화 설정에서 새 토큰을 입력해주세요');
+      updateSyncStatus('error');
     } else {
       if (!silent) showToast('⚠️ 동기화 실패: ' + loadErrMsg);
+      updateSyncStatus('syncerror');
     }
-    updateSyncStatus('error');
     return false;
   }
 }
@@ -3828,7 +3845,7 @@ function applyData(data) {
 async function fetchLatestSha() {
   if (!ghToken) return;
   try {
-    const res = await fetch(
+    const res = await fetchWithTimeout(
       `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}`,
       { headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' } }
     );
@@ -3873,12 +3890,17 @@ function updateSyncStatus(status) {
   if (!el) return;
   const now = new Date().toLocaleTimeString('ko-KR', {hour:'2-digit',minute:'2-digit'});
   const sMap = {
-    saved:    { icon:'☁️', text:'저장완료 '+now, color:'#a5d6a7', click:'' },
-    synced:   { icon:'✅', text:'연결됨 '+now,   color:'#a5d6a7', click:'' },
-    checking: { icon:'🔍', text:'연결 확인 중...', color:'#90caf9', click:'' },
-    offline:  { icon:'📴', text:'오프라인',      color:'#bbb',    click:'verifyTokenAndSync()' },
-    notoken:  { icon:'🔌', text:'연동 안 됨',     color:'#ffcc80', click:'openGitHubSettings()' },
-    error:    { icon:'⚠️', text:'토큰 확인 필요', color:'#ffab40', click:'openGitHubSettings()' },
+    saved:     { icon:'☁️', text:'저장완료 '+now, color:'#a5d6a7', click:'' },
+    synced:    { icon:'✅', text:'연결됨 '+now,   color:'#a5d6a7', click:'' },
+    checking:  { icon:'🔍', text:'연결 확인 중...', color:'#90caf9', click:'' },
+    offline:   { icon:'📴', text:'오프라인',      color:'#bbb',    click:'verifyTokenAndSync()' },
+    notoken:   { icon:'🔌', text:'연동 안 됨',     color:'#ffcc80', click:'openGitHubSettings()' },
+    // 🔑 실제 토큰/권한 문제일 때만 사용 (401, repo 권한 없음 등)
+    error:     { icon:'⚠️', text:'토큰 확인 필요', color:'#ffab40', click:'openGitHubSettings()' },
+    // 🚨 안전장치가 데이터 급감을 감지해 동기화를 일부러 막은 경우 (토큰과 무관)
+    blocked:   { icon:'🚨', text:'동기화 보류(확인 필요)', color:'#ff7043', click:'manualLoadFromGitHub()' },
+    // 📡 네트워크/일시적 오류 등 토큰과 무관한 기타 실패
+    syncerror: { icon:'📡', text:'동기화 오류(자동 재시도)', color:'#bbb', click:'verifyTokenAndSync()' },
   };
   const s = sMap[status] || sMap.synced;
   if (s.click) {
@@ -3942,7 +3964,7 @@ function saveGitHubToken() {
 /* ══ 토큰 저장 후 연결 검증 ══ */
 async function verifyAndConnect() {
   try {
-    const repoRes = await fetch('https://api.github.com/repos/' + GH_CONFIG.owner + '/' + GH_CONFIG.repo, {
+    const repoRes = await fetchWithTimeout('https://api.github.com/repos/' + GH_CONFIG.owner + '/' + GH_CONFIG.repo, {
       headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' }
     });
     if (repoRes.status === 401) {
@@ -3956,7 +3978,7 @@ async function verifyAndConnect() {
       return;
     }
     if (!repoRes.ok) {
-      updateSyncStatus('error');
+      updateSyncStatus('syncerror');
       showToast('⚠️ 연결 실패 (HTTP ' + repoRes.status + ')');
       return;
     }
@@ -3983,7 +4005,7 @@ function clearGitHubToken() {
       localStorage.removeItem('gh_token');
       if (autoSyncTimer) { clearInterval(autoSyncTimer); autoSyncTimer = null; }
       closeGitHubSettings();
-      updateSyncStatus('error');
+      updateSyncStatus('notoken');
       showToast('🔌 GitHub 연동이 해제되었습니다');
     }},
     {label:'취소', cls:'secondary', fn:null},
@@ -8191,7 +8213,7 @@ async function testGitHubToken() {
   }
   try {
     // 2) 사용자 인증 테스트
-    const userRes = await fetch('https://api.github.com/user', {
+    const userRes = await fetchWithTimeout('https://api.github.com/user', {
       headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' }
     });
     if (userRes.status === 401) {
@@ -8208,7 +8230,7 @@ async function testGitHubToken() {
     }
     const user = await userRes.json();
     // 3) 저장소 접근 테스트
-    const repoRes = await fetch('https://api.github.com/repos/' + GH_CONFIG.owner + '/' + GH_CONFIG.repo, {
+    const repoRes = await fetchWithTimeout('https://api.github.com/repos/' + GH_CONFIG.owner + '/' + GH_CONFIG.repo, {
       headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' }
     });
     if (repoRes.status === 404) {
@@ -8253,7 +8275,7 @@ async function verifyTokenAndSync() {
   showSyncLoading(true); // 사용자에게 "불러오는 중" 명확히 표시
   try {
     // 1) 토큰 유효성 + 저장소 권한 동시 확인
-    const repoRes = await fetch('https://api.github.com/repos/' + GH_CONFIG.owner + '/' + GH_CONFIG.repo, {
+    const repoRes = await fetchWithTimeout('https://api.github.com/repos/' + GH_CONFIG.owner + '/' + GH_CONFIG.repo, {
       headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' }
     });
     if (repoRes.status === 401) {
@@ -8271,7 +8293,7 @@ async function verifyTokenAndSync() {
       return;
     }
     if (!repoRes.ok) {
-      updateSyncStatus('error');
+      updateSyncStatus('syncerror');
       showSyncLoading(false);
       showToast('⚠️ 연결 확인 실패 (HTTP ' + repoRes.status + ')');
       return;
@@ -8285,12 +8307,12 @@ async function verifyTokenAndSync() {
       // 클라우드에 데이터 없음 (첫 사용) — 정상 상태
       updateSyncStatus('synced');
     } else if (loadResult === 'error') {
-      // 데이터는 받았지만 적용 중 오류 — 사용자에게 명확히 알림
-      updateSyncStatus('error');
+      // 데이터는 받았지만 적용 중 오류 — 토큰 문제 아님, 데이터 형식/네트워크 문제
+      updateSyncStatus('syncerror');
       showToast('⚠️ 데이터를 불러왔지만 적용 중 오류가 발생했습니다. 새로고침 해주세요.');
     } else if (loadResult === 'blocked') {
-      // 🚨 클라우드 데이터가 화면보다 훨씬 적음 — 자동으로 덮어쓰지 않고 경고만 표시
-      updateSyncStatus('error');
+      // 🚨 클라우드 데이터가 화면보다 훨씬 적음 — 자동으로 덮어쓰지 않고 경고만 표시 (토큰 문제 아님)
+      updateSyncStatus('blocked');
       showToast('🚨 클라우드 데이터가 화면보다 훨씬 적어 자동 동기화를 보류했습니다. "🔄 최신 불러오기"로 직접 확인해주세요.');
     }
     // 3) 자동 동기화 시작
@@ -8318,7 +8340,7 @@ function showSyncLoading(show) {
 async function loadFromGitHubSafe() {
   try {
     const apiUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}?ref=${GH_CONFIG.branch}&t=${Date.now()}`;
-    const res = await fetch(apiUrl, {
+    const res = await fetchWithTimeout(apiUrl, {
       headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' }
     });
     if (res.status === 404) {
@@ -8410,7 +8432,7 @@ async function forceLoadFromGitHub() {
     showToast('ℹ️ 클라우드에 저장된 데이터가 없습니다.');
     updateSyncStatus('synced');
   } else if (result === 'blocked') {
-    updateSyncStatus('error');
+    updateSyncStatus('blocked');
     const blocked = window._blockedRemoteData;
     const remoteN = blocked && Array.isArray(blocked.zones) ? blocked.zones.length : '?';
     showConfirm(
@@ -8431,7 +8453,7 @@ async function forceLoadFromGitHub() {
     );
   } else {
     showToast('⚠️ 최신 데이터를 불러오지 못했습니다. 인터넷 연결 또는 토큰을 확인해주세요.');
-    updateSyncStatus('error');
+    updateSyncStatus('syncerror');
   }
 }
 
@@ -8517,7 +8539,7 @@ async function manualRefresh() {
     updateSyncStatus('synced');
     showToast('ℹ️ 클라우드에 저장된 데이터가 없습니다. ☁️ 클라우드 저장으로 업로드해주세요.');
   } else if (result === 'blocked') {
-    updateSyncStatus('error');
+    updateSyncStatus('blocked');
     const blocked = window._blockedRemoteData;
     const remoteN = blocked && Array.isArray(blocked.zones) ? blocked.zones.length : '?';
     showConfirm(
@@ -8537,7 +8559,7 @@ async function manualRefresh() {
       ]
     );
   } else {
-    updateSyncStatus('error');
+    updateSyncStatus('syncerror');
     showToast('❌ 동기화 실패 — 콘솔(F12)에서 자세한 오류를 확인하거나 관리자에게 문의하세요.');
   }
 }
