@@ -1716,6 +1716,11 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
       title="GitHub에 저장 → 모든 기기 동기화">
       ☁️ 클라우드 저장
     </button>
+    <button class="hd-btn" id="btn-cloud-load" onclick="manualLoadFromGitHub()"
+      style="background:#2e7d32;border:1.5px solid #66bb6a;font-weight:800;flex-shrink:0"
+      title="다른 기기에서 저장한 최신 데이터를 지금 바로 불러오기">
+      🔄 최신 불러오기
+    </button>
     <button class="hd-btn" onclick="openMonthlyReport()"
       style="color:#ffd700;font-weight:700;flex-shrink:0"
       title="월간 업무보고서 자동 생성">
@@ -1744,11 +1749,6 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
     <div class="hd-divider" style="flex-shrink:0"></div>
 
     <!-- ▸ 설정 그룹 -->
-    <button class="hd-btn" onclick="openMigrationTool()"
-      style="background:#fff3e0;border:1px solid #ffb74d;color:#e65100;flex-shrink:0"
-      title="🔧 1회성 마이그레이션 — 풀베기 데이터를 풀베기사업 탭으로 이전 + 녹지관리/초화식재 초기화 (작업 완료 후 이 버튼은 제거 권장)">
-      🔧
-    </button>
     <button class="hd-btn" onclick="showSelfDiagnosticModal()"
       style="background:#ffffff22;border:1px solid #ffffff44;flex-shrink:0"
       title="시스템 자가진단 — 문제 발생 시 원인 확인 및 데이터 백업">
@@ -1798,6 +1798,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   <span class="tb-label">보기</span>
   <button class="tb-btn gray" onclick="fitAll()" title="전체 구역 보기">🔭 전체보기</button>
   <button class="tb-btn gray" onclick="goMyLocation()" title="현재 위치">📍 내 위치</button>
+  <button class="tb-btn gray" id="btn-cadastral" onclick="toggleCadastralLayer()" title="실제 지적(필지) 경계선 표시/숨김 — 화면을 확대할수록 정확하게 표시됩니다">📐 지적경계</button>
   <button class="tb-btn gray" onclick="toggleFullscreen()" title="전체화면">⛶</button>
 </div>
 
@@ -2240,9 +2241,9 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
     </div>
     <!-- 🗂 일괄 그룹지정 + 전체 접기/펼치기 바 -->
     <div style="padding:6px 12px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-      <button onclick="toggleMultiSelectMode()" id="multi-select-toggle-btn" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:8px 12px;font-size:10px;cursor:pointer;font-family:inherit;min-height:32px">☑️ 여러 개 선택</button>
-      <button onclick="collapseAllGroups()" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:8px 12px;font-size:10px;cursor:pointer;font-family:inherit;min-height:32px">📂 전체 접기</button>
-      <button onclick="expandAllGroups()" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:8px 12px;font-size:10px;cursor:pointer;font-family:inherit;min-height:32px">📁 전체 펼치기</button>
+      <button onclick="toggleMultiSelectMode()" id="multi-select-toggle-btn" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:3px 10px;font-size:10px;cursor:pointer;font-family:inherit">☑️ 여러 개 선택</button>
+      <button onclick="collapseAllGroups()" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:3px 10px;font-size:10px;cursor:pointer;font-family:inherit">📂 전체 접기</button>
+      <button onclick="expandAllGroups()" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:3px 10px;font-size:10px;cursor:pointer;font-family:inherit">📁 전체 펼치기</button>
     </div>
     <div id="multi-select-bar" style="display:none;padding:8px 12px;background:#e8f5e9;border-bottom:1px solid #c8e6c9;align-items:center;gap:8px">
       <span id="multi-select-count" style="font-size:11px;font-weight:700;color:#1b6b3a;flex:1">0개 선택됨</span>
@@ -2764,39 +2765,77 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
           </select>
         </div>
       </div>
-      <div class="fg-row">
-        <div class="fg">
-          <label class="fl">👤 관리자 <span style="font-size:9px;color:var(--text-l)">(내부 담당자)</span></label>
-          <input class="fi" id="f-manager" placeholder="예) 홍길동 (내선 1234)">
-        </div>
-        <div class="fg">
-          <label class="fl">🔧 작업자 <span style="font-size:9px;color:var(--text-l)">(현장 작업 담당)</span></label>
-          <input class="fi" id="f-worker-default" placeholder="예) 김철수 또는 (주)포항조경">
-        </div>
-      </div>
-      <div class="fg-row">
-        <div class="fg" style="flex:1.5">
-          <label class="fl">📅 다음 작업 예정일</label>
-          <input type="date" class="fi" id="f-next-work-date">
-        </div>
-        <div class="fg" style="flex:1">
-          <label class="fl">예정 작업유형</label>
-          <select class="fsel" id="f-next-work-type" style="width:100%">
-            <option value="">선택 안 함</option>
-          </select>
-        </div>
-      </div>
       <div class="fg">
         <label class="fl">구역 식별 색상</label>
         <div class="color-grid" id="f-color-grid"></div>
       </div>
-      <div class="fg">
-        <label class="fl">작업 유형 <span style="font-weight:400;color:var(--text-l)">(복수 선택 가능)</span></label>
-        <div class="wt-grid" id="f-wt-grid"></div>
+
+      <!-- ══ 📊 구역별 수량 관리 (신규) ══ -->
+      <div class="fg" style="background:#f1f8e9;border:1.5px solid #c5e1a5;border-radius:8px;padding:10px 12px">
+        <label class="fl" style="color:#33691e">📊 구역별 수량 관리</label>
+        <div class="fg-row">
+          <div class="fg">
+            <label class="fl" style="font-size:10px">✂️ 풀베기 면적 (㎡)</label>
+            <input type="number" min="0" step="1" class="fi" id="f-mowing-area" placeholder="0">
+          </div>
+          <div class="fg">
+            <label class="fl" style="font-size:10px">🏗 시설물 (EA)</label>
+            <input type="number" min="0" step="1" class="fi" id="f-facility-count" placeholder="0">
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <div style="display:flex;align-items:center;margin-bottom:4px">
+            <label class="fl" style="font-size:10px;margin:0">🌳 교목 (수종별 수량)</label>
+            <button type="button" onclick="addZoneCountRow('tree')" style="margin-left:auto;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:5px;padding:2px 9px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">➕ 교목 추가</button>
+          </div>
+          <div id="f-tree-count-rows"></div>
+        </div>
+        <div style="margin-top:8px">
+          <div style="display:flex;align-items:center;margin-bottom:4px">
+            <label class="fl" style="font-size:10px;margin:0">🌿 관목 (수종별 수량)</label>
+            <button type="button" onclick="addZoneCountRow('shrub')" style="margin-left:auto;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:5px;padding:2px 9px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">➕ 관목 추가</button>
+          </div>
+          <div id="f-shrub-count-rows"></div>
+        </div>
       </div>
+
       <div class="fg">
         <label class="fl">메모 / 특이사항</label>
         <textarea class="fta" id="f-memo" placeholder="구역 특이사항, 식재 현황, 주의사항 등..."></textarea>
+      </div>
+
+      <!-- ══ 🔧 추가 정보 (평소엔 숨김 — 필요할 때만 펼침) ══ -->
+      <button type="button" id="f-advanced-toggle" onclick="toggleEditAdvanced()"
+        style="width:100%;text-align:left;background:#f5f5f5;border:1px dashed #ccc;border-radius:7px;padding:8px 12px;font-size:11px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;margin-bottom:10px">
+        🔧 담당자·작업유형·예정일 더보기 ▾
+      </button>
+      <div id="f-advanced-section" style="display:none">
+        <div class="fg-row">
+          <div class="fg">
+            <label class="fl">👤 관리자 <span style="font-size:9px;color:var(--text-l)">(내부 담당자)</span></label>
+            <input class="fi" id="f-manager" placeholder="예) 홍길동 (내선 1234)">
+          </div>
+          <div class="fg">
+            <label class="fl">🔧 작업자 <span style="font-size:9px;color:var(--text-l)">(현장 작업 담당)</span></label>
+            <input class="fi" id="f-worker-default" placeholder="예) 김철수 또는 (주)포항조경">
+          </div>
+        </div>
+        <div class="fg-row">
+          <div class="fg" style="flex:1.5">
+            <label class="fl">📅 다음 작업 예정일</label>
+            <input type="date" class="fi" id="f-next-work-date">
+          </div>
+          <div class="fg" style="flex:1">
+            <label class="fl">예정 작업유형</label>
+            <select class="fsel" id="f-next-work-type" style="width:100%">
+              <option value="">선택 안 함</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="fl">작업 유형 <span style="font-weight:400;color:var(--text-l)">(복수 선택 가능)</span></label>
+          <div class="wt-grid" id="f-wt-grid"></div>
+        </div>
       </div>
       <!-- ══ 사업별 관리 (작업묶음 배정) ══ -->
       <div class="fg" id="f-project-section" style="display:none">
@@ -3323,8 +3362,6 @@ let isMultiMode = false;  // 다중 구간 모드 여부
 let hiddenZones = new Set();   // 지도에서 숨긴 구역 ID 목록
 let hiddenGroups = new Set();  // 지도에서 숨긴 그룹 ID 목록
 let pinnedZones = new Set();   // 📌 즐겨찾기(고정)한 구역 ID 목록 — 목록 맨 위에 항상 노출
-let isSampleData = false;      // 🔒 현재 데이터가 데모/샘플인지 (실 클라우드 동기화 전 저장 방지)
-const MAP_LABEL_ZOOM_MIN = 14; // 🔧 이 줌 레벨 미만(더 축소)에서는 구역 이름표를 숨기고 도형만 표시 (라벨 겹침 방지)
 let customWT = [];             // 커스텀 작업유형 목록
 let selId = null, editId = null, selWTs = [], pickedZoneColor = '#2e7d32';
 let newGrpColor = '#2e7d32';
@@ -3385,7 +3422,6 @@ function loadAll() {
   } catch(e) {}
   zones  = sampleZones();
   groups = sampleGroups();
-  isSampleData = true; // 🔒 데모 데이터임을 표시 — 실제 클라우드 동기화 전 저장 방지용
 }
 // ── 로컬 임시저장 (즉시) ───────────────────────────────────
 let autoCloudTimer = null;
@@ -3422,7 +3458,11 @@ function buildDataObj() {
       workTypes:z.workTypes, memo:z.memo, manager:z.manager||'',
       color:z.color||'#2e7d32', groupId:z.groupId||'',
       paths:z.paths||null, path:z.path, area:z.area, logs:z.logs,
-      workerDefault:z.workerDefault||''
+      workerDefault:z.workerDefault||'',
+      nextWorkDate:z.nextWorkDate||'', nextWorkType:z.nextWorkType||'',
+      // 📊 구역별 수량 관리
+      mowingArea:z.mowingArea||0, facilityCount:z.facilityCount||0,
+      treeCounts:z.treeCounts||[], shrubCounts:z.shrubCounts||[]
     })),
     groups, customDepts, workProjects, customWT,
     complaints, roseZones,
@@ -3474,6 +3514,15 @@ function markSaved() {
 }
 
 // ── GitHub 저장 (클라우드 동기화) ───────────────────────────
+// 🚨 2026-08-12 사고 재발 방지 안전장치
+// 구역 수가 큰 폭(60% 미만)으로 갑자기 줄어드는 것은 거의 항상 동기화 사고(다른 기기와의
+// 저장 경합, 빈 데이터로 기기 초기화 등)이지 정상적인 데이터 정리가 아님 → 자동/수동 저장,
+// 자동/수동 불러오기 전부 이 함수로 위험 여부를 먼저 확인한다.
+function isSuspiciousShrink(oldLen, newLen) {
+  if (!oldLen || oldLen < 10) return false; // 원래 데이터가 적으면(초기 세팅 등) 보호 불필요
+  return newLen < oldLen * 0.6;
+}
+
 async function saveToGitHub(silent = false) {
   if (!ghToken) {
     if (!silent) openGitHubSettings();
@@ -3481,15 +3530,10 @@ async function saveToGitHub(silent = false) {
   }
   if (isSyncing) { if (!silent) showToast('⏳ 저장 중입니다...'); return; }
 
-  // 안전장치: 초기 동기화 전에 구역이 0개이거나 "데모 데이터" 상태로 저장하면
-  // 클라우드의 실제 데이터를 덮어쓰거나 오염시킬 수 있음 → 반드시 확인
-  // (🔧 실제로 이 구멍 때문에 데모 그룹이 클라우드에 섞여 들어간 사례 발견 → 강화)
-  if (!silent && !initialSyncDone && (zones.length === 0 || isSampleData)) {
+  // 안전장치: 초기 동기화 전에 구역이 0개인 채로 수동 저장하면 클라우드 데이터를 날릴 수 있음 → 확인
+  if (!silent && !initialSyncDone && zones.length === 0) {
     showConfirm(
-      (isSampleData
-        ? '지금 화면은 아직 클라우드와 동기화되지 않은 "샘플 데모 데이터"입니다.\n이 상태로 저장하면 실제 클라우드 데이터가 데모 데이터로 덮어써질 수 있습니다.'
-        : '아직 클라우드 데이터를 확인하지 않았습니다.\n구역이 0개인 상태로 저장하면 기존 클라우드 데이터가 사라질 수 있습니다.') +
-      '\n계속하시겠습니까?',
+      '아직 클라우드 데이터를 확인하지 않았습니다.\n구역이 0개인 상태로 저장하면 기존 클라우드 데이터가 사라질 수 있습니다.\n계속하시겠습니까?',
       '⚠️',
       [
         {label:'계속 저장', cls:'danger', fn:() => { initialSyncDone = true; saveToGitHub(false); }},
@@ -3505,6 +3549,60 @@ async function saveToGitHub(silent = false) {
 
   try {
     const data   = buildDataObj();
+
+    // 🚨 안전장치: 실제 저장 직전, 클라우드에 지금 있는 구역 수와 비교해서
+    // 급격히 줄어드는 상황이면 저장을 막고 경고한다 (2026-08-12 데이터 유실 사고 재발 방지)
+    try {
+      const checkUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}?ref=${GH_CONFIG.branch}&t=${Date.now()}`;
+      const checkRes = await fetch(checkUrl, { headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' } });
+      if (checkRes.ok) {
+        const checkFile = await checkRes.json();
+        lastSha = checkFile.sha;
+        const cb64 = checkFile.content.replace(/\n/g,'');
+        const cbin = atob(cb64);
+        const cbytes = new Uint8Array(cbin.length);
+        for (let i=0;i<cbin.length;i++) cbytes[i]=cbin.charCodeAt(i);
+        const remoteCheck = JSON.parse(new TextDecoder().decode(cbytes));
+        if (remoteCheck && Array.isArray(remoteCheck.zones) && isSuspiciousShrink(remoteCheck.zones.length, data.zones.length)) {
+          isSyncing = false;
+          if (btn && !silent) btn.innerHTML = '☁️ 클라우드 저장';
+          if (silent) {
+            console.warn('[Save] 🚨 자동저장 보류 — 구역 수 급감 감지:', remoteCheck.zones.length, '→', data.zones.length);
+            updateSyncStatus('error');
+            showToast('🚨 자동저장이 보류되었습니다 — 클라우드(' + remoteCheck.zones.length + '개) 대비 지금 화면(' + data.zones.length + '개) 구역이 크게 줄어 있습니다. 화면을 확인 후 필요시 수동으로 저장해주세요.');
+          } else {
+            showConfirm(
+              '🚨 위험: 클라우드에는 현재 ' + remoteCheck.zones.length + '개 구역이 있는데, 지금 저장하면 ' + data.zones.length + '개로 줄어듭니다.\n\n'
+              + '실수로 다른 기기의 빈/샘플 데이터가 화면에 떠 있는 상태일 수 있습니다.\n'
+              + '정말 의도한 변경이 맞다면 계속 저장하세요. 그렇지 않다면 취소 후 "🔄 최신 불러오기"로 클라우드 데이터를 먼저 확인해보세요.',
+              '🚨',
+              [
+                { label:'그래도 저장', cls:'danger', fn: () => saveToGitHubForced(silent) },
+                { label:'취소', cls:'secondary', fn: null }
+              ]
+            );
+          }
+          return;
+        }
+      }
+    } catch(checkErr) {
+      console.warn('[Save] 사전 확인 실패(네트워크 등) — 저장은 계속 진행합니다:', checkErr);
+    }
+
+    return await saveToGitHubForced(silent, data);
+  } catch(e) {
+    isSyncing = false;
+    console.error('[GitHub Save 사전확인]', e);
+  }
+}
+
+async function saveToGitHubForced(silent = false, preBuiltData = null) {
+  isSyncing = true;
+  const btn = document.getElementById('btn-cloud-save');
+  if (btn && !silent) btn.innerHTML = '⏳ 저장 중...';
+
+  try {
+    const data   = preBuiltData || buildDataObj();
     // 한글 포함 데이터 안전 인코딩
     const jsonStr = JSON.stringify(data, null, 2);
     const bytes = new TextEncoder().encode(jsonStr);
@@ -3569,12 +3667,11 @@ async function saveToGitHub(silent = false) {
 }
 
 // ── GitHub에서 불러오기 (자동 동기화) ───────────────────────
-async function loadFromGitHub(silent = false, force = false) {
+async function loadFromGitHub(silent = false) {
   if (!ghToken) return false;
   if (isSyncing) return false;
   // 미저장 로컬 변경이 있으면 자동 동기화로 덮어쓰지 않음 (데이터 유실 방지)
-  // 단, force=true(최초 토큰연결 등)일 때는 이 보호도 건너뛰고 무조건 최신 클라우드 데이터를 반영
-  if (silent && unsavedChanges && !force) return false;
+  if (silent && unsavedChanges) return false;
 
   try {
     const apiUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}?ref=${GH_CONFIG.branch}&t=${Date.now()}`;
@@ -3595,27 +3692,42 @@ async function loadFromGitHub(silent = false, force = false) {
     const file = await res.json();
     lastSha = file.sha;
 
-    // 한글 포함 데이터 안전 디코딩 (🔧 1MB 초과 시 content가 비어오는 문제 대응)
-    let json;
-    if (!file.content || file.content.trim() === '') {
-      if (!file.download_url) throw new Error('대용량 파일이지만 download_url 없음');
-      const rawRes = await fetch(file.download_url + '?t=' + Date.now());
-      if (!rawRes.ok) throw new Error('대용량 파일 원본 다운로드 실패: ' + rawRes.status);
-      json = await rawRes.text();
-    } else {
-      const b64 = file.content.replace(/\n/g,'');
-      const binStr2 = atob(b64);
-      const bytes2 = new Uint8Array(binStr2.length);
-      for (let i=0;i<binStr2.length;i++) bytes2[i]=binStr2.charCodeAt(i);
-      json = new TextDecoder().decode(bytes2);
-    }
+    // 한글 포함 데이터 안전 디코딩
+    const b64 = file.content.replace(/\n/g,'');
+    const binStr2 = atob(b64);
+    const bytes2 = new Uint8Array(binStr2.length);
+    for (let i=0;i<binStr2.length;i++) bytes2[i]=binStr2.charCodeAt(i);
+    const json = new TextDecoder().decode(bytes2);
     const data   = JSON.parse(json);
     const remote = data.savedAt || '';
     const local  = localStorage.getItem('lastGHSave') || '';
 
-    // 원격이 더 최신이면 업데이트 — force=true면 타임스탬프 비교 없이 항상 반영
-    // (버그 수정: 최초 토큰연결 시에도 이 비교 때문에 데이터가 조용히 반영 안 되던 문제)
-    if (force || !local || remote > local) {
+    // 원격이 더 최신이면 업데이트
+    if (!local || remote > local) {
+      // 🚨 안전장치: 원격 데이터가 화면(local zones)보다 훨씬 적으면 자동 적용하지 않음
+      if (Array.isArray(data.zones) && isSuspiciousShrink(zones.length, data.zones.length)) {
+        console.warn('[Sync] 🚨 원격 데이터 급감 감지 — 자동 적용 보류:', zones.length, '→', data.zones.length);
+        if (!silent) {
+          showConfirm(
+            '🚨 클라우드 데이터(' + data.zones.length + '개 구역)가 지금 화면(' + zones.length + '개 구역)보다 훨씬 적습니다.\n\n'
+            + '이대로 불러오면 화면의 데이터가 사라집니다. 정말 불러오시겠습니까?',
+            '🚨',
+            [
+              { label:'그래도 불러오기', cls:'danger', fn: () => {
+                  applyData(data);
+                  localStorage.setItem('lastGHSave', remote);
+                  markSaved();
+                  showToast('🔄 최신 데이터로 업데이트되었습니다!');
+                  updateSyncStatus('synced');
+                } },
+              { label:'취소', cls:'secondary', fn: null }
+            ]
+          );
+        } else {
+          updateSyncStatus('error');
+        }
+        return false;
+      }
       applyData(data);
       localStorage.setItem('lastGHSave', remote);
       markSaved();
@@ -3644,7 +3756,6 @@ async function loadFromGitHub(silent = false, force = false) {
 
 // ── 데이터 적용 ─────────────────────────────────────────────
 function applyData(data) {
-  isSampleData = false; // 🔒 실제 데이터(클라우드/불러오기)가 반영되므로 데모 상태 해제
   // 기존 폴리곤 완전 제거 (polygon, polygons 배열, label 모두)
   zones.forEach(z => {
     if (z.polygon)  { z.polygon.setMap(null);  z.polygon  = null; }
@@ -3730,7 +3841,13 @@ function startAutoSync() {
   if (autoSyncTimer) clearInterval(autoSyncTimer);
   if (!ghToken) return;
   autoSyncTimer = setInterval(async () => {
-    if (!unsavedChanges && !isSyncing) {
+    if (isSyncing) return;
+    if (unsavedChanges) {
+      // 이전 자동저장(3초 디바운스)이 네트워크 문제 등으로 실패해 계속 "미저장" 상태로
+      // 남아있으면, 그 이후로는 다른 기기의 최신 변경사항을 절대 받아오지 못하고
+      // 영원히 멈춰버리는 문제가 있었음 → 저장을 계속 재시도해서 스스로 복구되게 함
+      await saveToGitHub(true);
+    } else {
       await loadFromGitHub(true);
     }
   }, 30000); // 30초
@@ -3844,10 +3961,8 @@ async function verifyAndConnect() {
       return;
     }
     // 권한 정상 → 데이터 로드 (첫 데이터 없어도 정상)
-    // 🔧 버그 수정: 토큰을 처음 연결하는 순간이므로, 로컬 타임스탬프와 무관하게
-    // 클라우드에 있는 데이터를 무조건 반영해야 함 (force=true)
     updateSyncStatus('synced');
-    const loaded = await loadFromGitHub(true, true);
+    const loaded = await loadFromGitHub(true);
     startAutoSync();
     if (loaded) {
       showToast('🎉 연동 성공! 클라우드 데이터를 불러왔습니다.');
@@ -3939,28 +4054,6 @@ window.onload = function() {
   naver.maps.Event.addListener(map, 'click', () => {
     if (!drawing) document.getElementById('addr-dropdown').style.display = 'none';
   });
-  // 🔧 PC에서 브라우저 창 크기를 바꾸면(최대화/복원, 창 조절 등) 지도 컨테이너 크기가
-  // 바뀌는데, 네이버 지도가 이를 자동 인지하지 못해 타일이 어긋나거나 빈 공간이 생길 수 있음
-  // → 창 크기 변경 감지 시 지도에 재계산을 명시적으로 알려줌 (디바운스로 과도한 호출 방지)
-  window.addEventListener('resize', () => {
-    clearTimeout(window._mainMapResizeTimer);
-    window._mainMapResizeTimer = setTimeout(() => {
-      if (typeof naver !== 'undefined' && map) naver.maps.Event.trigger(map, 'resize');
-    }, 200);
-  });
-  // 🔧 줌 레벨이 MAP_LABEL_ZOOM_MIN 경계를 넘나들 때만 라벨 표시를 갱신 (매 틱마다 다시 그리지 않도록 디바운스)
-  let _lastLabelZoomState = map.getZoom() >= MAP_LABEL_ZOOM_MIN;
-  naver.maps.Event.addListener(map, 'zoom_changed', () => {
-    clearTimeout(window._mapLabelZoomTimer);
-    window._mapLabelZoomTimer = setTimeout(() => {
-      const nowState = map.getZoom() >= MAP_LABEL_ZOOM_MIN;
-      if (nowState !== _lastLabelZoomState) {
-        _lastLabelZoomState = nowState;
-        redrawAll();
-        if (!nowState) showToast('🔍 구역이 많아 이름표를 숨겼습니다. 확대하면 다시 보입니다.');
-      }
-    }, 200);
-  });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       if (drawing) cancelDraw();
@@ -4006,6 +4099,7 @@ window.onload = function() {
     }
   });
   loadTreeData(); // 수목 도면 데이터 로드
+  loadSpeciesLists(); // 🌳🌿 수종 사전(교목/관목) — 구역별 수량 관리에서도 공용으로 사용
   switchAppTab('green');
   checkSeasonalAlerts(); // 계절별 작업 알림 (포항 기후 기준)
   setTimeout(() => checkStorageUsage(false), 2000); // 로드 후 2초 뒤 용량 확인
@@ -4058,7 +4152,7 @@ function doSearch() {
         return;
       }
       dd.innerHTML = res.v2.addresses.slice(0,6).map(a => `
-        <div class="addr-item" onclick="goToAddr(${a.y},${a.x},'${(a.roadAddress||a.jibunAddress||'').replace(/'/g,"\\'")}')">
+        <div class="addr-item" onclick="goToAddr(${a.y},${a.x},'${(a.roadAddress||a.jibunAddress||'').replace(/'/g,"\\'")}','${(a.jibunAddress||'').replace(/'/g,"\\'")}')">
           <div class="addr-road">${a.roadAddress || a.jibunAddress || '주소 없음'}</div>
           ${a.roadAddress && a.jibunAddress ? `<div class="addr-jibun">지번: ${a.jibunAddress}</div>` : ''}
         </div>`).join('');
@@ -4067,7 +4161,10 @@ function doSearch() {
     dd.innerHTML = '<div style="padding:10px 14px;font-size:11px;color:#c62828">⚠️ 검색 중 오류가 발생했습니다.<br><span style="color:#8aaa8a">' + (e.message||'') + '</span></div>';
   }
 }
-function goToAddr(lat, lng, addr) {
+function goToAddr(lat, lng, addr, jibunAddr) {
+  // 📐 지번 경계 불러오기는 반드시 "지번" 형식 주소로 조회해야 함 —
+  // 도로명주소가 있는 곳은 addr이 도로명으로 채워지므로, 지번 주소를 별도로 보관해둔다
+  jibunAddr = jibunAddr || addr;
   // ── 기존 검색 마커·경계·InfoWindow 먼저 제거 (깜빡임 방지) ──
   _clearSearchOverlays();
 
@@ -4085,31 +4182,13 @@ function goToAddr(lat, lng, addr) {
     }, zIndex: 300
   });
 
-  // ── 🟦 주소 근사 경계 표시 (점선 사각형) ──
-  // 네이버 Geocoding API는 경계 폴리곤 미제공
-  // → 주소 레벨에 따라 근사 크기 사각형으로 표현
+  // ── 주소 레벨 판별 (근사 경계 사각형은 더 이상 표시하지 않음 —
+  //    실제 필지 경계는 📐 지번 경계 불러오기로 정확히 확인 가능하므로 혼동을 줄이기 위해 제거) ──
   const addrLevel = _getAddrLevel(addr);
-  const halfSize  = addrLevel.half; // 위경도 단위 반경
-  const boundary  = [
-    new naver.maps.LatLng(lat + halfSize, lng - halfSize * 1.3),
-    new naver.maps.LatLng(lat + halfSize, lng + halfSize * 1.3),
-    new naver.maps.LatLng(lat - halfSize, lng + halfSize * 1.3),
-    new naver.maps.LatLng(lat - halfSize, lng - halfSize * 1.3),
-  ];
-  searchBoundary = new naver.maps.Polygon({
-    map, paths: [boundary],
-    strokeColor:   '#1565c0',
-    strokeOpacity: 0.8,
-    strokeWeight:  2,
-    strokeStyle:   'shortdash',
-    fillColor:     '#1565c0',
-    fillOpacity:   0.07,
-    zIndex: 200,
-  });
 
   // ── 핀 클릭 → 구역 설정 InfoWindow ──
   naver.maps.Event.addListener(searchMarker, 'click', function() {
-    _showSearchInfoWindow(lat, lng, addr);
+    _showSearchInfoWindow(lat, lng, addr, jibunAddr);
   });
 
   // ── 사이드 패널 안내 (간략) ──
@@ -4125,23 +4204,21 @@ function goToAddr(lat, lng, addr) {
       <div style="font-size:10px;color:#888;margin-bottom:8px">
         ${addrLevel.desc} | 📍 핀을 클릭하면 구역 설정 옵션이 나타납니다
       </div>
-      <div style="display:flex;gap:6px">
-        <button data-lat="${lat}" data-lng="${lng}" data-addr="${addr.replace(/"/g,'&quot;')}"
-          onclick="startDrawAtAddr(+this.dataset.lat,+this.dataset.lng,this.dataset.addr)"
-          style="flex:1;padding:6px 4px;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">
-          ✏️ 직접 그리기
-        </button>
-        <button data-lat="${lat}" data-lng="${lng}" data-addr="${addr.replace(/"/g,'&quot;')}"
-          onclick="createZoneAtAddr(+this.dataset.lat,+this.dataset.lng,this.dataset.addr)"
-          style="flex:1;padding:6px 4px;background:var(--rose);color:#fff;border:none;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">
-          ⬜ 자동 생성
-        </button>
-      </div>`;
+      <button data-lat="${lat}" data-lng="${lng}" data-addr="${addr.replace(/"/g,'&quot;')}"
+        onclick="startDrawAtAddr(+this.dataset.lat,+this.dataset.lng,this.dataset.addr)"
+        style="width:100%;padding:6px 4px;background:var(--green);color:#fff;border:none;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">
+        ✏️ 직접 그리기
+      </button>
+      <button data-lat="${lat}" data-lng="${lng}" data-jibun="${jibunAddr.replace(/"/g,'&quot;')}"
+        onclick="createZoneFromParcel(+this.dataset.lat,+this.dataset.lng,this.dataset.jibun)"
+        style="width:100%;margin-top:6px;padding:6px 4px;background:#1565c0;color:#fff;border:none;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">
+        📐 지번 경계 불러오기 (브이월드)
+      </button>`;
     info.style.display = 'block';
   }
 
   // 첫 접근 시 자동으로 InfoWindow 열기
-  setTimeout(() => _showSearchInfoWindow(lat, lng, addr), 300);
+  setTimeout(() => _showSearchInfoWindow(lat, lng, addr, jibunAddr), 300);
   showToast('📍 ' + addrLevel.label + ' — 핀 클릭 또는 아래 버튼으로 구역을 설정하세요.');
 }
 
@@ -4182,12 +4259,12 @@ function _getAddrLevel(addr) {
 }
 
 // 검색 InfoWindow 표시 (핀 클릭 시)
-function _showSearchInfoWindow(lat, lng, addr) {
+function _showSearchInfoWindow(lat, lng, addr, jibunAddr) {
   // 기존 InfoWindow 제거
   if (searchInfoWindow) { searchInfoWindow.close(); searchInfoWindow = null; }
 
   // 핀 클릭 정보를 전역에 임시 저장 (특수문자 안전 처리)
-  window._pendingAddr = { lat, lng, addr };
+  window._pendingAddr = { lat, lng, addr, jibunAddr: jibunAddr || addr };
   const dispAddr = escapeHTML(addr);
   const content = `
     <div style="background:#fff;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.2);padding:14px 16px;min-width:220px;font-family:'Malgun Gothic',sans-serif;position:relative">
@@ -4201,9 +4278,9 @@ function _showSearchInfoWindow(lat, lng, addr) {
           style="padding:8px 12px;background:#2e7d32;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left">
           ✏️ 직접 그리기 — 지도 클릭으로 경계 설정
         </button>
-        <button onclick="if(window._siw){window._siw.close();}const p=window._pendingAddr;if(p)createZoneAtAddr(p.lat,p.lng,p.addr);"
-          style="padding:8px 12px;background:#1565c0;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left">
-          ⬜ 자동 생성 — 약 50m 사각형 구역 즉시 생성
+        <button onclick="if(window._siw){window._siw.close();}const p=window._pendingAddr;if(p)createZoneFromParcel(p.lat,p.lng,p.jibunAddr||p.addr);"
+          style="padding:8px 12px;background:#00695c;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left">
+          📐 지번 경계 불러오기 — 브이월드 실제 필지 경계 사용
         </button>
         <button onclick="if(window._siw){window._siw.close();}clearSearchPin()"
           style="padding:6px 12px;background:#f5f5f5;color:#666;border:1px solid #ddd;border-radius:7px;font-size:10px;cursor:pointer;font-family:inherit">
@@ -4255,37 +4332,253 @@ function startDrawAtAddr(lat, lng, addr) {
   showToast('📍 ' + addr + ' — 지도 클릭으로 꼭짓점을 추가하고, Enter로 구역을 완성하세요.');
 }
 
-// 주소를 중심으로 50m 반경 사각형 구역 자동 생성
-function createZoneAtAddr(lat, lng, addr) {
-  // 위도 1도 = 약 111km, 경도 1도 = 약 89km (위도 36도 기준)
-  const d = 0.00045; // 약 50m (조성 후 편집 모달에서 구간 조정 권장)
-  const path = [
-    {lat: lat+d, lng: lng-d},
-    {lat: lat+d, lng: lng+d},
-    {lat: lat-d, lng: lng+d},
-    {lat: lat-d, lng: lng-d},
-  ];
-  const area = calcArea(path);
-  const nz = {
-    id: 'z_'+Date.now(),
-    name: addr.split(' ').slice(-2).join(' ') || addr,
-    zoneType: getCurrentZoneType(),
-    team: 'greenway', status: 'pending',
-    workTypes: [], memo: '주소 검색으로 생성: '+addr,
-    manager: '', workerDefault: '',
-    color: currentAppTab === 'rose' ? '#c0392b' : '#2e7d32', groupId: '',
-    path, paths:[path], area,
-    logs:[], polygon:null, polygons:[], label:null, labelD:null
-  };
-  zones.push(nz);
-  drawPoly(nz);
-  saveAll(); renderSidebar();
-  selId = nz.id; editId = nz.id;
-  redrawAll(); renderDetail(); updateToolbar();
-  document.getElementById('search-pin-info').style.display = 'none';
-  openEditModal();
-  showToast('✅ "'+nz.name+'" 구역이 임시 생성되었습니다.\n\n📌 이 구역은 약 50×50m 사각형으로 생성된 임시 경계입니다.\n편집 모달에서 구역명·정보를 입력하고, 실제 관리 경계는 [구역 직접 그리기]로 정확히 설정해주세요.');
+/* ══════════════════════════════════════════════
+   📐 지번(필지) 경계 자동 불러오기 — 브이월드(VWorld) 데이터API
+   — 연속지적도(LP_PA_CBND_BUBUN) 서비스로 실제 필지 경계를 가져와
+     그대로 구역 폴리곤으로 사용 (1필지 = 1구역, MVP)
+   — 무료 API 키 필요: www.vworld.kr → Open API 신청 시
+     "2D 데이터API" 서비스 체크 + 도메인(예: lms8765-ai.github.io) 등록
+     (🛣 도로망 참조 레이어와 같은 키를 재사용 — 서비스 항목만 추가 체크하면 됨)
+   — 검색 지점(주소 지오코딩 좌표) 주변을 bbox로 조회한 뒤,
+     그 지점을 실제로 포함하는 필지를 pointInPolygon으로 선별
+══════════════════════════════════════════════ */
+async function createZoneFromParcel(lat, lng, addr) {
+  const key = getVWorldKey();
+  if (!key) {
+    showConfirm(
+      '📐 지번 경계 자동 불러오기 (브이월드)\n\n'
+      + '실제 지적도(필지 경계) 데이터를 가져와 구역 폴리곤으로 바로 사용합니다.\n\n'
+      + '무료 API 키가 필요합니다 (🛣 도로망 참조와 같은 키 재사용 가능):\n'
+      + '1. www.vworld.kr 접속 → 회원가입 → 오픈API → 인증키 신청\n'
+      + '2. 활용 API에서 "2D 데이터API" 체크 (연속지적도 포함)\n'
+      + '3. 도메인: ' + location.hostname + ' 등록\n'
+      + '4. 발급된 키를 아래에서 입력',
+      '📐',
+      [
+        { label:'키 입력하기', cls:'primary', fn: () => {
+          const k = prompt('브이월드 Open API 인증키를 입력하세요:');
+          if (k && k.trim()) {
+            localStorage.setItem('phgz_vworld_key', k.trim());
+            showToast('✅ 저장 완료. 다시 버튼을 눌러 지번 경계를 불러오세요.');
+          }
+        }},
+        { label:'나중에', cls:'secondary', fn: null }
+      ]
+    );
+    return;
+  }
+
+  showToast('📐 지번 경계 조회 중...');
+
+  try {
+    // 네이버 지번주소는 뒤에 건물/장소명이 붙어 나오는 경우가 있음
+    // (예: "...상도동 188-3 포항시 평생학습원") → 번지 뒤 텍스트는 잘라내고 순수 지번 주소만 사용
+    const jm0 = addr.match(/^(.*?[0-9]+(?:-[0-9]+)?)(?=\s|$)/);
+    const cleanAddr = jm0 ? jm0[1].trim() : addr.trim();
+
+    // 1단계: 검색한 지번 주소 → PNU(필지고유번호) 정확히 조회 (좌표 근접 추정 방식 전부 폐기)
+    const searchCb = '_vwSearchCb' + Date.now();
+    const searchUrl = 'https://api.vworld.kr/req/search?service=search&request=search&version=2.0'
+      + '&crs=EPSG:4326&type=address&category=parcel&format=json&errorformat=json&size=5&page=1'
+      + '&query=' + encodeURIComponent(cleanAddr)
+      + '&key=' + encodeURIComponent(key)
+      + '&callback=' + searchCb;
+    const searchJson = await vworldJsonp(searchUrl, searchCb);
+    const sr = searchJson && searchJson.response;
+    const items = sr && sr.result && sr.result.items;
+    if (!sr || sr.status !== 'OK' || !items || !items.length) {
+      throw new Error('이 주소로 필지를 찾지 못했습니다 (' + ((sr&&sr.status)||'응답 없음') + ')');
+    }
+    const pnu = items[0].id;
+    const jibunAddr = (items[0].address && items[0].address.parcel) || addr;
+
+    // 2단계: PNU로 연속지적도 조회 → 필지가 정확히 하나로 특정됨 (인접 필지 오인 불가능)
+    const featCb = '_vwFeatCb' + Date.now();
+    const featUrl = 'https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LP_PA_CBND_BUBUN'
+      + '&key=' + encodeURIComponent(key)
+      + '&domain=' + encodeURIComponent(location.hostname)
+      + '&attrFilter=' + encodeURIComponent('pnu:=:' + pnu)
+      + '&geometry=true&attribute=true&crs=EPSG:4326&format=json&size=5&page=1'
+      + '&callback=' + featCb;
+    const featJson = await vworldJsonp(featUrl, featCb);
+    const fr = featJson && featJson.response;
+    if (!fr || fr.status !== 'OK') {
+      throw new Error('필지 경계 조회 실패 (' + ((fr&&fr.status)||'응답 없음') + ')');
+    }
+    const feats = (fr.result && fr.result.featureCollection && fr.result.featureCollection.features) || [];
+    if (!feats.length) throw new Error('해당 PNU로 필지 경계를 찾지 못했습니다');
+
+    // GeoJSON 좌표([lng,lat]) → {lat,lng} 변환
+    function toPath(geom) {
+      if (!geom) return null;
+      let ring = null;
+      if (geom.type === 'Polygon') ring = geom.coordinates[0];
+      else if (geom.type === 'MultiPolygon') ring = geom.coordinates[0][0];
+      if (!ring) return null;
+      return ring.map(c => ({ lat: c[1], lng: c[0] }));
+    }
+    const matched = toPath(feats[0].geometry);
+    if (!matched) throw new Error('필지 경계 데이터를 해석하지 못했습니다');
+
+    const area = calcArea(matched);
+    const nz = {
+      id: 'z_'+Date.now(),
+      name: jibunAddr.split(' ').slice(-2).join(' ') || jibunAddr,
+      zoneType: getCurrentZoneType(),
+      team: 'greenway', status: 'pending',
+      workTypes: [], memo: '지번 경계 자동 불러오기(브이월드 PNU 정확매칭): '+jibunAddr,
+      manager: '', workerDefault: '',
+      color: currentAppTab === 'rose' ? '#c0392b' : '#2e7d32', groupId: '',
+      path: matched, paths: [matched], area,
+      logs: [], polygon: null, polygons: [], label: null, labelD: null
+    };
+    zones.push(nz);
+    drawPoly(nz);
+    saveAll(); renderSidebar();
+    selId = nz.id; editId = nz.id;
+    redrawAll(); renderDetail(); updateToolbar();
+    const info = document.getElementById('search-pin-info');
+    if (info) info.style.display = 'none';
+    if (window._siw) { window._siw.close(); window._siw = null; }
+    openEditModal();
+    showToast('✅ "'+nz.name+'" 구역이 실제 지번 경계로 생성되었습니다. (필지: '+jibunAddr+')');
+  } catch(e) {
+    showConfirm(
+      '❌ 지번 경계 조회 실패\n\n원인: ' + (e.message||e) + '\n\n'
+      + '확인해주세요:\n'
+      + '1. 브이월드 콘솔에서 이 키에 "2D 데이터API" 서비스가 체크되어 있는지\n'
+      + '2. 도메인이 정확히 등록되어 있는지 (' + location.hostname + ')',
+      '❌',
+      [{ label:'확인', cls:'secondary', fn:null }]
+    );
+    return;
+  }
 }
+
+/* ══════════════════════════════════════════════
+   📐 지적경계(연속지적도) 표시/숨김 레이어
+   — 공유 지도(녹지관리/풀베기사업/초화식재/장미관리)에서
+     현재 화면 범위의 실제 필지 경계선을 얇은 선으로 표시
+   — 브이월드 GetFeature(LP_PA_CBND_BUBUN) + JSONP, 화면 idle마다 재조회
+══════════════════════════════════════════════ */
+let cadastralEnabled = false;
+let cadastralPolys = [];
+let cadastralIdleListenerId = null;
+
+function clearCadastralPolys() {
+  cadastralPolys.forEach(p => { try { p.setMap(null); } catch(e) {} });
+  cadastralPolys = [];
+}
+
+async function renderCadastralLayer() {
+  if (!cadastralEnabled || !map) return;
+  const key = getVWorldKey();
+  if (!key) return;
+
+  const zoom = map.getZoom();
+  if (zoom < 17) {
+    clearCadastralPolys();
+    return;
+  }
+
+  const bounds = map.getBounds();
+  const sw = bounds.getSW ? bounds.getSW() : bounds.min;
+  const ne = bounds.getNE ? bounds.getNE() : bounds.max;
+  const bbox = sw.lng() + ',' + sw.lat() + ',' + ne.lng() + ',' + ne.lat();
+
+  const cb = '_vwCadCb' + Date.now();
+  const url = 'https://api.vworld.kr/req/data?service=data&request=GetFeature&data=LP_PA_CBND_BUBUN'
+    + '&key=' + encodeURIComponent(key)
+    + '&domain=' + encodeURIComponent(location.hostname)
+    + '&geomFilter=' + encodeURIComponent('BOX(' + bbox + ')')
+    + '&geometry=true&attribute=false&crs=EPSG:4326&format=json&size=1000&page=1'
+    + '&callback=' + cb;
+
+  let json;
+  try {
+    json = await vworldJsonp(url, cb);
+  } catch(e) {
+    console.warn('[지적경계]', e);
+    return;
+  }
+  if (!cadastralEnabled) return; // 조회 중 꺼졌으면 그리지 않음
+  const fr = json && json.response;
+  if (!fr || fr.status !== 'OK') return;
+  const feats = (fr.result && fr.result.featureCollection && fr.result.featureCollection.features) || [];
+
+  clearCadastralPolys();
+
+  function toRings(geom) {
+    if (!geom) return [];
+    if (geom.type === 'Polygon') return [geom.coordinates[0]];
+    if (geom.type === 'MultiPolygon') return geom.coordinates.map(poly => poly[0]);
+    return [];
+  }
+
+  feats.forEach(ft => {
+    toRings(ft.geometry).forEach(ring => {
+      const path = ring.map(c => new naver.maps.LatLng(c[1], c[0]));
+      try {
+        const poly = new naver.maps.Polygon({
+          map: map, paths: [path],
+          strokeColor: '#ff6f00', strokeOpacity: 0.85, strokeWeight: 1.5,
+          fillOpacity: 0, clickable: false, zIndex: 50
+        });
+        cadastralPolys.push(poly);
+      } catch(e) {}
+    });
+  });
+}
+
+function toggleCadastralLayer() {
+  const key = getVWorldKey();
+  if (!key) {
+    showConfirm(
+      '📐 지적경계(실제 필지 경계) 표시\n\n'
+      + '국토교통부 연속지적도 데이터를 지도 위에 선으로 표시합니다.\n\n'
+      + '무료 API 키가 필요합니다 (다른 브이월드 기능과 같은 키 재사용 가능):\n'
+      + '1. www.vworld.kr 접속 → 회원가입 → 오픈API → 인증키 신청\n'
+      + '2. 활용 API에서 "2D 데이터API" 체크 (연속지적도 포함)\n'
+      + '3. 도메인: ' + location.hostname + ' 등록\n'
+      + '4. 발급된 키를 아래에서 입력',
+      '📐',
+      [
+        { label:'키 입력하기', cls:'primary', fn: () => {
+          const k = prompt('브이월드 Open API 인증키를 입력하세요:');
+          if (k && k.trim()) {
+            localStorage.setItem('phgz_vworld_key', k.trim());
+            showToast('✅ 저장 완료. 다시 버튼을 눌러 지적경계를 표시하세요.');
+          }
+        }},
+        { label:'나중에', cls:'secondary', fn: null }
+      ]
+    );
+    return;
+  }
+
+  cadastralEnabled = !cadastralEnabled;
+  const btn = document.getElementById('btn-cadastral');
+  if (cadastralEnabled) {
+    btn?.classList.add('active');
+    if (map.getZoom() < 17) {
+      showToast('📐 지적경계 표시 켜짐 — 화면을 확대하면 필지 경계선이 나타납니다.');
+    }
+    renderCadastralLayer();
+    if (cadastralIdleListenerId === null) {
+      cadastralIdleListenerId = naver.maps.Event.addListener(map, 'idle', () => {
+        if (!cadastralEnabled) return;
+        clearTimeout(window._cadastralTimer);
+        window._cadastralTimer = setTimeout(renderCadastralLayer, 300);
+      });
+    }
+    if (map.getZoom() >= 17) showToast('📐 지적경계가 표시되었습니다.');
+  } else {
+    btn?.classList.remove('active');
+    clearCadastralPolys();
+    showToast('📐 지적경계를 숨겼습니다.');
+  }
+}
+
 function clearSearch() {
   document.getElementById('addr-input').value = '';
   document.getElementById('addr-dropdown').style.display = 'none';
@@ -4565,10 +4858,11 @@ function drawPoly(z) {
   // 장미 정보 연동 뱃지
   const roseInfo = roseZones.find(r => r.zoneId === z.id);
   const roseBadge = roseInfo ? '<span style="font-size:9px;background:#fce4ec;color:#c0392b;border:1px solid #f8a5a5;border-radius:8px;padding:1px 5px;margin-left:3px">🌹</span>' : '';
-  // 라벨 표시 대상 (숨김이면 null, 그룹라벨 숨김이면 null, 줄어들면 null)
-  // 🔧 217개 등 구역 수가 많아지면 라벨이 서로 겹쳐 지도를 뒤덮는 문제 → 일정 축소 이상에서는 라벨 숨기고 도형만 표시
-  const zoomOkForLabel = !map || map.getZoom() >= MAP_LABEL_ZOOM_MIN;
-  const labelMap = (mapTarget === null || !zoomOkForLabel) ? null :
+  // 라벨 표시 대상 (숨김이면 null, 그룹라벨 숨김이면 null)
+  // 🌿 녹지관리 탭: 구역명이 많아지면 지도가 어지러워지므로 기본은 숨기고,
+  //    해당 구역을 클릭(선택)했을 때만 이름을 보이게 함
+  const labelMap = mapTarget === null ? null :
+    (zt === 'green' && !isSel) ? null :
     (!showGroupLabels && z.groupId && groups.find(g=>g.id===z.groupId)) ? null : map;
 
   // grpHidden/mapTarget은 위에서 선언됨
@@ -4583,7 +4877,7 @@ function drawPoly(z) {
 
   // D-Day 마커
   const nl = (z.logs||[]).filter(l=>l.next).sort((a,b)=>a.next>b.next?1:-1)[0];
-  if (nl?.next && labelMap) { // 이름표가 숨겨진 상태(축소)면 D-Day 마커도 함께 숨김
+  if (nl?.next) {
     const d = Math.ceil((new Date(nl.next) - new Date(todayStr())) / 864e5);
     const dc = d < 0 ? '#c62828' : d <= 7 ? '#e65100' : '#2e7d32';
     const dl = d < 0 ? `D+${Math.abs(d)} 지남` : d === 0 ? 'D-Day' : `D-${d}`;
@@ -5024,11 +5318,11 @@ function zcardHTML(z) {
   const isMultiSel = multiSelectMode;
   const isChecked = multiSelectedZones.has(z.id);
   return `<div class="zcard ${selId===z.id?'active':''}" onclick="${isMultiSel ? `toggleZoneMultiSelect(event,'${z.id}')` : `selectZone('${z.id}')`}" style="border-left-color:${selId===z.id?col:'transparent'};${isMultiSel?'display:flex;align-items:flex-start;gap:6px':''}">
-    ${isMultiSel ? `<input type="checkbox" ${isChecked?'checked':''} onclick="event.stopPropagation();toggleZoneMultiSelect(event,'${z.id}')" style="margin-top:1px;flex-shrink:0;cursor:pointer;width:20px;height:20px;padding:6px;box-sizing:content-box">` : ''}
+    ${isMultiSel ? `<input type="checkbox" ${isChecked?'checked':''} onclick="event.stopPropagation();toggleZoneMultiSelect(event,'${z.id}')" style="margin-top:3px;flex-shrink:0;cursor:pointer">` : ''}
     <div style="${isMultiSel?'flex:1;min-width:0':''}">
     <div class="zcard-top">
       <div class="zcard-name">${escapeHTML(z.name)}${roseZones.some(r=>r.zoneId===z.id)?'<span style="font-size:9px;background:#fce4ec;color:#c0392b;border:1px solid #f8a5a5;border-radius:8px;padding:1px 5px;margin-left:3px">🌹</span>':''}</div>
-      ${!isMultiSel ? `<span onclick="event.stopPropagation();toggleZonePin('${z.id}')" title="${pinnedZones.has(z.id)?'고정 해제':'목록 맨 위에 고정'}" style="cursor:pointer;font-size:14px;flex-shrink:0;padding:8px;margin:-8px -2px -8px -8px;display:inline-flex;align-items:center;justify-content:center">${pinnedZones.has(z.id)?'📌':'📍'}</span>` : ''}
+      ${!isMultiSel ? `<span onclick="event.stopPropagation();toggleZonePin('${z.id}')" title="${pinnedZones.has(z.id)?'고정 해제':'목록 맨 위에 고정'}" style="cursor:pointer;font-size:13px;flex-shrink:0;margin-right:4px">${pinnedZones.has(z.id)?'📌':'📍'}</span>` : ''}
       <span class="badge" style="background:${st.bg};color:${st.color};border:1px solid ${st.color}33">${st.label}</span>
     </div>
     <div class="zcard-team">
@@ -5053,7 +5347,27 @@ function renderStats(el) {
 
   const byStatus = Object.entries(ST).map(([k,v]) => ({...v, count: tabZones.filter(z=>z.status===k).length}));
   const byWT     = WT.map(w => ({...w, count: tabZones.filter(z=>(z.workTypes||[]).includes(w.id)).length})).filter(w=>w.count>0);
-  const byGrp    = groups.map(g => ({...g, count: tabZones.filter(z=>z.groupId===g.id).length})).filter(g=>g.count>0);
+  // 📊 그룹별 집계: 구역 수·총 면적뿐 아니라 풀베기 면적, 교목/관목 수종별 수량, 시설물 개수까지 확장
+  function aggregateSpeciesCounts(zList, field) {
+    const map = {};
+    zList.forEach(z => (z[field]||[]).forEach(r => {
+      const sp = (r.species||'').trim(); if (!sp) return;
+      map[sp] = (map[sp]||0) + (r.qty||0);
+    }));
+    return Object.entries(map).sort((a,b)=>b[1]-a[1]);
+  }
+  const byGrp = groups.map(g => {
+    const gZones = tabZones.filter(z=>z.groupId===g.id);
+    return {
+      ...g,
+      count: gZones.length,
+      area: gZones.reduce((s,z)=>s+(z.area||0),0),
+      mowingArea: gZones.reduce((s,z)=>s+(z.mowingArea||0),0),
+      facilityCount: gZones.reduce((s,z)=>s+(z.facilityCount||0),0),
+      treeAgg: aggregateSpeciesCounts(gZones, 'treeCounts'),
+      shrubAgg: aggregateSpeciesCounts(gZones, 'shrubCounts'),
+    };
+  }).filter(g=>g.count>0);
   const rl       = tabZones.flatMap(z=>(z.logs||[]).map(l=>({...l,zn:z.name,zid:z.id}))).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,8);
 
   // 민원 월별 집계 (최근 6개월)
@@ -5131,15 +5445,34 @@ function renderStats(el) {
     <!-- 그룹별 현황 -->
     ${byGrp.length > 0 ? `
     <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
-      <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px">📁 그룹별 구역 현황</div>
-      ${byGrp.map(g=>`
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px">📁 그룹별 구역 현황 <span style="font-weight:400;color:var(--text-l)">(👆 클릭하면 면적·수종·시설물 상세)</span></div>
+      ${byGrp.map((g,gi)=>`
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;cursor:pointer" onclick="toggleGroupStatDetail(${gi})">
           <div style="width:10px;height:10px;border-radius:50%;background:${g.color||'#888'};flex-shrink:0"></div>
           <span style="flex:1;font-size:11px">${escapeHTML(g.name)}</span>
+          <span style="font-size:10px;color:var(--text-l)">${formatArea(g.area)}</span>
           <div style="background:var(--green-bg);color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">${g.count}개</div>
+          <span id="grp-stat-caret-${gi}" style="font-size:9px;color:#999">▾</span>
         </div>
         <div style="height:4px;background:#f0f0f0;border-radius:2px;margin-bottom:8px;margin-left:18px">
           <div style="height:100%;background:${g.color||'#888'};border-radius:2px;width:${Math.round(g.count/Math.max(total,1)*100)}%;opacity:.7"></div>
+        </div>
+        <div id="grp-stat-detail-${gi}" style="display:none;margin:0 0 12px 18px;padding:10px 12px;background:#fafafa;border:1px solid #eee;border-radius:8px;font-size:11px">
+          <div style="display:flex;gap:16px;margin-bottom:8px;flex-wrap:wrap">
+            <div><span style="color:#888">총 면적</span> <strong>${formatArea(g.area)}</strong></div>
+            <div><span style="color:#888">✂️ 풀베기 면적</span> <strong>${g.mowingArea.toLocaleString()}㎡</strong></div>
+            <div><span style="color:#888">🏗 시설물</span> <strong>${g.facilityCount.toLocaleString()}EA</strong></div>
+          </div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap">
+            <div style="flex:1;min-width:140px">
+              <div style="font-weight:700;color:#2e7d32;margin-bottom:4px">🌳 교목</div>
+              ${g.treeAgg.length ? g.treeAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${q.toLocaleString()}주</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
+            </div>
+            <div style="flex:1;min-width:140px">
+              <div style="font-weight:700;color:#558b2f;margin-bottom:4px">🌿 관목</div>
+              ${g.shrubAgg.length ? g.shrubAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${q.toLocaleString()}주</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
+            </div>
+          </div>
         </div>`).join('')}
     </div>` : ''}
 
@@ -5166,6 +5499,15 @@ function renderStats(el) {
     _drawCpMonthChart(cpByMonth);
     if (byWT.length > 0) _drawWtChart(byWT);
   });
+}
+
+function toggleGroupStatDetail(gi) {
+  const det = document.getElementById('grp-stat-detail-'+gi);
+  const car = document.getElementById('grp-stat-caret-'+gi);
+  if (!det) return;
+  const willShow = det.style.display === 'none';
+  det.style.display = willShow ? 'block' : 'none';
+  if (car) car.textContent = willShow ? '▴' : '▾';
 }
 
 function _drawStatusChart(byStatus) {
@@ -5381,6 +5723,20 @@ function openEditModal() {
   }
   document.getElementById('f-manager').value=z.manager||'';
   document.getElementById('f-worker-default').value=z.workerDefault||'';
+  // 📊 구역별 수량 관리 필드 불러오기
+  const maEl = document.getElementById('f-mowing-area');
+  const fcEl = document.getElementById('f-facility-count');
+  if (maEl) maEl.value = z.mowingArea || '';
+  if (fcEl) fcEl.value = z.facilityCount || '';
+  window._editTreeCounts  = JSON.parse(JSON.stringify(z.treeCounts  || []));
+  window._editShrubCounts = JSON.parse(JSON.stringify(z.shrubCounts || []));
+  renderZoneCountRows('tree');
+  renderZoneCountRows('shrub');
+  // 추가 정보 섹션은 매번 접힌 상태로 시작 (평소엔 숨김)
+  const advSec = document.getElementById('f-advanced-section');
+  const advBtn = document.getElementById('f-advanced-toggle');
+  if (advSec) advSec.style.display = 'none';
+  if (advBtn) advBtn.textContent = '🔧 담당자·작업유형·예정일 더보기 ▾';
   const ztEl = document.getElementById('f-zone-type');
   if (ztEl) ztEl.value = z.zoneType || (getCurrentZoneType());
   selWTs=[...(z.workTypes||[])];
@@ -5509,6 +5865,67 @@ function removePartFromZone(idx) {
   );
 }
 function closeEditModal(){document.getElementById('edit-modal').classList.remove('show');editId=null;}
+
+/* ══════════════════════════════════════════════
+   🔧 구역 편집 모달 — 추가 정보 접기/펼치기
+══════════════════════════════════════════════ */
+function toggleEditAdvanced() {
+  const sec = document.getElementById('f-advanced-section');
+  const btn = document.getElementById('f-advanced-toggle');
+  if (!sec || !btn) return;
+  const willShow = sec.style.display === 'none';
+  sec.style.display = willShow ? 'block' : 'none';
+  btn.textContent = willShow ? '🔧 담당자·작업유형·예정일 접기 ▴' : '🔧 담당자·작업유형·예정일 더보기 ▾';
+}
+
+/* ══════════════════════════════════════════════
+   📊 구역별 수량 관리 — 교목/관목 수종별 수량 행 편집
+   (모달이 열려있는 동안만 window._editTreeCounts / _editShrubCounts 에 임시 보관,
+    저장(saveZone) 시점에 zone 객체로 확정 반영)
+══════════════════════════════════════════════ */
+function renderZoneCountRows(kind) {
+  const isTree = kind === 'tree';
+  const rows = isTree ? window._editTreeCounts : window._editShrubCounts;
+  const el = document.getElementById(isTree ? 'f-tree-count-rows' : 'f-shrub-count-rows');
+  if (!el) return;
+  const datalistId = isTree ? 'tp-species-datalist' : 'sp-species-datalist';
+  if (!rows.length) {
+    el.innerHTML = '<div style="font-size:10px;color:#aaa;padding:4px 2px">등록된 ' + (isTree?'교목':'관목') + '이 없습니다</div>';
+    return;
+  }
+  el.innerHTML = rows.map((r, i) => `
+    <div style="display:flex;gap:5px;align-items:center;margin-bottom:5px">
+      <input class="fi" list="${datalistId}" placeholder="수종명 선택/입력" value="${escapeHTML(r.species||'')}"
+        oninput="updateZoneCountRow('${kind}',${i},'species',this.value)"
+        style="flex:2;font-size:11px">
+      <input type="number" min="0" step="1" class="fi" placeholder="수량" value="${r.qty||''}"
+        oninput="updateZoneCountRow('${kind}',${i},'qty',this.value)"
+        style="width:70px;font-size:11px">
+      <span style="font-size:10px;color:#888;flex-shrink:0">주</span>
+      <button type="button" onclick="removeZoneCountRow('${kind}',${i})"
+        style="flex-shrink:0;background:#ffebee;color:#c62828;border:none;border-radius:5px;width:22px;height:22px;font-size:12px;cursor:pointer;font-family:inherit">✕</button>
+    </div>`).join('');
+}
+function addZoneCountRow(kind) {
+  const list = kind === 'tree' ? window._editTreeCounts : window._editShrubCounts;
+  list.push({ species:'', qty:1 });
+  renderZoneCountRows(kind);
+}
+function removeZoneCountRow(kind, idx) {
+  const list = kind === 'tree' ? window._editTreeCounts : window._editShrubCounts;
+  list.splice(idx, 1);
+  renderZoneCountRows(kind);
+}
+function updateZoneCountRow(kind, idx, field, value) {
+  const list = kind === 'tree' ? window._editTreeCounts : window._editShrubCounts;
+  if (!list[idx]) return;
+  if (field === 'qty') {
+    list[idx].qty = value === '' ? '' : Math.max(0, parseInt(value) || 0);
+  } else {
+    list[idx].species = value;
+  }
+}
+
 function saveZone(){
   const name=document.getElementById('f-name').value.trim();
   if(!name){showToast('⚠️ 구역명을 입력해주세요');return;}
@@ -5520,6 +5937,15 @@ function saveZone(){
   z.manager=document.getElementById('f-manager').value.trim();
   z.workerDefault=document.getElementById('f-worker-default').value.trim();
   z.color=pickedZoneColor;
+  // 📊 구역별 수량 관리 저장 (수종명 비어있는 행은 제외, 새 배열로 할당하여 기본값과 참조 공유 방지)
+  const maVal = parseFloat(document.getElementById('f-mowing-area')?.value);
+  const fcVal = parseInt(document.getElementById('f-facility-count')?.value);
+  z.mowingArea = isFinite(maVal) ? maVal : 0;
+  z.facilityCount = isFinite(fcVal) ? fcVal : 0;
+  z.treeCounts = (window._editTreeCounts||[]).filter(r=>r.species && r.species.trim()).map(r=>({species:r.species.trim(), qty: r.qty||0}));
+  z.shrubCounts = (window._editShrubCounts||[]).filter(r=>r.species && r.species.trim()).map(r=>({species:r.species.trim(), qty: r.qty||0}));
+  z.treeCounts.forEach(r => addSpeciesIfNew('tree', r.species));
+  z.shrubCounts.forEach(r => addSpeciesIfNew('shrub', r.species));
   // 분류가 현재 탭과 다르면 다른 탭으로 이동한 것 → 안내
   const newType = z.zoneType;
   const curType = getCurrentZoneType();
@@ -5896,13 +6322,25 @@ function handleImport(e){
 ══════════════════════════════════════════════ */
 function updateHeaderStats() {
   const tab = currentAppTab || 'green';
-  if (['green','mowing','flower'].includes(tab)) {
-    // 🔒 녹지/풀베기사업/초화식재 — 반드시 현재 탭 구역만 집계 (버그 수정: 예전엔 전체 zones를 다 합산했음)
-    const tabZones = zones.filter(z => zoneTypeOf(z) === tab);
-    const total = tabZones.length;
-    const logs  = tabZones.reduce((s,z)=>s+(z.logs||[]).length,0);
-    const area  = tabZones.reduce((s,z)=>s+(z.area||0),0);
-    const issue = tabZones.filter(z=>z.status==='issue').length;
+  if (tab === 'tree') {
+    // 박가혜 탭은 녹지 통계 방식과 동일
+    const total = zones.filter(z=>z.zoneType==='tree').length;
+    const logs  = zones.filter(z=>z.zoneType==='tree').reduce((s,z)=>s+(z.logs||[]).length,0);
+    const area  = Math.round(zones.filter(z=>z.zoneType==='tree').reduce((s,z)=>s+(z.area||0),0));
+    const hs1=document.getElementById('hs-stat-1'),hs2=document.getElementById('hs-stat-2'),
+          hs3=document.getElementById('hs-stat-3'),hs4=document.getElementById('hs-stat-4');
+    if(hs1) hs1.textContent=total; if(hs2) hs2.textContent=logs;
+    if(hs3) hs3.textContent=(area/10000).toFixed(2)+'ha';
+    if(hs4) hs4.textContent='🌳 수목관리';
+    const l1=document.getElementById('hs-stat-l1');const l2=document.getElementById('hs-stat-l2');
+    const l3=document.getElementById('hs-stat-l3');const l4=document.getElementById('hs-stat-l4');
+    if(l1) l1.textContent='관리 구역'; if(l2) l2.textContent='작업 기록';
+    if(l3) l3.textContent='총 면적';   if(l4) l4.textContent='탭';
+  } else if (tab === 'green') {
+    const total = zones.length;
+    const logs  = zones.reduce((s,z)=>s+(z.logs||[]).length,0);
+    const area  = zones.reduce((s,z)=>s+(z.area||0),0);
+    const issue = zones.filter(z=>z.status==='issue').length;
     document.getElementById('hs-zones').textContent = total;
     document.getElementById('hs-logs').textContent  = logs;
     document.getElementById('hs-area').textContent  = area>9999?(area/10000).toFixed(1)+'ha':Math.round(area).toLocaleString();
@@ -7850,6 +8288,10 @@ async function verifyTokenAndSync() {
       // 데이터는 받았지만 적용 중 오류 — 사용자에게 명확히 알림
       updateSyncStatus('error');
       showToast('⚠️ 데이터를 불러왔지만 적용 중 오류가 발생했습니다. 새로고침 해주세요.');
+    } else if (loadResult === 'blocked') {
+      // 🚨 클라우드 데이터가 화면보다 훨씬 적음 — 자동으로 덮어쓰지 않고 경고만 표시
+      updateSyncStatus('error');
+      showToast('🚨 클라우드 데이터가 화면보다 훨씬 적어 자동 동기화를 보류했습니다. "🔄 최신 불러오기"로 직접 확인해주세요.');
     }
     // 3) 자동 동기화 시작
     startAutoSync();
@@ -7889,30 +8331,11 @@ async function loadFromGitHubSafe() {
     }
     const file = await res.json();
     lastSha = file.sha;
-
-    let json;
-    if (!file.content || file.content.trim() === '') {
-      // 🔧 파일이 1MB를 넘으면 GitHub Contents API가 content를 비워서 반환함 (원인 확정)
-      // → download_url(원본 파일 직접 다운로드 링크)로 대신 받아온다
-      console.log('[Sync] 파일이 커서(1MB 초과) content가 비어있음 → download_url로 재시도');
-      if (!file.download_url) {
-        console.error('[Sync] download_url도 없음 — 응답 자체를 확인 필요:', file);
-        return 'error';
-      }
-      const rawRes = await fetch(file.download_url + '?t=' + Date.now());
-      if (!rawRes.ok) {
-        console.error('[Sync] 대용량 파일 원본 다운로드 실패:', rawRes.status);
-        return 'error';
-      }
-      json = await rawRes.text();
-    } else {
-      const b64 = file.content.replace(/\n/g,'');
-      const binStr2 = atob(b64);
-      const bytes2 = new Uint8Array(binStr2.length);
-      for (let i=0;i<binStr2.length;i++) bytes2[i]=binStr2.charCodeAt(i);
-      json = new TextDecoder().decode(bytes2);
-    }
-
+    const b64 = file.content.replace(/\n/g,'');
+    const binStr2 = atob(b64);
+    const bytes2 = new Uint8Array(binStr2.length);
+    for (let i=0;i<binStr2.length;i++) bytes2[i]=binStr2.charCodeAt(i);
+    const json = new TextDecoder().decode(bytes2);
     const data = JSON.parse(json);
 
     // 데이터 유효성 검증 (조용한 실패 방지)
@@ -7927,6 +8350,15 @@ async function loadFromGitHubSafe() {
 
     console.log('[Sync] 클라우드 데이터 수신:', data.zones.length, '개 구역,', (data.complaints||[]).length, '개 민원');
 
+    // 🚨 안전장치: 클라우드 데이터가 지금 화면보다 훨씬 적으면 자동 적용하지 않음
+    // (2026-08-12 사고: 다른 기기의 빈/샘플 데이터가 클라우드를 덮어써서, 정상 기기가
+    //  페이지 새로고침 시 그걸 그대로 받아 화면 데이터까지 사라진 사고의 재발 방지)
+    if (isSuspiciousShrink(zones.length, data.zones.length)) {
+      console.error('[Sync] 🚨 원격 데이터 급감 감지 — 자동 적용 중단:', zones.length, '→', data.zones.length);
+      window._blockedRemoteData = data; // 사용자가 그래도 불러오길 원할 경우를 위해 보관
+      return 'blocked';
+    }
+
     applyData(data);
     localStorage.setItem('lastGHSave', data.savedAt || new Date().toISOString());
     markSaved();
@@ -7935,6 +8367,71 @@ async function loadFromGitHubSafe() {
   } catch(e) {
     console.error('[Sync] 데이터 로드/적용 실패:', e);
     return 'error';
+  }
+}
+
+// ── 수동 "최신 불러오기" 버튼 ────────────────────────────────
+// 자동 동기화(30초 주기)가 여러 사유(네트워크 순단, 미저장 변경 등)로
+// 지연될 수 있어, 사용자가 원할 때 즉시 클라우드 최신본을 확인하는 버튼.
+async function manualLoadFromGitHub() {
+  if (!ghToken) { openGitHubSettings(); return; }
+  if (isSyncing) { showToast('⏳ 동기화 중입니다. 잠시 후 다시 시도해주세요.'); return; }
+  if (unsavedChanges) {
+    showConfirm(
+      '⚠️ 이 기기에 아직 클라우드에 저장되지 않은 변경사항이 있습니다.\n\n'
+      + '지금 최신 데이터를 불러오면 이 기기의 저장되지 않은 변경사항이 사라집니다.\n'
+      + '먼저 "☁️ 클라우드 저장"을 눌러 저장한 뒤 다시 시도하는 것을 권장합니다.\n\n'
+      + '그래도 최신 데이터를 불러오시겠습니까?',
+      '⚠️',
+      [
+        { label:'그래도 불러오기', cls:'danger', fn: () => forceLoadFromGitHub() },
+        { label:'취소', cls:'secondary', fn:null }
+      ]
+    );
+    return;
+  }
+  await forceLoadFromGitHub();
+}
+
+async function forceLoadFromGitHub() {
+  isSyncing = true;
+  updateSyncStatus('checking');
+  showToast('🔄 클라우드에서 최신 데이터를 확인하는 중...');
+  let result;
+  try {
+    result = await loadFromGitHubSafe();
+  } finally {
+    isSyncing = false;
+  }
+  if (result === 'ok') {
+    showToast('✅ 최신 데이터로 갱신되었습니다!');
+    updateSyncStatus('synced');
+  } else if (result === 'empty') {
+    showToast('ℹ️ 클라우드에 저장된 데이터가 없습니다.');
+    updateSyncStatus('synced');
+  } else if (result === 'blocked') {
+    updateSyncStatus('error');
+    const blocked = window._blockedRemoteData;
+    const remoteN = blocked && Array.isArray(blocked.zones) ? blocked.zones.length : '?';
+    showConfirm(
+      '🚨 클라우드 데이터(' + remoteN + '개 구역)가 지금 화면(' + zones.length + '개 구역)보다 훨씬 적습니다.\n\n'
+      + '이대로 불러오면 화면의 데이터가 사라집니다. 정말 불러오시겠습니까?',
+      '🚨',
+      [
+        { label:'그래도 불러오기', cls:'danger', fn: () => {
+            if (!blocked) { showToast('⚠️ 데이터가 만료되었습니다. 다시 시도해주세요.'); return; }
+            applyData(blocked);
+            localStorage.setItem('lastGHSave', blocked.savedAt || new Date().toISOString());
+            markSaved();
+            showToast('🔄 최신 데이터로 업데이트되었습니다!');
+            updateSyncStatus('synced');
+          } },
+        { label:'취소', cls:'secondary', fn: null }
+      ]
+    );
+  } else {
+    showToast('⚠️ 최신 데이터를 불러오지 못했습니다. 인터넷 연결 또는 토큰을 확인해주세요.');
+    updateSyncStatus('error');
   }
 }
 
@@ -8019,6 +8516,26 @@ async function manualRefresh() {
   } else if (result === 'empty') {
     updateSyncStatus('synced');
     showToast('ℹ️ 클라우드에 저장된 데이터가 없습니다. ☁️ 클라우드 저장으로 업로드해주세요.');
+  } else if (result === 'blocked') {
+    updateSyncStatus('error');
+    const blocked = window._blockedRemoteData;
+    const remoteN = blocked && Array.isArray(blocked.zones) ? blocked.zones.length : '?';
+    showConfirm(
+      '🚨 클라우드 데이터(' + remoteN + '개 구역)가 지금 화면(' + before + '개 구역)보다 훨씬 적습니다.\n\n'
+      + '이대로 불러오면 화면의 데이터가 사라집니다. 정말 불러오시겠습니까?',
+      '🚨',
+      [
+        { label:'그래도 불러오기', cls:'danger', fn: () => {
+            if (!blocked) { showToast('⚠️ 데이터가 만료되었습니다. 다시 시도해주세요.'); return; }
+            applyData(blocked);
+            localStorage.setItem('lastGHSave', blocked.savedAt || new Date().toISOString());
+            markSaved();
+            showToast('🔄 최신 데이터로 업데이트되었습니다!');
+            updateSyncStatus('synced');
+          } },
+        { label:'취소', cls:'secondary', fn: null }
+      ]
+    );
   } else {
     updateSyncStatus('error');
     showToast('❌ 동기화 실패 — 콘솔(F12)에서 자세한 오류를 확인하거나 관리자에게 문의하세요.');
@@ -8398,9 +8915,11 @@ function generateReport() {
       if ((l.date||'').startsWith(ym)) logs.push({...l, zoneName: z.name, zoneType: z.zoneType||'green'});
     });
   });
-  const greenLogs = logs.filter(l => l.zoneType === 'green');
-  const roseLogs  = logs.filter(l => l.zoneType === 'rose');
-  const treeLogs  = logs.filter(l => l.zoneType === 'tree');
+  const greenLogs  = logs.filter(l => l.zoneType === 'green');
+  const mowingLogs = logs.filter(l => l.zoneType === 'mowing');
+  const flowerLogs = logs.filter(l => l.zoneType === 'flower');
+  const roseLogs   = logs.filter(l => l.zoneType === 'rose');
+  const treeLogs   = logs.filter(l => l.zoneType === 'tree');
 
   // 작업유형별 집계
   const logByType = {};
@@ -8491,6 +9010,68 @@ function generateReport() {
     </table>` : '<div style="color:#999;font-size:11px;padding:8px">해당 월 작업기록 없음</div>'}
   </div>
 
+
+  <!-- 1-1. 풀베기사업 작업 현황 -->
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:14px;font-weight:700;color:#00695c;padding:6px 12px;background:#e0f2f1;border-left:4px solid #00695c;margin:0 0 10px">
+      1-1. 풀베기사업 작업 현황 (${mowingLogs.length}건)
+    </h2>
+    ${mowingLogs.length > 0 ? `
+    <table style="width:100%;border-collapse:collapse;font-size:11px">
+      <thead>
+        <tr style="background:#e0f2f1">
+          <th style="border:1px solid #ddd;padding:6px 8px;text-align:center;width:60px">작업일</th>
+          <th style="border:1px solid #ddd;padding:6px 8px;text-align:left">구역명</th>
+          <th style="border:1px solid #ddd;padding:6px 8px;text-align:center;width:80px">작업유형</th>
+          <th style="border:1px solid #ddd;padding:6px 8px;text-align:left">작업내용</th>
+          <th style="border:1px solid #ddd;padding:6px 8px;text-align:center;width:50px">담당자</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${mowingLogs.sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(l=>{
+          const wt = WT.find(w=>w.id===l.type);
+          return `<tr>
+            <td style="border:1px solid #ddd;padding:5px 8px;text-align:center">${(l.date||'').slice(5)}</td>
+            <td style="border:1px solid #ddd;padding:5px 8px">${escapeHTML(l.zoneName||'')}</td>
+            <td style="border:1px solid #ddd;padding:5px 8px;text-align:center">${wt ? wt.icon+' '+wt.label : (l.type||'-')}</td>
+            <td style="border:1px solid #ddd;padding:5px 8px">${escapeHTML(l.content||'-')}</td>
+            <td style="border:1px solid #ddd;padding:5px 8px;text-align:center">${escapeHTML(l.worker||'-')}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>` : '<div style="color:#999;font-size:11px;padding:8px">해당 월 작업기록 없음</div>'}
+  </div>
+
+  <!-- 1-2. 초화식재 작업 현황 -->
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:14px;font-weight:700;color:#e65100;padding:6px 12px;background:#fff3e0;border-left:4px solid #e65100;margin:0 0 10px">
+      1-2. 초화식재 작업 현황 (${flowerLogs.length}건)
+    </h2>
+    ${flowerLogs.length > 0 ? `
+    <table style="width:100%;border-collapse:collapse;font-size:11px">
+      <thead>
+        <tr style="background:#fff3e0">
+          <th style="border:1px solid #ddd;padding:6px 8px;text-align:center;width:60px">작업일</th>
+          <th style="border:1px solid #ddd;padding:6px 8px;text-align:left">구역명</th>
+          <th style="border:1px solid #ddd;padding:6px 8px;text-align:center;width:80px">작업유형</th>
+          <th style="border:1px solid #ddd;padding:6px 8px;text-align:left">작업내용</th>
+          <th style="border:1px solid #ddd;padding:6px 8px;text-align:center;width:50px">담당자</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${flowerLogs.sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(l=>{
+          const wt = WT.find(w=>w.id===l.type);
+          return `<tr>
+            <td style="border:1px solid #ddd;padding:5px 8px;text-align:center">${(l.date||'').slice(5)}</td>
+            <td style="border:1px solid #ddd;padding:5px 8px">${escapeHTML(l.zoneName||'')}</td>
+            <td style="border:1px solid #ddd;padding:5px 8px;text-align:center">${wt ? wt.icon+' '+wt.label : (l.type||'-')}</td>
+            <td style="border:1px solid #ddd;padding:5px 8px">${escapeHTML(l.content||'-')}</td>
+            <td style="border:1px solid #ddd;padding:5px 8px;text-align:center">${escapeHTML(l.worker||'-')}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>` : '<div style="color:#999;font-size:11px;padding:8px">해당 월 작업기록 없음</div>'}
+  </div>
   <!-- 2-1. 박가혜 관리 작업 현황 -->
     ${treeLogs.length > 0 ? `
     <div style="margin-bottom:20px">
@@ -9520,6 +10101,24 @@ let vworldIdleListenerId = null;
 
 function getVWorldKey() {
   return localStorage.getItem('phgz_vworld_key') || '';
+}
+
+// ※ 브이월드 데이터API/검색API는 브라우저 fetch()에 CORS를 열어주지 않아(직접 확인됨),
+//   JSONP(callback 파라미터 + <script> 태그)로 우회한다 — 서버 프록시 불필요 (전역 공용)
+function vworldJsonp(url, cbName) {
+  return new Promise((resolve, reject) => {
+    let script = null;
+    const timer = setTimeout(() => { cleanup(); reject(new Error('요청 시간 초과(10초) — 네트워크 상태를 확인해주세요')); }, 10000);
+    function cleanup() {
+      delete window[cbName];
+      if (script && script.parentNode) script.parentNode.removeChild(script);
+    }
+    window[cbName] = (data) => { clearTimeout(timer); cleanup(); resolve(data); };
+    script = document.createElement('script');
+    script.src = url;
+    script.onerror = () => { clearTimeout(timer); cleanup(); reject(new Error('스크립트 로드 실패 — 키/도메인 설정을 확인해주세요')); };
+    document.body.appendChild(script);
+  });
 }
 
 function lonLatToTileXY(lon, lat, zoom) {
@@ -11267,6 +11866,8 @@ function toggleMapToolsMore() {
 const ZONE_ITEM_DEFAULTS = {
   zoneType:'green', groupId:'', team:'', status:'active', workTypes:[], memo:'',
   manager:'', workerDefault:'', logs:[], area:0,
+  // 🌳 구역별 수량 관리 (풀베기 면적/교목·관목 수종별 수량/시설물 개수)
+  mowingArea: 0, treeCounts: [], shrubCounts: [], facilityCount: 0,
 };
 const CP_ITEM_DEFAULTS = {
   status:'접수', category:'', route:'', manager:'', contact:'', location:'', reply:'',
@@ -11492,80 +12093,6 @@ function getScopedWorkProjects() {
   return workProjects.filter(wp => (wp.zoneType || 'green') === zt);
 }
 
-
-/* ══════════════════════════════════════════════════════════════
-   🔧 1회성 마이그레이션 — 풀베기 데이터를 풀베기사업 탭으로 이전하고
-   녹지관리/초화식재 탭을 초기화 (클라이언트 명시적 요청, 되돌릴 수 없음)
-══════════════════════════════════════════════════════════════ */
-function openMigrationTool() {
-  const greenAll = zones.filter(z => zoneTypeOf(z) === 'green');
-  const mowingCandidates = greenAll.filter(z => /풀베기/.test(z.name||''));
-  const otherGreen = greenAll.filter(z => !/풀베기/.test(z.name||''));
-  const flowerAll = zones.filter(z => zoneTypeOf(z) === 'flower');
-
-  showConfirm(
-    `다음 작업을 실행합니다 (되돌릴 수 없음):\n\n`+
-    `1) "풀베기" 이름이 포함된 녹지구역 ${mowingCandidates.length}개 → ✂️ 풀베기사업 탭으로 이동\n`+
-    `2) 나머지 녹지관리 구역 ${otherGreen.length}개 → 삭제 (초기화)\n`+
-    `3) 초화식재 구역 ${flowerAll.length}개 → 삭제 (초기화)\n\n`+
-    `계속하시겠습니까?`,
-    '🔧',
-    [
-      { label: '실행', cls: 'danger', fn: () => runMigration(mowingCandidates, otherGreen, flowerAll) },
-      { label: '취소', cls: 'secondary', fn: null }
-    ]
-  );
-}
-
-function runMigration(mowingCandidates, otherGreen, flowerAll) {
-  const mvIds = new Set(mowingCandidates.map(z=>z.id));
-  const delIds = new Set([...otherGreen.map(z=>z.id), ...flowerAll.map(z=>z.id)]);
-
-  // ① 풀베기 구역 이동
-  zones.forEach(z => { if (mvIds.has(z.id)) z.zoneType = 'mowing'; });
-
-  // ② 이동된 구역이 속했던 그룹(녹지)도 함께 풀베기사업으로 이전 (그룹 자체가 풀베기 전용이었을 경우만)
-  const movedGroupIds = new Set(mowingCandidates.map(z=>z.groupId).filter(Boolean));
-  movedGroupIds.forEach(gid => {
-    const stillUsedByGreen = zones.some(z => z.groupId === gid && zoneTypeOf(z) === 'green' && !mvIds.has(z.id));
-    if (!stillUsedByGreen) {
-      const g = groups.find(gg => gg.id === gid);
-      if (g) g.zoneType = 'mowing';
-    }
-  });
-
-  // ③ 나머지 녹지구역 + 초화식재구역 삭제 (초기화)
-  zones = zones.filter(z => !delIds.has(z.id));
-  // 삭제된 구역들이 쓰던 지도 폴리곤도 정리
-  [...otherGreen, ...flowerAll].forEach(z => {
-    if (z.polygon) z.polygon.setMap(null);
-    if (z.polygons) z.polygons.forEach(p=>p&&p.setMap(null));
-    if (z.label) z.label.setMap(null);
-    if (z.labelD) z.labelD.setMap(null);
-  });
-
-  // ④ 이제 어떤 구역에도 쓰이지 않는 고아 그룹 정리 (green/flower 소속만)
-  const usedGroupIds = new Set(zones.map(z=>z.groupId).filter(Boolean));
-  groups = groups.filter(g => {
-    const gzt = g.zoneType || 'green';
-    if (gzt !== 'green' && gzt !== 'flower') return true; // 다른 탭 그룹은 그대로 유지
-    return usedGroupIds.has(g.id);
-  });
-
-  // ⑤ 마찬가지로 고아 작업묶음 정리 (green/flower 소속만)
-  workProjects = workProjects.filter(wp => {
-    const wzt = wp.zoneType || 'green';
-    if (wzt !== 'green' && wzt !== 'flower') return true;
-    return (wp.zoneIds||[]).some(zid => zones.some(z=>z.id===zid));
-  });
-
-  saveAll();
-  redrawAll();
-  buildFilters();
-  renderSidebar();
-  updateHeaderStats();
-  showToast(`✅ 마이그레이션 완료 — 풀베기 ${mvIds.size}개 이동, ${otherGreen.length+flowerAll.length}개 삭제`);
-}
 
 function getTreeZoomScale() {
   if (!treeMapInst) return 1;
@@ -14058,19 +14585,25 @@ function closeAllModals(){
   ['edit-modal','log-modal','log-edit-modal','group-modal','gh-settings-modal','dept-modal','wp-modal','wp-detail-modal','wt-modal','cp-modal','rose-modal','cp-map-modal','report-modal','schedule-modal','checklist-modal','bulk-log-modal'].forEach(id=>document.getElementById(id).classList.remove('show'));
   closeCfm(); editId=null;
 }
-['edit-modal','log-modal','log-edit-modal','group-modal','gh-settings-modal','dept-modal','wp-modal','wp-detail-modal','wt-modal'].forEach(id=>{
-  document.getElementById(id).addEventListener('click',function(e){
-    if(e.target===this) {
-      if(id==='edit-modal')closeEditModal();
-      else if(id==='log-modal')closeLogModal();
-      else if(id==='log-edit-modal')closeLogEditModal();
-      else if(id==='group-modal')closeGroupModal();
-      else if(id==='gh-settings-modal')closeGitHubSettings();
-      else if(id==='dept-modal')closeDeptModal();
-      else if(id==='wp-modal')closeWorkProjectModal();
-      else if(id==='wp-detail-modal')closeWpDetailModal();
-      else if(id==='wt-modal')closeWtModal();
-    }
+// 🩹 안전패치: 이 시점에 아직 파싱되지 않은 모달(wp/wt/dept/gh-settings 등)이 있어
+// getElementById가 null을 반환해 addEventListener가 죽는 문제 → DOMContentLoaded 이후로 지연
+document.addEventListener('DOMContentLoaded', function(){
+  ['edit-modal','log-modal','log-edit-modal','group-modal','gh-settings-modal','dept-modal','wp-modal','wp-detail-modal','wt-modal'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('click',function(e){
+      if(e.target===this) {
+        if(id==='edit-modal')closeEditModal();
+        else if(id==='log-modal')closeLogModal();
+        else if(id==='log-edit-modal')closeLogEditModal();
+        else if(id==='group-modal')closeGroupModal();
+        else if(id==='gh-settings-modal')closeGitHubSettings();
+        else if(id==='dept-modal')closeDeptModal();
+        else if(id==='wp-modal')closeWorkProjectModal();
+        else if(id==='wp-detail-modal')closeWpDetailModal();
+        else if(id==='wt-modal')closeWtModal();
+      }
+    });
   });
 });
 document.getElementById('confirm-overlay').addEventListener('click',function(e){if(e.target===this)closeCfm();});
