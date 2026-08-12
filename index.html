@@ -3587,12 +3587,20 @@ async function loadFromGitHub(silent = false, force = false) {
     const file = await res.json();
     lastSha = file.sha;
 
-    // 한글 포함 데이터 안전 디코딩
-    const b64 = file.content.replace(/\n/g,'');
-    const binStr2 = atob(b64);
-    const bytes2 = new Uint8Array(binStr2.length);
-    for (let i=0;i<binStr2.length;i++) bytes2[i]=binStr2.charCodeAt(i);
-    const json = new TextDecoder().decode(bytes2);
+    // 한글 포함 데이터 안전 디코딩 (🔧 1MB 초과 시 content가 비어오는 문제 대응)
+    let json;
+    if (!file.content || file.content.trim() === '') {
+      if (!file.download_url) throw new Error('대용량 파일이지만 download_url 없음');
+      const rawRes = await fetch(file.download_url + '?t=' + Date.now());
+      if (!rawRes.ok) throw new Error('대용량 파일 원본 다운로드 실패: ' + rawRes.status);
+      json = await rawRes.text();
+    } else {
+      const b64 = file.content.replace(/\n/g,'');
+      const binStr2 = atob(b64);
+      const bytes2 = new Uint8Array(binStr2.length);
+      for (let i=0;i<binStr2.length;i++) bytes2[i]=binStr2.charCodeAt(i);
+      json = new TextDecoder().decode(bytes2);
+    }
     const data   = JSON.parse(json);
     const remote = data.savedAt || '';
     const local  = localStorage.getItem('lastGHSave') || '';
@@ -7848,11 +7856,30 @@ async function loadFromGitHubSafe() {
     }
     const file = await res.json();
     lastSha = file.sha;
-    const b64 = file.content.replace(/\n/g,'');
-    const binStr2 = atob(b64);
-    const bytes2 = new Uint8Array(binStr2.length);
-    for (let i=0;i<binStr2.length;i++) bytes2[i]=binStr2.charCodeAt(i);
-    const json = new TextDecoder().decode(bytes2);
+
+    let json;
+    if (!file.content || file.content.trim() === '') {
+      // 🔧 파일이 1MB를 넘으면 GitHub Contents API가 content를 비워서 반환함 (원인 확정)
+      // → download_url(원본 파일 직접 다운로드 링크)로 대신 받아온다
+      console.log('[Sync] 파일이 커서(1MB 초과) content가 비어있음 → download_url로 재시도');
+      if (!file.download_url) {
+        console.error('[Sync] download_url도 없음 — 응답 자체를 확인 필요:', file);
+        return 'error';
+      }
+      const rawRes = await fetch(file.download_url + '?t=' + Date.now());
+      if (!rawRes.ok) {
+        console.error('[Sync] 대용량 파일 원본 다운로드 실패:', rawRes.status);
+        return 'error';
+      }
+      json = await rawRes.text();
+    } else {
+      const b64 = file.content.replace(/\n/g,'');
+      const binStr2 = atob(b64);
+      const bytes2 = new Uint8Array(binStr2.length);
+      for (let i=0;i<binStr2.length;i++) bytes2[i]=binStr2.charCodeAt(i);
+      json = new TextDecoder().decode(bytes2);
+    }
+
     const data = JSON.parse(json);
 
     // 데이터 유효성 검증 (조용한 실패 방지)
