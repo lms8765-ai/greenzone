@@ -71,7 +71,13 @@
           "next": ""
         }
       ],
-      "workerDefault": "김철수"
+      "workerDefault": "김철수",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z2",
@@ -144,7 +150,13 @@
           "next": "2025-05-29"
         }
       ],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z3",
@@ -200,7 +212,13 @@
       ],
       "area": 29098,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782344126702",
@@ -559,7 +577,13 @@
       ],
       "area": 3005,
       "logs": [],
-      "workerDefault": "-"
+      "workerDefault": "-",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782344249581",
@@ -804,7 +828,13 @@
       ],
       "area": 2922,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782344338997",
@@ -1049,7 +1079,13 @@
       ],
       "area": 131,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782344434765",
@@ -1166,7 +1202,13 @@
       ],
       "area": 2695,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782344543006",
@@ -1449,7 +1491,13 @@
       ],
       "area": 1832,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782355538884",
@@ -1950,7 +1998,13 @@
       ],
       "area": 5489,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782431309171",
@@ -2919,7 +2973,13 @@
       ],
       "area": 51019,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782432663718",
@@ -3306,7 +3366,13 @@
       ],
       "area": 14662,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782433217350",
@@ -4627,7 +4693,13 @@
       ],
       "area": 7243,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782438234175",
@@ -5424,7 +5496,13 @@
       ],
       "area": 60900,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782438820380",
@@ -13021,7 +13099,13 @@
       ],
       "area": 24063,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782440165742",
@@ -25206,7 +25290,13 @@
       ],
       "area": 43867,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782458879517",
@@ -25983,7 +26073,13 @@
       ],
       "area": 20052,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782811388911",
@@ -26884,7 +26980,13 @@
       ],
       "area": 13407,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782812213649",
@@ -28393,7 +28495,13 @@
       ],
       "area": 49264,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782813712291",
@@ -30706,7 +30814,13 @@
       ],
       "area": 54124,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1782887738570",
@@ -30852,7 +30966,13 @@
           }
         }
       ],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1783063658458",
@@ -31561,7 +31681,13 @@
       ],
       "area": 32535,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1783300413412",
@@ -32528,7 +32654,13 @@
       ],
       "area": 6141,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1783304879253",
@@ -33845,7 +33977,13 @@
       ],
       "area": 14576,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785906112400",
@@ -34018,7 +34156,13 @@
       ],
       "area": 7761,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785906550868",
@@ -34783,7 +34927,13 @@
       ],
       "area": 11424,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785906598085",
@@ -35740,7 +35890,13 @@
       ],
       "area": 11998,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785906618766",
@@ -35977,7 +36133,13 @@
       ],
       "area": 10408,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785906660115",
@@ -36182,7 +36344,13 @@
       ],
       "area": 1091,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785906675273",
@@ -36523,7 +36691,13 @@
       ],
       "area": 974,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785906698878",
@@ -36912,7 +37086,13 @@
       ],
       "area": 1105,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785906716047",
@@ -37069,7 +37249,13 @@
       ],
       "area": 1226,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785907389339",
@@ -37138,7 +37324,13 @@
       ],
       "area": 2932,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785907434063",
@@ -37431,7 +37623,13 @@
       ],
       "area": 1242,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785907449613",
@@ -37660,7 +37858,13 @@
       ],
       "area": 1241,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785907630863",
@@ -38209,7 +38413,13 @@
       ],
       "area": 2529,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785907766581",
@@ -38742,7 +38952,13 @@
       ],
       "area": 2544,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785907796169",
@@ -39571,7 +39787,13 @@
       ],
       "area": 3148,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785907820138",
@@ -39760,7 +39982,13 @@
       ],
       "area": 1298,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785907857438",
@@ -39941,7 +40169,13 @@
       ],
       "area": 233,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785908073288",
@@ -40258,7 +40492,13 @@
       ],
       "area": 1802,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785908119335",
@@ -40415,7 +40655,13 @@
       ],
       "area": 485,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910324034",
@@ -40492,7 +40738,13 @@
       ],
       "area": 659,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910372257",
@@ -40809,7 +41061,13 @@
       ],
       "area": 1327,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910444942",
@@ -41166,7 +41424,13 @@
       ],
       "area": 2235,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910485935",
@@ -41683,7 +41947,13 @@
       ],
       "area": 3077,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910508750",
@@ -42000,7 +42270,13 @@
       ],
       "area": 1802,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910531628",
@@ -42421,7 +42697,13 @@
       ],
       "area": 3016,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910621826",
@@ -42594,7 +42876,13 @@
       ],
       "area": 1722,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910645012",
@@ -42679,7 +42967,13 @@
       ],
       "area": 1284,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910664069",
@@ -42740,7 +43034,13 @@
       ],
       "area": 879,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910686592",
@@ -42825,7 +43125,13 @@
       ],
       "area": 943,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910715383",
@@ -43086,7 +43392,13 @@
       ],
       "area": 3177,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910770251",
@@ -43187,7 +43499,13 @@
       ],
       "area": 607,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910793366",
@@ -43256,7 +43574,13 @@
       ],
       "area": 709,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910810238",
@@ -43341,7 +43665,13 @@
       ],
       "area": 1087,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910846977",
@@ -43434,7 +43764,13 @@
       ],
       "area": 535,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910864180",
@@ -43615,7 +43951,13 @@
       ],
       "area": 1066,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910965541",
@@ -43820,7 +44162,13 @@
       ],
       "area": 1922,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785910985435",
@@ -43961,7 +44309,13 @@
       ],
       "area": 1345,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911031573",
@@ -44052,7 +44406,13 @@
       ],
       "area": 198,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911340685",
@@ -44129,7 +44489,13 @@
       ],
       "area": 1066,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911357018",
@@ -44206,7 +44572,13 @@
       ],
       "area": 1046,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911371007",
@@ -44283,7 +44655,13 @@
       ],
       "area": 851,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911434239",
@@ -44360,7 +44738,13 @@
       ],
       "area": 564,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911451626",
@@ -44437,7 +44821,13 @@
       ],
       "area": 1392,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911478179",
@@ -44514,7 +44904,13 @@
       ],
       "area": 1379,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911493863",
@@ -44599,7 +44995,13 @@
       ],
       "area": 526,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911509467",
@@ -44684,7 +45086,13 @@
       ],
       "area": 1853,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911524611",
@@ -44761,7 +45169,13 @@
       ],
       "area": 1652,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911537832",
@@ -44838,7 +45252,13 @@
       ],
       "area": 656,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911551740",
@@ -44915,7 +45335,13 @@
       ],
       "area": 1704,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911566813",
@@ -44992,7 +45418,13 @@
       ],
       "area": 1357,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911580872",
@@ -45077,7 +45509,13 @@
       ],
       "area": 437,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911940360",
@@ -45258,7 +45696,13 @@
       ],
       "area": 3163,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911959159",
@@ -45439,7 +45883,13 @@
       ],
       "area": 2902,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785911978646",
@@ -45532,7 +45982,13 @@
       ],
       "area": 1185,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912000155",
@@ -45617,7 +46073,13 @@
       ],
       "area": 1404,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912104282",
@@ -45686,7 +46148,13 @@
       ],
       "area": 951,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912119864",
@@ -45763,7 +46231,13 @@
       ],
       "area": 701,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912134992",
@@ -46088,7 +46562,13 @@
       ],
       "area": 1852,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912156192",
@@ -46181,7 +46661,13 @@
       ],
       "area": 3545,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912172509",
@@ -46266,7 +46752,13 @@
       ],
       "area": 2263,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912207746",
@@ -46359,7 +46851,13 @@
       ],
       "area": 476,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912223678",
@@ -46436,7 +46934,13 @@
       ],
       "area": 1101,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912241431",
@@ -46513,7 +47017,13 @@
       ],
       "area": 1295,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912258199",
@@ -46878,7 +47388,13 @@
       ],
       "area": 1454,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912273352",
@@ -47003,7 +47519,13 @@
       ],
       "area": 689,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912285003",
@@ -47080,7 +47602,13 @@
       ],
       "area": 446,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912298874",
@@ -47157,7 +47685,13 @@
       ],
       "area": 1556,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912316570",
@@ -47234,7 +47768,13 @@
       ],
       "area": 1718,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912334694",
@@ -47311,7 +47851,13 @@
       ],
       "area": 675,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912375613",
@@ -47516,7 +48062,13 @@
       ],
       "area": 1115,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912398125",
@@ -47585,7 +48137,13 @@
       ],
       "area": 1414,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912412961",
@@ -47710,7 +48268,13 @@
       ],
       "area": 1534,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912435097",
@@ -47787,7 +48351,13 @@
       ],
       "area": 214,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912457094",
@@ -48008,7 +48578,13 @@
       ],
       "area": 2251,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912477479",
@@ -48069,7 +48645,13 @@
       ],
       "area": 1879,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912575069",
@@ -48130,7 +48712,13 @@
       ],
       "area": 75,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912588449",
@@ -48223,7 +48811,13 @@
       ],
       "area": 275,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912607348",
@@ -48348,7 +48942,13 @@
       ],
       "area": 291,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912632929",
@@ -48433,7 +49033,13 @@
       ],
       "area": 128,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912680862",
@@ -48518,7 +49124,13 @@
       ],
       "area": 125,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912699856",
@@ -48667,7 +49279,13 @@
       ],
       "area": 1302,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912717682",
@@ -48968,7 +49586,13 @@
       ],
       "area": 1348,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912733748",
@@ -49045,7 +49669,13 @@
       ],
       "area": 943,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912747176",
@@ -49138,7 +49768,13 @@
       ],
       "area": 1010,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912761790",
@@ -49199,7 +49835,13 @@
       ],
       "area": 1187,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912775517",
@@ -49308,7 +49950,13 @@
       ],
       "area": 1499,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785912790114",
@@ -49377,7 +50025,13 @@
       ],
       "area": 696,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976494128",
@@ -49470,7 +50124,13 @@
       ],
       "area": 839,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976540980",
@@ -49723,7 +50383,13 @@
       ],
       "area": 934,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976571339",
@@ -49816,7 +50482,13 @@
       ],
       "area": 944,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976599076",
@@ -49893,7 +50565,13 @@
       ],
       "area": 648,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976615837",
@@ -49978,7 +50656,13 @@
       ],
       "area": 931,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976648839",
@@ -50143,7 +50827,13 @@
       ],
       "area": 1688,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976664813",
@@ -50244,7 +50934,13 @@
       ],
       "area": 972,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976684594",
@@ -50337,7 +51033,13 @@
       ],
       "area": 895,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976700628",
@@ -50406,7 +51108,13 @@
       ],
       "area": 690,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976716331",
@@ -50507,7 +51215,13 @@
       ],
       "area": 1045,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976733298",
@@ -50600,7 +51314,13 @@
       ],
       "area": 701,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976765961",
@@ -50661,7 +51381,13 @@
       ],
       "area": 106,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976779922",
@@ -50914,7 +51640,13 @@
       ],
       "area": 1805,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976888634",
@@ -51119,7 +51851,13 @@
       ],
       "area": 382,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976980426",
@@ -51268,7 +52006,13 @@
       ],
       "area": 1216,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785976994240",
@@ -51353,7 +52097,13 @@
       ],
       "area": 1447,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785977009991",
@@ -51454,7 +52204,13 @@
       ],
       "area": 1367,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785977041051",
@@ -51651,7 +52407,13 @@
       ],
       "area": 1385,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785977056088",
@@ -51768,7 +52530,13 @@
       ],
       "area": 1238,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785977085919",
@@ -51965,7 +52733,13 @@
       ],
       "area": 760,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785977104606",
@@ -52114,7 +52888,13 @@
       ],
       "area": 444,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785977132452",
@@ -52255,7 +53035,13 @@
       ],
       "area": 571,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785977149238",
@@ -52588,7 +53374,13 @@
       ],
       "area": 2570,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978281134",
@@ -52681,7 +53473,13 @@
       ],
       "area": 2002,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978471035",
@@ -52734,7 +53532,13 @@
       ],
       "area": 3676,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978530289",
@@ -52795,7 +53599,13 @@
       ],
       "area": 488,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978584794",
@@ -52848,7 +53658,13 @@
       ],
       "area": 309,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978679992",
@@ -52957,7 +53773,13 @@
       ],
       "area": 239,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978705680",
@@ -53034,7 +53856,13 @@
       ],
       "area": 28,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978722333",
@@ -53271,7 +54099,13 @@
       ],
       "area": 806,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978736479",
@@ -53340,7 +54174,13 @@
       ],
       "area": 69,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978751579",
@@ -53425,7 +54265,13 @@
       ],
       "area": 90,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978766659",
@@ -53574,7 +54420,13 @@
       ],
       "area": 176,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978784463",
@@ -53667,7 +54519,13 @@
       ],
       "area": 27,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978800268",
@@ -53720,7 +54578,13 @@
       ],
       "area": 27,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978814397",
@@ -53837,7 +54701,13 @@
       ],
       "area": 519,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978830278",
@@ -53946,7 +54816,13 @@
       ],
       "area": 276,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978844912",
@@ -54127,7 +55003,13 @@
       ],
       "area": 278,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978860122",
@@ -54212,7 +55094,13 @@
       ],
       "area": 102,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978874270",
@@ -54273,7 +55161,13 @@
       ],
       "area": 23,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978888622",
@@ -54350,7 +55244,13 @@
       ],
       "area": 439,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978905393",
@@ -54483,7 +55383,13 @@
       ],
       "area": 670,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978920801",
@@ -54560,7 +55466,13 @@
       ],
       "area": 38,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978937347",
@@ -54637,7 +55549,13 @@
       ],
       "area": 41,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978960026",
@@ -54690,7 +55608,13 @@
       ],
       "area": 59,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978979141",
@@ -54791,7 +55715,13 @@
       ],
       "area": 700,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785978994850",
@@ -54852,7 +55782,13 @@
       ],
       "area": 61,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979005913",
@@ -54929,7 +55865,13 @@
       ],
       "area": 86,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979032839",
@@ -55014,7 +55956,13 @@
       ],
       "area": 122,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979050288",
@@ -55075,7 +56023,13 @@
       ],
       "area": 9,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979063181",
@@ -55160,7 +56114,13 @@
       ],
       "area": 5,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979085317",
@@ -55269,7 +56229,13 @@
       ],
       "area": 21,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979101212",
@@ -55386,7 +56352,13 @@
       ],
       "area": 131,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979120316",
@@ -55559,7 +56531,13 @@
       ],
       "area": 87,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979133902",
@@ -55660,7 +56638,13 @@
       ],
       "area": 167,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979147153",
@@ -55929,7 +56913,13 @@
       ],
       "area": 498,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979170712",
@@ -56022,7 +57012,13 @@
       ],
       "area": 218,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979207928",
@@ -56083,7 +57079,13 @@
       ],
       "area": 46,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979224685",
@@ -56200,7 +57202,13 @@
       ],
       "area": 61,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979241855",
@@ -56253,7 +57261,13 @@
       ],
       "area": 47,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979258618",
@@ -56314,7 +57328,13 @@
       ],
       "area": 91,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979276693",
@@ -56407,7 +57427,13 @@
       ],
       "area": 598,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979295406",
@@ -56484,7 +57510,13 @@
       ],
       "area": 126,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979312038",
@@ -56561,7 +57593,13 @@
       ],
       "area": 9,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979329013",
@@ -56614,7 +57652,13 @@
       ],
       "area": 4,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979349792",
@@ -56723,7 +57767,13 @@
       ],
       "area": 1040,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979367155",
@@ -56824,7 +57874,13 @@
       ],
       "area": 118,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979382422",
@@ -56877,7 +57933,13 @@
       ],
       "area": 11,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979407029",
@@ -56962,7 +58024,13 @@
       ],
       "area": 114,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979419259",
@@ -57031,7 +58099,13 @@
       ],
       "area": 176,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979432181",
@@ -57084,7 +58158,13 @@
       ],
       "area": 88,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979445913",
@@ -57137,7 +58217,13 @@
       ],
       "area": 11,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979471427",
@@ -57222,7 +58308,13 @@
       ],
       "area": 251,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979485834",
@@ -57307,7 +58399,13 @@
       ],
       "area": 33,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979506687",
@@ -57368,7 +58466,13 @@
       ],
       "area": 145,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979521691",
@@ -57445,7 +58549,13 @@
       ],
       "area": 272,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979540459",
@@ -57522,7 +58632,13 @@
       ],
       "area": 276,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979554745",
@@ -57583,7 +58699,13 @@
       ],
       "area": 238,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979568784",
@@ -57652,7 +58774,13 @@
       ],
       "area": 317,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979584627",
@@ -57705,7 +58833,13 @@
       ],
       "area": 10,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979601377",
@@ -57790,7 +58924,13 @@
       ],
       "area": 211,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979615689",
@@ -57843,7 +58983,13 @@
       ],
       "area": 35,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979627554",
@@ -57896,7 +59042,13 @@
       ],
       "area": 17,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979639893",
@@ -57981,7 +59133,13 @@
       ],
       "area": 138,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979653453",
@@ -58042,7 +59200,13 @@
       ],
       "area": 5,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979665844",
@@ -58103,7 +59267,13 @@
       ],
       "area": 58,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979678238",
@@ -58172,7 +59342,13 @@
       ],
       "area": 353,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979692418",
@@ -58249,7 +59425,13 @@
       ],
       "area": 531,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979704524",
@@ -58326,7 +59508,13 @@
       ],
       "area": 383,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785979716529",
@@ -58443,7 +59631,13 @@
       ],
       "area": 96,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785995898067",
@@ -58632,7 +59826,13 @@
       ],
       "area": 9576,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785995944058",
@@ -58717,7 +59917,13 @@
       ],
       "area": 428,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785995968429",
@@ -58874,7 +60080,13 @@
       ],
       "area": 9115,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785995998205",
@@ -58975,7 +60187,13 @@
       ],
       "area": 1268,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996050280",
@@ -59492,7 +60710,13 @@
       ],
       "area": 43028,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996073221",
@@ -59713,7 +60937,13 @@
       ],
       "area": 12195,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996091396",
@@ -59790,7 +61020,13 @@
       ],
       "area": 588,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996104357",
@@ -59875,7 +61111,13 @@
       ],
       "area": 948,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996151764",
@@ -60000,7 +61242,13 @@
       ],
       "area": 1800,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996170626",
@@ -60069,7 +61317,13 @@
       ],
       "area": 623,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996186324",
@@ -60138,7 +61392,13 @@
       ],
       "area": 490,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996205794",
@@ -60207,7 +61467,13 @@
       ],
       "area": 428,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996495453",
@@ -60292,7 +61558,13 @@
       ],
       "area": 1926,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996509729",
@@ -60361,7 +61633,13 @@
       ],
       "area": 1070,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996527233",
@@ -60422,7 +61700,13 @@
       ],
       "area": 1194,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996541601",
@@ -60483,7 +61767,13 @@
       ],
       "area": 402,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996560963",
@@ -60592,7 +61882,13 @@
       ],
       "area": 969,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996572914",
@@ -60669,7 +61965,13 @@
       ],
       "area": 221,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996684949",
@@ -60898,7 +62200,13 @@
       ],
       "area": 5659,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785996699916",
@@ -60959,7 +62267,13 @@
       ],
       "area": 54,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997019993",
@@ -61044,7 +62358,13 @@
       ],
       "area": 391,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997039364",
@@ -61105,7 +62425,13 @@
       ],
       "area": 110,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997054228",
@@ -61198,7 +62524,13 @@
       ],
       "area": 299,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997069689",
@@ -61291,7 +62623,13 @@
       ],
       "area": 566,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997105912",
@@ -61344,7 +62682,13 @@
       ],
       "area": 125,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997132528",
@@ -61429,7 +62773,13 @@
       ],
       "area": 476,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997152667",
@@ -61570,7 +62920,13 @@
       ],
       "area": 553,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997170417",
@@ -62151,7 +63507,13 @@
       ],
       "area": 29163,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997206967",
@@ -62260,7 +63622,13 @@
       ],
       "area": 1568,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997218585",
@@ -62425,7 +63793,13 @@
       ],
       "area": 3316,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997252420",
@@ -62630,7 +64004,13 @@
       ],
       "area": 2094,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997265790",
@@ -63099,7 +64479,13 @@
       ],
       "area": 11737,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997300119",
@@ -63272,7 +64658,13 @@
       ],
       "area": 1820,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997449540",
@@ -63381,7 +64773,13 @@
       ],
       "area": 862,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997465793",
@@ -63474,7 +64872,13 @@
       ],
       "area": 844,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997480554",
@@ -63607,7 +65011,13 @@
       ],
       "area": 983,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997494603",
@@ -63708,7 +65118,13 @@
       ],
       "area": 1731,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997542140",
@@ -63777,7 +65193,13 @@
       ],
       "area": 107,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997563466",
@@ -63854,7 +65276,13 @@
       ],
       "area": 73,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997805922",
@@ -64347,7 +65775,13 @@
       ],
       "area": 22028,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     },
     {
       "id": "z_1785997889848",
@@ -64424,7 +65858,13 @@
       ],
       "area": 1092,
       "logs": [],
-      "workerDefault": ""
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     }
   ],
   "groups": [
@@ -64726,6 +66166,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-12T07:22:38.229Z",
+  "savedAt": "2026-08-12T07:41:10.978Z",
   "savedBy": "lms8765-ai"
 }
