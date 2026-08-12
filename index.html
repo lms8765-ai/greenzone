@@ -2240,9 +2240,9 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
     </div>
     <!-- 🗂 일괄 그룹지정 + 전체 접기/펼치기 바 -->
     <div style="padding:6px 12px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-      <button onclick="toggleMultiSelectMode()" id="multi-select-toggle-btn" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:3px 10px;font-size:10px;cursor:pointer;font-family:inherit">☑️ 여러 개 선택</button>
-      <button onclick="collapseAllGroups()" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:3px 10px;font-size:10px;cursor:pointer;font-family:inherit">📂 전체 접기</button>
-      <button onclick="expandAllGroups()" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:3px 10px;font-size:10px;cursor:pointer;font-family:inherit">📁 전체 펼치기</button>
+      <button onclick="toggleMultiSelectMode()" id="multi-select-toggle-btn" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:8px 12px;font-size:10px;cursor:pointer;font-family:inherit;min-height:32px">☑️ 여러 개 선택</button>
+      <button onclick="collapseAllGroups()" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:8px 12px;font-size:10px;cursor:pointer;font-family:inherit;min-height:32px">📂 전체 접기</button>
+      <button onclick="expandAllGroups()" style="background:none;border:1px solid #ddd;color:#666;border-radius:14px;padding:8px 12px;font-size:10px;cursor:pointer;font-family:inherit;min-height:32px">📁 전체 펼치기</button>
     </div>
     <div id="multi-select-bar" style="display:none;padding:8px 12px;background:#e8f5e9;border-bottom:1px solid #c8e6c9;align-items:center;gap:8px">
       <span id="multi-select-count" style="font-size:11px;font-weight:700;color:#1b6b3a;flex:1">0개 선택됨</span>
@@ -3939,6 +3939,15 @@ window.onload = function() {
   naver.maps.Event.addListener(map, 'click', () => {
     if (!drawing) document.getElementById('addr-dropdown').style.display = 'none';
   });
+  // 🔧 PC에서 브라우저 창 크기를 바꾸면(최대화/복원, 창 조절 등) 지도 컨테이너 크기가
+  // 바뀌는데, 네이버 지도가 이를 자동 인지하지 못해 타일이 어긋나거나 빈 공간이 생길 수 있음
+  // → 창 크기 변경 감지 시 지도에 재계산을 명시적으로 알려줌 (디바운스로 과도한 호출 방지)
+  window.addEventListener('resize', () => {
+    clearTimeout(window._mainMapResizeTimer);
+    window._mainMapResizeTimer = setTimeout(() => {
+      if (typeof naver !== 'undefined' && map) naver.maps.Event.trigger(map, 'resize');
+    }, 200);
+  });
   // 🔧 줌 레벨이 MAP_LABEL_ZOOM_MIN 경계를 넘나들 때만 라벨 표시를 갱신 (매 틱마다 다시 그리지 않도록 디바운스)
   let _lastLabelZoomState = map.getZoom() >= MAP_LABEL_ZOOM_MIN;
   naver.maps.Event.addListener(map, 'zoom_changed', () => {
@@ -5015,11 +5024,11 @@ function zcardHTML(z) {
   const isMultiSel = multiSelectMode;
   const isChecked = multiSelectedZones.has(z.id);
   return `<div class="zcard ${selId===z.id?'active':''}" onclick="${isMultiSel ? `toggleZoneMultiSelect(event,'${z.id}')` : `selectZone('${z.id}')`}" style="border-left-color:${selId===z.id?col:'transparent'};${isMultiSel?'display:flex;align-items:flex-start;gap:6px':''}">
-    ${isMultiSel ? `<input type="checkbox" ${isChecked?'checked':''} onclick="event.stopPropagation();toggleZoneMultiSelect(event,'${z.id}')" style="margin-top:3px;flex-shrink:0;cursor:pointer">` : ''}
+    ${isMultiSel ? `<input type="checkbox" ${isChecked?'checked':''} onclick="event.stopPropagation();toggleZoneMultiSelect(event,'${z.id}')" style="margin-top:1px;flex-shrink:0;cursor:pointer;width:20px;height:20px;padding:6px;box-sizing:content-box">` : ''}
     <div style="${isMultiSel?'flex:1;min-width:0':''}">
     <div class="zcard-top">
       <div class="zcard-name">${escapeHTML(z.name)}${roseZones.some(r=>r.zoneId===z.id)?'<span style="font-size:9px;background:#fce4ec;color:#c0392b;border:1px solid #f8a5a5;border-radius:8px;padding:1px 5px;margin-left:3px">🌹</span>':''}</div>
-      ${!isMultiSel ? `<span onclick="event.stopPropagation();toggleZonePin('${z.id}')" title="${pinnedZones.has(z.id)?'고정 해제':'목록 맨 위에 고정'}" style="cursor:pointer;font-size:13px;flex-shrink:0;margin-right:4px">${pinnedZones.has(z.id)?'📌':'📍'}</span>` : ''}
+      ${!isMultiSel ? `<span onclick="event.stopPropagation();toggleZonePin('${z.id}')" title="${pinnedZones.has(z.id)?'고정 해제':'목록 맨 위에 고정'}" style="cursor:pointer;font-size:14px;flex-shrink:0;padding:8px;margin:-8px -2px -8px -8px;display:inline-flex;align-items:center;justify-content:center">${pinnedZones.has(z.id)?'📌':'📍'}</span>` : ''}
       <span class="badge" style="background:${st.bg};color:${st.color};border:1px solid ${st.color}33">${st.label}</span>
     </div>
     <div class="zcard-team">
