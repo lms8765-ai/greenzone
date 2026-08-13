@@ -56095,7 +56095,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 7152.6,
+      "mowingArea": 0,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -64078,6 +64078,121 @@
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
+    },
+    {
+      "id": "z_1786592920035",
+      "name": "새 관리구역",
+      "team": "greenway",
+      "status": "pending",
+      "zoneType": "green",
+      "workTypes": [],
+      "memo": "",
+      "manager": "",
+      "color": "#2e7d32",
+      "groupId": "",
+      "paths": [
+        [
+          {
+            "lat": 36.0117713,
+            "lng": 129.3428404
+          },
+          {
+            "lat": 36.0115999,
+            "lng": 129.3427009
+          },
+          {
+            "lat": 36.0115923,
+            "lng": 129.3426982
+          },
+          {
+            "lat": 36.0115842,
+            "lng": 129.3427022
+          },
+          {
+            "lat": 36.0115777,
+            "lng": 129.3427116
+          },
+          {
+            "lat": 36.011582,
+            "lng": 129.342729
+          },
+          {
+            "lat": 36.011678,
+            "lng": 129.3429356
+          },
+          {
+            "lat": 36.0116872,
+            "lng": 129.3429436
+          },
+          {
+            "lat": 36.011703,
+            "lng": 129.3429456
+          },
+          {
+            "lat": 36.0117154,
+            "lng": 129.3429443
+          },
+          {
+            "lat": 36.0117344,
+            "lng": 129.3429309
+          }
+        ]
+      ],
+      "path": [
+        {
+          "lat": 36.0117713,
+          "lng": 129.3428404
+        },
+        {
+          "lat": 36.0115999,
+          "lng": 129.3427009
+        },
+        {
+          "lat": 36.0115923,
+          "lng": 129.3426982
+        },
+        {
+          "lat": 36.0115842,
+          "lng": 129.3427022
+        },
+        {
+          "lat": 36.0115777,
+          "lng": 129.3427116
+        },
+        {
+          "lat": 36.011582,
+          "lng": 129.342729
+        },
+        {
+          "lat": 36.011678,
+          "lng": 129.3429356
+        },
+        {
+          "lat": 36.0116872,
+          "lng": 129.3429436
+        },
+        {
+          "lat": 36.011703,
+          "lng": 129.3429456
+        },
+        {
+          "lat": 36.0117154,
+          "lng": 129.3429443
+        },
+        {
+          "lat": 36.0117344,
+          "lng": 129.3429309
+        }
+      ],
+      "area": 171,
+      "logs": [],
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     }
   ],
   "groups": [
@@ -64373,6 +64488,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T03:48:02.183Z",
+  "savedAt": "2026-08-13T03:48:40.370Z",
   "savedBy": "lms8765-ai"
 }
