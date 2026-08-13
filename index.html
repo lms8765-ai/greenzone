@@ -3467,7 +3467,9 @@ async function fetchGhDataViaRawCdn() {
 }
 var ghToken = ''; // 앱 내 ⚙️ 동기화 설정에서 입력
 var lastSha  = '';              // GitHub 파일의 현재 SHA (업데이트 시 필요)
-var unsavedChanges = false;     // 미저장 변경 여부
+var unsavedChanges = (function(){   // 미저장 변경 여부 — 새로고침/재시작에도 유지되도록 localStorage에 백업
+  try { return localStorage.getItem('phgz_dirty') === '1'; } catch(e) { return false; }
+})();
 var autoSyncTimer = null;       // 자동 동기화 타이머
 var isSyncing = false;          // 동기화 중 여부
 
@@ -3700,6 +3702,7 @@ function buildDataObj() {
 // ── 미저장 상태 표시 ────────────────────────────────────────
 function markUnsaved() {
   unsavedChanges = true;
+  try { localStorage.setItem('phgz_dirty', '1'); } catch(e) {}
   const btn = document.getElementById('btn-cloud-save');
   if (btn) {
     btn.style.background = '#c62828';
@@ -3714,6 +3717,7 @@ function markUnsaved() {
 
 function markSaved() {
   unsavedChanges = false;
+  try { localStorage.removeItem('phgz_dirty'); } catch(e) {}
   const btn = document.getElementById('btn-cloud-save');
   if (btn) {
     btn.style.background = '';
@@ -8701,6 +8705,12 @@ async function verifyTokenAndSync() {
       // 🚨 클라우드 데이터가 화면보다 훨씬 적음 — 자동으로 덮어쓰지 않고 경고만 표시 (토큰 문제 아님)
       updateSyncStatus('blocked');
       showToast('🚨 클라우드 데이터가 화면보다 훨씬 적어 자동 동기화를 보류했습니다. "🔄 최신 불러오기"로 직접 확인해주세요.');
+    } else if (loadResult === 'localpending') {
+      // 🛡️ 이전 세션에서 클라우드로 전송되지 못한 변경사항(병합·삭제 등)이 남아있음
+      // → 원격의 옛 데이터로 덮어쓰지 않고, 이 기기의 변경사항을 먼저 클라우드에 반영 시도
+      console.log('[Sync] 저장되지 않은 이전 변경사항을 먼저 클라우드에 반영합니다.');
+      updateSyncStatus('checking');
+      saveToGitHub(true);
     }
     // 3) 자동 동기화 시작
     startAutoSync();
@@ -8724,7 +8734,7 @@ function showSyncLoading(show) {
 }
 
 /* ══ 데이터 로드를 결과 상태로 명확히 반환 (조용한 실패 방지) ══ */
-async function loadFromGitHubSafe() {
+async function loadFromGitHubSafe(force = false) {
   try {
     const apiUrl = `https://api.github.com/repos/${GH_CONFIG.owner}/${GH_CONFIG.repo}/contents/${GH_CONFIG.path}?ref=${GH_CONFIG.branch}&t=${Date.now()}`;
     const res = await fetchWithTimeout(apiUrl, {
@@ -8782,6 +8792,14 @@ async function loadFromGitHubSafe() {
       return 'blocked';
     }
 
+    // 🛡️ 이 기기에 아직 클라우드로 전송되지 않은 변경사항(병합/삭제 등)이 남아있으면,
+    // 원격이 그 변경 전의 옛 데이터를 그대로 들고 있을 수 있어 자동으로 덮어쓰지 않음
+    // (병합·삭제한 구역이 나중에 다시 개별 구역으로 되돌아 보이는 문제 방지)
+    if (unsavedChanges && !force) {
+      console.warn('[Sync] 이 기기에 클라우드로 아직 전송되지 않은 변경사항이 있어 원격 데이터 자동 적용을 보류합니다.');
+      return 'localpending';
+    }
+
     applyData(data);
     localStorage.setItem('lastGHSave', data.savedAt || new Date().toISOString());
     markSaved();
@@ -8823,7 +8841,7 @@ async function forceLoadFromGitHub() {
   showToast('🔄 클라우드에서 최신 데이터를 확인하는 중...');
   let result;
   try {
-    result = await loadFromGitHubSafe();
+    result = await loadFromGitHubSafe(true); // 사용자가 명시적으로 강제 확인 — 대기 중인 로컬 변경보다 원격을 우선
   } finally {
     isSyncing = false;
   }
@@ -8960,6 +8978,12 @@ async function manualRefresh() {
         { label:'취소', cls:'secondary', fn: null }
       ]
     );
+  } else if (result === 'localpending') {
+    // 🛡️ 이 기기에 아직 클라우드로 전송되지 않은 변경사항(병합·삭제 등)이 남아있어
+    // 원격의 옛 데이터로 덮어쓰지 않고 먼저 이 기기의 변경사항을 클라우드에 반영합니다.
+    updateSyncStatus('checking');
+    showToast('☁️ 아직 클라우드에 반영되지 않은 변경사항이 있어 먼저 저장합니다...');
+    saveToGitHub(true);
   } else {
     updateSyncStatus('syncerror');
     showToast('❌ 동기화 실패 — 콘솔(F12)에서 자세한 오류를 확인하거나 관리자에게 문의하세요.');
