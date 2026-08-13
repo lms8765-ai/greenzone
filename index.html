@@ -3437,6 +3437,19 @@ function fetchWithTimeout(url, options, timeoutMs) {
   return fetch(url, Object.assign({}, options||{}, { signal: controller.signal }))
     .finally(() => clearTimeout(timer));
 }
+
+// GitHub Contents API가 base64로 돌려주는 data.json 내용을 안전하게 텍스트로 복원
+// (한글 등 멀티바이트 문자가 깨지지 않도록 atob → 바이트배열 → TextDecoder 순서로 처리)
+// 내용이 비어있거나 JSON으로 해석되지 않으면 예외를 던진다 — 호출부에서 재시도/에러 처리
+function decodeGhContent(base64content) {
+  const b64 = (base64content || '').replace(/\n/g,'');
+  if (!b64) throw new Error('빈 응답(content 없음)');
+  const binStr = atob(b64);
+  const bytes = new Uint8Array(binStr.length);
+  for (let i=0;i<binStr.length;i++) bytes[i]=binStr.charCodeAt(i);
+  const json = new TextDecoder().decode(bytes);
+  return JSON.parse(json);
+}
 var ghToken = ''; // 앱 내 ⚙️ 동기화 설정에서 입력
 var lastSha  = '';              // GitHub 파일의 현재 SHA (업데이트 시 필요)
 var unsavedChanges = false;     // 미저장 변경 여부
@@ -3747,11 +3760,7 @@ async function saveToGitHub(silent = false) {
       if (checkRes.ok) {
         const checkFile = await checkRes.json();
         lastSha = checkFile.sha;
-        const cb64 = checkFile.content.replace(/\n/g,'');
-        const cbin = atob(cb64);
-        const cbytes = new Uint8Array(cbin.length);
-        for (let i=0;i<cbin.length;i++) cbytes[i]=cbin.charCodeAt(i);
-        const remoteCheck = JSON.parse(new TextDecoder().decode(cbytes));
+        const remoteCheck = decodeGhContent(checkFile.content);
         if (remoteCheck && Array.isArray(remoteCheck.zones) && isSuspiciousShrink(remoteCheck.zones.length, data.zones.length)) {
           isSyncing = false;
           if (btn && !silent) btn.innerHTML = '☁️ 클라우드 저장';
@@ -3881,13 +3890,20 @@ async function loadFromGitHub(silent = false) {
     const file = await res.json();
     lastSha = file.sha;
 
-    // 한글 포함 데이터 안전 디코딩
-    const b64 = file.content.replace(/\n/g,'');
-    const binStr2 = atob(b64);
-    const bytes2 = new Uint8Array(binStr2.length);
-    for (let i=0;i<binStr2.length;i++) bytes2[i]=binStr2.charCodeAt(i);
-    const json = new TextDecoder().decode(bytes2);
-    const data   = JSON.parse(json);
+    // 한글 포함 데이터 안전 디코딩 — 아주 드물게 한 번 실패하면 한 번 더 새로 받아 재시도
+    let data;
+    try {
+      data = decodeGhContent(file.content);
+    } catch(e1) {
+      console.warn('[GitHub Load] 1차 디코딩 실패, 재시도:', e1.message);
+      const retryRes = await fetchWithTimeout(apiUrl, {
+        headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' }
+      });
+      if (!retryRes.ok) throw new Error(`HTTP ${retryRes.status}`);
+      const retryFile = await retryRes.json();
+      lastSha = retryFile.sha;
+      data = decodeGhContent(retryFile.content);
+    }
     const remote = data.savedAt || '';
     const local  = localStorage.getItem('lastGHSave') || '';
     // 🛡️ 이 기기의 화면(zones)이 원격보다 눈에 띄게 적으면(예: 새로고침 직후 초기화,
@@ -8703,12 +8719,21 @@ async function loadFromGitHubSafe() {
     }
     const file = await res.json();
     lastSha = file.sha;
-    const b64 = file.content.replace(/\n/g,'');
-    const binStr2 = atob(b64);
-    const bytes2 = new Uint8Array(binStr2.length);
-    for (let i=0;i<binStr2.length;i++) bytes2[i]=binStr2.charCodeAt(i);
-    const json = new TextDecoder().decode(bytes2);
-    const data = JSON.parse(json);
+    // 🛡️ 아주 드물게 네트워크 상태에 따라 응답 디코딩이 한 번 실패하는 경우가 있어,
+    // 실패 시 바로 포기하지 않고 딱 한 번 더 새로 받아서 시도해본다
+    let data;
+    try {
+      data = decodeGhContent(file.content);
+    } catch(e1) {
+      console.warn('[Sync] 1차 디코딩 실패, 재시도:', e1.message);
+      const retryRes = await fetchWithTimeout(apiUrl, {
+        headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' }
+      });
+      if (!retryRes.ok) { console.error('[Sync] 재시도 HTTP 오류:', retryRes.status); return 'error'; }
+      const retryFile = await retryRes.json();
+      lastSha = retryFile.sha;
+      data = decodeGhContent(retryFile.content); // 여기서도 실패하면 아래 catch(e)에서 처리
+    }
 
     // 데이터 유효성 검증 (조용한 실패 방지)
     if (!data || typeof data !== 'object') {
