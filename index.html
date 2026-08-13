@@ -2263,6 +2263,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
     <div id="multi-select-bar" style="display:none;padding:8px 12px;background:#e8f5e9;border-bottom:1px solid #c8e6c9;align-items:center;gap:8px">
       <span id="multi-select-count" style="font-size:11px;font-weight:700;color:#1b6b3a;flex:1">0개 선택됨</span>
       <button onclick="openBulkGroupModal()" style="background:#1b6b3a;color:#fff;border:none;border-radius:14px;padding:4px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">🗂 그룹으로 이동</button>
+      <button onclick="openMergeZonesModal()" style="background:#1565c0;color:#fff;border:none;border-radius:14px;padding:4px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">🔗 구역 병합</button>
       <button onclick="toggleMultiSelectMode()" style="background:#fff;color:#666;border:1px solid #ddd;border-radius:14px;padding:4px 10px;font-size:10px;cursor:pointer;font-family:inherit">취소</button>
     </div>
     <div id="sidebar-body"></div>
@@ -5864,13 +5865,36 @@ function renderDetailBody(el) {
       const shrubList = (z.shrubCounts||[]).filter(s=>s.species);
       const hasQty = z.mowingArea>0 || z.facilityCount>0 || treeList.length || shrubList.length;
       if (!hasQty) return '';
+      const treeTotal  = treeList.reduce((s,t)=>s+(t.qty||0),0);
+      const shrubTotal = Math.round(shrubList.reduce((s,r)=>s+(r.qty||0),0)*10)/10;
+      const statChip = (label,val,bg,br,fg,vfg) => `
+        <div style="flex:1;background:${bg};border:1px solid ${br};border-radius:8px;padding:6px 10px;text-align:center">
+          <div style="font-size:9px;color:${fg};font-weight:700">${label}</div>
+          <div style="font-size:13px;font-weight:800;color:${vfg};margin-top:2px">${val}</div>
+        </div>`;
+      const legendBlock = (title, totalLabel, list, unit, headColor, rowColor, altBg, borderCol) => `
+        <div style="margin-bottom:8px">
+          <div style="font-size:10px;font-weight:800;color:${headColor};margin-bottom:3px;display:flex;justify-content:space-between;align-items:baseline">
+            <span>${title}</span><span style="color:#999;font-weight:600">${list.length}종 · ${totalLabel}</span>
+          </div>
+          <div style="border:1px solid ${borderCol};border-radius:8px;overflow:hidden">
+            ${list.map((r,i)=>`
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 9px;font-size:11px;background:${i%2?altBg:'#fff'}">
+              <span style="color:${rowColor}">${escapeHTML(r.species)}</span>
+              <span style="font-weight:700;color:${headColor}">${r.qty||0}${unit}</span>
+            </div>`).join('')}
+          </div>
+        </div>`;
       return `
-    <div class="dp-info-sec" style="border-top:1px solid var(--green-br);padding-top:8px;margin-top:2px">
-      <div style="font-size:11px;font-weight:800;color:var(--green);margin-bottom:6px">📊 구역별 수량 관리</div>
-      ${z.mowingArea>0?`<div class="dp-info-row"><span class="dp-info-k">풀베기 면적</span><span class="dp-info-v">✂️ ${Number(z.mowingArea).toLocaleString()}㎡</span></div>`:''}
-      ${z.facilityCount>0?`<div class="dp-info-row"><span class="dp-info-k">시설물</span><span class="dp-info-v">🏗️ ${z.facilityCount}EA</span></div>`:''}
-      ${treeList.length?`<div class="dp-info-row" style="align-items:flex-start"><span class="dp-info-k">교목</span><div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end">${treeList.map(t=>`<span class="badge" style="background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9">🌲${escapeHTML(t.species)} ${t.qty||0}주</span>`).join('')}</div></div>`:''}
-      ${shrubList.length?`<div class="dp-info-row" style="align-items:flex-start"><span class="dp-info-k">관목</span><div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end">${shrubList.map(s=>`<span class="badge" style="background:#f3e5f5;color:#7b1fa2;border:1px solid #ce93d8">🌿${escapeHTML(s.species)} ${s.qty||0}㎡</span>`).join('')}</div></div>`:''}
+    <div class="dp-info-sec" style="border-top:1px solid var(--green-br);padding-top:10px;margin-top:2px">
+      <div style="font-size:11px;font-weight:800;color:var(--green);margin-bottom:8px">📊 구역별 수량 관리</div>
+      ${(z.mowingArea>0||z.facilityCount>0)?`
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        ${z.mowingArea>0?statChip('✂️ 풀베기 면적', Number(z.mowingArea).toLocaleString()+'㎡', '#eef7ee','#c8e6c9','#558b2f','#2e7d32'):''}
+        ${z.facilityCount>0?statChip('🏗️ 시설물', z.facilityCount+'EA', '#eef3fb','#bbdefb','#1565c0','#0d47a1'):''}
+      </div>`:''}
+      ${treeList.length?legendBlock('🌳 교목', treeTotal+'주', treeList, '주', '#2e7d32', '#33691e', '#fafcfa', '#e8f0e8'):''}
+      ${shrubList.length?legendBlock('🌿 관목', shrubTotal+'㎡', shrubList, '㎡', '#7b1fa2', '#6a1b8a', '#fdfafd', '#f2e8f5'):''}
     </div>`;
     })()}
     <div class="dp-log-sec-head" style="display:flex;align-items:center;gap:6px">
@@ -12234,6 +12258,7 @@ function updateMultiSelectBar() {
 }
 
 function openBulkGroupModal() {
+  if (!requireEditUnlock()) return;
   if (multiSelectedZones.size === 0) { showToast('⚠️ 먼저 구역을 하나 이상 선택해주세요.'); return; }
   const options = groups.map(g => `<option value="${g.id}">${g.parentId?'　':''}${g.name}</option>`).join('');
   showBulkGroupPicker(options);
@@ -12283,6 +12308,120 @@ function applyBulkGroup() {
   saveAll();
   const gname = groupId ? (groups.find(g=>g.id===groupId)?.name || '') : '그룹 없음';
   showToast(`✅ ${count}개 구역을 "${gname}"(으)로 이동했습니다.`);
+}
+
+/* ══════════════════════════════════════════════
+   🔗 여러 구역을 하나로 병합
+   — 다중 선택된 구역들의 도형(폴리곤)을 "여러 구간"을 가진
+     하나의 구역으로 합치고, 수량 정보·작업기록도 함께 합산한다.
+     기준 구역(이름 등 기본 정보 유지)은 선택 목록 중 첫 번째 구역.
+══════════════════════════════════════════════ */
+function openMergeZonesModal() {
+  if (!requireEditUnlock()) return;
+  if (multiSelectedZones.size < 2) { showToast('⚠️ 병합하려면 구역을 2개 이상 선택해주세요.'); return; }
+  const curType = getCurrentZoneType();
+  const selZones = Array.from(multiSelectedZones).map(id => zones.find(z => z.id === id)).filter(Boolean);
+  if (selZones.some(z => zoneTypeOf(z) !== curType)) {
+    showToast('⚠️ 같은 탭(구역 종류)의 구역끼리만 병합할 수 있습니다.');
+    return;
+  }
+  showMergeZonesPicker(selZones);
+}
+
+function showMergeZonesPicker(selZones) {
+  document.getElementById('merge-zones-modal')?.remove();
+  const totalArea = selZones.reduce((s,z) => s+(z.area||0), 0);
+  const modal = document.createElement('div');
+  modal.id = 'merge-zones-modal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:20000;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML = `
+    <div style="background:#fff;border-radius:14px;width:320px;max-width:100%;max-height:82vh;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.3);display:flex;flex-direction:column">
+      <div style="background:linear-gradient(135deg,#1565c0,#1a56a0);color:#fff;padding:12px 16px;flex-shrink:0">
+        <div style="font-size:13px;font-weight:700">🔗 구역 병합</div>
+        <div style="font-size:10px;opacity:.85;margin-top:2px">${selZones.length}개 구역 → 1개로 합치기 (합계 ${formatArea(totalArea)})</div>
+      </div>
+      <div style="padding:14px 16px;overflow:auto">
+        <div style="font-size:10px;color:#666;margin-bottom:6px">합칠 구역 목록</div>
+        <div style="max-height:120px;overflow:auto;border:1px solid #eee;border-radius:8px;margin-bottom:12px">
+          ${selZones.map(z=>`<div style="padding:5px 9px;font-size:11px;border-bottom:1px solid #f5f5f5">${escapeHTML(z.name)} <span style="color:#999">(${formatArea(z.area||0)})</span></div>`).join('')}
+        </div>
+        <div style="font-size:10px;color:#666;margin-bottom:4px">병합 후 구역 이름</div>
+        <input id="merge-zone-name" class="fi" value="${escapeHTML(selZones[0].name)}" style="width:100%;margin-bottom:10px;font-size:12px">
+        <div style="font-size:10px;color:#888;line-height:1.7;background:#f8f9fa;border-radius:8px;padding:8px 10px">
+          ℹ️ 선택한 구역들의 도형은 "여러 구간"으로 하나의 구역에 합쳐지고, 풀베기 면적·수목 수량·
+          시설물·작업 기록도 모두 합산됩니다. 기준 정보는 <strong>${escapeHTML(selZones[0].name)}</strong>
+          구역을 따르며, 나머지 구역은 병합 후 삭제됩니다.
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;padding:12px 16px;border-top:1px solid #eee;flex-shrink:0">
+        <button onclick="document.getElementById('merge-zones-modal').remove()" style="flex:1;padding:9px;background:#f5f5f5;color:#666;border:1px solid #ddd;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">취소</button>
+        <button onclick="confirmMergeZones()" style="flex:1;padding:9px;background:#1565c0;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">🔗 병합하기</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+  window._mergeCandidateIds = selZones.map(z => z.id);
+}
+
+function mergeSpeciesCounts(zList, field) {
+  const map = {};
+  zList.forEach(z => (z[field]||[]).forEach(r => {
+    const sp = (r.species||'').trim(); if (!sp) return;
+    map[sp] = (map[sp]||0) + (r.qty||0);
+  }));
+  return Object.entries(map).map(([species, qty]) => ({ species, qty: Math.round(qty*10)/10 }));
+}
+
+function confirmMergeZones() {
+  if (!requireEditUnlock()) return;
+  const ids = window._mergeCandidateIds || [];
+  const selZones = ids.map(id => zones.find(z => z.id === id)).filter(Boolean);
+  if (selZones.length < 2) { showToast('⚠️ 병합할 구역을 다시 선택해주세요.'); return; }
+  const base   = selZones[0];
+  const others = selZones.slice(1);
+  const newName = (document.getElementById('merge-zone-name')?.value || base.name).trim() || base.name;
+
+  // 1) 도형(구간) 합치기 — 각 구역의 모든 폴리곤 조각을 base 구역의 다중 구간으로
+  let allPaths = [];
+  selZones.forEach(z => {
+    const parts = (z.paths && z.paths.length) ? z.paths : (z.path ? [z.path] : []);
+    allPaths = allPaths.concat(parts);
+  });
+  base.paths = allPaths;
+  base.path  = allPaths[0] || base.path;
+  base.area  = allPaths.reduce((s,p) => s+calcArea(p), 0);
+  base.name  = newName;
+
+  // 2) 구역별 수량 관리 정보 합산
+  base.mowingArea    = Math.round(((base.mowingArea||0) + others.reduce((s,z)=>s+(z.mowingArea||0),0)) * 10) / 10;
+  base.facilityCount = (base.facilityCount||0) + others.reduce((s,z)=>s+(z.facilityCount||0),0);
+  base.treeCounts  = mergeSpeciesCounts(selZones, 'treeCounts');
+  base.shrubCounts = mergeSpeciesCounts(selZones, 'shrubCounts');
+  selZones.forEach(z => { (z.treeCounts||[]).forEach(r=>addSpeciesIfNew('tree',r.species)); (z.shrubCounts||[]).forEach(r=>addSpeciesIfNew('shrub',r.species)); });
+
+  // 3) 작업 기록·작업유형·메모 합치기
+  base.logs = (base.logs||[]).concat(...others.map(z => z.logs||[]));
+  base.workTypes = Array.from(new Set([...(base.workTypes||[]), ...others.flatMap(z => z.workTypes||[])]));
+  const otherMemos = others.map(z => (z.memo||'').trim()).filter(Boolean);
+  if (otherMemos.length) base.memo = [(base.memo||'').trim(), ...otherMemos].filter(Boolean).join(' / ');
+
+  // 4) 지도 객체 정리 후 나머지 구역 삭제
+  others.forEach(z => {
+    if (z.polygon)  z.polygon.setMap(null);
+    if (z.polygons) z.polygons.forEach(p => { if (p) p.setMap(null); });
+    if (z.label)    z.label.setMap(null);
+    if (z.labelD)   z.labelD.setMap(null);
+  });
+  const otherIds = new Set(others.map(z => z.id));
+  zones = zones.filter(z => !otherIds.has(z.id));
+
+  document.getElementById('merge-zones-modal')?.remove();
+  multiSelectMode = false;
+  multiSelectedZones.clear();
+  selId = base.id; editId = base.id;
+  base.polygon = null; base.polygons = []; base.label = null; base.labelD = null;
+  saveAll(); redrawAll(); renderSidebar(); renderDetail(); updateMultiSelectBar(); buildFilters(); updateToolbar();
+  showToast(`✅ ${selZones.length}개 구역이 "${newName}"(으)로 병합되었습니다.`);
 }
 
 
