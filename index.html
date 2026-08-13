@@ -4060,6 +4060,30 @@ function startAutoSync() {
     window.addEventListener('offline', () => {
       updateSyncStatus('offline');
     });
+    // 📱 홈 화면에 추가한 앱(PWA)은 백그라운드에 있다가 아이콘을 다시 눌러도
+    // 새로고침 없이 예전 화면을 그대로 보여주는 경우가 많음(OS가 그냥 화면만 재개).
+    // 그 사이 다른 기기에서 바뀐 내용을 놓치고 "옛날 데이터"만 계속 보이는 문제가 있어서,
+    // 화면이 다시 보일 때마다(포그라운드 복귀) 최신 데이터를 즉시 한 번 더 확인한다.
+    let _lastResumeCheck = 0;
+    function handleAppResume() {
+      if (document.hidden) return;
+      const now = Date.now();
+      if (now - _lastResumeCheck < 4000) return; // 이벤트 중복 발생 방지(짧은 시간 내 재호출 무시)
+      _lastResumeCheck = now;
+      console.log('[Resume] 앱이 다시 화면에 표시됨 — 최신 데이터 확인 중...');
+      // 오래 백그라운드에 있으면 지도 타일이 깨져 보일 수 있어 리사이즈를 강제로 트리거
+      if (typeof map !== 'undefined' && map) {
+        try { naver.maps.Event.trigger(map, 'resize'); } catch(e) {}
+      }
+      if (!ghToken || isSyncing) return;
+      if (unsavedChanges) {
+        saveToGitHub(true);
+      } else {
+        loadFromGitHub(true);
+      }
+    }
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) handleAppResume(); });
+    window.addEventListener('pageshow', handleAppResume);
   }
 }
 
