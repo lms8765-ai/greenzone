@@ -44598,7 +44598,28 @@
           "qty": 9
         }
       ],
-      "shrubCounts": []
+      "shrubCounts": [
+        {
+          "species": "화살나무",
+          "qty": 32
+        },
+        {
+          "species": "조팝",
+          "qty": 50
+        },
+        {
+          "species": "철쭉류",
+          "qty": 15
+        },
+        {
+          "species": "병꽃나무",
+          "qty": 15
+        },
+        {
+          "species": "황매화",
+          "qty": 54
+        }
+      ]
     },
     {
       "id": "z_1785911357018",
@@ -65194,6 +65215,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T04:02:44.101Z",
+  "savedAt": "2026-08-13T07:04:48.963Z",
   "savedBy": "lms8765-ai"
 }
