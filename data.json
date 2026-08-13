@@ -67241,7 +67241,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "",
+      "memo": "형산로타리",
       "manager": "",
       "color": "#6a1b9a",
       "groupId": "g_1786589430131",
@@ -67716,7 +67716,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 395,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -68015,6 +68015,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T02:55:40.900Z",
+  "savedAt": "2026-08-13T02:58:47.111Z",
   "savedBy": "lms8765-ai"
 }
