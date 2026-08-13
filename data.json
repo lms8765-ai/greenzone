@@ -44562,8 +44562,8 @@
           "qty": 3
         },
         {
-          "species": "은행나무",
-          "qty": 8
+          "species": "단풍나무",
+          "qty": 3
         },
         {
           "species": "메타세콰이어",
@@ -44574,34 +44574,34 @@
           "qty": 3
         },
         {
-          "species": "측백나무",
-          "qty": 1
-        },
-        {
-          "species": "단풍나무",
-          "qty": 3
-        },
-        {
-          "species": "은목서",
-          "qty": 11
+          "species": "복자기나무",
+          "qty": 9
         },
         {
           "species": "소나무",
           "qty": 18
         },
         {
+          "species": "은목서",
+          "qty": 11
+        },
+        {
+          "species": "은행나무",
+          "qty": 8
+        },
+        {
           "species": "이팝나무",
           "qty": 10
         },
         {
-          "species": "복자기나무",
-          "qty": 9
+          "species": "측백나무",
+          "qty": 1
         }
       ],
       "shrubCounts": [
         {
-          "species": "화살나무",
-          "qty": 32
+          "species": "병꽃나무",
+          "qty": 15
         },
         {
           "species": "조팝",
@@ -44612,8 +44612,8 @@
           "qty": 15
         },
         {
-          "species": "병꽃나무",
-          "qty": 15
+          "species": "화살나무",
+          "qty": 32
         },
         {
           "species": "황매화",
@@ -65286,6 +65286,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T07:35:45.782Z",
+  "savedAt": "2026-08-13T07:36:59.305Z",
   "savedBy": "lms8765-ai"
 }
