@@ -66467,7 +66467,7 @@
     },
     {
       "id": "z_1786665018800",
-      "name": "해도동 119-1",
+      "name": "해도동 119-4",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -66895,6 +66895,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T23:50:28.530Z",
+  "savedAt": "2026-08-13T23:50:53.976Z",
   "savedBy": "lms8765-ai"
 }
