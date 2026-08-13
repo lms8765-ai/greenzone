@@ -64780,8 +64780,8 @@
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 상도동 450-15",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#1565c0",
+      "groupId": "g_1785977882565",
       "paths": [
         [
           {
@@ -65132,6 +65132,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T03:56:33.241Z",
+  "savedAt": "2026-08-13T03:56:37.696Z",
   "savedBy": "lms8765-ai"
 }
