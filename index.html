@@ -3890,9 +3890,13 @@ async function loadFromGitHub(silent = false) {
     const data   = JSON.parse(json);
     const remote = data.savedAt || '';
     const local  = localStorage.getItem('lastGHSave') || '';
+    // 🛡️ 이 기기의 화면(zones)이 원격보다 눈에 띄게 적으면(예: 새로고침 직후 초기화,
+    // 이전 오류로 화면이 비어버린 경우 등) 저장 시각 비교와 무관하게 무조건 최신 데이터를
+    // 받아온다 — 그렇지 않으면 "이미 최신 상태"로 오판해 빈 화면이 계속 남는 문제가 있었음
+    const localBehind = Array.isArray(data.zones) && zones.length < data.zones.length;
 
-    // 원격이 더 최신이면 업데이트
-    if (!local || remote > local) {
+    // 원격이 더 최신이면(또는 이 기기가 원격보다 데이터가 적으면) 업데이트
+    if (!local || remote > local || localBehind) {
       // 🚨 안전장치: 원격 데이터가 화면(local zones)보다 훨씬 적으면 자동 적용하지 않음
       if (Array.isArray(data.zones) && isSuspiciousShrink(zones.length, data.zones.length)) {
         console.warn('[Sync] 🚨 원격 데이터 급감 감지 — 자동 적용 보류:', zones.length, '→', data.zones.length);
@@ -4006,10 +4010,15 @@ function applyData(data) {
   // openGroups 한 번만 갱신
   groups.forEach(g => openGroups.add(g.id));
   zones.forEach(z => {
-    z.polygon=null; z.polygons=[]; z.label=null; z.labelD=null;
-    if (!z.paths && z.path && z.path.length>=3) z.paths=[z.path];
-    z.area = z.paths ? z.paths.reduce((s,p)=>s+calcArea(p),0) : calcArea(z.path||[]);
-    // 개별 그리기 대신 아래 redrawAll로 일괄 처리
+    try {
+      z.polygon=null; z.polygons=[]; z.label=null; z.labelD=null;
+      if (!z.paths && z.path && z.path.length>=3) z.paths=[z.path];
+      z.area = z.paths ? z.paths.reduce((s,p)=>s+calcArea(p),0) : calcArea(z.path||[]);
+      // 개별 그리기 대신 아래 redrawAll로 일괄 처리
+    } catch(e) {
+      console.error('[applyData] 구역 정규화 실패(건너뜀):', z && z.id, z && z.name, e);
+      z.area = z.area || 0;
+    }
   });
   redrawAll(); // 현재 탭에 맞는 구역만 그리기 (녹지/장미 섞임 방지)
   buildFilters(); renderSidebar(); renderDetail(); updateHeaderStats();
@@ -5134,7 +5143,11 @@ function redrawAll() {
     if (z.labelD)   { z.labelD.setMap(null); z.labelD = null; }
   });
   // 2단계: 현재 탭에 맞는 구역만 다시 그리기
-  zones.forEach(z => drawPoly(z));
+  // 🛡️ 구역 하나의 데이터가 깨져 있어도(옛 형식 등) 전체 화면이 멈추지 않도록 개별 보호
+  zones.forEach(z => {
+    try { drawPoly(z); }
+    catch(e) { console.error('[redrawAll] 구역 렌더링 실패:', z && z.id, z && z.name, e); }
+  });
 }
 
 /* ══════════════════════════════════════════════
@@ -8646,7 +8659,7 @@ async function verifyTokenAndSync() {
     } else if (loadResult === 'error') {
       // 데이터는 받았지만 적용 중 오류 — 토큰 문제 아님, 데이터 형식/네트워크 문제
       updateSyncStatus('syncerror');
-      showToast('⚠️ 데이터를 불러왔지만 적용 중 오류가 발생했습니다. 새로고침 해주세요.');
+      showToast('⚠️ 데이터 적용 중 오류: ' + (window._lastSyncErrorMsg || '알 수 없음') + ' — 새로고침 해주세요.');
     } else if (loadResult === 'blocked') {
       // 🚨 클라우드 데이터가 화면보다 훨씬 적음 — 자동으로 덮어쓰지 않고 경고만 표시 (토큰 문제 아님)
       updateSyncStatus('blocked');
@@ -8725,6 +8738,7 @@ async function loadFromGitHubSafe() {
     return 'ok';
   } catch(e) {
     console.error('[Sync] 데이터 로드/적용 실패:', e);
+    window._lastSyncErrorMsg = (e && e.message) ? e.message : String(e);
     return 'error';
   }
 }
@@ -8789,7 +8803,7 @@ async function forceLoadFromGitHub() {
       ]
     );
   } else {
-    showToast('⚠️ 최신 데이터를 불러오지 못했습니다. 인터넷 연결 또는 토큰을 확인해주세요.');
+    showToast('⚠️ 최신 데이터를 불러오지 못했습니다' + (window._lastSyncErrorMsg ? ' (' + window._lastSyncErrorMsg + ')' : '') + '. 인터넷 연결 또는 토큰을 확인해주세요.');
     updateSyncStatus('syncerror');
   }
 }
@@ -15125,6 +15139,12 @@ function showToast(msg){
 ══════════════════════════════════════════════ */
 function calcArea(path){
   if(!path||path.length<3)return 0;
+  // 🛡️ 가져오기/병합 등으로 좌표가 깨진 점(null, lat/lng 누락 등)이 섞여 있어도
+  // 전체 화면이 멈추지 않도록 방어 (한 구역이 깨져도 나머지 구역은 정상 표시)
+  if (!path.every(p => p && typeof p.lat === 'number' && typeof p.lng === 'number' && !isNaN(p.lat) && !isNaN(p.lng))) {
+    console.warn('[calcArea] 유효하지 않은 좌표가 포함된 경로 — 면적 0으로 처리');
+    return 0;
+  }
   const R=6371000,rad=d=>d*Math.PI/180;
   const clat=path.reduce((a,p)=>a+p.lat,0)/path.length;
   let area=0;
