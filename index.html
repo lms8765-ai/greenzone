@@ -5938,8 +5938,8 @@ function renderDetailBody(el) {
       </div>
     </div>
     ${(()=>{
-      const treeList  = (z.treeCounts||[]).filter(t=>t.species);
-      const shrubList = (z.shrubCounts||[]).filter(s=>s.species);
+      const treeList  = (z.treeCounts||[]).filter(t=>t.species).slice().sort((a,b)=>a.species.localeCompare(b.species,'ko'));
+      const shrubList = (z.shrubCounts||[]).filter(s=>s.species).slice().sort((a,b)=>a.species.localeCompare(b.species,'ko'));
       const hasQty = z.mowingArea>0 || z.facilityCount>0 || treeList.length || shrubList.length;
       if (!hasQty) return '';
       const treeTotal  = treeList.reduce((s,t)=>s+(t.qty||0),0);
@@ -6086,8 +6086,8 @@ function openEditModal() {
   const fcEl = document.getElementById('f-facility-count');
   if (maEl) maEl.value = z.mowingArea || '';
   if (fcEl) fcEl.value = z.facilityCount || '';
-  window._editTreeCounts  = JSON.parse(JSON.stringify(z.treeCounts  || []));
-  window._editShrubCounts = JSON.parse(JSON.stringify(z.shrubCounts || []));
+  window._editTreeCounts  = JSON.parse(JSON.stringify(z.treeCounts  || [])).sort((a,b)=>(a.species||'').localeCompare(b.species||'','ko'));
+  window._editShrubCounts = JSON.parse(JSON.stringify(z.shrubCounts || [])).sort((a,b)=>(a.species||'').localeCompare(b.species||'','ko'));
   renderZoneCountRows('tree');
   renderZoneCountRows('shrub');
   // 추가 정보 섹션은 매번 접힌 상태로 시작 (평소엔 숨김)
@@ -6247,7 +6247,7 @@ function renderZoneCountRows(kind) {
   const el = document.getElementById(isTree ? 'f-tree-count-rows' : 'f-shrub-count-rows');
   if (!el) return;
   const unit = isTree ? '주' : '㎡';
-  const speciesList = (isTree ? treeSpeciesList : shrubSpeciesList) || [];
+  const speciesList = ((isTree ? treeSpeciesList : shrubSpeciesList) || []).slice().sort((a,b)=>a.localeCompare(b,'ko'));
   if (!rows.length) {
     el.innerHTML = '<div style="font-size:10px;color:#aaa;padding:4px 2px">등록된 ' + (isTree?'교목':'관목') + '이 없습니다</div>';
     return;
@@ -6329,8 +6329,8 @@ function saveZone(){
   const fcVal = parseInt(document.getElementById('f-facility-count')?.value);
   z.mowingArea = isFinite(maVal) ? maVal : 0;
   z.facilityCount = isFinite(fcVal) ? fcVal : 0;
-  z.treeCounts = (window._editTreeCounts||[]).filter(r=>r.species && r.species.trim()).map(r=>({species:r.species.trim(), qty: r.qty||0}));
-  z.shrubCounts = (window._editShrubCounts||[]).filter(r=>r.species && r.species.trim()).map(r=>({species:r.species.trim(), qty: r.qty||0}));
+  z.treeCounts = (window._editTreeCounts||[]).filter(r=>r.species && r.species.trim()).map(r=>({species:r.species.trim(), qty: r.qty||0})).sort((a,b)=>a.species.localeCompare(b.species,'ko'));
+  z.shrubCounts = (window._editShrubCounts||[]).filter(r=>r.species && r.species.trim()).map(r=>({species:r.species.trim(), qty: r.qty||0})).sort((a,b)=>a.species.localeCompare(b.species,'ko'));
   z.treeCounts.forEach(r => addSpeciesIfNew('tree', r.species));
   z.shrubCounts.forEach(r => addSpeciesIfNew('shrub', r.species));
   // 분류가 현재 탭과 다르면 다른 탭으로 이동한 것 → 안내
@@ -12461,7 +12461,7 @@ function mergeSpeciesCounts(zList, field) {
     const sp = (r.species||'').trim(); if (!sp) return;
     map[sp] = (map[sp]||0) + (r.qty||0);
   }));
-  return Object.entries(map).map(([species, qty]) => ({ species, qty: Math.round(qty*10)/10 }));
+  return Object.entries(map).map(([species, qty]) => ({ species, qty: Math.round(qty*10)/10 })).sort((a,b)=>a.species.localeCompare(b.species,'ko'));
 }
 
 function confirmMergeZones() {
@@ -15237,8 +15237,8 @@ function exportSpeciesSummaryCSV() {
   zones.forEach(z => {
     const grp = groups.find(g=>g.id===z.groupId);
     const base = [z.name, grp?.name||'', TYPE_MAP[zoneTypeOf(z)]||zoneTypeOf(z), z.mowingArea||0, z.facilityCount||0];
-    const trees  = (z.treeCounts||[]).filter(r=>r.species);
-    const shrubs = (z.shrubCounts||[]).filter(r=>r.species);
+    const trees  = (z.treeCounts||[]).filter(r=>r.species).slice().sort((a,b)=>a.species.localeCompare(b.species,'ko'));
+    const shrubs = (z.shrubCounts||[]).filter(r=>r.species).slice().sort((a,b)=>a.species.localeCompare(b.species,'ko'));
     if (!trees.length && !shrubs.length) {
       rows.push([...base, '', '', '', '']);
     } else {
