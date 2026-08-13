@@ -40763,6 +40763,18 @@
         {
           "species": "은행나무",
           "qty": 6
+        },
+        {
+          "species": "무궁화",
+          "qty": 5
+        },
+        {
+          "species": "은목서",
+          "qty": 3
+        },
+        {
+          "species": "왕벚나무",
+          "qty": 1
         }
       ],
       "shrubCounts": []
@@ -66172,6 +66184,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T00:32:52.359Z",
+  "savedAt": "2026-08-13T00:33:32.832Z",
   "savedBy": "lms8765-ai"
 }
