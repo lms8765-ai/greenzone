@@ -66681,15 +66681,15 @@
     },
     {
       "id": "z_1786665210278",
-      "name": "새 관리구역",
+      "name": "해도동 116-3",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1786664971377",
       "paths": [
         [
           {
@@ -67477,6 +67477,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T23:53:33.286Z",
+  "savedAt": "2026-08-13T23:53:40.589Z",
   "savedBy": "lms8765-ai"
 }
