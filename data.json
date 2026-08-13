@@ -44723,7 +44723,7 @@
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 오천읍 문덕리 230-1",
       "manager": "",
       "color": "#c62828",
-      "groupId": "g_1785908741887",
+      "groupId": "g_1786605945372",
       "paths": [
         [
           {
@@ -65233,6 +65233,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T07:26:39.279Z",
+  "savedAt": "2026-08-13T07:27:04.280Z",
   "savedBy": "lms8765-ai"
 }
