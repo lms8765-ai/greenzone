@@ -67566,6 +67566,15 @@
       "order": 0,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1786589430131",
+      "name": "해도동",
+      "color": "#6a1b9a",
+      "parentId": null,
+      "order": 14,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [],
@@ -67602,6 +67611,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T02:50:17.120Z",
+  "savedAt": "2026-08-13T02:50:33.136Z",
   "savedBy": "lms8765-ai"
 }
