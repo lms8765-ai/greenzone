@@ -65317,15 +65317,6 @@
       "order": 0,
       "tier": "mid",
       "zoneType": "green"
-    },
-    {
-      "id": "g_1786664290773",
-      "name": "항구동",
-      "color": "#e65100",
-      "parentId": null,
-      "order": 15,
-      "tier": "mid",
-      "zoneType": "green"
     }
   ],
   "customDepts": [],
@@ -65362,6 +65353,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T23:38:13.781Z",
+  "savedAt": "2026-08-13T23:38:29.842Z",
   "savedBy": "lms8765-ai"
 }
