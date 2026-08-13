@@ -2,8 +2,8 @@
 //  포항시 녹지관리 시스템 - Service Worker
 //  오프라인 캐시 및 백그라운드 동기화
 // ══════════════════════════════════════════════
-const CACHE_NAME = 'pohang-greenzone-v2';
-const STATIC_CACHE = 'pohang-static-v2';
+const CACHE_NAME = 'pohang-greenzone-v3';
+const STATIC_CACHE = 'pohang-static-v3';
 
 // 캐시할 파일 목록
 const CACHE_URLS = [
@@ -14,11 +14,15 @@ const CACHE_URLS = [
   '/greenzone/icons/icon-512.png',
 ];
 
-// 네이버지도 API (외부 URL - 캐시 제외)
+// 캐시를 거치지 않고 항상 네트워크로 직접 처리할 외부 도메인
+// (지도 API뿐 아니라 GitHub API도 포함 — 매번 최신 데이터를 받아야 하고,
+//  캐시 레이어를 거치면 드물게 응답이 불완전하게 전달되는 문제가 있어 제외함)
 const EXTERNAL_SKIP = [
   'oapi.map.naver.com',
   'naveropenapi.apigw.ntruss.com',
   'ncloud.com',
+  'api.github.com',
+  'raw.githubusercontent.com',
 ];
 
 // ── 설치 ──────────────────────────────────────
@@ -50,11 +54,9 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // 외부 API (네이버지도 등) → 네트워크 우선, 실패 시 캐시
+  // 외부 API (네이버지도, GitHub API 등) → 캐시를 거치지 않고 네트워크로 직접 전달
   if (EXTERNAL_SKIP.some(d => url.hostname.includes(d))) {
-    event.respondWith(
-      fetch(event.request).catch(() => caches.match(event.request))
-    );
+    event.respondWith(fetch(event.request));
     return;
   }
 
