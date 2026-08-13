@@ -1726,7 +1726,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
     </button>
     <div class="hd-divider" style="flex-shrink:0"></div>
     <!-- ★ 주요 액션 그룹 (항상 표시) -->
-    <button class="hd-btn" id="btn-cloud-save" onclick="saveToGitHub()"
+    <button class="hd-btn mut-btn" id="btn-cloud-save" onclick="saveToGitHub()"
       style="background:#1565c0;border:1.5px solid #42a5f5;font-weight:800;flex-shrink:0"
       title="GitHub에 저장 → 모든 기기 동기화">
       ☁️ 클라우드 저장
@@ -1758,7 +1758,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
     <!-- ▸ 보조 그룹 (기타 메뉴로 접을 수 있음) -->
     <button class="hd-btn" onclick="exportData()" title="JSON 내보내기" style="flex-shrink:0">💾</button>
     <button class="hd-btn" onclick="exportCSV()"  title="엑셀 내보내기" style="flex-shrink:0">📊</button>
-    <button class="hd-btn" onclick="importData()" title="JSON 불러오기" style="flex-shrink:0">📂</button>
+    <button class="hd-btn mut-btn" onclick="importData()" title="JSON 불러오기" style="flex-shrink:0">📂</button>
     <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
 
     <div class="hd-divider" style="flex-shrink:0"></div>
@@ -3707,6 +3707,11 @@ function isSuspiciousShrink(oldLen, newLen) {
 }
 
 async function saveToGitHub(silent = false) {
+  if (!editUnlocked) {
+    if (!silent) showToast('🔒 읽기 전용 모드입니다. "🔓 편집하기"로 잠금을 해제한 후 다시 시도해주세요.');
+    else console.warn('[Lock] 읽기 전용 모드 — 클라우드 저장이 자동 차단되었습니다.');
+    return;
+  }
   if (!ghToken) {
     if (!silent) openGitHubSettings();
     return;
@@ -4516,6 +4521,7 @@ function clearSearchPin() {
 
 // 주소 위치에서 구역 그리기 시작 (지도 이동 + 그리기 모드)
 function startDrawAtAddr(lat, lng, addr) {
+  if (!requireEditUnlock()) return;
   // 검색 InfoWindow·경계 닫기 (그리기 중 방해 요소 제거)
   if (searchInfoWindow) { searchInfoWindow.close(); searchInfoWindow = null; window._siw = null; }
   if (searchBoundary)   { searchBoundary.setMap(null); searchBoundary = null; }
@@ -4539,6 +4545,7 @@ function startDrawAtAddr(lat, lng, addr) {
      그 지점을 실제로 포함하는 필지를 pointInPolygon으로 선별
 ══════════════════════════════════════════════ */
 async function createZoneFromParcel(lat, lng, addr) {
+  if (!requireEditUnlock()) return;
   const key = getVWorldKey();
   if (!key) {
     showConfirm(
@@ -4816,6 +4823,7 @@ function addNextPart() {
 }
 
 function toggleZoneVisibility() {
+  if (!requireEditUnlock()) return;
   if (!selId) return;
   const z = zones.find(z => z.id === selId);
   if (!z) return;
@@ -4889,6 +4897,7 @@ function updateAreaHud() {
 }
 
 function finishDraw() {
+  if (!requireEditUnlock()) return;
   if (dPath.length < 3) { showToast('⚠️ 최소 3개 점이 필요합니다'); return; }
   cleanListeners(); cleanPreview(); dMarkers.forEach(m => m.setMap(null)); dMarkers = [];
   // 다중구간 처리: multiPaths에 현재 dPath 추가
@@ -5188,6 +5197,7 @@ function renderDeptList() {
   el.innerHTML = rows.concat(customRows).join('');
 }
 function addDept() {
+  if (!requireEditUnlock()) return;
   var name = document.getElementById('new-dept-name').value.trim();
   if (!name) { showToast('⚠️ 부서명을 입력해주세요'); return; }
   customDepts.push({id:'d_'+Date.now(), name:name});
@@ -5195,6 +5205,7 @@ function addDept() {
   renderDeptList(); showToast('✅ 부서가 추가되었습니다');
 }
 function delDept(did) {
+  if (!requireEditUnlock()) return;
   const dept = customDepts.find(d=>d.id===did);
   const name = dept ? dept.name : '이 부서';
   showConfirm(
@@ -5212,6 +5223,7 @@ function delDept(did) {
   );
 }
 function updateDeptName(did, name) {
+  if (!requireEditUnlock()) return;
   var d = customDepts.find(function(d){ return d.id===did; });
   if (d) d.name = name;
 }
@@ -5480,6 +5492,7 @@ function getAllGroupIds(gid) {
 
 // 그룹 표시/숨기기 토글
 function toggleGroupHide(gid) {
+  if (!requireEditUnlock()) return;
   const allIds = getAllGroupIds(gid);
   if (hiddenGroups.has(gid)) {
     // 표시 복원
@@ -5846,6 +5859,20 @@ function renderDetailBody(el) {
         <div class="dp-action-btn" onclick="confirmDeleteZone()" style="background:#ffebee;color:#c62828;border-color:#ef9a9a">🗑</div>
       </div>
     </div>
+    ${(()=>{
+      const treeList  = (z.treeCounts||[]).filter(t=>t.species);
+      const shrubList = (z.shrubCounts||[]).filter(s=>s.species);
+      const hasQty = z.mowingArea>0 || z.facilityCount>0 || treeList.length || shrubList.length;
+      if (!hasQty) return '';
+      return `
+    <div class="dp-info-sec" style="border-top:1px solid var(--green-br);padding-top:8px;margin-top:2px">
+      <div style="font-size:11px;font-weight:800;color:var(--green);margin-bottom:6px">📊 구역별 수량 관리</div>
+      ${z.mowingArea>0?`<div class="dp-info-row"><span class="dp-info-k">풀베기 면적</span><span class="dp-info-v">✂️ ${Number(z.mowingArea).toLocaleString()}㎡</span></div>`:''}
+      ${z.facilityCount>0?`<div class="dp-info-row"><span class="dp-info-k">시설물</span><span class="dp-info-v">🏗️ ${z.facilityCount}EA</span></div>`:''}
+      ${treeList.length?`<div class="dp-info-row" style="align-items:flex-start"><span class="dp-info-k">교목</span><div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end">${treeList.map(t=>`<span class="badge" style="background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9">🌲${escapeHTML(t.species)} ${t.qty||0}주</span>`).join('')}</div></div>`:''}
+      ${shrubList.length?`<div class="dp-info-row" style="align-items:flex-start"><span class="dp-info-k">관목</span><div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end">${shrubList.map(s=>`<span class="badge" style="background:#f3e5f5;color:#7b1fa2;border:1px solid #ce93d8">🌿${escapeHTML(s.species)} ${s.qty||0}주</span>`).join('')}</div></div>`:''}
+    </div>`;
+    })()}
     <div class="dp-log-sec-head" style="display:flex;align-items:center;gap:6px">
       <span>작업 기록 (${logs.length}건)</span>
       <input id="log-search-${z.id}" oninput="filterLogs('${z.id}',this.value)"
@@ -5933,6 +5960,7 @@ function populateGroupSel() {
     '<option value="">그룹 없음</option>' + buildOpts(null, 0);
 }
 function openEditModal() {
+  if (!requireEditUnlock()) return;
   const id=editId||selId; if(!id)return; editId=id;
   const z=zones.find(z=>z.id===id); if(!z)return;
   document.getElementById('edit-modal-title').textContent = z.name==='새 관리구역' ? '새 구역 정보 입력' : `구역 편집 — ${z.name}`;
@@ -6275,6 +6303,7 @@ function openLogModal(){
 }
 function closeLogModal(){document.getElementById('log-modal').classList.remove('show');}
 function saveLog(){
+  if (!requireEditUnlock()) return;
   const date=document.getElementById('l-date').value, detail=document.getElementById('l-detail').value.trim();
   if(!date||!detail){showToast('⚠️ 작업일과 상세내용을 입력해주세요');return;}
   const z=zones.find(z=>z.id===selId);if(!z)return;if(!z.logs)z.logs=[];
@@ -6339,6 +6368,7 @@ function openLogEditModal(lid){
 }
 function closeLogEditModal(){document.getElementById('log-edit-modal').classList.remove('show');}
 function saveLogEdit(){
+  if (!requireEditUnlock()) return;
   const lid=document.getElementById('le-id').value;
   const z=zones.find(z=>z.id===selId),l=z?.logs?.find(x=>x.id===lid);if(!l)return;
   const isProj = document.getElementById('le-log-tab').value === 'project';
@@ -6368,6 +6398,7 @@ function saveLogEdit(){
   showToast('✅ 기록이 수정되었습니다');
 }
 function confirmDelLog(lid){
+  if (!requireEditUnlock()) return;
   showConfirm('이 작업 기록을 삭제하시겠습니까?','🗑',[
     {label:'삭제',cls:'danger',fn:()=>{
       const z=zones.find(z=>z.id===selId);if(!z)return;
@@ -6452,6 +6483,7 @@ function renderGroupList(){
   el.innerHTML = roots.map(g=>renderGrpRow(g,0)).join('');
 }
 function addGroup(){
+  if (!requireEditUnlock()) return;
   const name = document.getElementById('new-grp-name').value.trim();
   if (!name) { showToast('⚠️ 그룹명을 입력해주세요'); return; }
   const parentId = document.getElementById('new-grp-parent')?.value || '';
@@ -6467,6 +6499,7 @@ function addGroup(){
   showToast('✅ 그룹이 추가되었습니다');
 }
 function delGroup(gid){
+  if (!requireEditUnlock()) return;
   const g_obj = groups.find(g=>g.id===gid);
   const g_name = g_obj ? g_obj.name : '이 그룹';
   const g_zone_cnt = zones.filter(z=>z.groupId===gid).length;
@@ -6516,6 +6549,7 @@ function exportData(){
 }
 function importData(){document.getElementById('import-file').click();}
 function handleImport(e){
+  if (!requireEditUnlock()) return;
   const file=e.target.files[0]; if(!file)return;
   const reader=new FileReader();
   reader.onload=ev=>{
@@ -6669,6 +6703,7 @@ function renderWpList() {
 }
 
 function addWorkProject() {
+  if (!requireEditUnlock()) return;
   const name = document.getElementById('wp-new-name').value.trim();
   if (!name) { showToast('⚠️ 작업묶음 이름을 입력해주세요'); return; }
   const type = document.getElementById('wp-new-type').value;
@@ -6783,6 +6818,7 @@ function updateWpZoneCount() {
 }
 
 function saveWpDetail() {
+  if (!requireEditUnlock()) return;
   const wpId = document.getElementById('wp-detail-id').value;
   const wp = workProjects.find(p=>p.id===wpId);
   if (!wp) return;
@@ -6805,6 +6841,7 @@ function saveWpDetail() {
 }
 
 function deleteWorkProject() {
+  if (!requireEditUnlock()) return;
   const wpId = document.getElementById('wp-detail-id').value;
   const wp = workProjects.find(p=>p.id===wpId);
   showConfirm(`"${wp?.name}"을 삭제하시겠습니까?`, '🗑', [
@@ -6883,6 +6920,7 @@ function renderWtList() {
 }
 
 function addCustomWT() {
+  if (!requireEditUnlock()) return;
   const icon  = document.getElementById('wt-new-icon').value.trim() || '📋';
   const label = document.getElementById('wt-new-label').value.trim();
   const color = document.getElementById('wt-new-color').value;
@@ -6897,6 +6935,7 @@ function addCustomWT() {
 }
 
 function saveWtItem(id) {
+  if (!requireEditUnlock()) return;
   const w = customWT.find(x=>x.id===id);
   if (!w) return;
   w.label = document.getElementById('wt-label-'+id)?.value.trim() || w.label;
@@ -6908,6 +6947,7 @@ function saveWtItem(id) {
 }
 
 function delCustomWT(id) {
+  if (!requireEditUnlock()) return;
   const wt = customWT.find(x=>x.id===id);
   const label = wt ? (wt.icon + ' ' + wt.label) : '이 작업유형';
   showConfirm(
@@ -7365,6 +7405,7 @@ function saveCp() {
   }
 }
 function deleteCp() {
+  if (!requireEditUnlock()) return;
   const eid = document.getElementById('cp-edit-id').value;
   const c = complaints.find(x=>x.id===eid);
   showConfirm(
@@ -7503,6 +7544,7 @@ function toggleCpDpSection(field) {
 
 // 인라인 저장
 function saveCpDpField(field) {
+  if (!requireEditUnlock()) return;
   const c = complaints.find(x => x.id === currentCpId);
   if (!c) return;
   let val = '';
@@ -7539,6 +7581,7 @@ function saveCpDpField(field) {
 
 // 빠른 상태 변경
 function quickChangeCpStatus(status) {
+  if (!requireEditUnlock()) return;
   const c = complaints.find(x => x.id === currentCpId);
   if (!c) return;
   // 완료 시 답변 필수 검사
@@ -7572,6 +7615,7 @@ function openCpEditModalFromPanel() {
 
 // 패널에서 삭제
 function deleteCpFromPanel() {
+  if (!requireEditUnlock()) return;
   if (!currentCpId) return;
   const c = complaints.find(x => x.id === currentCpId);
   showConfirm('"' + (c?.person||'') + '" 민원을 삭제하시겠습니까?', '🗑', [
@@ -7832,6 +7876,7 @@ function saveRoseZone() {
 }
 
 function deleteRoseZone() {
+  if (!requireEditUnlock()) return;
   const eid = document.getElementById('rose-edit-id').value;
   const r = roseZones.find(x=>x.id===eid);
   const speciesCnt = (r?.species||[]).length;
@@ -8268,6 +8313,7 @@ function renderProjectChecks(z) {
 }
 
 function toggleZoneInProject(wpId, zoneId) {
+  if (!requireEditUnlock()) return;
   const wp = workProjects.find(p=>p.id===wpId);
   if (!wp) return;
   if (!wp.zoneIds) wp.zoneIds = [];
@@ -8287,6 +8333,7 @@ function toggleZoneInProject(wpId, zoneId) {
 
 /* ══ 구역별 지도 표시 on/off ══ */
 function toggleZoneHide(zoneId) {
+  if (!requireEditUnlock()) return;
   const id = zoneId || selId;
   if (!id) return;
   if (hiddenZones.has(id)) {
@@ -8352,6 +8399,7 @@ function renderCpCategoryBtns(c) {
 }
 
 function changeCpCategory(cat) {
+  if (!requireEditUnlock()) return;
   const c = complaints.find(x => x.id === currentCpId);
   if (!c) return;
   c.category = cat;
@@ -8934,6 +8982,7 @@ function togglePartMoveRow(zoneId, partIdx) {
 
 // 구간 이동 실행
 function confirmMovePart(fromZoneId, partIdx) {
+  if (!requireEditUnlock()) return;
   const selEl = document.getElementById('part-move-sel-' + fromZoneId + '-' + partIdx);
   const toZoneId = selEl ? selEl.value : '';
   if (!toZoneId) { showToast('⚠️ 이동할 구역을 선택해주세요.'); return; }
@@ -9072,6 +9121,7 @@ function cancelEditGroup(gid) {
 }
 
 function saveGroupName(gid) {
+  if (!requireEditUnlock()) return;
   const inp = document.getElementById('grp-edit-input-' + gid);
   if (!inp) return;
   const newName = inp.value.trim();
@@ -10000,6 +10050,7 @@ function renderChecklist() {
 }
 
 function saveChecklist() {
+  if (!requireEditUnlock()) return;
   const zid  = document.getElementById('cl-zone-id')?.value;
   const type = document.getElementById('cl-work-type')?.value || 'general';
   const date = document.getElementById('cl-date')?.value || todayStr();
@@ -10094,6 +10145,7 @@ function updateBulkCount() {
 }
 
 function saveBulkLogs() {
+  if (!requireEditUnlock()) return;
   const date    = document.getElementById('bulk-date')?.value || '';
   const wtId    = document.getElementById('bulk-wt')?.value || '';
   const worker  = (document.getElementById('bulk-worker')?.value||'').trim();
@@ -11581,6 +11633,7 @@ function exportDataBackup() {
 
 /* 백업 파일로부터 복원 (긴급 복구용) */
 function importDataBackup() {
+  if (!requireEditUnlock()) return;
   const input = document.createElement('input');
   input.type = 'file';
   input.accept = 'application/json';
@@ -12185,6 +12238,7 @@ function showBulkGroupPicker(optionsHTML) {
 }
 
 function applyBulkGroup() {
+  if (!requireEditUnlock()) return;
   const groupId = document.getElementById('bulk-group-select')?.value || '';
   const curType = getCurrentZoneType();
   let count = 0;
@@ -12247,6 +12301,7 @@ function suggestSmartGrouping() {
 }
 
 function applySmartGrouping(prefix) {
+  if (!requireEditUnlock()) return;
   const tabType = getCurrentZoneType();
   const matching = zones.filter(z => zoneTypeOf(z) === tabType && !z.groupId && (z.name||'').startsWith(prefix));
   if (matching.length === 0) return;
@@ -12293,6 +12348,7 @@ function expandAllGroups() {
 
 
 function toggleZonePin(zoneId) {
+  if (!requireEditUnlock()) return;
   if (pinnedZones.has(zoneId)) {
     pinnedZones.delete(zoneId);
     showToast('📍 고정을 해제했습니다.');
@@ -13419,6 +13475,7 @@ function updateTreeStatusbar() {
 
 /* ── 저장/불러오기 ── */
 function saveTreeData() {
+  if (!requireEditUnlock()) return;
   try {
     const data = JSON.stringify(treeData);
     localStorage.setItem('phgz_tree_v1', data);
@@ -14942,6 +14999,7 @@ function exportCSV() {
   showToast('📊 엑셀 파일로 내보냈습니다 (Excel에서 열기 가능)');
 }
 function duplicateZone() {
+  if (!requireEditUnlock()) return;
   if (!selId) return;
   const z = zones.find(z=>z.id===selId);
   if (!z) return;
