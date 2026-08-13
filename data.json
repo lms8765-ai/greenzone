@@ -13,7 +13,7 @@
       "memo": "덩굴장미 및 관목장미 혼식 구간. 개화기(5~6월) 집중관리 필요.",
       "manager": "홍길동",
       "color": "#c2185b",
-      "groupId": "g1",
+      "groupId": "",
       "paths": [
         [
           {
@@ -92,7 +92,7 @@
       "memo": "흰가루병 발생 중. 지속 모니터링 필요.",
       "manager": "이영희",
       "color": "#c62828",
-      "groupId": "g1",
+      "groupId": "",
       "paths": [
         [
           {
@@ -171,7 +171,7 @@
       "memo": "2025년 신규 조성 예정. 주민참여형.",
       "manager": "",
       "color": "#e65100",
-      "groupId": "g1",
+      "groupId": "",
       "paths": [
         [
           {
@@ -65869,14 +65869,6 @@
   ],
   "groups": [
     {
-      "id": "g1",
-      "name": "장미 관리구역",
-      "color": "#c2185b",
-      "parentId": null,
-      "order": 0,
-      "tier": "top"
-    },
-    {
       "id": "g1-1",
       "name": "영일대 장미",
       "color": "#e91e63",
@@ -65891,14 +65883,6 @@
       "parentId": "g1",
       "order": 1,
       "tier": "mid"
-    },
-    {
-      "id": "g2",
-      "name": "수목·녹지 관리구역",
-      "color": "#2e7d32",
-      "parentId": null,
-      "order": 1,
-      "tier": "top"
     },
     {
       "id": "g2-1",
@@ -66167,6 +66151,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T00:21:54.861Z",
+  "savedAt": "2026-08-13T00:22:21.738Z",
   "savedBy": "lms8765-ai"
 }
