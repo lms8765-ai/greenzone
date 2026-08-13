@@ -40801,6 +40801,10 @@
         {
           "species": "회양목",
           "qty": 15
+        },
+        {
+          "species": "장미",
+          "qty": 4
         }
       ]
     },
@@ -66209,6 +66213,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T00:40:20.610Z",
+  "savedAt": "2026-08-13T00:40:57.874Z",
   "savedBy": "lms8765-ai"
 }
