@@ -44773,7 +44773,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 오천읍 문덕리 230-1",
+      "memo": "풀베기 : 30%",
       "manager": "",
       "color": "#c62828",
       "groupId": "g_1786605945372",
@@ -44876,7 +44876,32 @@
           "qty": 10
         }
       ],
-      "shrubCounts": []
+      "shrubCounts": [
+        {
+          "species": "꽃댕강",
+          "qty": 31
+        },
+        {
+          "species": "남천",
+          "qty": 11
+        },
+        {
+          "species": "수국",
+          "qty": 4
+        },
+        {
+          "species": "조팝",
+          "qty": 27
+        },
+        {
+          "species": "철쭉류",
+          "qty": 82
+        },
+        {
+          "species": "화살나무",
+          "qty": 20
+        }
+      ]
     },
     {
       "id": "z_1785911434239",
@@ -65315,6 +65340,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T07:44:25.664Z",
+  "savedAt": "2026-08-13T07:45:16.835Z",
   "savedBy": "lms8765-ai"
 }
