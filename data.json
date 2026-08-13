@@ -44556,7 +44556,20 @@
       "nextWorkType": "",
       "mowingArea": 0,
       "facilityCount": 0,
-      "treeCounts": [],
+      "treeCounts": [
+        {
+          "species": "느티나무",
+          "qty": 3
+        },
+        {
+          "species": "은행나무",
+          "qty": 8
+        },
+        {
+          "species": "메타세콰이어",
+          "qty": 4
+        }
+      ],
       "shrubCounts": []
     },
     {
@@ -66213,6 +66226,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T00:42:26.947Z",
+  "savedAt": "2026-08-13T01:23:20.922Z",
   "savedBy": "lms8765-ai"
 }
