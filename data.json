@@ -67094,15 +67094,15 @@
     },
     {
       "id": "z_1786588869365",
-      "name": "새 관리구역",
+      "name": "효자동 380-5",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#e65100",
+      "groupId": "g_1785910611519",
       "paths": [
         [
           {
@@ -67460,6 +67460,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T02:41:12.373Z",
+  "savedAt": "2026-08-13T02:41:18.413Z",
   "savedBy": "lms8765-ai"
 }
