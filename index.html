@@ -5285,10 +5285,13 @@ function confirmDeleteZone() {
         if (z.polygons) z.polygons.forEach(p=>{if(p)p.setMap(null);});
         ['polygon','label','labelD'].forEach(k=>{if(z[k])z[k].setMap(null);});
       }
-      // 작업묶음 zoneIds에서도 제거 (고아 참조 방지)
+      // 다른 데이터에 남아있는 구역 참조 정리 (고아 참조 방지)
       workProjects.forEach(p => {
         p.zoneIds = (p.zoneIds||[]).filter(id => id !== selId);
       });
+      roseZones.forEach(r => { if (r.zoneId === selId) r.zoneId = ''; }); // 연결만 해제, 장미 상세정보 자체는 보존
+      hiddenZones.delete(selId);
+      pinnedZones.delete(selId);
       zones = zones.filter(z=>z.id!==selId);
       selId = null;
       saveAll(); renderSidebar(); renderDetail(); updateToolbar();
@@ -12429,14 +12432,32 @@ function confirmMergeZones() {
   const otherMemos = others.map(z => (z.memo||'').trim()).filter(Boolean);
   if (otherMemos.length) base.memo = [(base.memo||'').trim(), ...otherMemos].filter(Boolean).join(' / ');
 
-  // 4) 지도 객체 정리 후 나머지 구역 삭제
+  // 4) 다른 데이터에 남아있는 구역 참조 정리 및 이관 (고아 참조 방지)
+  const otherIds = new Set(others.map(z => z.id));
+  workProjects.forEach(p => {
+    const ids = (p.zoneIds||[]).map(id => otherIds.has(id) ? base.id : id);
+    p.zoneIds = Array.from(new Set(ids)); // 중복 제거
+  });
+  let danglingRoseCount = 0;
+  const baseHasRose = roseZones.some(r => r.zoneId === base.id);
+  roseZones.forEach(r => {
+    if (!otherIds.has(r.zoneId)) return;
+    if (!baseHasRose) {
+      r.zoneId = base.id; // 기준 구역에 장미 상세정보가 없으면 그대로 이관
+    } else {
+      danglingRoseCount++; // 기준 구역에 이미 있으면 충돌 — 정보는 보존하되 연결은 해제
+      r.zoneId = '';
+    }
+  });
+  others.forEach(z => { hiddenZones.delete(z.id); pinnedZones.delete(z.id); });
+
+  // 5) 지도 객체 정리 후 나머지 구역 삭제
   others.forEach(z => {
     if (z.polygon)  z.polygon.setMap(null);
     if (z.polygons) z.polygons.forEach(p => { if (p) p.setMap(null); });
     if (z.label)    z.label.setMap(null);
     if (z.labelD)   z.labelD.setMap(null);
   });
-  const otherIds = new Set(others.map(z => z.id));
   zones = zones.filter(z => !otherIds.has(z.id));
 
   document.getElementById('merge-zones-modal')?.remove();
@@ -12445,7 +12466,8 @@ function confirmMergeZones() {
   selId = base.id; editId = base.id;
   base.polygon = null; base.polygons = []; base.label = null; base.labelD = null;
   saveAll(); redrawAll(); renderSidebar(); renderDetail(); updateMultiSelectBar(); buildFilters(); updateToolbar();
-  showToast(`✅ ${selZones.length}개 구역이 "${newName}"(으)로 병합되었습니다.`);
+  showToast(`✅ ${selZones.length}개 구역이 "${newName}"(으)로 병합되었습니다.`
+    + (danglingRoseCount ? ` (⚠️ 장미구역 상세정보 ${danglingRoseCount}건은 기준 구역에 이미 있어 연결이 해제됐습니다 — 장미관리 탭에서 확인해주세요)` : ''));
 }
 
 
