@@ -65070,6 +65070,65 @@
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
+    },
+    {
+      "id": "z_1786593447164",
+      "name": "상도동 455-212",
+      "team": "greenway",
+      "status": "pending",
+      "zoneType": "green",
+      "workTypes": [],
+      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 상도동 455-212",
+      "manager": "",
+      "color": "#2e7d32",
+      "groupId": "",
+      "paths": [
+        [
+          {
+            "lat": 36.009997050478304,
+            "lng": 129.34720572969528
+          },
+          {
+            "lat": 36.01000004735516,
+            "lng": 129.34723219770893
+          },
+          {
+            "lat": 36.00999168047608,
+            "lng": 129.347233425687
+          },
+          {
+            "lat": 36.009997050478304,
+            "lng": 129.34720572969528
+          }
+        ]
+      ],
+      "path": [
+        {
+          "lat": 36.009997050478304,
+          "lng": 129.34720572969528
+        },
+        {
+          "lat": 36.01000004735516,
+          "lng": 129.34723219770893
+        },
+        {
+          "lat": 36.00999168047608,
+          "lng": 129.347233425687
+        },
+        {
+          "lat": 36.009997050478304,
+          "lng": 129.34720572969528
+        }
+      ],
+      "area": 1,
+      "logs": [],
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     }
   ],
   "groups": [
@@ -65365,6 +65424,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T03:57:19.974Z",
+  "savedAt": "2026-08-13T03:57:30.173Z",
   "savedBy": "lms8765-ai"
 }
