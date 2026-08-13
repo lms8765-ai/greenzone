@@ -44567,7 +44567,35 @@
         },
         {
           "species": "메타세콰이어",
-          "qty": 4
+          "qty": 7
+        },
+        {
+          "species": "배롱나무",
+          "qty": 3
+        },
+        {
+          "species": "측백나무",
+          "qty": 1
+        },
+        {
+          "species": "단풍나무",
+          "qty": 3
+        },
+        {
+          "species": "은목서",
+          "qty": 11
+        },
+        {
+          "species": "소나무",
+          "qty": 18
+        },
+        {
+          "species": "이팝나무",
+          "qty": 10
+        },
+        {
+          "species": "복자기나무",
+          "qty": 9
         }
       ],
       "shrubCounts": []
@@ -66226,6 +66254,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T01:23:20.922Z",
+  "savedAt": "2026-08-13T01:25:14.616Z",
   "savedBy": "lms8765-ai"
 }
