@@ -64081,15 +64081,15 @@
     },
     {
       "id": "z_1786592920035",
-      "name": "새 관리구역",
+      "name": "대잠동 133-4",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1785907641419",
       "paths": [
         [
           {
@@ -64488,6 +64488,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T03:48:40.370Z",
+  "savedAt": "2026-08-13T03:48:53.003Z",
   "savedBy": "lms8765-ai"
 }
