@@ -53791,10 +53791,10 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 흥해읍 곡강리 1721",
+      "memo": "",
       "manager": "",
       "color": "#c62828",
-      "groupId": "g_1785978243275",
+      "groupId": "g_1786664046023",
       "paths": [
         [
           {
@@ -65353,6 +65353,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T23:34:28.942Z",
+  "savedAt": "2026-08-13T23:34:40.357Z",
   "savedBy": "lms8765-ai"
 }
