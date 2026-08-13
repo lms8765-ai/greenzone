@@ -5678,8 +5678,8 @@ function renderStats(el) {
           ${allTreeAgg.length ? allTreeAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${q.toLocaleString()}주</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
         </div>
         <div style="flex:1;min-width:140px">
-          <div style="font-weight:700;color:#558b2f;margin-bottom:4px">🌿 관목 (${allShrubAgg.reduce((s,[,q])=>s+q,0).toLocaleString()}주)</div>
-          ${allShrubAgg.length ? allShrubAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${q.toLocaleString()}주</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
+          <div style="font-weight:700;color:#558b2f;margin-bottom:4px">🌿 관목 (${(Math.round(allShrubAgg.reduce((s,[,q])=>s+q,0)*10)/10).toLocaleString()}㎡)</div>
+          ${allShrubAgg.length ? allShrubAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${(Math.round(q*10)/10).toLocaleString()}㎡</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
         </div>
       </div>
     </div>
@@ -5712,7 +5712,7 @@ function renderStats(el) {
             </div>
             <div style="flex:1;min-width:140px">
               <div style="font-weight:700;color:#558b2f;margin-bottom:4px">🌿 관목</div>
-              ${g.shrubAgg.length ? g.shrubAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${q.toLocaleString()}주</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
+              ${g.shrubAgg.length ? g.shrubAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${(Math.round(q*10)/10).toLocaleString()}㎡</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
             </div>
           </div>
         </div>`).join('')}
@@ -5870,7 +5870,7 @@ function renderDetailBody(el) {
       ${z.mowingArea>0?`<div class="dp-info-row"><span class="dp-info-k">풀베기 면적</span><span class="dp-info-v">✂️ ${Number(z.mowingArea).toLocaleString()}㎡</span></div>`:''}
       ${z.facilityCount>0?`<div class="dp-info-row"><span class="dp-info-k">시설물</span><span class="dp-info-v">🏗️ ${z.facilityCount}EA</span></div>`:''}
       ${treeList.length?`<div class="dp-info-row" style="align-items:flex-start"><span class="dp-info-k">교목</span><div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end">${treeList.map(t=>`<span class="badge" style="background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9">🌲${escapeHTML(t.species)} ${t.qty||0}주</span>`).join('')}</div></div>`:''}
-      ${shrubList.length?`<div class="dp-info-row" style="align-items:flex-start"><span class="dp-info-k">관목</span><div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end">${shrubList.map(s=>`<span class="badge" style="background:#f3e5f5;color:#7b1fa2;border:1px solid #ce93d8">🌿${escapeHTML(s.species)} ${s.qty||0}주</span>`).join('')}</div></div>`:''}
+      ${shrubList.length?`<div class="dp-info-row" style="align-items:flex-start"><span class="dp-info-k">관목</span><div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end">${shrubList.map(s=>`<span class="badge" style="background:#f3e5f5;color:#7b1fa2;border:1px solid #ce93d8">🌿${escapeHTML(s.species)} ${s.qty||0}㎡</span>`).join('')}</div></div>`:''}
     </div>`;
     })()}
     <div class="dp-log-sec-head" style="display:flex;align-items:center;gap:6px">
@@ -6145,27 +6145,54 @@ function renderZoneCountRows(kind) {
   const rows = isTree ? window._editTreeCounts : window._editShrubCounts;
   const el = document.getElementById(isTree ? 'f-tree-count-rows' : 'f-shrub-count-rows');
   if (!el) return;
-  const datalistId = isTree ? 'tp-species-datalist' : 'sp-species-datalist';
+  const unit = isTree ? '주' : '㎡';
+  const speciesList = (isTree ? treeSpeciesList : shrubSpeciesList) || [];
   if (!rows.length) {
     el.innerHTML = '<div style="font-size:10px;color:#aaa;padding:4px 2px">등록된 ' + (isTree?'교목':'관목') + '이 없습니다</div>';
     return;
   }
-  el.innerHTML = rows.map((r, i) => `
-    <div style="display:flex;gap:5px;align-items:center;margin-bottom:5px">
-      <input class="fi" list="${datalistId}" placeholder="수종명 선택/입력" value="${escapeHTML(r.species||'')}"
+  el.innerHTML = rows.map((r, i) => {
+    // 이미 사전에 등록된 수종이면 선택박스로, 그 외(신규 입력 중)에는 직접입력 칸으로 표시
+    const inList = r.species && speciesList.includes(r.species);
+    const customMode = !!r._custom || (r.species && !inList);
+    const selectHtml = `
+      <select class="fi" onchange="onZoneCountSpeciesPick('${kind}',${i},this.value)" style="flex:2;font-size:11px">
+        <option value="">수종 선택...</option>
+        ${speciesList.map(sp=>`<option value="${escapeHTML(sp)}" ${r.species===sp?'selected':''}>${escapeHTML(sp)}</option>`).join('')}
+        <option value="__custom__" ${customMode?'selected':''}>✏️ 새 수종 직접 입력</option>
+      </select>`;
+    const customHtml = customMode ? `
+      <input class="fi" placeholder="새 수종명 입력" value="${escapeHTML(r.species||'')}" autofocus
         oninput="updateZoneCountRow('${kind}',${i},'species',this.value)"
-        style="flex:2;font-size:11px">
-      <input type="number" min="0" step="1" class="fi" placeholder="수량" value="${r.qty||''}"
+        style="flex:2;font-size:11px;margin-top:4px">` : '';
+    return `
+    <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:5px">
+      ${selectHtml}
+      <input type="number" min="0" step="${isTree?'1':'0.1'}" class="fi" placeholder="${isTree?'수량':'면적'}" value="${r.qty===''?'':(r.qty||'')}"
         oninput="updateZoneCountRow('${kind}',${i},'qty',this.value)"
         style="width:70px;font-size:11px">
-      <span style="font-size:10px;color:#888;flex-shrink:0">주</span>
+      <span style="font-size:10px;color:#888;flex-shrink:0">${unit}</span>
       <button type="button" onclick="removeZoneCountRow('${kind}',${i})"
         style="flex-shrink:0;background:#ffebee;color:#c62828;border:none;border-radius:5px;width:22px;height:22px;font-size:12px;cursor:pointer;font-family:inherit">✕</button>
-    </div>`).join('');
+      ${customHtml}
+    </div>`;
+  }).join('');
+}
+function onZoneCountSpeciesPick(kind, idx, value) {
+  const list = kind === 'tree' ? window._editTreeCounts : window._editShrubCounts;
+  if (!list[idx]) return;
+  if (value === '__custom__') {
+    list[idx].species = '';
+    list[idx]._custom = true;
+  } else {
+    list[idx].species = value;
+    list[idx]._custom = false;
+  }
+  renderZoneCountRows(kind);
 }
 function addZoneCountRow(kind) {
   const list = kind === 'tree' ? window._editTreeCounts : window._editShrubCounts;
-  list.push({ species:'', qty:1 });
+  list.push({ species:'', qty:1, _custom:true });
   renderZoneCountRows(kind);
 }
 function removeZoneCountRow(kind, idx) {
@@ -6177,7 +6204,8 @@ function updateZoneCountRow(kind, idx, field, value) {
   const list = kind === 'tree' ? window._editTreeCounts : window._editShrubCounts;
   if (!list[idx]) return;
   if (field === 'qty') {
-    list[idx].qty = value === '' ? '' : Math.max(0, parseInt(value) || 0);
+    const isTree = kind === 'tree';
+    list[idx].qty = value === '' ? '' : Math.max(0, (isTree ? parseInt(value) : parseFloat(value)) || 0);
   } else {
     list[idx].species = value;
   }
@@ -14949,17 +14977,17 @@ function getSorted(list) {
 // 🌳 구역별 수량 관리(풀베기 면적/교목·관목 수종·수량/시설물) 전체 현황 엑셀 내보내기
 function exportSpeciesSummaryCSV() {
   const TYPE_MAP = { green:'녹지관리', mowing:'풀베기사업', flower:'초화식재', rose:'장미관리', tree:'수목관리' };
-  const rows = [['구역명','그룹','탭 분류','풀베기 면적(㎡)','시설물(EA)','구분','수종명','수량(주)']];
+  const rows = [['구역명','그룹','탭 분류','풀베기 면적(㎡)','시설물(EA)','구분','수종명','수량','단위']];
   zones.forEach(z => {
     const grp = groups.find(g=>g.id===z.groupId);
     const base = [z.name, grp?.name||'', TYPE_MAP[zoneTypeOf(z)]||zoneTypeOf(z), z.mowingArea||0, z.facilityCount||0];
     const trees  = (z.treeCounts||[]).filter(r=>r.species);
     const shrubs = (z.shrubCounts||[]).filter(r=>r.species);
     if (!trees.length && !shrubs.length) {
-      rows.push([...base, '', '', '']);
+      rows.push([...base, '', '', '', '']);
     } else {
-      trees.forEach(r  => rows.push([...base, '교목', r.species, r.qty||0]));
-      shrubs.forEach(r => rows.push([...base, '관목', r.species, r.qty||0]));
+      trees.forEach(r  => rows.push([...base, '교목', r.species, r.qty||0, '주']));
+      shrubs.forEach(r => rows.push([...base, '관목', r.species, r.qty||0, '㎡']));
     }
   });
   const BOM = '\uFEFF';
