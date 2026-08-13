@@ -44735,6 +44735,10 @@
           "qty": 12
         },
         {
+          "species": "자귀나무",
+          "qty": 2
+        },
+        {
           "species": "측백나무",
           "qty": 7
         }
@@ -65340,6 +65344,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T07:45:16.835Z",
+  "savedAt": "2026-08-13T07:48:05.258Z",
   "savedBy": "lms8765-ai"
 }
