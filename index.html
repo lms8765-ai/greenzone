@@ -3450,6 +3450,21 @@ function decodeGhContent(base64content) {
   const json = new TextDecoder().decode(bytes);
   return JSON.parse(json);
 }
+
+// 🛡️ 일부 사무실/기관 네트워크(보안 프로그램·방화벽)에서 GitHub API 응답에 포함된
+// base64 데이터가 계속 비어서 오는 경우가 있음(용량이 커질수록 자주 발생) — 이런
+// 경우를 위한 대체 경로: GitHub API를 거치지 않고 raw.githubusercontent.com에서
+// 파일 내용을 직접(JSON 감싸기·base64 인코딩 없이) 받아온다.
+// 대신 이 경로로는 커밋 SHA를 함께 받지 못하므로, 조회(화면표시) 용도로만 사용하고
+// 저장(충돌 검사)에는 사용하지 않는다.
+async function fetchGhDataViaRawCdn() {
+  const rawUrl = `https://raw.githubusercontent.com/${GH_CONFIG.owner}/${GH_CONFIG.repo}/${GH_CONFIG.branch}/${GH_CONFIG.path}?t=${Date.now()}`;
+  const res = await fetchWithTimeout(rawUrl, {}, 12000);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const text = await res.text();
+  if (!text) throw new Error('빈 응답(raw)');
+  return JSON.parse(text);
+}
 var ghToken = ''; // 앱 내 ⚙️ 동기화 설정에서 입력
 var lastSha  = '';              // GitHub 파일의 현재 SHA (업데이트 시 필요)
 var unsavedChanges = false;     // 미저장 변경 여부
@@ -3890,19 +3905,25 @@ async function loadFromGitHub(silent = false) {
     const file = await res.json();
     lastSha = file.sha;
 
-    // 한글 포함 데이터 안전 디코딩 — 아주 드물게 한 번 실패하면 한 번 더 새로 받아 재시도
+    // 한글 포함 데이터 안전 디코딩 — 아주 드물게 한 번 실패하면 한 번 더 새로 받아 재시도,
+    // 그래도 계속 비어있으면(일부 사무실 네트워크에서 반복 발생) raw 경로로 마지막 시도
     let data;
     try {
       data = decodeGhContent(file.content);
     } catch(e1) {
       console.warn('[GitHub Load] 1차 디코딩 실패, 재시도:', e1.message);
-      const retryRes = await fetchWithTimeout(apiUrl, {
-        headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' }
-      });
-      if (!retryRes.ok) throw new Error(`HTTP ${retryRes.status}`);
-      const retryFile = await retryRes.json();
-      lastSha = retryFile.sha;
-      data = decodeGhContent(retryFile.content);
+      try {
+        const retryRes = await fetchWithTimeout(apiUrl, {
+          headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' }
+        });
+        if (!retryRes.ok) throw new Error(`HTTP ${retryRes.status}`);
+        const retryFile = await retryRes.json();
+        lastSha = retryFile.sha;
+        data = decodeGhContent(retryFile.content);
+      } catch(e2) {
+        console.warn('[GitHub Load] 2차 재시도도 실패, raw 경로로 마지막 시도:', e2.message);
+        data = await fetchGhDataViaRawCdn(); // 이 경로는 sha를 못 받아오므로 lastSha는 갱신하지 않음
+      }
     }
     const remote = data.savedAt || '';
     const local  = localStorage.getItem('lastGHSave') || '';
@@ -8726,13 +8747,18 @@ async function loadFromGitHubSafe() {
       data = decodeGhContent(file.content);
     } catch(e1) {
       console.warn('[Sync] 1차 디코딩 실패, 재시도:', e1.message);
-      const retryRes = await fetchWithTimeout(apiUrl, {
-        headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' }
-      });
-      if (!retryRes.ok) { console.error('[Sync] 재시도 HTTP 오류:', retryRes.status); return 'error'; }
-      const retryFile = await retryRes.json();
-      lastSha = retryFile.sha;
-      data = decodeGhContent(retryFile.content); // 여기서도 실패하면 아래 catch(e)에서 처리
+      try {
+        const retryRes = await fetchWithTimeout(apiUrl, {
+          headers: { 'Authorization': 'Bearer ' + ghToken, 'Accept': 'application/vnd.github+json' }
+        });
+        if (!retryRes.ok) { console.error('[Sync] 재시도 HTTP 오류:', retryRes.status); return 'error'; }
+        const retryFile = await retryRes.json();
+        lastSha = retryFile.sha;
+        data = decodeGhContent(retryFile.content);
+      } catch(e2) {
+        console.warn('[Sync] 2차 재시도도 실패, raw 경로로 마지막 시도:', e2.message);
+        data = await fetchGhDataViaRawCdn(); // 이 경로는 sha를 못 받아오므로 lastSha는 갱신하지 않음
+      }
     }
 
     // 데이터 유효성 검증 (조용한 실패 방지)
