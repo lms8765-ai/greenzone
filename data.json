@@ -67140,15 +67140,15 @@
     },
     {
       "id": "z_1786665330641",
-      "name": "새 관리구역",
+      "name": "해도동 111-4",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1786664971377",
       "paths": [
         [
           {
@@ -67792,6 +67792,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T23:55:33.647Z",
+  "savedAt": "2026-08-13T23:55:44.734Z",
   "savedBy": "lms8765-ai"
 }
