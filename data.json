@@ -67521,15 +67521,15 @@
     },
     {
       "id": "z_1786665549166",
-      "name": "새 관리구역",
+      "name": "송정동 384-5",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1786664971377",
       "paths": [
         [
           {
@@ -68301,6 +68301,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T23:59:12.174Z",
+  "savedAt": "2026-08-13T23:59:18.507Z",
   "savedBy": "lms8765-ai"
 }
