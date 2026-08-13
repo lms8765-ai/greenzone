@@ -66907,15 +66907,15 @@
     },
     {
       "id": "z_1786588772025",
-      "name": "새 관리구역",
+      "name": "효자동 332-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#e65100",
+      "groupId": "g_1785910611519",
       "paths": [
         [
           {
@@ -67377,6 +67377,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T02:39:35.037Z",
+  "savedAt": "2026-08-13T02:39:43.056Z",
   "savedBy": "lms8765-ai"
 }
