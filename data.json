@@ -65043,15 +65043,15 @@
     },
     {
       "id": "z_1786664355940",
-      "name": "새 관리구역",
+      "name": "항구동 58-14",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#1565c0",
+      "groupId": "g_1786664313095",
       "paths": [
         [
           {
@@ -65557,6 +65557,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T23:39:18.950Z",
+  "savedAt": "2026-08-13T23:39:44.746Z",
   "savedBy": "lms8765-ai"
 }
