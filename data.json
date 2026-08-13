@@ -65875,6 +65875,15 @@
       "order": 15,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1786664519264",
+      "name": "9호광장",
+      "color": "#1565c0",
+      "parentId": "g_1786664313095",
+      "order": 0,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [],
@@ -65911,6 +65920,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T23:41:41.429Z",
+  "savedAt": "2026-08-13T23:42:02.282Z",
   "savedBy": "lms8765-ai"
 }
