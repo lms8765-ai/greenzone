@@ -66620,6 +66620,65 @@
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
+    },
+    {
+      "id": "z_1786588659594",
+      "name": "효자동 330-2",
+      "team": "greenway",
+      "status": "pending",
+      "zoneType": "green",
+      "workTypes": [],
+      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 효자동 330-2",
+      "manager": "",
+      "color": "#2e7d32",
+      "groupId": "",
+      "paths": [
+        [
+          {
+            "lat": 36.00623754752477,
+            "lng": 129.33019907795057
+          },
+          {
+            "lat": 36.00623351738643,
+            "lng": 129.3302095539626
+          },
+          {
+            "lat": 36.006229148677434,
+            "lng": 129.3301922993403
+          },
+          {
+            "lat": 36.00623754752477,
+            "lng": 129.33019907795057
+          }
+        ]
+      ],
+      "path": [
+        {
+          "lat": 36.00623754752477,
+          "lng": 129.33019907795057
+        },
+        {
+          "lat": 36.00623351738643,
+          "lng": 129.3302095539626
+        },
+        {
+          "lat": 36.006229148677434,
+          "lng": 129.3301922993403
+        },
+        {
+          "lat": 36.00623754752477,
+          "lng": 129.33019907795057
+        }
+      ],
+      "area": 0,
+      "logs": [],
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     }
   ],
   "groups": [
@@ -66906,6 +66965,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T02:37:32.772Z",
+  "savedAt": "2026-08-13T02:37:42.612Z",
   "savedBy": "lms8765-ai"
 }
