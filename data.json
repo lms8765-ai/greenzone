@@ -65188,6 +65188,15 @@
       "order": 14,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1786605945372",
+      "name": "문덕사거리 녹지대",
+      "color": "#c62828",
+      "parentId": "g_1785908741887",
+      "order": 0,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [],
@@ -65224,6 +65233,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T07:25:36.405Z",
+  "savedAt": "2026-08-13T07:25:48.378Z",
   "savedBy": "lms8765-ai"
 }
