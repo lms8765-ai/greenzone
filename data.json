@@ -40746,11 +40746,11 @@
       "treeCounts": [
         {
           "species": "느티나무",
-          "qty": 1
+          "qty": 3
         },
         {
           "species": "이팝나무",
-          "qty": 1
+          "qty": 10
         },
         {
           "species": "배롱나무",
@@ -40758,11 +40758,11 @@
         },
         {
           "species": "소나무",
-          "qty": 1
+          "qty": 13
         },
         {
           "species": "은행나무",
-          "qty": 1
+          "qty": 6
         }
       ],
       "shrubCounts": []
@@ -66172,6 +66172,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T00:32:38.273Z",
+  "savedAt": "2026-08-13T00:32:52.359Z",
   "savedBy": "lms8765-ai"
 }
