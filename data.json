@@ -65056,7 +65056,7 @@
     },
     {
       "id": "g_1785908741887",
-      "name": "오천읍",
+      "name": "문덕사거리 녹지대",
       "color": "#c62828",
       "parentId": null,
       "order": 2,
@@ -65224,6 +65224,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T07:24:00.376Z",
+  "savedAt": "2026-08-13T07:25:29.227Z",
   "savedBy": "lms8765-ai"
 }
