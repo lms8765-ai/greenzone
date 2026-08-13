@@ -65600,7 +65600,7 @@
       "memo": "",
       "manager": "",
       "color": "#6a1b9a",
-      "groupId": "",
+      "groupId": "g_1786664971377",
       "paths": [
         [
           {
@@ -66804,6 +66804,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T23:49:34.385Z",
+  "savedAt": "2026-08-13T23:49:44.739Z",
   "savedBy": "lms8765-ai"
 }
