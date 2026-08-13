@@ -302,6 +302,13 @@ body {
   border-color: var(--green);
   box-shadow: 0 2px 6px rgba(27,107,58,.3);
 }
+/* 🔒 읽기 전용 모드 — 데이터를 바꾸는 버튼들을 비활성화 표시 */
+body.read-only-mode .mut-btn {
+  pointer-events: none !important;
+  opacity: .4 !important;
+  filter: grayscale(70%);
+  cursor: not-allowed !important;
+}
 .tb-btn.draw-active {
   background: var(--rose);
   color: #fff;
@@ -1711,6 +1718,13 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   </div>
   <!-- 2행: 기능 버튼 -->
   <div id="hd-row2">
+    <!-- 🔒 읽기전용/편집 잠금 (항상 맨 앞에 표시) -->
+    <button class="hd-btn" id="btn-edit-lock" onclick="onClickEditLockBtn()"
+      style="background:#2e7d32;border:1.5px solid #66bb6a;font-weight:800;flex-shrink:0"
+      title="편집하려면 비밀번호가 필요합니다">
+      🔒 읽기 전용 (클릭: 편집)
+    </button>
+    <div class="hd-divider" style="flex-shrink:0"></div>
     <!-- ★ 주요 액션 그룹 (항상 표시) -->
     <button class="hd-btn" id="btn-cloud-save" onclick="saveToGitHub()"
       style="background:#1565c0;border:1.5px solid #42a5f5;font-weight:800;flex-shrink:0"
@@ -1778,21 +1792,21 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   <div class="tb-sep"></div>
   <!-- 구역 -->
   <span class="tb-label">구역</span>
-  <button class="tb-btn rose" id="btn-draw" onclick="toggleDraw()">✏️ 구역 그리기</button>
+  <button class="tb-btn rose mut-btn" id="btn-draw" onclick="toggleDraw()">✏️ 구역 그리기</button>
   <span id="zone-type-badge" style="display:none;font-size:10px;font-weight:800;padding:3px 10px;border-radius:10px;margin-left:2px"></span>
   <button class="tb-btn" id="btn-add-part" onclick="addNextPart()" style="display:none" title="현재 구역에 떨어진 구간 추가">➕ 구간 추가</button>
-  <button class="tb-btn gray" id="btn-edit" onclick="openEditModal()" disabled>⚙️ 구역 편집</button>
+  <button class="tb-btn gray mut-btn" id="btn-edit" onclick="openEditModal()" disabled>⚙️ 구역 편집</button>
   <button class="tb-btn gray" id="btn-toggle-vis" onclick="toggleZoneVisibility()" disabled title="선택 구역 지도 표시/숨김">👁 표시</button>
-  <button class="tb-btn red"  id="btn-del"  onclick="confirmDeleteZone()" disabled>🗑 삭제</button>
+  <button class="tb-btn red mut-btn"  id="btn-del"  onclick="confirmDeleteZone()" disabled>🗑 삭제</button>
   <div class="tb-sep"></div>
   <!-- 기록 -->
   <span class="tb-label">기록</span>
-  <button class="tb-btn" id="btn-log" onclick="openLogModal()" disabled>📝 작업기록 추가</button>
+  <button class="tb-btn mut-btn" id="btn-log" onclick="openLogModal()" disabled>📝 작업기록 추가</button>
   <div class="tb-sep"></div>
   <!-- 그룹 -->
   <span class="tb-label">그룹</span>
-  <button class="tb-btn orange" onclick="openGroupModal()">📁 그룹 관리</button>
-  <button class="tb-btn orange" onclick="openBulkLogModal()" title="여러 구역에 작업기록 동시 등록">📝 일괄기록</button>
+  <button class="tb-btn orange mut-btn" onclick="openGroupModal()">📁 그룹 관리</button>
+  <button class="tb-btn orange mut-btn" onclick="openBulkLogModal()" title="여러 구역에 작업기록 동시 등록">📝 일괄기록</button>
   <button class="tb-btn orange active" id="btn-grp-vis" onclick="toggleGroupVis()" title="지도에서 그룹 라벨 표시/숨김">👁 그룹 표시</button>
   <div class="tb-sep"></div>
   <!-- 보기 -->
@@ -2870,6 +2884,33 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   </div>
 </div>
 
+<!-- ══ 🔒 편집 잠금 해제/설정 모달 ══ -->
+<div class="modal-overlay" id="edit-lock-modal">
+  <div class="modal-box" style="max-width:320px">
+    <div class="modal-header">
+      <span class="modal-title" id="edit-lock-modal-title">🔒 편집 잠금 해제</span>
+      <button class="modal-close" onclick="closeEditLockModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="edit-lock-modal-desc" style="font-size:11px;color:var(--text-l);margin-bottom:12px;line-height:1.6"></div>
+      <div class="fg">
+        <label class="fl" id="edit-lock-pw1-label">비밀번호</label>
+        <input type="password" class="fi" id="edit-lock-pw1" placeholder="비밀번호 입력" autocomplete="new-password"
+          onkeydown="if(event.key==='Enter')submitEditLockModal()">
+      </div>
+      <div class="fg" id="edit-lock-pw2-wrap" style="display:none">
+        <label class="fl">비밀번호 확인</label>
+        <input type="password" class="fi" id="edit-lock-pw2" placeholder="한 번 더 입력" autocomplete="new-password"
+          onkeydown="if(event.key==='Enter')submitEditLockModal()">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn secondary" onclick="closeEditLockModal()">취소</button>
+      <button class="modal-btn primary" onclick="submitEditLockModal()">확인</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ 작업기록 추가 모달 ══ -->
 <div class="modal-overlay" id="log-modal">
   <div class="modal-box">
@@ -3350,6 +3391,9 @@ var customDepts = [];
 let map, zones = [], groups = [], workProjects = [];
 let addPartTargetId = null; // 떨어진 구간 추가 대상 구역 ID
 let initialSyncDone = false; // 초기 동기화 완료 여부 (완료 전 자동저장으로 클라우드 덮어쓰기 방지)
+
+let editUnlocked = (sessionStorage.getItem('phgz_edit_unlocked') === '1');
+let editPasswordHash = '';
 // 민원 데이터
 var complaints = [];
 // 장미구역 데이터
@@ -3417,6 +3461,7 @@ function loadAll() {
       customWT = d.customWT||[];
       complaints = d.complaints||[];
       roseZones  = d.roseZones||[];
+      editPasswordHash = d.editPasswordHash || '';
       normalizeGreenAppData(); // 🛡️ 구버전 로컬 데이터 필드 누락 방지
       (d.hiddenGroups||[]).forEach(id => hiddenGroups.add(id));
       (d.hiddenZones||[]).forEach(id => hiddenZones.add(id));
@@ -3435,9 +3480,134 @@ function loadAll() {
   zones  = sampleZones();
   groups = sampleGroups();
 }
+/* ══════════════════════════════════════════════
+   🔒 편집 잠금 — 진입점 가드 (사용자에게 즉시 명확한 안내)
+   saveAll() 내부의 최종 차단과 별개로, 주요 버튼 클릭 시점에
+   먼저 막아 어색한 중간 상태 없이 깔끔하게 안내한다.
+══════════════════════════════════════════════ */
+function requireEditUnlock() {
+  if (editUnlocked) return true;
+  showToast('🔒 읽기 전용 모드입니다. 우측 상단 "🔓 편집하기"로 잠금을 해제해주세요.');
+  return false;
+}
+
+async function sha256Hex(str) {
+  if (!window.crypto || !window.crypto.subtle) {
+    throw new Error('이 브라우저에서는 편집 잠금 기능을 사용할 수 없습니다 (보안 연결(https) 필요) — 최신 브라우저로 다시 시도해주세요.');
+  }
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function onClickEditLockBtn() {
+  if (editUnlocked) {
+    showConfirm('현재 편집 모드입니다.', '🔓', [
+      { label: '🔒 읽기 전용으로 전환', cls: 'danger', fn: lockEditNow },
+      { label: '🔑 비밀번호 변경', cls: 'secondary', fn: () => openEditLockModal('change') },
+      { label: '취소', cls: 'secondary', fn: null }
+    ]);
+    return;
+  }
+  openEditLockModal(editPasswordHash ? 'unlock' : 'setup');
+}
+
+function openEditLockModal(mode) {
+  window._editLockMode = mode;
+  const titleEl = document.getElementById('edit-lock-modal-title');
+  const descEl  = document.getElementById('edit-lock-modal-desc');
+  const pw1L    = document.getElementById('edit-lock-pw1-label');
+  const pw2Wrap = document.getElementById('edit-lock-pw2-wrap');
+  document.getElementById('edit-lock-pw1').value = '';
+  document.getElementById('edit-lock-pw2').value = '';
+  if (mode === 'setup') {
+    titleEl.textContent = '🔒 편집 비밀번호 최초 설정';
+    descEl.textContent = '아직 편집 비밀번호가 설정되어 있지 않습니다. 여기서 설정하는 비밀번호는 이후 모든 기기(PC·스마트폰)에서 공통으로 사용됩니다.';
+    pw1L.textContent = '새 비밀번호 (4자 이상)';
+    pw2Wrap.style.display = 'block';
+  } else if (mode === 'change') {
+    titleEl.textContent = '🔑 편집 비밀번호 변경';
+    descEl.textContent = '새로운 비밀번호를 입력하세요. 변경 즉시 모든 기기에 동일하게 적용됩니다.';
+    pw1L.textContent = '새 비밀번호 (4자 이상)';
+    pw2Wrap.style.display = 'block';
+  } else {
+    titleEl.textContent = '🔒 편집 잠금 해제';
+    descEl.textContent = '구역·작업기록·민원·장미관리 등의 내용을 추가·수정·삭제하려면 비밀번호를 입력하세요. 잠금 해제는 이 탭(창)을 닫을 때까지만 유지됩니다.';
+    pw1L.textContent = '비밀번호';
+    pw2Wrap.style.display = 'none';
+  }
+  document.getElementById('edit-lock-modal').classList.add('show');
+  setTimeout(() => document.getElementById('edit-lock-pw1').focus(), 100);
+}
+function closeEditLockModal() {
+  document.getElementById('edit-lock-modal').classList.remove('show');
+}
+
+async function submitEditLockModal() {
+  const mode = window._editLockMode;
+  const pw1 = document.getElementById('edit-lock-pw1').value;
+  const pw2 = document.getElementById('edit-lock-pw2').value;
+
+  try {
+
+  if (mode === 'unlock') {
+    if (!pw1) { showToast('⚠️ 비밀번호를 입력해주세요.'); return; }
+    const hash = await sha256Hex(pw1);
+    if (hash === editPasswordHash) {
+      editUnlocked = true;
+      sessionStorage.setItem('phgz_edit_unlocked', '1');
+      closeEditLockModal();
+      updateEditLockUI();
+      showToast('🔓 편집 모드로 전환되었습니다. (이 탭을 닫으면 다시 잠깁니다)');
+    } else {
+      showToast('❌ 비밀번호가 올바르지 않습니다.');
+    }
+    return;
+  }
+
+  // setup / change
+  if (!pw1 || pw1.length < 4) { showToast('⚠️ 비밀번호는 4자 이상 입력해주세요.'); return; }
+  if (pw1 !== pw2) { showToast('⚠️ 비밀번호가 서로 일치하지 않습니다.'); return; }
+  const hash = await sha256Hex(pw1);
+  editPasswordHash = hash;
+  editUnlocked = true;
+  sessionStorage.setItem('phgz_edit_unlocked', '1');
+  closeEditLockModal();
+  updateEditLockUI();
+  saveAll(); // 새 비밀번호를 데이터에 반영 + 클라우드로 모든 기기에 동기화
+  showToast(mode === 'setup' ? '✅ 편집 비밀번호가 설정되었습니다. 다른 기기는 클라우드 동기화 후 같은 비밀번호를 사용하게 됩니다.' : '✅ 비밀번호가 변경되었습니다.');
+
+  } catch(e) {
+    console.error('[EditLock]', e);
+    showToast('❌ ' + (e && e.message ? e.message : '알 수 없는 오류가 발생했습니다.'));
+  }
+}
+
+function lockEditNow() {
+  editUnlocked = false;
+  sessionStorage.removeItem('phgz_edit_unlocked');
+  updateEditLockUI();
+  showToast('🔒 읽기 전용 모드로 전환되었습니다.');
+}
+
+function updateEditLockUI() {
+  const btn = document.getElementById('btn-edit-lock');
+  if (btn) {
+    btn.textContent = editUnlocked ? '🔓 편집 중 (클릭: 잠금)' : '🔒 읽기 전용 (클릭: 편집)';
+    btn.style.background = editUnlocked ? '#c62828' : '#2e7d32';
+    btn.style.borderColor = editUnlocked ? '#e57373' : '#66bb6a';
+  }
+  document.body.classList.toggle('read-only-mode', !editUnlocked);
+}
+
 // ── 로컬 임시저장 (즉시) ───────────────────────────────────
 let autoCloudTimer = null;
 function saveAll() {
+  // 🔒 읽기 전용 잠금 — 잠긴 상태에서는 어떤 변경도 저장되지 않음 (최종 안전장치)
+  if (!editUnlocked) {
+    console.warn('[Lock] 읽기 전용 모드 — 저장이 차단되었습니다.');
+    showToast('🔒 읽기 전용 모드입니다. 우측 상단 "🔓 편집하기"로 잠금을 해제한 후 다시 시도해주세요.');
+    return;
+  }
   const data = buildDataObj();
   try {
     localStorage.setItem(KEY, JSON.stringify(data));
@@ -3478,6 +3648,7 @@ function buildDataObj() {
     })),
     groups, customDepts, workProjects, customWT,
     complaints, roseZones,
+    editPasswordHash, // 🔒 편집 잠금 비밀번호(해시) — 모든 기기가 공유
     hiddenGroups: Array.from(hiddenGroups),
     hiddenZones:  Array.from(hiddenZones),
     pinnedZones:  Array.from(pinnedZones),
@@ -3791,6 +3962,8 @@ function applyData(data) {
   customWT   = data.customWT   || [];
   complaints = data.complaints || [];
   roseZones  = data.roseZones  || [];
+  // 🔒 편집 잠금 비밀번호는 클라우드가 항상 기준 — 다른 기기에서 바꾼 비밀번호를 이 기기도 그대로 따라감
+  if (data.editPasswordHash !== undefined) editPasswordHash = data.editPasswordHash || '';
   normalizeGreenAppData(); // 🛡️ 구버전 데이터 필드 누락 방지 (zones/complaints/roseZones 전부 할당된 뒤 실행)
   hiddenGroups.clear();
   (data.hiddenGroups||[]).forEach(id => hiddenGroups.add(id));
@@ -4063,6 +4236,7 @@ function sampleZones() {
 ══════════════════════════════════════════════ */
 window.onload = function() {
   loadAll();
+  updateEditLockUI(); // 🔒 읽기 전용/편집 상태 초기 반영
   map = new naver.maps.Map('map', {
     center: new naver.maps.LatLng(36.042, 129.370),
     zoom: 14,
@@ -4658,7 +4832,7 @@ function toggleZoneVisibility() {
   }
   drawPoly(z);
 }
-function toggleDraw() { drawing ? cancelDraw() : startDraw(); }
+function toggleDraw() { if (!drawing && !requireEditUnlock()) return; drawing ? cancelDraw() : startDraw(); }
 
 function startDraw() {
   drawing = true; dPath = []; dMarkers = [];
@@ -5057,6 +5231,7 @@ function updateToolbar() {
 }
 
 function confirmDeleteZone() {
+  if (!requireEditUnlock()) return;
   if (!selId) return;
   const z = zones.find(z=>z.id===selId);
   const logCnt = (z?.logs||[]).length;
@@ -5360,6 +5535,16 @@ function zcardHTML(z) {
   </div>`;
 }
 
+// 📊 구역 목록에서 수종별(교목/관목) 수량 합계 — 그룹별/전체 집계에서 공용으로 사용
+function aggregateSpeciesCounts(zList, field) {
+  const map = {};
+  zList.forEach(z => (z[field]||[]).forEach(r => {
+    const sp = (r.species||'').trim(); if (!sp) return;
+    map[sp] = (map[sp]||0) + (r.qty||0);
+  }));
+  return Object.entries(map).sort((a,b)=>b[1]-a[1]);
+}
+
 function renderStats(el) {
   const curType = getCurrentZoneType();
   const tabZones = zones.filter(z => zoneTypeOf(z) === curType);
@@ -5370,14 +5555,13 @@ function renderStats(el) {
   const byStatus = Object.entries(ST).map(([k,v]) => ({...v, count: tabZones.filter(z=>z.status===k).length}));
   const byWT     = WT.map(w => ({...w, count: tabZones.filter(z=>(z.workTypes||[]).includes(w.id)).length})).filter(w=>w.count>0);
   // 📊 그룹별 집계: 구역 수·총 면적뿐 아니라 풀베기 면적, 교목/관목 수종별 수량, 시설물 개수까지 확장
-  function aggregateSpeciesCounts(zList, field) {
-    const map = {};
-    zList.forEach(z => (z[field]||[]).forEach(r => {
-      const sp = (r.species||'').trim(); if (!sp) return;
-      map[sp] = (map[sp]||0) + (r.qty||0);
-    }));
-    return Object.entries(map).sort((a,b)=>b[1]-a[1]);
-  }
+  // 🌳 시 전체 수종 총계 (탭 구분 없이 전체 구역 합산)
+  const allTreeAgg    = aggregateSpeciesCounts(zones, 'treeCounts');
+  const allShrubAgg   = aggregateSpeciesCounts(zones, 'shrubCounts');
+  const allMowingArea = zones.reduce((s,z)=>s+(z.mowingArea||0),0);
+  const allFacility   = zones.reduce((s,z)=>s+(z.facilityCount||0),0);
+  const allTotalArea  = zones.reduce((s,z)=>s+(z.area||0),0);
+
   const byGrp = groups.map(g => {
     const gZones = tabZones.filter(z=>z.groupId===g.id);
     return {
@@ -5463,6 +5647,29 @@ function renderStats(el) {
         </div>
       </div>
     </div>` : ''}
+
+    <!-- 🌳 시 전체 수종 총계 (그룹/탭 구분 없이 전체 합산) -->
+    <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--text)">🌳 시 전체 수종 총계 <span style="font-weight:400;color:var(--text-l)">(전체 탭 합산)</span></div>
+        <button onclick="exportSpeciesSummaryCSV()" style="margin-left:auto;background:var(--green-bg);color:var(--green);border:1px solid var(--green-br);border-radius:14px;padding:3px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">📊 엑셀로 내보내기</button>
+      </div>
+      <div style="display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap;font-size:11px">
+        <div><span style="color:#888">총 면적</span> <strong>${formatArea(allTotalArea)}</strong></div>
+        <div><span style="color:#888">✂️ 풀베기 면적</span> <strong>${allMowingArea.toLocaleString()}㎡</strong></div>
+        <div><span style="color:#888">🏗 시설물</span> <strong>${allFacility.toLocaleString()}EA</strong></div>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:11px">
+        <div style="flex:1;min-width:140px">
+          <div style="font-weight:700;color:#2e7d32;margin-bottom:4px">🌳 교목 (${allTreeAgg.reduce((s,[,q])=>s+q,0).toLocaleString()}주)</div>
+          ${allTreeAgg.length ? allTreeAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${q.toLocaleString()}주</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
+        </div>
+        <div style="flex:1;min-width:140px">
+          <div style="font-weight:700;color:#558b2f;margin-bottom:4px">🌿 관목 (${allShrubAgg.reduce((s,[,q])=>s+q,0).toLocaleString()}주)</div>
+          ${allShrubAgg.length ? allShrubAgg.map(([sp,q])=>`<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dotted #eee"><span>${escapeHTML(sp)}</span><span style="font-weight:700">${q.toLocaleString()}주</span></div>`).join('') : '<div style="color:#bbb">등록된 수량 없음</div>'}
+        </div>
+      </div>
+    </div>
 
     <!-- 그룹별 현황 -->
     ${byGrp.length > 0 ? `
@@ -5949,6 +6156,7 @@ function updateZoneCountRow(kind, idx, field, value) {
 }
 
 function saveZone(){
+  if (!requireEditUnlock()) return;
   const name=document.getElementById('f-name').value.trim();
   if(!name){showToast('⚠️ 구역명을 입력해주세요');return;}
   const z=zones.find(z=>z.id===editId);if(!z)return;
@@ -7101,6 +7309,7 @@ function openCpEditModal(cid) {
 }
 
 function saveCp() {
+  if (!requireEditUnlock()) return;
   try {
     const date    = document.getElementById('cp-date')?.value || '';
     const person  = (document.getElementById('cp-person')?.value || '').trim();
@@ -7565,6 +7774,7 @@ function openRoseEditModal(rid) {
 }
 
 function saveRoseZone() {
+  if (!requireEditUnlock()) return;
   const zid = document.getElementById('rose-zone-sel').value;
   if (!zid) { showToast('⚠️ 구역을 선택해주세요'); return; }
   const eid = document.getElementById('rose-edit-id').value;
@@ -8654,6 +8864,7 @@ function cpqAutoDeadline() {
 }
 
 function saveCpQuick() {
+  if (!requireEditUnlock()) return;
   try {
     const person  = (document.getElementById('cpq-person')?.value||'').trim();
     const content = (document.getElementById('cpq-content')?.value||'').trim();
@@ -14676,6 +14887,32 @@ function getSorted(list) {
     }
     return 0;
   });
+}
+
+// 🌳 구역별 수량 관리(풀베기 면적/교목·관목 수종·수량/시설물) 전체 현황 엑셀 내보내기
+function exportSpeciesSummaryCSV() {
+  const TYPE_MAP = { green:'녹지관리', mowing:'풀베기사업', flower:'초화식재', rose:'장미관리', tree:'수목관리' };
+  const rows = [['구역명','그룹','탭 분류','풀베기 면적(㎡)','시설물(EA)','구분','수종명','수량(주)']];
+  zones.forEach(z => {
+    const grp = groups.find(g=>g.id===z.groupId);
+    const base = [z.name, grp?.name||'', TYPE_MAP[zoneTypeOf(z)]||zoneTypeOf(z), z.mowingArea||0, z.facilityCount||0];
+    const trees  = (z.treeCounts||[]).filter(r=>r.species);
+    const shrubs = (z.shrubCounts||[]).filter(r=>r.species);
+    if (!trees.length && !shrubs.length) {
+      rows.push([...base, '', '', '']);
+    } else {
+      trees.forEach(r  => rows.push([...base, '교목', r.species, r.qty||0]));
+      shrubs.forEach(r => rows.push([...base, '관목', r.species, r.qty||0]));
+    }
+  });
+  const BOM = '\uFEFF';
+  const csv = BOM + rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = `포항시_녹지관리_수종현황_${todayStr()}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  showToast('📊 수종 현황이 엑셀 파일로 내보내졌습니다');
 }
 
 function exportCSV() {
