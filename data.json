@@ -67236,14 +67236,14 @@
     },
     {
       "id": "z_1786589386558",
-      "name": "새 관리구역",
+      "name": "해도동 236",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
+      "color": "#6a1b9a",
       "groupId": "",
       "paths": [
         [
@@ -67602,6 +67602,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-13T02:49:47.115Z",
+  "savedAt": "2026-08-13T02:50:17.120Z",
   "savedBy": "lms8765-ai"
 }
