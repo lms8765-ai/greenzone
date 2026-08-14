@@ -73187,6 +73187,65 @@
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
+    },
+    {
+      "id": "z_1786668566331",
+      "name": "대도동 420-6",
+      "team": "greenway",
+      "status": "pending",
+      "zoneType": "green",
+      "workTypes": [],
+      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 대도동 420-6",
+      "manager": "",
+      "color": "#2e7d32",
+      "groupId": "",
+      "paths": [
+        [
+          {
+            "lat": 36.00753006481337,
+            "lng": 129.35712216759177
+          },
+          {
+            "lat": 36.007400296058854,
+            "lng": 129.3572595340833
+          },
+          {
+            "lat": 36.007401412808754,
+            "lng": 129.35712607092185
+          },
+          {
+            "lat": 36.00753006481337,
+            "lng": 129.35712216759177
+          }
+        ]
+      ],
+      "path": [
+        {
+          "lat": 36.00753006481337,
+          "lng": 129.35712216759177
+        },
+        {
+          "lat": 36.007400296058854,
+          "lng": 129.3572595340833
+        },
+        {
+          "lat": 36.007401412808754,
+          "lng": 129.35712607092185
+        },
+        {
+          "lat": 36.00753006481337,
+          "lng": 129.35712216759177
+        }
+      ],
+      "area": 69,
+      "logs": [],
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     }
   ],
   "groups": [
@@ -73527,6 +73586,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:49:15.812Z",
+  "savedAt": "2026-08-14T00:49:29.341Z",
   "savedBy": "lms8765-ai"
 }
