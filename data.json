@@ -68535,15 +68535,15 @@
     },
     {
       "id": "z_1786666248493",
-      "name": "새 관리구역",
+      "name": "해도동 192",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1786665885805",
       "paths": [
         [
           {
@@ -69292,6 +69292,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:10:51.500Z",
+  "savedAt": "2026-08-14T00:11:22.456Z",
   "savedBy": "lms8765-ai"
 }
