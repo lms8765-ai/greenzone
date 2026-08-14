@@ -75153,15 +75153,15 @@
     },
     {
       "id": "z_1786676183735",
-      "name": "새 관리구역",
+      "name": "동빈2가 148",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1786669359623",
       "paths": [
         [
           {
@@ -75719,6 +75719,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T02:56:26.753Z",
+  "savedAt": "2026-08-14T02:56:51.397Z",
   "savedBy": "lms8765-ai"
 }
