@@ -69848,7 +69848,7 @@
     },
     {
       "id": "z_1786666680164",
-      "name": "대도동 328-11",
+      "name": "대도동 328-11(1)",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -70397,6 +70397,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:18:11.201Z",
+  "savedAt": "2026-08-14T00:19:48.820Z",
   "savedBy": "lms8765-ai"
 }
