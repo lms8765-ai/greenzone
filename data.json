@@ -78171,15 +78171,15 @@
     },
     {
       "id": "z_1786689874627",
-      "name": "새 관리구역",
+      "name": "두호동 1002-4",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1785976535546",
       "paths": [
         [
           {
@@ -78641,6 +78641,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T06:44:37.643Z",
+  "savedAt": "2026-08-14T06:44:50.522Z",
   "savedBy": "lms8765-ai"
 }
