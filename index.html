@@ -5668,7 +5668,7 @@ function renderStats(el) {
       treeAgg: aggregateSpeciesCounts(gZones, 'treeCounts'),
       shrubAgg: aggregateSpeciesCounts(gZones, 'shrubCounts'),
     };
-  }).filter(g=>g.count>0);
+  }).filter(g=>g.count>0).sort((a,b)=>(a.name||'').localeCompare(b.name||'','ko'));
   const rl       = tabZones.flatMap(z=>(z.logs||[]).map(l=>({...l,zn:z.name,zid:z.id}))).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,8);
 
   // 민원 월별 집계 (최근 6개월)
@@ -12376,7 +12376,7 @@ function updateMultiSelectBar() {
 function openBulkGroupModal() {
   if (!requireEditUnlock()) return;
   if (multiSelectedZones.size === 0) { showToast('⚠️ 먼저 구역을 하나 이상 선택해주세요.'); return; }
-  const options = groups.map(g => `<option value="${g.id}">${g.parentId?'　':''}${g.name}</option>`).join('');
+  const options = groups.slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'','ko')).map(g => `<option value="${g.id}">${g.parentId?'　':''}${g.name}</option>`).join('');
   showBulkGroupPicker(options);
 }
 
@@ -12677,7 +12677,8 @@ function zoneTypeOf(z) {
 /* 현재 탭에 속하는 그룹만 (그룹 자체에 zoneType이 없는 구버전 그룹은 'green'으로 간주) */
 function getScopedGroups() {
   const zt = getCurrentZoneType();
-  return groups.filter(g => (g.zoneType || 'green') === zt);
+  return groups.filter(g => (g.zoneType || 'green') === zt)
+    .slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'','ko'));
 }
 function getScopedWorkProjects() {
   const zt = getCurrentZoneType();
