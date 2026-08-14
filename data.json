@@ -70729,15 +70729,15 @@
     },
     {
       "id": "z_1786667751939",
-      "name": "새 관리구역",
+      "name": "대도동 343-6",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1786665885805",
       "paths": [
         [
           {
@@ -71222,6 +71222,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:35:54.955Z",
+  "savedAt": "2026-08-14T00:36:08.837Z",
   "savedBy": "lms8765-ai"
 }
