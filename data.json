@@ -77797,15 +77797,15 @@
     },
     {
       "id": "z_1786689767989",
-      "name": "새 관리구역",
+      "name": "두호동 1003-4",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1785976535546",
       "paths": [
         [
           {
@@ -78307,6 +78307,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T06:42:50.999Z",
+  "savedAt": "2026-08-14T06:43:05.456Z",
   "savedBy": "lms8765-ai"
 }
