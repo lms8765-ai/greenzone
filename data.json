@@ -77664,15 +77664,15 @@
     },
     {
       "id": "z_1786682055471",
-      "name": "새 관리구역",
+      "name": "학산동 361",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#1565c0",
+      "groupId": "g_1785977242694",
       "paths": [
         [
           {
@@ -78334,6 +78334,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T04:34:18.482Z",
+  "savedAt": "2026-08-14T04:34:43.581Z",
   "savedBy": "lms8765-ai"
 }
