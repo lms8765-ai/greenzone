@@ -69453,15 +69453,15 @@
     },
     {
       "id": "z_1786666605292",
-      "name": "새 관리구역",
+      "name": "해도동 162-2",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1786665885805",
       "paths": [
         [
           {
@@ -70194,6 +70194,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:16:48.300Z",
+  "savedAt": "2026-08-14T00:16:56.239Z",
   "savedBy": "lms8765-ai"
 }
