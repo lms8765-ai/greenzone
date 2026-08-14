@@ -77584,7 +77584,7 @@
     },
     {
       "id": "z_1786689481778",
-      "name": "새 관리구역",
+      "name": "송도동 378-438",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -77592,7 +77592,7 @@
       "memo": "",
       "manager": "",
       "color": "#2e7d32",
-      "groupId": "",
+      "groupId": "g_1785995915131",
       "paths": [
         [
           {
@@ -78062,6 +78062,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T06:38:04.796Z",
+  "savedAt": "2026-08-14T06:38:29.969Z",
   "savedBy": "lms8765-ai"
 }
