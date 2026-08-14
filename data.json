@@ -71119,15 +71119,15 @@
     },
     {
       "id": "z_1786668081204",
-      "name": "새 관리구역",
+      "name": "상도동 124-2",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1786665885805",
       "paths": [
         [
           {
@@ -71876,6 +71876,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:41:24.211Z",
+  "savedAt": "2026-08-14T00:41:31.508Z",
   "savedBy": "lms8765-ai"
 }
