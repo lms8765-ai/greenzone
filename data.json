@@ -73407,15 +73407,15 @@
     },
     {
       "id": "z_1786668729343",
-      "name": "새 관리구역",
+      "name": "대도동 384-3",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#1565c0",
+      "groupId": "g_1785977882565",
       "paths": [
         [
           {
@@ -73811,6 +73811,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:52:12.451Z",
+  "savedAt": "2026-08-14T00:52:19.940Z",
   "savedBy": "lms8765-ai"
 }
