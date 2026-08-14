@@ -77851,15 +77851,6 @@
       "zoneType": "green"
     },
     {
-      "id": "g_1786664313095",
-      "name": "항구동",
-      "color": "#1565c0",
-      "parentId": null,
-      "order": 15,
-      "tier": "mid",
-      "zoneType": "green"
-    },
-    {
       "id": "g_1786664519264",
       "name": "9호",
       "color": "#1565c0",
@@ -77948,6 +77939,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T04:35:43.956Z",
+  "savedAt": "2026-08-14T04:35:50.030Z",
   "savedBy": "lms8765-ai"
 }
