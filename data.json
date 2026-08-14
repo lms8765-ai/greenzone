@@ -70334,15 +70334,15 @@
     },
     {
       "id": "z_1786666938715",
-      "name": "새 관리구역",
+      "name": "대도동 329-2",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1786665885805",
       "paths": [
         [
           {
@@ -71075,6 +71075,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:22:21.735Z",
+  "savedAt": "2026-08-14T00:22:43.119Z",
   "savedBy": "lms8765-ai"
 }
