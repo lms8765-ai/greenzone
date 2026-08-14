@@ -73850,6 +73850,15 @@
       "order": 1,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1786669359623",
+      "name": "동빈나루",
+      "color": "#c62828",
+      "parentId": null,
+      "order": 16,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [],
@@ -73886,6 +73895,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:57:53.550Z",
+  "savedAt": "2026-08-14T01:02:42.634Z",
   "savedBy": "lms8765-ai"
 }
