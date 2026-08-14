@@ -76178,15 +76178,15 @@
     },
     {
       "id": "z_1786680174743",
-      "name": "새 관리구역",
+      "name": "동빈1가 981-2",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1786669359623",
       "paths": [
         [
           {
@@ -76592,6 +76592,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T04:02:57.750Z",
+  "savedAt": "2026-08-14T04:03:14.333Z",
   "savedBy": "lms8765-ai"
 }
