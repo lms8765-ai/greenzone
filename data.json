@@ -71752,6 +71752,65 @@
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
+    },
+    {
+      "id": "z_1786668256319",
+      "name": "상도동 178-1",
+      "team": "greenway",
+      "status": "pending",
+      "zoneType": "green",
+      "workTypes": [],
+      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 상도동 178-1",
+      "manager": "",
+      "color": "#2e7d32",
+      "groupId": "",
+      "paths": [
+        [
+          {
+            "lat": 36.00910125827136,
+            "lng": 129.3521067503414
+          },
+          {
+            "lat": 36.00915625670488,
+            "lng": 129.35215406871504
+          },
+          {
+            "lat": 36.009078203653495,
+            "lng": 129.35224284793662
+          },
+          {
+            "lat": 36.00910125827136,
+            "lng": 129.3521067503414
+          }
+        ]
+      ],
+      "path": [
+        {
+          "lat": 36.00910125827136,
+          "lng": 129.3521067503414
+        },
+        {
+          "lat": 36.00915625670488,
+          "lng": 129.35215406871504
+        },
+        {
+          "lat": 36.009078203653495,
+          "lng": 129.35224284793662
+        },
+        {
+          "lat": 36.00910125827136,
+          "lng": 129.3521067503414
+        }
+      ],
+      "area": 35,
+      "logs": [],
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     }
   ],
   "groups": [
@@ -72092,6 +72151,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:44:08.074Z",
+  "savedAt": "2026-08-14T00:44:19.329Z",
   "savedBy": "lms8765-ai"
 }
