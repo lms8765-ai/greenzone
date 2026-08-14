@@ -65043,7 +65043,7 @@
     },
     {
       "id": "z_1786664355940",
-      "name": "항구동 58-14",
+      "name": "9호광장",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -77939,6 +77939,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T04:35:50.030Z",
+  "savedAt": "2026-08-14T04:36:07.917Z",
   "savedBy": "lms8765-ai"
 }
