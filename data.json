@@ -69848,15 +69848,15 @@
     },
     {
       "id": "z_1786666680164",
-      "name": "새 관리구역",
+      "name": "대도동 328-11",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1786665885805",
       "paths": [
         [
           {
@@ -70397,6 +70397,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:18:03.176Z",
+  "savedAt": "2026-08-14T00:18:11.201Z",
   "savedBy": "lms8765-ai"
 }
