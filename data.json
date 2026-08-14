@@ -67964,15 +67964,15 @@
     },
     {
       "id": "z_1786665681867",
-      "name": "새 관리구역",
+      "name": "송도동 218-3",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1786664971377",
       "paths": [
         [
           {
@@ -68872,6 +68872,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:01:24.875Z",
+  "savedAt": "2026-08-14T00:01:31.645Z",
   "savedBy": "lms8765-ai"
 }
