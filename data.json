@@ -73474,15 +73474,15 @@
     },
     {
       "id": "z_1786668805439",
-      "name": "새 관리구역",
+      "name": "상도동 474-101",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#1565c0",
+      "groupId": "g_1785977882565",
       "paths": [
         [
           {
@@ -73886,6 +73886,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T00:53:28.450Z",
+  "savedAt": "2026-08-14T00:53:32.859Z",
   "savedBy": "lms8765-ai"
 }
