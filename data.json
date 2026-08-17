@@ -44914,7 +44914,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 오천읍 문덕리 227-1",
+      "memo": "풀베기 : 20%",
       "manager": "",
       "color": "#c62828",
       "groupId": "g_1786605945372",
@@ -44985,7 +44985,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 112.8,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -79446,6 +79446,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-14T07:55:58.550Z",
+  "savedAt": "2026-08-17T23:05:03.372Z",
   "savedBy": "lms8765-ai"
 }
