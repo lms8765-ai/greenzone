@@ -45735,7 +45735,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 오천읍 문덕리 304-1",
+      "memo": "풀베기 : 20%",
       "manager": "",
       "color": "#c62828",
       "groupId": "g_1786605945372",
@@ -79570,6 +79570,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-17T23:19:20.231Z",
+  "savedAt": "2026-08-17T23:19:52.965Z",
   "savedBy": "lms8765-ai"
 }
