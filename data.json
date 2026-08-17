@@ -45783,6 +45783,10 @@
         {
           "species": "철쭉류",
           "qty": 89
+        },
+        {
+          "species": "팔손이",
+          "qty": 1
         }
       ]
     },
@@ -79628,6 +79632,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-17T23:34:35.404Z",
+  "savedAt": "2026-08-17T23:35:31.212Z",
   "savedBy": "lms8765-ai"
 }
