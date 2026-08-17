@@ -45642,7 +45642,60 @@
       "nextWorkType": "",
       "mowingArea": 426,
       "facilityCount": 0,
-      "treeCounts": [],
+      "treeCounts": [
+        {
+          "species": "느티나무",
+          "qty": 1
+        },
+        {
+          "species": "단풍나무",
+          "qty": 1
+        },
+        {
+          "species": "메타세콰이어",
+          "qty": 53
+        },
+        {
+          "species": "모과나무",
+          "qty": 17
+        },
+        {
+          "species": "배롱나무",
+          "qty": 8
+        },
+        {
+          "species": "복자기나무",
+          "qty": 3
+        },
+        {
+          "species": "산수유나무",
+          "qty": 2
+        },
+        {
+          "species": "소나무",
+          "qty": 10
+        },
+        {
+          "species": "은행나무",
+          "qty": 21
+        },
+        {
+          "species": "이팝나무",
+          "qty": 9
+        },
+        {
+          "species": "자귀나무",
+          "qty": 1
+        },
+        {
+          "species": "주목",
+          "qty": 2
+        },
+        {
+          "species": "측백나무",
+          "qty": 26
+        }
+      ],
       "shrubCounts": []
     },
     {
@@ -79632,6 +79685,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-17T23:46:26.629Z",
+  "savedAt": "2026-08-17T23:47:46.913Z",
   "savedBy": "lms8765-ai"
 }
