@@ -81611,15 +81611,15 @@
     },
     {
       "id": "z_1787027506468",
-      "name": "새 관리구역",
+      "name": "연일읍 생지리 53-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1787026124955",
       "paths": [
         [
           {
@@ -82226,6 +82226,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:31:49.478Z",
+  "savedAt": "2026-08-18T04:31:54.544Z",
   "savedBy": "lms8765-ai"
 }
