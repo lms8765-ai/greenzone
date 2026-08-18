@@ -82798,7 +82798,7 @@
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 기계면 현내리 산 78-1",
       "manager": "",
       "color": "#f57f17",
-      "groupId": "",
+      "groupId": "g_1787029727586",
       "paths": [
         [
           {
@@ -83703,6 +83703,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T05:09:01.578Z",
+  "savedAt": "2026-08-18T05:09:06.981Z",
   "savedBy": "lms8765-ai"
 }
