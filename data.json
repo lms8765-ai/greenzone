@@ -45559,8 +45559,78 @@
       "nextWorkType": "",
       "mowingArea": 98.4,
       "facilityCount": 0,
-      "treeCounts": [],
-      "shrubCounts": []
+      "treeCounts": [
+        {
+          "species": "느티나무",
+          "qty": 3
+        },
+        {
+          "species": "단풍나무",
+          "qty": 7
+        },
+        {
+          "species": "메타세콰이어",
+          "qty": 16
+        },
+        {
+          "species": "배롱나무",
+          "qty": 12
+        },
+        {
+          "species": "소나무",
+          "qty": 5
+        },
+        {
+          "species": "은행나무",
+          "qty": 10
+        },
+        {
+          "species": "주목",
+          "qty": 1
+        },
+        {
+          "species": "측백나무",
+          "qty": 10
+        }
+      ],
+      "shrubCounts": [
+        {
+          "species": "꽃댕강",
+          "qty": 6.5
+        },
+        {
+          "species": "남천",
+          "qty": 3.5
+        },
+        {
+          "species": "수국",
+          "qty": 15
+        },
+        {
+          "species": "조팝",
+          "qty": 15
+        },
+        {
+          "species": "쥐똥나무",
+          "qty": 5
+        },
+        {
+          "species": "철쭉류",
+          "qty": 35
+        },
+        {
+          "species": "팔손이",
+          "qty": 1
+        },
+        {
+          "species": "화살나무",
+          "qty": 12
+        },
+        {
+          "species": "황금사철",
+          "qty": 4
+        }
+      ]
     },
     {
       "id": "z_1785911551740",
@@ -79714,6 +79784,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-17T23:57:37.759Z",
+  "savedAt": "2026-08-17T23:59:52.973Z",
   "savedBy": "lms8765-ai"
 }
