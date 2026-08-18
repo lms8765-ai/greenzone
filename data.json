@@ -80478,15 +80478,15 @@
     },
     {
       "id": "z_1787026436061",
-      "name": "새 관리구역",
+      "name": "연일읍 유강리 119-4",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1787026124955",
       "paths": [
         [
           {
@@ -81005,6 +81005,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:13:59.072Z",
+  "savedAt": "2026-08-18T04:14:19.081Z",
   "savedBy": "lms8765-ai"
 }
