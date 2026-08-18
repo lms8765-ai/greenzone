@@ -81224,15 +81224,15 @@
     },
     {
       "id": "z_1787027342724",
-      "name": "새 관리구역",
+      "name": "효자동 471-6",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#f57f17",
+      "groupId": "g_1785910611519",
       "paths": [
         [
           {
@@ -81975,6 +81975,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:29:05.740Z",
+  "savedAt": "2026-08-18T04:29:22.742Z",
   "savedBy": "lms8765-ai"
 }
