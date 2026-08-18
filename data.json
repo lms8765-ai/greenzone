@@ -84848,8 +84848,8 @@
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 용흥동 591-36",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1787032266568",
       "paths": [
         [
           {
@@ -85577,6 +85577,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T05:59:23.399Z",
+  "savedAt": "2026-08-18T05:59:29.602Z",
   "savedBy": "lms8765-ai"
 }
