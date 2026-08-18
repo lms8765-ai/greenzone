@@ -74955,7 +74955,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#1565c0",
       "groupId": "g_1786672802744",
       "paths": [
         [
@@ -83163,6 +83163,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T05:06:24.410Z",
+  "savedAt": "2026-08-18T05:06:27.881Z",
   "savedBy": "lms8765-ai"
 }
