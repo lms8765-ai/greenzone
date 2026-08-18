@@ -81918,6 +81918,65 @@
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
+    },
+    {
+      "id": "z_1787027610007",
+      "name": "새 관리구역",
+      "team": "greenway",
+      "status": "pending",
+      "zoneType": "green",
+      "workTypes": [],
+      "memo": "",
+      "manager": "",
+      "color": "#2e7d32",
+      "groupId": "",
+      "paths": [
+        [
+          {
+            "lat": 35.999732,
+            "lng": 129.3502279
+          },
+          {
+            "lat": 35.9997309,
+            "lng": 129.3504572
+          },
+          {
+            "lat": 35.999707,
+            "lng": 129.3504854
+          },
+          {
+            "lat": 35.9997103,
+            "lng": 129.3502265
+          }
+        ]
+      ],
+      "path": [
+        {
+          "lat": 35.999732,
+          "lng": 129.3502279
+        },
+        {
+          "lat": 35.9997309,
+          "lng": 129.3504572
+        },
+        {
+          "lat": 35.999707,
+          "lng": 129.3504854
+        },
+        {
+          "lat": 35.9997103,
+          "lng": 129.3502265
+        }
+      ],
+      "area": 45,
+      "logs": [],
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     }
   ],
   "groups": [
@@ -82285,6 +82344,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:32:36.940Z",
+  "savedAt": "2026-08-18T04:33:33.022Z",
   "savedBy": "lms8765-ai"
 }
