@@ -80836,7 +80836,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "",
+      "memo": "117m x 0.5m",
       "manager": "",
       "color": "#c2185b",
       "groupId": "g_1787026124955",
@@ -80907,7 +80907,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 58.5,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -83154,6 +83154,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:50:05.098Z",
+  "savedAt": "2026-08-18T04:51:05.662Z",
   "savedBy": "lms8765-ai"
 }
