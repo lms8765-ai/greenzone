@@ -84178,15 +84178,15 @@
     },
     {
       "id": "z_1787029809834",
-      "name": "산 73",
+      "name": "기계면 현내리 산73",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 기계면 현내리 산 73",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#f57f17",
+      "groupId": "g_1787029727586",
       "paths": [
         [
           {
@@ -84643,6 +84643,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T05:10:12.856Z",
+  "savedAt": "2026-08-18T05:10:19.575Z",
   "savedBy": "lms8765-ai"
 }
