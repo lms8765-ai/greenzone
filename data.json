@@ -80439,6 +80439,15 @@
       "order": 0,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1787026124955",
+      "name": "연일읍",
+      "color": "#c2185b",
+      "parentId": null,
+      "order": 18,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [],
@@ -80475,6 +80484,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:08:20.301Z",
+  "savedAt": "2026-08-18T04:08:47.968Z",
   "savedBy": "lms8765-ai"
 }
