@@ -87020,15 +87020,15 @@
     },
     {
       "id": "z_1787035815654",
-      "name": "새 관리구역",
+      "name": "송내동 223-5",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1787026124955",
       "paths": [
         [
           {
@@ -87558,6 +87558,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T06:50:18.667Z",
+  "savedAt": "2026-08-18T06:50:35.041Z",
   "savedBy": "lms8765-ai"
 }
