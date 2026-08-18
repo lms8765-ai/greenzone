@@ -79965,14 +79965,14 @@
     },
     {
       "id": "z_1787026097277",
-      "name": "새 관리구역",
+      "name": "연일읍 유강리 44-3",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
+      "color": "#c2185b",
       "groupId": "",
       "paths": [
         [
@@ -80484,6 +80484,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:08:47.968Z",
+  "savedAt": "2026-08-18T04:08:52.114Z",
   "savedBy": "lms8765-ai"
 }
