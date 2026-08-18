@@ -13395,7 +13395,9 @@ function finishShrubArea() {
   const existing = document.querySelector('input[name="sp-existing"]:checked')?.value === '1';
   const id = 'shrub-' + Date.now();
   const paths = treeShrubPts.map(p => ({ lat: p.lat(), lng: p.lng() }));
-  const area  = calcArea(paths.map(p => [p.lng, p.lat]));
+  // 🐛 2026-08-19 수정: calcArea()는 {lat,lng} 객체 배열을 받아야 하는데 [lng,lat] 배열로
+  // 잘못 변환해서 넘기고 있어, 관목 구역 면적이 항상 0으로 계산되던 버그 수정
+  const area  = calcArea(paths);
   const item  = { id, layerId: treeData.activeLayerId, paths, species, size, kind, density, color, area, note: '', existing };
   treeData.shrubs.push(item);
   treeUndoStack.push({ action: 'addShrub', id });
