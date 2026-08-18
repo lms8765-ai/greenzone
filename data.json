@@ -81862,15 +81862,15 @@
     },
     {
       "id": "z_1787027549295",
-      "name": "새 관리구역",
+      "name": "연일읍 생지리 30-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1787026124955",
       "paths": [
         [
           {
@@ -82285,6 +82285,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:32:32.305Z",
+  "savedAt": "2026-08-18T04:32:36.940Z",
   "savedBy": "lms8765-ai"
 }
