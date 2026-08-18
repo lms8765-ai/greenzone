@@ -83658,6 +83658,15 @@
       "order": 20,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1787029727586",
+      "name": "서숲",
+      "color": "#e65100",
+      "parentId": "g_1787029720518",
+      "order": 0,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [],
@@ -83694,6 +83703,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T05:08:43.526Z",
+  "savedAt": "2026-08-18T05:08:50.608Z",
   "savedBy": "lms8765-ai"
 }
