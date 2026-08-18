@@ -83118,6 +83118,15 @@
       "order": 18,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1787029581402",
+      "name": "동해면",
+      "color": "#1565c0",
+      "parentId": null,
+      "order": 19,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [],
@@ -83154,6 +83163,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T05:05:44.936Z",
+  "savedAt": "2026-08-18T05:06:24.410Z",
   "savedBy": "lms8765-ai"
 }
