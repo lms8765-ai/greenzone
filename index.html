@@ -6762,11 +6762,15 @@ function updateHeaderStats() {
     const l3=document.getElementById('hs-stat-l3');const l4=document.getElementById('hs-stat-l4');
     if(l1) l1.textContent='관리 구역'; if(l2) l2.textContent='작업 기록';
     if(l3) l3.textContent='총 면적';   if(l4) l4.textContent='탭';
-  } else if (tab === 'green') {
-    const total = zones.length;
-    const logs  = zones.reduce((s,z)=>s+(z.logs||[]).length,0);
-    const area  = zones.reduce((s,z)=>s+(z.area||0),0);
-    const issue = zones.filter(z=>z.status==='issue').length;
+  } else if (tab === 'green' || tab === 'mowing' || tab === 'flower') {
+    // 🔒 5개 탭 서로 완전 독립 — 이 탭(zoneType)에 속한 구역만 집계
+    // (예전에는 탭 구분 없이 전체 구역을 합산해, "문제발생" 숫자를 눌러도
+    //  그 구역이 다른 탭에 있으면 목록이 비어 보이는 문제가 있었음)
+    const tabZones = zones.filter(z => zoneTypeOf(z) === tab);
+    const total = tabZones.length;
+    const logs  = tabZones.reduce((s,z)=>s+(z.logs||[]).length,0);
+    const area  = tabZones.reduce((s,z)=>s+(z.area||0),0);
+    const issue = tabZones.filter(z=>z.status==='issue').length;
     document.getElementById('hs-zones').textContent = total;
     document.getElementById('hs-logs').textContent  = logs;
     document.getElementById('hs-area').textContent  = area>9999?(area/10000).toFixed(1)+'ha':Math.round(area).toLocaleString();
