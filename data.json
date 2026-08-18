@@ -79746,15 +79746,15 @@
     },
     {
       "id": "z_1787025932865",
-      "name": "새 관리구역",
+      "name": "연일읍 유강리 38-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#f57f17",
+      "groupId": "g_1785910611519",
       "paths": [
         [
           {
@@ -80320,6 +80320,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:05:35.676Z",
+  "savedAt": "2026-08-18T04:05:49.294Z",
   "savedBy": "lms8765-ai"
 }
