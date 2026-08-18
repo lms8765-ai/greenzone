@@ -83093,15 +83093,6 @@
       "zoneType": "green"
     },
     {
-      "id": "g_1786672802744",
-      "name": "동해면",
-      "color": "#6a1b9a",
-      "parentId": null,
-      "order": 17,
-      "tier": "mid",
-      "zoneType": "green"
-    },
-    {
       "id": "g_1786682128725",
       "name": "9호광장",
       "color": "#1565c0",
@@ -83163,6 +83154,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T05:06:38.743Z",
+  "savedAt": "2026-08-18T05:06:49.092Z",
   "savedBy": "lms8765-ai"
 }
