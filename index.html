@@ -1812,6 +1812,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   <!-- 보기 -->
   <span class="tb-label">보기</span>
   <button class="tb-btn gray" onclick="fitAll()" title="전체 구역 보기">🔭 전체보기</button>
+  <button class="tb-btn gray mut-btn" onclick="recalcAllZoneAreas()" title="면적 계산 오류 수정 — 위도 이중보정 버그로 작게 표시되던 면적을 재계산 (일회성 도구)">🔧 면적 재계산</button>
   <button class="tb-btn gray" onclick="goMyLocation()" title="현재 위치">📍 내 위치</button>
   <button class="tb-btn gray" id="btn-cadastral" onclick="toggleCadastralLayer()" title="실제 지적(필지) 경계선 표시/숨김 — 화면을 확대할수록 정확하게 표시됩니다">📐 지적경계</button>
   <button class="tb-btn gray" onclick="toggleFullscreen()" title="전체화면">⛶</button>
@@ -3413,6 +3414,12 @@ let selId = null, editId = null, selWTs = [], pickedZoneColor = '#2e7d32';
 let newGrpColor = '#2e7d32';
 let curTab = 'list', zoneQ = '', fGrp = 'all', fSt = 'all', sortBy = 'name', fWP = 'all';
 let clickEv, dblEv, moveEv, clickGuard = false;
+// ⭕ 도형(원형) 그리기 전용 상태
+let shapeDrawMode = null;       // null | 'circle' (향후 다른 도형 확장 가능)
+let circleCenter  = null;       // {lat,lng} 중심점
+let circleRadiusM = 0;          // 반지름(m)
+let circleCenterMarker = null;  // 중심점 마커
+let circlePreviewObj   = null;  // naver.maps.Circle 미리보기
 let confirmCb = null, searchMarker = null, searchTimer = null;
 let searchBoundary = null; // 주소 검색 근사 경계 폴리곤
 let searchInfoWindow = null; // 검색 핀 클릭 정보창
@@ -4356,7 +4363,8 @@ window.onload = function() {
     if (e.key === 'Enter' && drawing) {
       // 주소 검색창에 포커스가 있을 때는 제외
       if (document.activeElement && document.activeElement.id === 'addr-input') return;
-      finishDraw();
+      if (shapeDrawMode === 'circle') { if (circleCenter) finishDrawCircle(); }
+      else finishDraw();
     }
   });
   // ── onload: 면적 계산만 수행, 지도 그리기는 switchAppTab에 일임 ──
@@ -4932,13 +4940,26 @@ function toggleZoneVisibility() {
   }
   drawPoly(z);
 }
-function toggleDraw() { if (!drawing && !requireEditUnlock()) return; drawing ? cancelDraw() : startDraw(); }
+function toggleDraw() {
+  if (drawing) { cancelDraw(); return; }
+  if (!requireEditUnlock()) return;
+  showConfirm(
+    '구역을 어떤 방식으로 그리시겠습니까?',
+    '✏️',
+    [
+      { label:'📍 기존 방법(점 찍기)', cls:'primary',   fn: () => startDraw() },
+      { label:'⭕ 도형 그리기(원형)',   cls:'secondary', fn: () => startDrawCircle() },
+      { label:'취소', cls:'secondary', fn: null },
+    ]
+  );
+}
 
 function startDraw() {
-  drawing = true; dPath = []; dMarkers = [];
+  drawing = true; shapeDrawMode = null; dPath = []; dMarkers = [];
   multiPaths = []; multiPolygons = []; isMultiMode = false;
   document.getElementById('btn-draw').innerHTML = '✕ 그리기 취소';
   document.getElementById('btn-draw').classList.add('draw-active');
+  document.getElementById('draw-hud').innerHTML = '📍 클릭 → 꼭짓점 추가 &nbsp;|&nbsp; 더블클릭 또는 Enter → 완성 &nbsp;|&nbsp; ESC → 취소';
   document.getElementById('draw-hud').style.display = 'block';
   document.getElementById('area-hud').style.display = 'block';
   document.getElementById('area-hud').textContent = '첫 번째 점을 클릭하세요 (완성: Enter 또는 더블클릭)';
@@ -4952,6 +4973,87 @@ function startDraw() {
     if (clickGuard) return; addPoint(e.coord);
   });
   moveEv = naver.maps.Event.addListener(map, 'mousemove', e => updatePreview(e.coord));
+}
+
+/* ══════════════════════════════════════════════
+   ⭕ 도형(원형) 구역 그리기
+   — 중심점 클릭 → 마우스로 반지름 조절(실시간 미리보기) → 클릭/Enter로 완성
+   — 완성된 원은 다각형 좌표(48각형 근사)로 변환해 기존 구역 데이터와 완전히 호환
+══════════════════════════════════════════════ */
+function haversineDistM(a, b) {
+  const R = 6371000, rad = d => d*Math.PI/180;
+  const dLat = rad(b.lat-a.lat), dLng = rad(b.lng-a.lng);
+  const s = Math.sin(dLat/2)**2 + Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(Math.min(1,s)));
+}
+function circleToPolygonPath(center, radiusM, numPoints) {
+  numPoints = numPoints || 48;
+  const R = 6371000, rad = d => d*Math.PI/180, deg = r => r*180/Math.PI;
+  const latRad = rad(center.lat);
+  const pts = [];
+  for (let i=0;i<numPoints;i++){
+    const angle = (i/numPoints)*2*Math.PI;
+    const dx = radiusM*Math.cos(angle), dy = radiusM*Math.sin(angle);
+    pts.push({ lat: center.lat + deg(dy/R), lng: center.lng + deg(dx/(R*Math.cos(latRad))) });
+  }
+  return pts;
+}
+function startDrawCircle() {
+  drawing = true; shapeDrawMode = 'circle';
+  circleCenter = null; circleRadiusM = 0;
+  dPath = []; dMarkers = [];
+  multiPaths = []; multiPolygons = []; isMultiMode = false;
+  document.getElementById('btn-draw').innerHTML = '✕ 그리기 취소';
+  document.getElementById('btn-draw').classList.add('draw-active');
+  document.getElementById('draw-hud').innerHTML = '⭕ 중심점 클릭 &nbsp;|&nbsp; 마우스로 반지름 조절 후 클릭 또는 Enter → 완성 &nbsp;|&nbsp; ESC → 취소';
+  document.getElementById('draw-hud').style.display = 'block';
+  document.getElementById('area-hud').style.display = 'block';
+  document.getElementById('area-hud').textContent = '⭕ 원의 중심점을 클릭하세요';
+  map.setCursor('crosshair');
+
+  clickEv = naver.maps.Event.addListener(map, 'click', e => {
+    if (clickGuard) return;
+    if (!circleCenter) {
+      circleCenter = { lat: e.coord.lat(), lng: e.coord.lng() };
+      circleCenterMarker = new naver.maps.Marker({
+        position: e.coord, map,
+        icon: {content:`<div style="width:10px;height:10px;background:#c2185b;border:2px solid #fff;border-radius:50%;margin:-5px 0 0 -5px;box-shadow:0 1px 4px #0004"></div>`, anchor: new naver.maps.Point(0,0)},
+        zIndex: 200
+      });
+      document.getElementById('area-hud').textContent = '마우스를 움직여 반지름을 정한 뒤 클릭하세요 (또는 Enter)';
+    } else {
+      finishDrawCircle();
+    }
+  });
+  moveEv = naver.maps.Event.addListener(map, 'mousemove', e => {
+    if (!circleCenter) return;
+    circleRadiusM = haversineDistM(circleCenter, { lat: e.coord.lat(), lng: e.coord.lng() });
+    updateCirclePreview();
+  });
+}
+function updateCirclePreview() {
+  if (circlePreviewObj) { circlePreviewObj.setMap(null); circlePreviewObj = null; }
+  if (!circleCenter || circleRadiusM <= 0) return;
+  circlePreviewObj = new naver.maps.Circle({
+    center: new naver.maps.LatLng(circleCenter.lat, circleCenter.lng),
+    radius: circleRadiusM,
+    fillColor: '#c2185b', fillOpacity: .12,
+    strokeColor: '#c2185b', strokeWeight: 2, strokeStyle: 'dash',
+    map
+  });
+  const areaEst = Math.round(Math.PI * circleRadiusM * circleRadiusM);
+  document.getElementById('area-hud').textContent =
+    `반지름 ${Math.round(circleRadiusM).toLocaleString()}m · 예상 면적 ${areaEst.toLocaleString()}㎡ · 클릭 또는 Enter로 완성`;
+}
+function finishDrawCircle() {
+  if (!requireEditUnlock()) return;
+  if (!circleCenter || circleRadiusM < 1) { showToast('⚠️ 반지름이 너무 작습니다. 마우스를 조금 더 움직인 뒤 클릭해주세요.'); return; }
+  dPath = circleToPolygonPath(circleCenter, circleRadiusM, 48);
+  // 원 그리기 전용 임시 객체 정리 (finishDraw()는 이 객체들을 모르므로 직접 정리)
+  if (circleCenterMarker) { circleCenterMarker.setMap(null); circleCenterMarker = null; }
+  if (circlePreviewObj)   { circlePreviewObj.setMap(null);   circlePreviewObj = null; }
+  shapeDrawMode = null; circleCenter = null; circleRadiusM = 0;
+  finishDraw();
 }
 
 function addPoint(coord) {
@@ -5054,6 +5156,10 @@ function cancelDraw() {
   cleanListeners(); cleanPreview(); dMarkers.forEach(m => m.setMap(null)); dMarkers = []; dPath = [];
   drawing = false;
   multiPaths = []; multiPolygons.forEach(p=>p.setMap(null)); multiPolygons = [];
+  // ⭕ 도형(원) 그리기 임시 객체 정리
+  if (circleCenterMarker) { circleCenterMarker.setMap(null); circleCenterMarker = null; }
+  if (circlePreviewObj)   { circlePreviewObj.setMap(null);   circlePreviewObj = null; }
+  shapeDrawMode = null; circleCenter = null; circleRadiusM = 0;
   document.getElementById('btn-draw').innerHTML = '✏️ 구역 그리기';
   document.getElementById('btn-draw').classList.remove('draw-active');
   document.getElementById('draw-hud').style.display = 'none';
@@ -15265,18 +15371,59 @@ function calcArea(path){
   }
   const R=6371000,rad=d=>d*Math.PI/180;
   const clat=path.reduce((a,p)=>a+p.lat,0)/path.length;
+  // 🐛 2026-08-19 수정: 위도 보정(cos)이 각 점마다 한 번, 그리고 맨 끝에서 또 한 번
+  // — 총 두 번 곱해지고 있어 면적이 실제보다 작게(포항 위도 기준 약 19%) 계산되던
+  // 버그를 수정. 이제는 평균 위도(clat) 기준 보정을 한 번만 적용한다.
+  const cosClat = Math.cos(rad(clat));
   let area=0;
   for(let i=0,n=path.length;i<n;i++){
     const j=(i+1)%n;
-    const x1=rad(path[i].lng)*Math.cos(rad(path[i].lat)), y1=rad(path[i].lat);
-    const x2=rad(path[j].lng)*Math.cos(rad(path[j].lat)), y2=rad(path[j].lat);
+    const x1=rad(path[i].lng)*cosClat, y1=rad(path[i].lat);
+    const x2=rad(path[j].lng)*cosClat, y2=rad(path[j].lat);
     area+=x1*y2-x2*y1;
   }
-  return Math.round(Math.abs(area/2)*R*R*Math.cos(rad(clat)));
+  return Math.round(Math.abs(area/2)*R*R);
 }
 function pathCenter(path){
   if(!path||!path.length)return{lat:36.042,lng:129.370};
   return{lat:path.reduce((a,p)=>a+p.lat,0)/path.length,lng:path.reduce((a,p)=>a+p.lng,0)/path.length};
+}
+
+/* ══════════════════════════════════════════════
+   🔧 전체 구역 면적 재계산 (일회성 도구)
+   — calcArea()의 위도 이중보정 버그(2026-08-19 수정) 이전에 저장된 구역들은
+     실제보다 면적이 작게(포항 위도 기준 약 19%) 저장되어 있음.
+     이 도구로 모든 구역의 저장된 면적을 올바르게 다시 계산해 반영한다.
+══════════════════════════════════════════════ */
+function recalcAllZoneAreas() {
+  if (!requireEditUnlock()) return;
+  if (!zones.length) { showToast('⚠️ 재계산할 구역이 없습니다.'); return; }
+  const oldTotal = zones.reduce((s,z)=>s+(z.area||0),0);
+  const newAreas = zones.map(z => {
+    const parts = (z.paths && z.paths.length) ? z.paths : (z.path ? [z.path] : []);
+    return parts.reduce((s,p)=>s+calcArea(p),0);
+  });
+  const newTotal = newAreas.reduce((s,a)=>s+a,0);
+  const diffPct = oldTotal>0 ? Math.round((newTotal-oldTotal)/oldTotal*1000)/10 : 0;
+  const cfmMsg = `이전 버전에서 면적 계산 시 위도 보정이 두 번 적용되어, 저장된 면적이 실제보다 작게(포항 기준 약 19%) 표시되고 있었습니다.
+
+현재 저장된 총면적: ${formatArea(oldTotal)}
+재계산한 총면적: ${formatArea(newTotal)} (${diffPct>0?'+':''}${diffPct}%)
+
+전체 ${zones.length}개 구역의 면적을 재계산된 값으로 업데이트하시겠습니까?
+(풀베기 면적·수목/관목 수량 등 직접 입력한 값은 영향 없습니다)`;
+  showConfirm(
+    cfmMsg,
+    '🔧',
+    [
+      { label:'재계산 적용', cls:'primary', fn: () => {
+          zones.forEach((z,i) => { z.area = newAreas[i]; });
+          saveAll(); redrawAll(); renderSidebar(); renderDetail(); updateHeaderStats();
+          showToast('✅ 전체 ' + zones.length + '개 구역의 면적이 재계산되었습니다.');
+        } },
+      { label:'취소', cls:'secondary', fn:null },
+    ]
+  );
 }
 
 
