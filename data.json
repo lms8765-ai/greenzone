@@ -86025,7 +86025,16 @@
       "mowingArea": 0,
       "facilityCount": 0,
       "treeCounts": [],
-      "shrubCounts": []
+      "shrubCounts": [
+        {
+          "species": "장미",
+          "qty": 112
+        },
+        {
+          "species": "회양목",
+          "qty": 22
+        }
+      ]
     }
   ],
   "groups": [
@@ -86420,6 +86429,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T06:24:54.359Z",
+  "savedAt": "2026-08-18T06:26:29.999Z",
   "savedBy": "lms8765-ai"
 }
