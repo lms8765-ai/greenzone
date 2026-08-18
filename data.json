@@ -86623,15 +86623,15 @@
     },
     {
       "id": "z_1787035550542",
-      "name": "새 관리구역",
+      "name": "송내동 467-4",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1787026124955",
       "paths": [
         [
           {
@@ -87177,6 +87177,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T06:45:53.554Z",
+  "savedAt": "2026-08-18T06:46:20.627Z",
   "savedBy": "lms8765-ai"
 }
