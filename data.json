@@ -81921,15 +81921,15 @@
     },
     {
       "id": "z_1787027610007",
-      "name": "새 관리구역",
+      "name": "연일읍 오천리 791-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1787026124955",
       "paths": [
         [
           {
@@ -82344,6 +82344,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:33:33.022Z",
+  "savedAt": "2026-08-18T04:33:38.160Z",
   "savedBy": "lms8765-ai"
 }
