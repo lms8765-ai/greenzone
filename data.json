@@ -84283,15 +84283,15 @@
     },
     {
       "id": "z_1787032317441",
-      "name": "새 관리구역",
+      "name": "대흥동 647-9",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1787032266568",
       "paths": [
         [
           {
@@ -84861,6 +84861,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T05:52:00.457Z",
+  "savedAt": "2026-08-18T05:52:19.907Z",
   "savedBy": "lms8765-ai"
 }
