@@ -85026,15 +85026,15 @@
     },
     {
       "id": "z_1787033028909",
-      "name": "새 관리구역",
+      "name": "용흥동 424-5",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1787032266568",
       "paths": [
         [
           {
@@ -85748,6 +85748,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T06:03:51.926Z",
+  "savedAt": "2026-08-18T06:03:56.463Z",
   "savedBy": "lms8765-ai"
 }
