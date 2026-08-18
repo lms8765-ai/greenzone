@@ -85618,7 +85618,7 @@
     },
     {
       "id": "z_1787034277674",
-      "name": "새 관리구역",
+      "name": "연일읍 중명리 258-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -86420,6 +86420,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T06:24:47.527Z",
+  "savedAt": "2026-08-18T06:24:54.359Z",
   "savedBy": "lms8765-ai"
 }
