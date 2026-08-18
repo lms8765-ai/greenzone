@@ -85618,15 +85618,15 @@
     },
     {
       "id": "z_1787034168920",
-      "name": "새 관리구역",
+      "name": "연일읍 중명리 258-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1787026124955",
       "paths": [
         [
           {
@@ -86025,7 +86025,16 @@
       "mowingArea": 0,
       "facilityCount": 0,
       "treeCounts": [],
-      "shrubCounts": []
+      "shrubCounts": [
+        {
+          "species": "장미",
+          "qty": 450
+        },
+        {
+          "species": "황금사철",
+          "qty": 500
+        }
+      ]
     }
   ],
   "groups": [
@@ -86420,6 +86429,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T06:22:51.939Z",
+  "savedAt": "2026-08-18T06:23:39.742Z",
   "savedBy": "lms8765-ai"
 }
