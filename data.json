@@ -86038,14 +86038,14 @@
     },
     {
       "id": "z_1787035050373",
-      "name": "새 관리구역",
+      "name": "상도동 515",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
+      "color": "#1565c0",
       "groupId": "",
       "paths": [
         [
@@ -86680,6 +86680,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T06:37:33.391Z",
+  "savedAt": "2026-08-18T06:38:05.731Z",
   "savedBy": "lms8765-ai"
 }
