@@ -81998,15 +81998,15 @@
     },
     {
       "id": "z_1787027799122",
-      "name": "새 관리구역",
+      "name": "연일읍 오천리 852-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c2185b",
+      "groupId": "g_1787026124955",
       "paths": [
         [
           {
@@ -82469,6 +82469,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T04:36:42.141Z",
+  "savedAt": "2026-08-18T04:36:50.382Z",
   "savedBy": "lms8765-ai"
 }
