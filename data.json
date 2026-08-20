@@ -87183,14 +87183,14 @@
     },
     {
       "id": "z_1787198537428",
-      "name": "새 관리구역",
+      "name": "용흥동 6",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "",
+      "memo": "풀베기 : 0%",
       "manager": "",
-      "color": "#2e7d32",
+      "color": "#6a1b9a",
       "groupId": "",
       "paths": [
         [
@@ -87262,7 +87262,12 @@
       "mowingArea": 0,
       "facilityCount": 0,
       "treeCounts": [],
-      "shrubCounts": []
+      "shrubCounts": [
+        {
+          "species": "회양목",
+          "qty": 81
+        }
+      ]
     }
   ],
   "groups": [
@@ -87657,6 +87662,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-20T04:02:20.441Z",
+  "savedAt": "2026-08-20T04:03:19.327Z",
   "savedBy": "lms8765-ai"
 }
