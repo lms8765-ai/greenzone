@@ -87978,15 +87978,15 @@
     },
     {
       "id": "z_1787204770610",
-      "name": "새 관리구역",
+      "name": "죽도동 102-4",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#f57f17",
+      "groupId": "g_1787204637918",
       "paths": [
         [
           {
@@ -88541,6 +88541,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-20T05:46:13.618Z",
+  "savedAt": "2026-08-20T05:46:36.301Z",
   "savedBy": "lms8765-ai"
 }
