@@ -88229,7 +88229,7 @@
     },
     {
       "id": "z_1787205511142",
-      "name": "새 관리구역",
+      "name": "오천읍 문덕리 242-2",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
@@ -89104,6 +89104,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-20T05:58:34.155Z",
+  "savedAt": "2026-08-20T05:58:49.513Z",
   "savedBy": "lms8765-ai"
 }
