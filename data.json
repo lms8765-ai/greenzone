@@ -88333,6 +88333,15 @@
       "order": 21,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1787204637918",
+      "name": "죽도동",
+      "color": "#e65100",
+      "parentId": null,
+      "order": 22,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [],
@@ -88369,6 +88378,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-20T05:43:49.531Z",
+  "savedAt": "2026-08-20T05:44:00.115Z",
   "savedBy": "lms8765-ai"
 }
