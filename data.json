@@ -87276,7 +87276,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "",
+      "memo": "65m x 0.5m",
       "manager": "",
       "color": "#6a1b9a",
       "groupId": "g_1787032266568",
@@ -87929,6 +87929,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-20T04:07:34.200Z",
+  "savedAt": "2026-08-20T04:08:17.117Z",
   "savedBy": "lms8765-ai"
 }
