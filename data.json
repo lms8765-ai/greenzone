@@ -87191,7 +87191,7 @@
       "memo": "풀베기 : 0%",
       "manager": "",
       "color": "#6a1b9a",
-      "groupId": "",
+      "groupId": "g_1787032266568",
       "paths": [
         [
           {
@@ -87929,6 +87929,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-20T04:07:25.864Z",
+  "savedAt": "2026-08-20T04:07:34.200Z",
   "savedBy": "lms8765-ai"
 }
