@@ -87693,15 +87693,15 @@
     },
     {
       "id": "z_1787203579395",
-      "name": "새 관리구역",
+      "name": "용흥동 산77-16",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1787032266568",
       "paths": [
         [
           {
@@ -88151,6 +88151,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-20T05:26:22.415Z",
+  "savedAt": "2026-08-20T05:26:46.064Z",
   "savedBy": "lms8765-ai"
 }
