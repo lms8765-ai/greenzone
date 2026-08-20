@@ -87543,7 +87543,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "",
+      "memo": "풀베기 : 70%",
       "manager": "",
       "color": "#6a1b9a",
       "groupId": "g_1787032266568",
@@ -87686,7 +87686,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 245.7,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -88084,6 +88084,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-20T04:11:09.041Z",
+  "savedAt": "2026-08-20T04:12:26.115Z",
   "savedBy": "lms8765-ai"
 }
