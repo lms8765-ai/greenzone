@@ -87180,6 +87180,89 @@
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
+    },
+    {
+      "id": "z_1787198537428",
+      "name": "새 관리구역",
+      "team": "greenway",
+      "status": "pending",
+      "zoneType": "green",
+      "workTypes": [],
+      "memo": "",
+      "manager": "",
+      "color": "#2e7d32",
+      "groupId": "",
+      "paths": [
+        [
+          {
+            "lat": 36.0460989,
+            "lng": 129.3580742
+          },
+          {
+            "lat": 36.0460105,
+            "lng": 129.358042
+          },
+          {
+            "lat": 36.0459427,
+            "lng": 129.3580018
+          },
+          {
+            "lat": 36.0458864,
+            "lng": 129.3579501
+          },
+          {
+            "lat": 36.0458929,
+            "lng": 129.3581003
+          },
+          {
+            "lat": 36.0458988,
+            "lng": 129.3581104
+          },
+          {
+            "lat": 36.0461,
+            "lng": 129.3580842
+          }
+        ]
+      ],
+      "path": [
+        {
+          "lat": 36.0460989,
+          "lng": 129.3580742
+        },
+        {
+          "lat": 36.0460105,
+          "lng": 129.358042
+        },
+        {
+          "lat": 36.0459427,
+          "lng": 129.3580018
+        },
+        {
+          "lat": 36.0458864,
+          "lng": 129.3579501
+        },
+        {
+          "lat": 36.0458929,
+          "lng": 129.3581003
+        },
+        {
+          "lat": 36.0458988,
+          "lng": 129.3581104
+        },
+        {
+          "lat": 36.0461,
+          "lng": 129.3580842
+        }
+      ],
+      "area": 150,
+      "logs": [],
+      "workerDefault": "",
+      "nextWorkDate": "",
+      "nextWorkType": "",
+      "mowingArea": 0,
+      "facilityCount": 0,
+      "treeCounts": [],
+      "shrubCounts": []
     }
   ],
   "groups": [
@@ -87574,6 +87657,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-18T06:52:35.003Z",
+  "savedAt": "2026-08-20T04:02:20.441Z",
   "savedBy": "lms8765-ai"
 }
