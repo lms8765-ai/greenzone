@@ -3808,6 +3808,35 @@ async function saveToGitHub(silent = false) {
           }
           return;
         }
+        // 🚨 안전장치 #2 (2026-08-19 신규): 구역 수는 크게 줄지 않았더라도, 이 기기가
+        // 마지막으로 확인한 이후 "다른 기기"가 이미 클라우드를 갱신했다면(예: 다른 PC/
+        // 휴대폰에서 방금 구역 병합 저장) 지금 그대로 저장 시 그 변경을 통째로 덮어쓸
+        // 위험이 있음 — 구역 병합처럼 저장 전체를 교체하는 구조라 구역 수 급감 검사만으로는
+        // 이런 "뒤늦은 기기가 앞선 기기의 최신 저장을 덮어쓰는" 상황을 잡아내지 못했음
+        // (이것이 "병합한 구역이 자꾸 풀린다"는 신고의 실제 원인으로 추정됨)
+        const lastKnownSync = localStorage.getItem('lastGHSave') || '';
+        if (remoteCheck && remoteCheck.savedAt && lastKnownSync && remoteCheck.savedAt > lastKnownSync) {
+          isSyncing = false;
+          if (btn && !silent) btn.innerHTML = '☁️ 클라우드 저장';
+          if (silent) {
+            console.warn('[Save] 🚨 자동저장 보류 — 다른 기기가 이미 클라우드를 갱신함:', remoteCheck.savedAt, '>', lastKnownSync);
+            updateSyncStatus('blocked');
+            showToast('🚨 자동저장이 보류되었습니다 — 다른 기기에서 먼저 저장한 최신 데이터가 있습니다. "🔄 최신 불러오기"로 먼저 확인해주세요.');
+          } else {
+            showConfirm(
+              '🚨 다른 기기에서 이 기기가 마지막으로 확인한 이후 이미 새로운 데이터를 저장했습니다.\n\n'
+              + '지금 그대로 저장하면 그 기기의 변경 내용(예: 구역 병합)이 사라질 수 있습니다.\n'
+              + '"🔄 최신 불러오기"로 먼저 최신 데이터를 확인한 뒤 다시 시도하는 것을 권장합니다.\n\n'
+              + '그래도 지금 화면 내용으로 덮어쓰시겠습니까?',
+              '🚨',
+              [
+                { label:'그래도 저장', cls:'danger', fn: () => saveToGitHubForced(silent) },
+                { label:'취소', cls:'secondary', fn: null }
+              ]
+            );
+          }
+          return;
+        }
       }
     } catch(checkErr) {
       console.warn('[Save] 사전 확인 실패(네트워크 등) — 저장은 계속 진행합니다:', checkErr);
@@ -3938,10 +3967,16 @@ async function loadFromGitHub(silent = false) {
     }
     const remote = data.savedAt || '';
     const local  = localStorage.getItem('lastGHSave') || '';
-    // 🛡️ 이 기기의 화면(zones)이 원격보다 눈에 띄게 적으면(예: 새로고침 직후 초기화,
-    // 이전 오류로 화면이 비어버린 경우 등) 저장 시각 비교와 무관하게 무조건 최신 데이터를
-    // 받아온다 — 그렇지 않으면 "이미 최신 상태"로 오판해 빈 화면이 계속 남는 문제가 있었음
-    const localBehind = Array.isArray(data.zones) && zones.length < data.zones.length;
+    // 🛡️ 이 기기의 화면(zones)이 거의 비어있는데 원격에는 실제 데이터가 있으면(예: 새로고침
+    // 직후 초기화, 이전 오류로 화면이 비어버린 경우 등) 저장 시각 비교와 무관하게 무조건
+    // 최신 데이터를 받아온다 — 그렇지 않으면 "이미 최신 상태"로 오판해 빈 화면이 계속 남는
+    // 문제가 있었음.
+    // ⚠️ 2026-08-19 수정: 예전에는 "화면 구역 수 < 원격 구역 수"만 비교했는데, 이러면
+    // 구역을 병합해서 정상적으로 구역 수가 줄어든 직후(아직 클라우드에 반영 전) 이 조건이
+    // 그대로 걸려버려, 병합 이전의 옛 원격 데이터를 그대로 덮어써 병합이 풀려버리는
+    // 문제가 있었음 — 이제는 화면이 "거의 비어있는" 경우로만 좁혀서 이 안전장치를 적용한다
+    // (일반적인 병합·삭제로 인한 자연스러운 감소까지 "화면이 깨졌다"고 오판하지 않도록)
+    const localBehind = Array.isArray(data.zones) && zones.length < 5 && data.zones.length >= 5;
 
     // 원격이 더 최신이면(또는 이 기기가 원격보다 데이터가 적으면) 업데이트
     if (!local || remote > local || localBehind) {
