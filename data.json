@@ -85957,15 +85957,15 @@
     },
     {
       "id": "z_1787545706124",
-      "name": "새 관리구역",
+      "name": "오천읍 원리 843-78",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1785908741887",
       "paths": [
         [
           {
@@ -86584,6 +86584,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-24T04:28:29.132Z",
+  "savedAt": "2026-08-24T04:28:36.979Z",
   "savedBy": "lms8765-ai"
 }
