@@ -86593,15 +86593,15 @@
     },
     {
       "id": "z_1787554396969",
-      "name": "새 관리구역",
+      "name": "장성동 834-2",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1785911930038",
       "paths": [
         [
           {
@@ -87180,6 +87180,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-24T06:53:19.990Z",
+  "savedAt": "2026-08-24T06:53:38.827Z",
   "savedBy": "lms8765-ai"
 }
