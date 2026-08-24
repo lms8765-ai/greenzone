@@ -86665,15 +86665,15 @@
     },
     {
       "id": "z_1787554526166",
-      "name": "새 관리구역",
+      "name": "장성동 843",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1785911930038",
       "paths": [
         [
           {
@@ -87220,6 +87220,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-24T06:55:29.186Z",
+  "savedAt": "2026-08-24T06:55:49.592Z",
   "savedBy": "lms8765-ai"
 }
