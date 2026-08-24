@@ -85642,15 +85642,15 @@
     },
     {
       "id": "z_1787545472106",
-      "name": "새 관리구역",
+      "name": "오천읍 원리 40-4",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1785908741887",
       "paths": [
         [
           {
@@ -86357,6 +86357,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-24T04:24:35.116Z",
+  "savedAt": "2026-08-24T04:24:53.716Z",
   "savedBy": "lms8765-ai"
 }
