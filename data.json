@@ -85263,15 +85263,15 @@
     },
     {
       "id": "z_1787544991342",
-      "name": "새 관리구역",
+      "name": "오천읍 문덕리 247-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1785908741887",
       "paths": [
         [
           {
@@ -86042,6 +86042,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-24T04:16:34.362Z",
+  "savedAt": "2026-08-24T04:17:09.170Z",
   "savedBy": "lms8765-ai"
 }
