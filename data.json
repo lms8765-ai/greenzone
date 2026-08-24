@@ -86107,15 +86107,15 @@
     },
     {
       "id": "z_1787553787583",
-      "name": "새 관리구역",
+      "name": "장성동 1617-5",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#6a1b9a",
+      "groupId": "g_1785911930038",
       "paths": [
         [
           {
@@ -86878,6 +86878,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-24T06:43:08.840Z",
+  "savedAt": "2026-08-24T06:43:50.119Z",
   "savedBy": "lms8765-ai"
 }
