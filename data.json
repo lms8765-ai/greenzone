@@ -89189,15 +89189,15 @@
     },
     {
       "id": "z_1787710406010",
-      "name": "새 관리구역",
+      "name": "동촌동 701-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1787705702440",
       "paths": [
         [
           {
@@ -89754,6 +89754,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T02:13:29.024Z",
+  "savedAt": "2026-08-26T02:13:50.122Z",
   "savedBy": "lms8765-ai"
 }
