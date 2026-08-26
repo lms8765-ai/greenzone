@@ -116324,15 +116324,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_4",
-      "name": "냉천 상단구역",
-      "color": "#c62828",
-      "parentId": "g_1787729382060_2",
-      "order": 1,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_5",
       "name": "냉천 하단구역",
       "color": "#c62828",
@@ -116592,6 +116583,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T07:50:10.773Z",
+  "savedAt": "2026-08-26T07:50:18.473Z",
   "savedBy": "lms8765-ai"
 }
