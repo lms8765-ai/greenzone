@@ -116496,7 +116496,7 @@
     },
     {
       "id": "g_1787730451239",
-      "name": "냉천 상단구역",
+      "name": "냉천 상단지역",
       "color": "#c62828",
       "parentId": null,
       "order": 23,
@@ -116547,6 +116547,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T08:02:49.260Z",
+  "savedAt": "2026-08-26T08:03:04.079Z",
   "savedBy": "lms8765-ai"
 }
