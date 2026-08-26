@@ -88876,15 +88876,15 @@
     },
     {
       "id": "z_1787705431440",
-      "name": "새 관리구역",
+      "name": "오천읍 용산리 36-9",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1785908741887",
       "paths": [
         [
           {
@@ -89431,6 +89431,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T00:50:34.461Z",
+  "savedAt": "2026-08-26T00:50:39.698Z",
   "savedBy": "lms8765-ai"
 }
