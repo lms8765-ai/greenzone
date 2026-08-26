@@ -89553,6 +89553,15 @@
       "order": 22,
       "tier": "mid",
       "zoneType": "green"
+    },
+    {
+      "id": "g_1787705702440",
+      "name": "냉천 상단구역",
+      "color": "#c62828",
+      "parentId": "g_1785908741887",
+      "order": 1,
+      "tier": "mid",
+      "zoneType": "green"
     }
   ],
   "customDepts": [],
@@ -89589,6 +89598,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T00:54:10.255Z",
+  "savedAt": "2026-08-26T00:55:05.457Z",
   "savedBy": "lms8765-ai"
 }
