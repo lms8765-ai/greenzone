@@ -88169,15 +88169,15 @@
     },
     {
       "id": "z_1787705034487",
-      "name": "새 관리구역",
+      "name": "오천읍 문덕리 1188-484",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1785908741887",
       "paths": [
         [
           {
@@ -89276,6 +89276,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T00:43:57.510Z",
+  "savedAt": "2026-08-26T00:44:21.488Z",
   "savedBy": "lms8765-ai"
 }
