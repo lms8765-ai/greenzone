@@ -90372,15 +90372,15 @@
     },
     {
       "id": "z_1787712329801",
-      "name": "새 관리구역",
+      "name": "오천읍 문덕리 203-43",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1787705714200",
       "paths": [
         [
           {
@@ -91025,6 +91025,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T02:45:32.812Z",
+  "savedAt": "2026-08-26T02:45:37.893Z",
   "savedBy": "lms8765-ai"
 }
