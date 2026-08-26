@@ -111408,8 +111408,8 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
-      "groupId": "g_1787729382060_7",
+      "color": "#c2185b",
+      "groupId": "g_1787729382060_9",
       "paths": [
         [
           {
@@ -116441,15 +116441,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_17",
-      "name": "영일만 4산업단지",
-      "color": "#c62828",
-      "parentId": "g_1787729382060_16",
-      "order": 0,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_18",
       "name": "송도동",
       "color": "#2e7d32",
@@ -116601,6 +116592,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T07:34:09.760Z",
+  "savedAt": "2026-08-26T07:44:49.786Z",
   "savedBy": "lms8765-ai"
 }
