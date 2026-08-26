@@ -116378,29 +116378,11 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_10",
-      "name": "창포동",
-      "color": "#2e7d32",
-      "parentId": null,
-      "order": 8,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_11",
       "name": "우현동",
       "color": "#e65100",
       "parentId": null,
       "order": 9,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
-      "id": "g_1787729382060_12",
-      "name": "학산동",
-      "color": "#1565c0",
-      "parentId": null,
-      "order": 10,
       "tier": "mid",
       "zoneType": "mowing"
     },
@@ -116610,6 +116592,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T07:49:55.022Z",
+  "savedAt": "2026-08-26T07:50:10.773Z",
   "savedBy": "lms8765-ai"
 }
