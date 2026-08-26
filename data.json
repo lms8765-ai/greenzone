@@ -90984,12 +90984,12 @@
     },
     {
       "id": "z_1787728425529",
-      "name": "새 관리구역",
+      "name": "창포동 379-1",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "",
+      "memo": "풀베기 : 100%",
       "manager": "",
       "color": "#2e7d32",
       "groupId": "g_1785976566296",
@@ -91036,7 +91036,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 24,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -91461,6 +91461,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T07:13:57.665Z",
+  "savedAt": "2026-08-26T07:14:30.180Z",
   "savedBy": "lms8765-ai"
 }
