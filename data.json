@@ -90631,15 +90631,15 @@
     },
     {
       "id": "z_1787712751995",
-      "name": "새 관리구역",
+      "name": "오천읍 문충리 -2",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1787705714200",
       "paths": [
         [
           {
@@ -91164,6 +91164,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T02:52:35.006Z",
+  "savedAt": "2026-08-26T02:52:40.566Z",
   "savedBy": "lms8765-ai"
 }
