@@ -116315,24 +116315,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_3",
-      "name": "문덕사거리 녹지대",
-      "color": "#c62828",
-      "parentId": "g_1787729382060_2",
-      "order": 0,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
-      "id": "g_1787729382060_5",
-      "name": "냉천 하단구역",
-      "color": "#c62828",
-      "parentId": "g_1787729382060_2",
-      "order": 2,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_6",
       "name": "효자동",
       "color": "#e65100",
@@ -116583,6 +116565,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T07:51:35.265Z",
+  "savedAt": "2026-08-26T07:51:46.729Z",
   "savedBy": "lms8765-ai"
 }
