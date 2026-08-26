@@ -262,7 +262,13 @@ body {
   flex-shrink: 0;
   box-shadow: var(--shadow-s);
   z-index: 300;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+#toolbar::-webkit-scrollbar { height: 0; display: none; }
+#toolbar > * { flex-shrink: 0; white-space: nowrap; }
 .tb-sep {
   width: 1px;
   height: 20px;
@@ -1793,7 +1799,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   <!-- 구역 -->
   <span class="tb-label">구역</span>
   <button class="tb-btn rose mut-btn" id="btn-draw" onclick="toggleDraw()">✏️ 구역 그리기</button>
-  <span id="zone-type-badge" style="display:none;font-size:10px;font-weight:800;padding:3px 10px;border-radius:10px;margin-left:2px"></span>
+  <span id="zone-type-badge" style="display:none;font-size:10px;font-weight:800;padding:3px 10px;border-radius:10px;margin-left:2px;white-space:nowrap;flex-shrink:0"></span>
   <button class="tb-btn" id="btn-add-part" onclick="addNextPart()" style="display:none" title="현재 구역에 떨어진 구간 추가">➕ 구간 추가</button>
   <button class="tb-btn gray mut-btn" id="btn-edit" onclick="openEditModal()" disabled>⚙️ 구역 편집</button>
   <button class="tb-btn gray" id="btn-toggle-vis" onclick="toggleZoneVisibility()" disabled title="선택 구역 지도 표시/숨김">👁 표시</button>
@@ -1812,8 +1818,6 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   <!-- 보기 -->
   <span class="tb-label">보기</span>
   <button class="tb-btn gray" onclick="fitAll()" title="전체 구역 보기">🔭 전체보기</button>
-  <button class="tb-btn gray mut-btn" onclick="recalcAllZoneAreas()" title="면적 계산 오류 수정 — 위도 이중보정 버그로 작게 표시되던 면적을 재계산 (일회성 도구)">🔧 면적 재계산</button>
-  <button class="tb-btn gray mut-btn" onclick="resetMowingTabFromGreen()" title="풀베기사업 탭의 기존 데이터를 모두 삭제하고, 녹지관리 탭 구역(도형·이름·색상·풀베기 면적)과 그룹을 복사해 채워넣기 (일회성 도구)">🔧 풀베기 탭 초기화+복사</button>
   <button class="tb-btn gray" onclick="goMyLocation()" title="현재 위치">📍 내 위치</button>
   <button class="tb-btn gray" id="btn-cadastral" onclick="toggleCadastralLayer()" title="실제 지적(필지) 경계선 표시/숨김 — 화면을 확대할수록 정확하게 표시됩니다">📐 지적경계</button>
   <button class="tb-btn gray" onclick="toggleFullscreen()" title="전체화면">⛶</button>
@@ -5298,10 +5302,10 @@ function drawPoly(z) {
   const roseInfo = roseZones.find(r => r.zoneId === z.id);
   const roseBadge = roseInfo ? '<span style="font-size:9px;background:#fce4ec;color:#c0392b;border:1px solid #f8a5a5;border-radius:8px;padding:1px 5px;margin-left:3px">🌹</span>' : '';
   // 라벨 표시 대상 (숨김이면 null, 그룹라벨 숨김이면 null)
-  // 🌿 녹지관리 탭: 구역명이 많아지면 지도가 어지러워지므로 기본은 숨기고,
+  // 🌿 녹지관리 / ✂️ 풀베기사업 탭: 구역명이 많아지면 지도가 어지러워지므로 기본은 숨기고,
   //    해당 구역을 클릭(선택)했을 때만 이름을 보이게 함
   const labelMap = mapTarget === null ? null :
-    (zt === 'green' && !isSel) ? null :
+    ((zt === 'green' || zt === 'mowing') && !isSel) ? null :
     (!showGroupLabels && z.groupId && groups.find(g=>g.id===z.groupId)) ? null : map;
 
   // grpHidden/mapTarget은 위에서 선언됨
