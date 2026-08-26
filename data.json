@@ -116441,15 +116441,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_23",
-      "name": "동빈나루",
-      "color": "#c62828",
-      "parentId": null,
-      "order": 16,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_24",
       "name": "연일읍",
       "color": "#c2185b",
@@ -116565,6 +116556,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T07:53:47.401Z",
+  "savedAt": "2026-08-26T07:54:32.637Z",
   "savedBy": "lms8765-ai"
 }
