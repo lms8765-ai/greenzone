@@ -90746,15 +90746,15 @@
     },
     {
       "id": "z_1787728213211",
-      "name": "새 관리구역",
+      "name": "두호동 산50-4",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1785976535546",
       "paths": [
         [
           {
@@ -91311,6 +91311,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T07:10:16.226Z",
+  "savedAt": "2026-08-26T07:10:23.384Z",
   "savedBy": "lms8765-ai"
 }
