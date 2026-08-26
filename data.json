@@ -111975,7 +111975,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -112410,7 +112410,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -112789,7 +112789,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -112912,7 +112912,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -113619,7 +113619,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -114079,7 +114079,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -114410,7 +114410,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -114621,7 +114621,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -114920,7 +114920,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -115115,7 +115115,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -115374,7 +115374,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#e65100",
+      "color": "#6a1b9a",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -116505,8 +116505,8 @@
     },
     {
       "id": "g_1787730460336",
-      "name": "냉천 하단구역",
-      "color": "#e65100",
+      "name": "냉천 하단지역",
+      "color": "#6a1b9a",
       "parentId": null,
       "order": 24,
       "tier": "mid",
@@ -116547,6 +116547,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T07:57:08.423Z",
+  "savedAt": "2026-08-26T08:02:49.260Z",
   "savedBy": "lms8765-ai"
 }
