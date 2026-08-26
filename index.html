@@ -3417,6 +3417,7 @@ let pinnedZones = new Set();   // 📌 즐겨찾기(고정)한 구역 ID 목록 
 let customWT = [];             // 커스텀 작업유형 목록
 let selId = null, editId = null, selWTs = [], pickedZoneColor = '#2e7d32';
 let newGrpColor = '#2e7d32';
+let editGrpColorSel = {}; // 그룹 색상 편집 중 임시 선택값 {gid: color}
 let curTab = 'list', zoneQ = '', fGrp = 'all', fSt = 'all', sortBy = 'name', fWP = 'all';
 let clickEv, dblEv, moveEv, clickGuard = false;
 // ⭕ 도형(원형) 그리기 전용 상태
@@ -5598,7 +5599,7 @@ function buildFilters() {
     wr.style.display = 'flex';
     wr.innerHTML = [{id:'all',name:'전체작업',color:'#3949ab'},...scopedWPFilter].map(p => {
       const on = p.id===fWP;
-      return `<span class="fchip ${on?'on':''}" onclick="setFWP('${p.id}')" style="border-color:${p.color||'#3949ab'};color:${on?'#fff':p.color||'#3949ab'};${on?'background:'+(p.color||'#3949ab'):''}">${p.icon||'🗂'} ${p.name}</span>`;
+      return `<span class="fchip ${on?'on':''}" onclick="setFWP('${p.id}')" style="border-color:${p.color||'#3949ab'};color:${on?'#fff':p.color||'#3949ab'};${on?'background:'+(p.color||'#3949ab'):''}">${p.icon||'🗂'} ${escapeHTML(p.name)}</span>`;
     }).join('');
   }
   const wpWrap = document.getElementById('filter-wp-wrap');
@@ -5787,8 +5788,8 @@ function zcardHTML(z) {
     </div>
     <div class="zcard-team">
       ${TEAMS[z.team]||z.team}
-      ${z.manager?`<span style="color:var(--text-m)"> · 👤${z.manager}</span>`:''}
-      ${z.workerDefault?`<span style="color:#5a7a9a"> · 🔧${z.workerDefault}</span>`:''}
+      ${z.manager?`<span style="color:var(--text-m)"> · 👤${escapeHTML(z.manager)}</span>`:''}
+      ${z.workerDefault?`<span style="color:#5a7a9a"> · 🔧${escapeHTML(z.workerDefault)}</span>`:''}
       ${hiddenZones.has(z.id)?'<span style="color:var(--orange)"> 🙈</span>':''}
     </div>
     <div class="zcard-tags">${tags}</div>
@@ -6092,15 +6093,15 @@ function renderDetailBody(el) {
   const logs=(z.logs||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
   el.innerHTML=`
     <div class="dp-info-sec">
-      ${grp?`<div class="dp-info-row"><span class="dp-info-k">그룹</span><span class="badge" style="background:${grp.color}18;color:${grp.color};border:1px solid ${grp.color}33">📁 ${grp.name}</span></div>`:''}
+      ${grp?`<div class="dp-info-row"><span class="dp-info-k">그룹</span><span class="badge" style="background:${grp.color}18;color:${grp.color};border:1px solid ${grp.color}33">📁 ${escapeHTML(grp.name)}</span></div>`:''}
       <div class="dp-info-row"><span class="dp-info-k">관리현황</span><span class="badge" style="background:${st.bg};color:${st.color};border:1px solid ${st.color}33">${st.label}</span></div>
-      <div class="dp-info-row"><span class="dp-info-k">관리자</span><span class="dp-info-v">${z.manager||'미지정'}</span></div>
-      <div class="dp-info-row"><span class="dp-info-k">작업자</span><span class="dp-info-v">${z.workerDefault||'미지정'}</span></div>
+      <div class="dp-info-row"><span class="dp-info-k">관리자</span><span class="dp-info-v">${escapeHTML(z.manager||'미지정')}</span></div>
+      <div class="dp-info-row"><span class="dp-info-k">작업자</span><span class="dp-info-v">${escapeHTML(z.workerDefault||'미지정')}</span></div>
       ${(z.paths&&z.paths.length>1)?`<div class="dp-info-row"><span class="dp-info-k">구간 수</span><span class="dp-info-v" style="color:var(--blue)">🧩 ${z.paths.length}개 구간 (떨어진 위치 묶음)</span></div>`:'' }
       ${(()=>{const prjs=workProjects.filter(wp=>(wp.zoneIds||[]).includes(z.id));return prjs.length?`<div class="dp-info-row" style="align-items:flex-start"><span class="dp-info-k">소속 사업</span><div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end">${prjs.map(wp=>`<span class="badge" style="background:${wp.color}18;color:${wp.color};border:1px solid ${wp.color}40">🏗️ ${escapeHTML(wp.name)}</span>`).join('')}</div></div>`:''})()}
       ${hiddenZones.has(z.id)?`<div class="dp-info-row"><span class="dp-info-k">표시상태</span><span class="dp-info-v" style="color:var(--orange)">🙈 지도에서 숨김</span></div>`:''}
       ${tags?`<div class="dp-info-row" style="align-items:flex-start;margin-top:4px"><span class="dp-info-k">작업유형</span><div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end">${tags}</div></div>`:''}
-      ${z.memo?`<div class="dp-memo">📌 ${z.memo}</div>`:''}
+      ${z.memo?`<div class="dp-memo">📌 ${escapeHTML(z.memo)}</div>`:''}
       <div class="dp-action-row">
         <div class="dp-action-btn" onclick="openEditModal()" style="background:#e8f5e9;color:#2e7d32;border-color:#c8e6c9">⚙️ 편집</div>
         <div class="dp-action-btn" onclick="openLogModal()" style="background:#e3f2fd;color:#1565c0;border-color:#90caf9">📝 기록</div>
@@ -6157,7 +6158,7 @@ function renderDetailBody(el) {
     const projBadge = l.isProject ? `<span class="badge" style="background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;margin-left:4px">📋 ${PROJ_TYPE_LABEL[p?.type]||'사업'}</span>` : '';
     const projInfo = l.isProject && p ? `
       <div style="background:#f0f7ff;border:1px solid #c0d8f0;border-radius:6px;padding:7px 10px;margin:5px 0;font-size:10px;line-height:1.8">
-        <div style="font-weight:800;color:#1565c0;margin-bottom:3px">📋 ${p.name||''}</div>
+        <div style="font-weight:800;color:#1565c0;margin-bottom:3px">📋 ${escapeHTML(p.name||'')}</div>
         ${p.company?`<div>🏢 계약업체: <strong>${p.company}</strong>${p.contact?' · '+p.contact:''}</div>`:''}
         ${p.amount?`<div>💰 계약금액: <strong style="color:#c2185b">${p.amount.toLocaleString()}원</strong> <span style="color:#546e7a">${formatKRW(p.amount)}</span></div>`:''}
         ${p.contractDate?`<div>📅 계약일: ${p.contractDate}</div>`:''}
@@ -6226,7 +6227,7 @@ function populateGroupSel() {
     return scoped.filter(g=>(g.parentId||null)===(parentId||null)).map(g=>{
       const prefix = depth > 0 ? '　'.repeat(depth) + '└ ' : '';
       const children = buildOpts(g.id, depth+1);
-      return `<option value="${g.id}">${prefix}${g.name}</option>` + children;
+      return `<option value="${g.id}">${prefix}${escapeHTML(g.name)}</option>` + children;
     }).join('');
   }
   document.getElementById('f-group').innerHTML =
@@ -6727,7 +6728,7 @@ function renderGroupList(){
   if (parentSel) {
     const roots = scopedGroups.filter(g=>!g.parentId);
     parentSel.innerHTML = '<option value="">없음 (최상위)</option>'
-      + roots.map(g=>`<option value="${g.id}">${g.name}</option>`).join('');
+      + roots.map(g=>`<option value="${g.id}">${escapeHTML(g.name)}</option>`).join('');
   }
 
   function renderGrpRow(g, depth) {
@@ -6760,9 +6761,9 @@ function renderGroupList(){
           삭제
         </button>
       </div>
-      <!-- 이름 수정 행 (기본 숨김) -->
-      <div id="grp-edit-row-${g.id}" style="display:none;align-items:center;gap:6px;padding:7px 8px;padding-left:${indent+4}px;background:#f0faf2">
-        <div style="width:12px;height:12px;border-radius:50%;background:${g.color};flex-shrink:0"></div>
+      <!-- 이름/색상 수정 행 (기본 숨김) -->
+      <div id="grp-edit-row-${g.id}" style="display:none;align-items:center;gap:6px;padding:7px 8px;padding-left:${indent+4}px;background:#f0faf2;flex-wrap:wrap">
+        <div id="grp-edit-dot-${g.id}" style="width:12px;height:12px;border-radius:50%;background:${g.color};flex-shrink:0"></div>
         <input id="grp-edit-input-${g.id}" type="text" value="${escapeHTML(g.name)}"
           placeholder="그룹 이름 입력"
           onkeydown="if(event.key==='Enter')saveGroupName('${g.id}');if(event.key==='Escape')cancelEditGroup('${g.id}')"
@@ -6775,6 +6776,10 @@ function renderGroupList(){
           style="flex-shrink:0;background:#fff;color:#666;border:1px solid #ddd;border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:inherit">
           취소
         </button>
+        <div style="width:100%;display:flex;align-items:center;gap:6px;margin-top:2px;padding-left:18px">
+          <span style="font-size:10px;color:var(--text-l);flex-shrink:0">색상</span>
+          <div id="grp-edit-colorgrid-${g.id}" style="display:flex;gap:5px;flex-wrap:wrap"></div>
+        </div>
       </div>
     </div>
     ${children.map(c=>renderGrpRow(c,depth+1)).join('')}`;
@@ -7001,9 +7006,9 @@ function renderWpList() {
     return `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid ${p.color||'#3949ab'}22;border-radius:10px;margin-bottom:8px;background:${p.color||'#3949ab'}08;cursor:pointer;transition:all .15s" onclick="openWpDetail('${p.id}')" onmouseover="this.style.background='${p.color||'#3949ab'}14'" onmouseout="this.style.background='${p.color||'#3949ab'}08'">
       <div style="width:36px;height:36px;border-radius:50%;background:${p.color||'#3949ab'};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">${w.icon}</div>
       <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:800;color:var(--text)">${p.name}</div>
+        <div style="font-size:13px;font-weight:800;color:var(--text)">${escapeHTML(p.name)}</div>
         <div style="font-size:10px;color:var(--text-l);margin-top:2px">${w.label} · ${period}</div>
-        ${p.manager?`<div style="font-size:10px;color:var(--text-l)">👤 ${p.manager}</div>`:''}
+        ${p.manager?`<div style="font-size:10px;color:var(--text-l)">👤 ${escapeHTML(p.manager)}</div>`:''}
       </div>
       <div style="text-align:right;flex-shrink:0">
         <div style="font-size:18px;font-weight:800;color:${p.color||'#3949ab'}">${cnt}</div>
@@ -7057,13 +7062,13 @@ function openWpDetail(wpId) {
     <div style="display:flex;gap:10px;align-items:center;padding:12px;background:${wp.color||'#3949ab'}0f;border-radius:10px;border:1.5px solid ${wp.color||'#3949ab'}25">
       <div style="width:44px;height:44px;border-radius:50%;background:${wp.color||'#3949ab'};display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${w.icon}</div>
       <div style="flex:1">
-        <div style="font-size:14px;font-weight:800;color:var(--text)">${wp.name}</div>
+        <div style="font-size:14px;font-weight:800;color:var(--text)">${escapeHTML(wp.name)}</div>
         <div style="font-size:11px;color:var(--text-l);margin-top:3px">
           ${w.label}
-          ${wp.manager?' · 👤'+wp.manager:''}
+          ${wp.manager?' · 👤'+escapeHTML(wp.manager):''}
           ${' · 📅 '+period}
         </div>
-        ${wp.memo?`<div style="font-size:11px;color:var(--text-m);margin-top:3px">📌 ${wp.memo}</div>`:''}
+        ${wp.memo?`<div style="font-size:11px;color:var(--text-m);margin-top:3px">📌 ${escapeHTML(wp.memo)}</div>`:''}
       </div>
     </div>`;
 
@@ -7179,7 +7184,7 @@ function getZoneWpBadges(zoneId) {
     .filter(p=>(p.zoneIds||[]).includes(zoneId))
     .map(p=>{
       const w=WT.find(x=>x.id===p.type)||{icon:'📋'};
-      return `<span class="badge" style="background:${p.color||'#3949ab'}15;color:${p.color||'#3949ab'};border:1px solid ${p.color||'#3949ab'}33">${w.icon} ${p.name}</span>`;
+      return `<span class="badge" style="background:${p.color||'#3949ab'}15;color:${p.color||'#3949ab'};border:1px solid ${p.color||'#3949ab'}33">${w.icon} ${escapeHTML(p.name)}</span>`;
     }).join('');
 }
 
@@ -7996,7 +8001,7 @@ function filterCpOverdue() {
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHTML(c.content||'-')}</td>
       <td style="color:#c62828;font-weight:700">${c.deadline}</td>
       <td><span class="cp-badge" style="background:${st.bg};color:${st.color}">${c.status}</span></td>
-      <td>${txt}</td><td>${c.manager||'-'}</td>
+      <td>${txt}</td><td>${escapeHTML(c.manager||'-')}</td>
       <td><button onclick="event.stopPropagation();openCpDetailPanel('${c.id}')" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-br);border-radius:4px;padding:3px 8px;font-size:10px;cursor:pointer;font-family:inherit">📍 상세</button></td>
     </tr>`;
   }).join('');
@@ -8029,7 +8034,7 @@ function populateRoseZoneSel() {
   const sel = document.getElementById('rose-zone-sel');
   if (!sel) return;
   sel.innerHTML = '<option value="">-- 구역 선택 --</option>'
-    + zones.map(z=>`<option value="${z.id}">${z.name}</option>`).join('');
+    + zones.map(z=>`<option value="${z.id}">${escapeHTML(z.name)}</option>`).join('');
 }
 
 function onRoseZoneSel(zid) {
@@ -8254,9 +8259,9 @@ function renderRoseTable() {
       <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${escapeHTML(speciesStr)}">${escapeHTML(speciesStr||'-')}</td>
       <td style="font-weight:700;color:var(--rose)">${totalQ>0?totalQ.toLocaleString()+'주':'-'}</td>
       <td>${yearsStr}</td>
-      <td>${r.plantCo||'-'}</td>
-      <td>${r.manager||'-'}</td>
-      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.memo||'-'}</td>
+      <td>${escapeHTML(r.plantCo||'-')}</td>
+      <td>${escapeHTML(r.manager||'-')}</td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHTML(r.memo||'-')}</td>
       <td>${replantCnt>0?`<span class="cp-badge" style="background:#e8f5e9;color:#2e7d32">${replantCnt}회</span>`:'없음'}</td>
       <td>
         <button onclick="event.stopPropagation();openRoseEditModal('${r.id}')"
@@ -9457,12 +9462,34 @@ function startEditGroup(gid) {
   if (viewRow) viewRow.style.display = 'none';
   if (editRow) {
     editRow.style.display = 'flex';
+    buildGrpEditColorGrid(gid);
     // 입력창 포커스 + 전체 선택
     setTimeout(() => {
       const inp = document.getElementById('grp-edit-input-' + gid);
       if (inp) { inp.focus(); inp.select(); }
     }, 50);
   }
+}
+
+// 그룹 편집 행의 색상 선택 그리드 채우기 (현재 그룹 색상을 기본 선택)
+function buildGrpEditColorGrid(gid) {
+  const g = groups.find(x => x.id === gid);
+  const grid = document.getElementById('grp-edit-colorgrid-' + gid);
+  if (!g || !grid) return;
+  editGrpColorSel[gid] = g.color;
+  grid.innerHTML = GROUP_COLORS.map(c =>
+    `<div class="color-dot${c===g.color?' on':''}" onclick="selEditGrpColor('${gid}','${c}')" style="background:${c};width:16px;height:16px;border-width:2px"></div>`
+  ).join('');
+}
+
+function selEditGrpColor(gid, c) {
+  editGrpColorSel[gid] = c;
+  const grid = document.getElementById('grp-edit-colorgrid-' + gid);
+  if (grid) {
+    Array.from(grid.children).forEach((el, i) => el.classList.toggle('on', GROUP_COLORS[i] === c));
+  }
+  const dot = document.getElementById('grp-edit-dot-' + gid);
+  if (dot) dot.style.background = c;
 }
 
 function cancelEditGroup(gid) {
@@ -9474,6 +9501,7 @@ function cancelEditGroup(gid) {
   const g = groups.find(x => x.id === gid);
   const inp = document.getElementById('grp-edit-input-' + gid);
   if (g && inp) inp.value = g.name;
+  delete editGrpColorSel[gid];
 }
 
 function saveGroupName(gid) {
@@ -9494,21 +9522,35 @@ function saveGroupName(gid) {
     inp.focus(); inp.select();
     return;
   }
-  // 변경사항 없으면 그냥 닫기
   const g = groups.find(x => x.id === gid);
   if (!g) return;
-  if (g.name === newName) {
+  const newColor = editGrpColorSel[gid] || g.color;
+  const nameChanged = g.name !== newName;
+  const colorChanged = newColor !== g.color;
+  // 변경사항 없으면 그냥 닫기
+  if (!nameChanged && !colorChanged) {
     cancelEditGroup(gid);
     return;
   }
   const oldName = g.name;
   g.name = newName;
-  // 저장 + 사이드바 갱신 + 그룹 목록 갱신
+  let affectedCnt = 0;
+  if (colorChanged) {
+    g.color = newColor;
+    // 이 그룹에 직접 속한 구역들의 색상도 함께 자동 반영 (하위 그룹은 각자 색상 유지)
+    zones.forEach(z => { if (z.groupId === gid) { z.color = newColor; affectedCnt++; } });
+  }
+  delete editGrpColorSel[gid];
+  // 저장 + 지도/사이드바/그룹 목록 갱신
   saveAll();
+  if (colorChanged) redrawAll();
   renderSidebar();
+  renderDetail();
   buildFilters();
   renderGroupList(); // 목록 전체 재렌더
-  showToast('✅ "' + oldName + '" → "' + newName + '" 으로 변경되었습니다.');
+  let msg = nameChanged ? ('✅ "' + oldName + '" → "' + newName + '" 으로 변경되었습니다.') : ('✅ "' + newName + '" 저장되었습니다.');
+  if (colorChanged) msg += affectedCnt > 0 ? (' 소속 구역 ' + affectedCnt + '개 색상도 함께 변경됨.') : ' 색상이 변경되었습니다.';
+  showToast(msg);
 }
 
 
@@ -12564,7 +12606,7 @@ function updateMultiSelectBar() {
 function openBulkGroupModal() {
   if (!requireEditUnlock()) return;
   if (multiSelectedZones.size === 0) { showToast('⚠️ 먼저 구역을 하나 이상 선택해주세요.'); return; }
-  const options = groups.slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'','ko')).map(g => `<option value="${g.id}">${g.parentId?'　':''}${g.name}</option>`).join('');
+  const options = groups.slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'','ko')).map(g => `<option value="${g.id}">${g.parentId?'　':''}${escapeHTML(g.name)}</option>`).join('');
   showBulkGroupPicker(options);
 }
 
