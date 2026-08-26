@@ -1813,6 +1813,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   <span class="tb-label">보기</span>
   <button class="tb-btn gray" onclick="fitAll()" title="전체 구역 보기">🔭 전체보기</button>
   <button class="tb-btn gray mut-btn" onclick="recalcAllZoneAreas()" title="면적 계산 오류 수정 — 위도 이중보정 버그로 작게 표시되던 면적을 재계산 (일회성 도구)">🔧 면적 재계산</button>
+  <button class="tb-btn gray mut-btn" onclick="resetMowingTabFromGreen()" title="풀베기사업 탭의 기존 데이터를 모두 삭제하고, 녹지관리 탭 구역(도형·이름·색상·풀베기 면적)과 그룹을 복사해 채워넣기 (일회성 도구)">🔧 풀베기 탭 초기화+복사</button>
   <button class="tb-btn gray" onclick="goMyLocation()" title="현재 위치">📍 내 위치</button>
   <button class="tb-btn gray" id="btn-cadastral" onclick="toggleCadastralLayer()" title="실제 지적(필지) 경계선 표시/숨김 — 화면을 확대할수록 정확하게 표시됩니다">📐 지적경계</button>
   <button class="tb-btn gray" onclick="toggleFullscreen()" title="전체화면">⛶</button>
@@ -15461,6 +15462,89 @@ function recalcAllZoneAreas() {
       { label:'취소', cls:'secondary', fn:null },
     ]
   );
+}
+
+/* ══════════════════════════════════════════════
+   🔧 풀베기사업 탭 초기화 후 녹지관리 구역 복사 (일회성 도구)
+   — 풀베기사업 탭의 기존 구역/그룹/작업묶음을 전부 삭제하고,
+     녹지관리 탭의 구역(도형·이름·색상·풀베기 면적)과 그룹 구조를 복사해 채워넣는다.
+     작업기록·수종/수량 정보는 복사하지 않음(요청사항 반영).
+══════════════════════════════════════════════ */
+function resetMowingTabFromGreen() {
+  if (!requireEditUnlock()) return;
+  const greenZones = zones.filter(z => zoneTypeOf(z) === 'green');
+  const mowingZonesExisting = zones.filter(z => zoneTypeOf(z) === 'mowing');
+  const mowingGroupsExisting = groups.filter(g => (g.zoneType||'green') === 'mowing');
+  if (!greenZones.length) { showToast('⚠️ 녹지관리 탭에 복사할 구역이 없습니다.'); return; }
+
+  const cfmMsg = `풀베기사업 탭의 기존 구역 ${mowingZonesExisting.length}개·그룹 ${mowingGroupsExisting.length}개를 모두 삭제하고,
+
+녹지관리 탭의 구역 ${greenZones.length}개(도형·이름·색상·풀베기 면적)와 그룹 구조를 복사해
+풀베기사업 탭에 새로 채워 넣습니다. (작업기록·수종/수량 정보는 복사하지 않습니다)
+
+⚠️ 이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?`;
+  showConfirm(
+    cfmMsg,
+    '🔧',
+    [
+      { label:'실행', cls:'danger', fn: () => doResetMowingTabFromGreen(greenZones, mowingZonesExisting, mowingGroupsExisting) },
+      { label:'취소', cls:'secondary', fn:null },
+    ]
+  );
+}
+function doResetMowingTabFromGreen(greenZones, mowingZonesExisting, mowingGroupsExisting) {
+  // 1) 기존 풀베기사업 데이터 삭제 (지도 객체 정리 + 관련 참조 정리)
+  const delZoneIds = new Set(mowingZonesExisting.map(z=>z.id));
+  const delGroupIds = new Set(mowingGroupsExisting.map(g=>g.id));
+  mowingZonesExisting.forEach(z => {
+    if (z.polygons) z.polygons.forEach(p=>{if(p)p.setMap(null);});
+    ['polygon','label','labelD'].forEach(k=>{if(z[k])z[k].setMap(null);});
+  });
+  zones = zones.filter(z => !delZoneIds.has(z.id));
+  groups = groups.filter(g => !delGroupIds.has(g.id));
+  workProjects = workProjects.filter(wp => (wp.zoneType||'green') !== 'mowing');
+  workProjects.forEach(p => { p.zoneIds = (p.zoneIds||[]).filter(id => !delZoneIds.has(id)); });
+  roseZones.forEach(r => { if (delZoneIds.has(r.zoneId)) r.zoneId = ''; });
+  delZoneIds.forEach(id => { hiddenZones.delete(id); pinnedZones.delete(id); });
+  delGroupIds.forEach(id => hiddenGroups.delete(id));
+
+  // 2) 녹지관리 그룹 구조 복제 (상위 → 하위 순서로, 새 id 매핑)
+  const greenGroups = groups.filter(g => (g.zoneType||'green') === 'green');
+  const groupIdMap = {};
+  let cloneSeq = 0;
+  function cloneGroupLevel(parentId, newParentId) {
+    greenGroups.filter(g => (g.parentId||null) === parentId).forEach((g, i) => {
+      const newId = 'g_' + Date.now() + '_' + (cloneSeq++);
+      groups.push({ id:newId, name:g.name, color:g.color, parentId:newParentId||null, order:g.order||i, tier:g.tier||'mid', zoneType:'mowing' });
+      groupIdMap[g.id] = newId;
+      cloneGroupLevel(g.id, newId);
+    });
+  }
+  cloneGroupLevel(null, null);
+
+  // 3) 녹지관리 구역 → 풀베기사업 구역으로 복사 (도형·이름·색상·풀베기 면적만; 작업기록·수량정보 제외)
+  greenZones.forEach((z, i) => {
+    const newId = 'z_' + Date.now() + '_' + i;
+    const newPaths = (z.paths && z.paths.length) ? JSON.parse(JSON.stringify(z.paths)) : (z.path ? [JSON.parse(JSON.stringify(z.path))] : []);
+    const nz = {
+      id: newId, name: z.name,
+      zoneType: 'mowing',
+      team: z.team || 'greenway', status: 'pending',
+      workTypes: [], memo: '', manager: '', workerDefault: '',
+      color: z.color || '#2e7d32',
+      groupId: (z.groupId && groupIdMap[z.groupId]) ? groupIdMap[z.groupId] : '',
+      path: newPaths[0] || z.path, paths: newPaths,
+      area: z.area || 0,
+      mowingArea: z.mowingArea || 0, facilityCount: 0,
+      treeCounts: [], shrubCounts: [],
+      logs: [],
+      polygon: null, polygons: [], label: null, labelD: null,
+    };
+    zones.push(nz);
+  });
+
+  saveAll(); redrawAll(); renderSidebar(); renderDetail(); buildFilters(); updateHeaderStats(); updateToolbar();
+  showToast('✅ 풀베기사업 탭을 초기화하고 녹지관리 구역 ' + greenZones.length + '개를 복사했습니다.');
 }
 
 
