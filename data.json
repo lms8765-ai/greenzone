@@ -89878,15 +89878,15 @@
     },
     {
       "id": "z_1787711608647",
-      "name": "새 관리구역",
+      "name": "오천읍 문덕리 161-188",
       "team": "greenway",
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#2e7d32",
-      "groupId": "",
+      "color": "#c62828",
+      "groupId": "g_1787705714200",
       "paths": [
         [
           {
@@ -90595,6 +90595,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-26T02:33:31.661Z",
+  "savedAt": "2026-08-26T02:34:00.034Z",
   "savedBy": "lms8765-ai"
 }
