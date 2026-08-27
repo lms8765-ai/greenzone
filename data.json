@@ -108498,7 +108498,7 @@
     },
     {
       "id": "z_1787873426556",
-      "name": "송도솔밭",
+      "name": "송도솔밭 1구역",
       "team": "greenway",
       "status": "pending",
       "zoneType": "mowing",
@@ -108606,7 +108606,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 15704,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -109283,6 +109283,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T23:31:03.800Z",
+  "savedAt": "2026-08-27T23:31:50.742Z",
   "savedBy": "lms8765-ai"
 }
