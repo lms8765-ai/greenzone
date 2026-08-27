@@ -109619,15 +109619,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_19",
-      "name": "송도솔밭(송림)",
-      "color": "#2e7d32",
-      "parentId": "g_1787729382060_18",
-      "order": 0,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_20",
       "name": "형산강",
       "color": "#8e24aa",
@@ -109806,6 +109797,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T23:48:10.592Z",
+  "savedAt": "2026-08-27T23:48:18.703Z",
   "savedBy": "lms8765-ai"
 }
