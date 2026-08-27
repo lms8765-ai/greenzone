@@ -5837,12 +5837,15 @@ function renderStats(el) {
   const byStatus = Object.entries(ST).map(([k,v]) => ({...v, count: tabZones.filter(z=>z.status===k).length}));
   const byWT     = WT.map(w => ({...w, count: tabZones.filter(z=>(z.workTypes||[]).includes(w.id)).length})).filter(w=>w.count>0);
   // 📊 그룹별 집계: 구역 수·총 면적뿐 아니라 풀베기 면적, 교목/관목 수종별 수량, 시설물 개수까지 확장
-  // 🌳 시 전체 수종 총계 (탭 구분 없이 전체 구역 합산)
-  const allTreeAgg    = aggregateSpeciesCounts(zones, 'treeCounts');
-  const allShrubAgg   = aggregateSpeciesCounts(zones, 'shrubCounts');
-  const allMowingArea = zones.reduce((s,z)=>s+(z.mowingArea||0),0);
-  const allFacility   = zones.reduce((s,z)=>s+(z.facilityCount||0),0);
-  const allTotalArea  = zones.reduce((s,z)=>s+(z.area||0),0);
+  // 🌳 탭 전체 수종 총계 — 현재 보고 있는 탭(zoneType)의 구역만 합산.
+  //    예전에는 탭 구분 없이 zones 전체(5개 탭 통합)를 합산해서, 수종 데이터가
+  //    없는 풀베기사업/초화식재/장미 탭에서도 녹지관리 탭의 교목/관목 수량이
+  //    섞여 표시되는 문제가 있었음 (2026-08-27 신고 건) → tabZones로 범위 제한
+  const allTreeAgg    = aggregateSpeciesCounts(tabZones, 'treeCounts');
+  const allShrubAgg   = aggregateSpeciesCounts(tabZones, 'shrubCounts');
+  const allMowingArea = tabZones.reduce((s,z)=>s+(z.mowingArea||0),0);
+  const allFacility   = tabZones.reduce((s,z)=>s+(z.facilityCount||0),0);
+  const allTotalArea  = tabZones.reduce((s,z)=>s+(z.area||0),0);
 
   const byGrp = groups.map(g => {
     const gZones = tabZones.filter(z=>z.groupId===g.id);
@@ -5933,7 +5936,7 @@ function renderStats(el) {
     <!-- 🌳 시 전체 수종 총계 (그룹/탭 구분 없이 전체 합산) -->
     <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
       <div style="display:flex;align-items:center;margin-bottom:10px">
-        <div style="font-size:12px;font-weight:700;color:var(--text)">🌳 시 전체 수종 총계 <span style="font-weight:400;color:var(--text-l)">(전체 탭 합산)</span></div>
+        <div style="font-size:12px;font-weight:700;color:var(--text)">🌳 전체 수종 총계 <span style="font-weight:400;color:var(--text-l)">(현재 탭 전체 구역 합산)</span></div>
         <button onclick="exportSpeciesSummaryCSV()" style="margin-left:auto;background:var(--green-bg);color:var(--green);border:1px solid var(--green-br);border-radius:14px;padding:3px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">📊 엑셀로 내보내기</button>
       </div>
       <div style="display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap;font-size:11px">
