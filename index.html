@@ -9515,15 +9515,16 @@ function saveGroupName(gid) {
     inp.focus();
     return;
   }
-  // 이름 중복 검사 (자기 자신 제외)
-  const isDup = groups.some(x => x.id !== gid && x.name === newName);
+  const g = groups.find(x => x.id === gid);
+  if (!g) return;
+  // 이름 중복 검사 (자기 자신 제외, 같은 탭(zoneType) 내에서만 검사 —
+  // 탭끼리는 완전히 분리 관리되므로 다른 탭에 같은 이름의 그룹이 있어도 무관)
+  const isDup = groups.some(x => x.id !== gid && x.name === newName && (x.zoneType||'green') === (g.zoneType||'green'));
   if (isDup) {
     showToast('⚠️ 이미 같은 이름의 그룹이 있습니다. 다른 이름을 입력해주세요.');
     inp.focus(); inp.select();
     return;
   }
-  const g = groups.find(x => x.id === gid);
-  if (!g) return;
   const newColor = editGrpColorSel[gid] || g.color;
   const nameChanged = g.name !== newName;
   const colorChanged = newColor !== g.color;
