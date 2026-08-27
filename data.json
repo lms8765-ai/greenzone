@@ -109752,6 +109752,15 @@
       "order": 26,
       "tier": "mid",
       "zoneType": "rose"
+    },
+    {
+      "id": "g_1787874408866",
+      "name": "송도솔밭 1구역",
+      "color": "#00acc1",
+      "parentId": "g_1787729382060_18",
+      "order": 1,
+      "tier": "mid",
+      "zoneType": "mowing"
     }
   ],
   "customDepts": [],
@@ -109788,6 +109797,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T23:42:04.892Z",
+  "savedAt": "2026-08-27T23:46:50.876Z",
   "savedBy": "lms8765-ai"
 }
