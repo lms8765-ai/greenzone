@@ -59348,7 +59348,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -59527,7 +59527,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -60298,7 +60298,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -61261,7 +61261,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -61504,7 +61504,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -61715,7 +61715,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -62062,7 +62062,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -62457,7 +62457,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -62620,7 +62620,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -62695,7 +62695,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -62994,7 +62994,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -66109,7 +66109,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#fdd835",
       "groupId": "g_1787729382060_0",
       "paths": [
         [
@@ -116289,8 +116289,8 @@
     },
     {
       "id": "g_1787729382060_0",
-      "name": "지곡단지",
-      "color": "#6a1b9a",
+      "name": "지곡동",
+      "color": "#fdd835",
       "parentId": null,
       "order": 0,
       "tier": "mid",
@@ -116547,6 +116547,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T01:08:17.882Z",
+  "savedAt": "2026-08-27T01:09:04.968Z",
   "savedBy": "lms8765-ai"
 }
