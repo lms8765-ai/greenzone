@@ -113983,6 +113983,15 @@
       "order": 1,
       "tier": "mid",
       "zoneType": "mowing"
+    },
+    {
+      "id": "g_1787806061699",
+      "name": "직영관리",
+      "color": "#43a047",
+      "parentId": null,
+      "order": 25,
+      "tier": "mid",
+      "zoneType": "mowing"
     }
   ],
   "customDepts": [],
@@ -114019,6 +114028,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T04:39:47.727Z",
+  "savedAt": "2026-08-27T04:47:41.927Z",
   "savedBy": "lms8765-ai"
 }
