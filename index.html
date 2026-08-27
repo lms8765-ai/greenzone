@@ -1322,6 +1322,13 @@ body.tab-rose .zcard.active { border-left-color: var(--rose); }
 }
 .color-dot:hover  { transform: scale(1.15); }
 .color-dot.on { border-color: #1a2e1a; transform: scale(1.2); }
+.color-more-toggle {
+  display: inline-flex; align-items: center;
+  font-size: 10px; color: var(--text-l); font-weight: 700;
+  cursor: pointer; padding: 2px 6px; user-select: none;
+  align-self: center;
+}
+.color-more-toggle:hover { color: var(--green); text-decoration: underline; }
 
 /* ══════════════════════════════════════════════════
    확인 다이얼로그
@@ -3386,8 +3393,19 @@ const ST = {
   completed: {label:'완료',     color:'#1565c0', bg:'#e3f2fd'},
   suspended: {label:'중단',     color:'#546e7a', bg:'#f5f5f5'},
 };
-const ZONE_COLORS = ['#c2185b','#2e7d32','#1565c0','#e65100','#6a1b9a','#00838f','#c62828','#558b2f','#37474f','#f57f17'];
-const GROUP_COLORS= ['#2e7d32','#c2185b','#1565c0','#e65100','#6a1b9a','#00838f','#795548','#37474f','#558b2f','#c62828'];
+// 🎨 구역/그룹 식별 색상 팔레트 (15색) — 위성사진(항공사진) 위에서도 잘 구분되도록
+//    채도 높은 색 위주로 구성. 흙·아스팔트·그림자와 헷갈리는 검정/짙은 회색·갈색 계열,
+//    식생과 겹치는 탁한 초록 계열은 제외하고 빨강→주황→노랑→초록→청록→파랑→보라→핑크
+//    순으로 색상환을 고르게 순회하도록 구성 (초록·라임은 각 1색만 포함해 위성 식생과 구분)
+const ZONE_COLORS = ['#e53935','#f4511e','#fb8c00','#ffb300','#fdd835','#c0ca33','#43a047','#00897b','#00acc1','#039be5','#1e88e5','#3949ab','#5e35b1','#8e24aa','#d81b60'];
+const GROUP_COLORS = ZONE_COLORS;
+const COLOR_NAMES = {
+  '#e53935':'빨강', '#f4511e':'진한 주황', '#fb8c00':'주황', '#ffb300':'황금색',
+  '#fdd835':'노랑', '#c0ca33':'라임', '#43a047':'초록', '#00897b':'청록',
+  '#00acc1':'시안', '#039be5':'하늘색', '#1e88e5':'파랑', '#3949ab':'남색',
+  '#5e35b1':'진보라', '#8e24aa':'보라', '#d81b60':'로즈핑크',
+};
+const COLOR_GRID_VISIBLE = 8; // 색상 그리드 기본 노출 개수 (나머지는 "더보기"로 펼침)
 const KEY = 'phgz_v5';
 // 커스텀 부서 목록 (기본 + 사용자 추가)
 var customDepts = [];
@@ -3415,8 +3433,8 @@ let hiddenZones = new Set();   // 지도에서 숨긴 구역 ID 목록
 let hiddenGroups = new Set();  // 지도에서 숨긴 그룹 ID 목록
 let pinnedZones = new Set();   // 📌 즐겨찾기(고정)한 구역 ID 목록 — 목록 맨 위에 항상 노출
 let customWT = [];             // 커스텀 작업유형 목록
-let selId = null, editId = null, selWTs = [], pickedZoneColor = '#2e7d32';
-let newGrpColor = '#2e7d32';
+let selId = null, editId = null, selWTs = [], pickedZoneColor = '#43a047';
+let newGrpColor = '#43a047';
 let editGrpColorSel = {}; // 그룹 색상 편집 중 임시 선택값 {gid: color}
 let curTab = 'list', zoneQ = '', fGrp = 'all', fSt = 'all', sortBy = 'name', fWP = 'all';
 let clickEv, dblEv, moveEv, clickGuard = false;
@@ -3682,7 +3700,7 @@ function buildDataObj() {
       id:z.id, name:z.name, team:z.team, status:z.status,
       zoneType: zoneTypeOf(z),
       workTypes:z.workTypes, memo:z.memo, manager:z.manager||'',
-      color:z.color||'#2e7d32', groupId:z.groupId||'',
+      color:z.color||'#43a047', groupId:z.groupId||'',
       paths:z.paths||null, path:z.path, area:z.area, logs:z.logs,
       workerDefault:z.workerDefault||'',
       nextWorkDate:z.nextWorkDate||'', nextWorkType:z.nextWorkType||'',
@@ -4370,7 +4388,7 @@ function sampleZones() {
     },
     { id:'z4', name:'형산강 수변 녹지', team:'greenway', status:'active', workTypes:['pruning','mowing'],
       zoneType:'green',
-      memo:'형산강 좌안 수변 녹지 구간.', manager:'박지수', color:'#2e7d32', groupId:'g2',
+      memo:'형산강 좌안 수변 녹지 구간.', manager:'박지수', color:'#43a047', groupId:'g2',
       path:[{lat:36.0200,lng:129.3450},{lat:36.0215,lng:129.3480},{lat:36.0200,lng:129.3500},{lat:36.0185,lng:129.3470}], area:0, logs:[]
     },
   ];
@@ -4772,7 +4790,7 @@ async function createZoneFromParcel(lat, lng, addr) {
       team: 'greenway', status: 'pending',
       workTypes: [], memo: '지번 경계 자동 불러오기(브이월드 PNU 정확매칭): '+jibunAddr,
       manager: '', workerDefault: '',
-      color: currentAppTab === 'rose' ? '#c0392b' : '#2e7d32', groupId: '',
+      color: currentAppTab === 'rose' ? '#c0392b' : '#43a047', groupId: '',
       path: matched, paths: [matched], area,
       logs: [], polygon: null, polygons: [], label: null, labelD: null
     };
@@ -5176,7 +5194,7 @@ function finishDraw() {
     zoneType: getCurrentZoneType(),
     team:'greenway', status:'pending',
     workTypes:[], memo:'', manager:'', workerDefault:'',
-    color: currentAppTab === 'rose' ? '#c0392b' : '#2e7d32', groupId:'',
+    color: currentAppTab === 'rose' ? '#c0392b' : '#43a047', groupId:'',
     path: finalPaths[0], paths: finalPaths,
     area: totalArea, logs:[],
     polygon:null, polygons:[], label:null, labelD:null
@@ -6191,15 +6209,48 @@ function buildWTGrid() {
     `<button class="wt-btn" id="wt-${w.id}" onclick="toggleWT('${w.id}')" style="border-color:${w.color};color:${w.color}">${w.icon} ${w.label}</button>`
   ).join('');
 }
+// 색상 점(dot) 그리드 공통 생성 — colors.length가 COLOR_GRID_VISIBLE보다 많으면
+// 뒷부분은 기본 숨김 처리하고 "더보기" 토글로 펼칠 수 있게 함
+// buildOnclick: 색상값(c)을 받아 onclick에 넣을 JS 호출 문자열을 만들어주는 함수
+function colorDotsHTML(colors, idPrefix, buildOnclick, sizePx, selectedColor, extraStyle) {
+  const sizeStyle = sizePx ? `width:${sizePx}px;height:${sizePx}px;` : '';
+  const dots = colors.map((c,i) => {
+    const isMore = i >= COLOR_GRID_VISIBLE;
+    const isSel = selectedColor && c === selectedColor;
+    return `<div class="color-dot${isSel?' on':''}" id="${idPrefix}-${c.replace('#','')}" data-more="${isMore?'1':'0'}" title="${COLOR_NAMES[c]||''}" onclick="${buildOnclick(c)}" style="background:${c};${sizeStyle}${extraStyle||''}${isMore?'display:none;':''}${isSel?'border-color:#1a2e1a':''}"></div>`;
+  }).join('');
+  const moreCnt = colors.length - COLOR_GRID_VISIBLE;
+  const toggle = moreCnt > 0 ? `<span class="color-more-toggle" onclick="toggleColorGridMore(this)">▾ 더보기(+${moreCnt})</span>` : '';
+  return dots + toggle;
+}
+// 숨겨진 색상 더보기 토글 (해당 그리드 내부 클릭 시 펼침/접힘)
+function toggleColorGridMore(btn) {
+  const grid = btn.parentElement;
+  const expanding = !grid.classList.contains('expanded');
+  grid.classList.toggle('expanded', expanding);
+  const moreDots = grid.querySelectorAll('.color-dot[data-more="1"]');
+  moreDots.forEach(d => { d.style.display = expanding ? '' : 'none'; });
+  btn.textContent = expanding ? '▴ 접기' : `▾ 더보기(+${moreDots.length})`;
+}
+// 특정 색상이 "더보기"에 가려져 있으면 자동으로 펼침 (편집 중인 구역/그룹의 현재 색이 숨김 영역일 때)
+function revealColorInGrid(gridEl, hex) {
+  if (!gridEl || !hex) return;
+  const dot = gridEl.querySelector(`.color-dot[data-more="1"][id$="${hex.replace('#','')}"]`);
+  if (!dot) return;
+  gridEl.classList.add('expanded');
+  gridEl.querySelectorAll('.color-dot[data-more="1"]').forEach(d => { d.style.display=''; });
+  const t = gridEl.querySelector('.color-more-toggle');
+  if (t) t.textContent = '▴ 접기';
+}
 function buildColorGrid() {
-  document.getElementById('f-color-grid').innerHTML = ZONE_COLORS.map(c =>
-    `<div class="color-dot" id="cdot-${c.replace('#','')}" onclick="setZoneColor('${c}')" style="background:${c}"></div>`
-  ).join('');
+  const grid = document.getElementById('f-color-grid');
+  grid.innerHTML = colorDotsHTML(ZONE_COLORS, 'cdot', c => `setZoneColor('${c}')`, 28, pickedZoneColor);
+  revealColorInGrid(grid, pickedZoneColor);
 }
 function buildGroupColorGrid() {
-  document.getElementById('new-grp-color-grid').innerHTML = GROUP_COLORS.map(c =>
-    `<div class="color-dot" id="gcdot-${c.replace('#','')}" onclick="selNewGrpColor('${c}')" style="background:${c};width:20px;height:20px"></div>`
-  ).join('');
+  const grid = document.getElementById('new-grp-color-grid');
+  grid.innerHTML = colorDotsHTML(GROUP_COLORS, 'gcdot', c => `selNewGrpColor('${c}')`, 20, newGrpColor);
+  revealColorInGrid(grid, newGrpColor);
 }
 function toggleWT(id) {
   selWTs = selWTs.includes(id) ? selWTs.filter(x=>x!==id) : [...selWTs,id];
@@ -6272,10 +6323,11 @@ function openEditModal() {
   if (ztEl) ztEl.value = z.zoneType || (getCurrentZoneType());
   selWTs=[...(z.workTypes||[])];
   WT.forEach(w=>{const b=document.getElementById('wt-'+w.id);if(!b)return;const on=selWTs.includes(w.id);b.classList.toggle('on',on);b.style.background=on?w.color:'#f8f8f8';b.style.color=on?'#fff':w.color;});
-  pickedZoneColor=z.color||'#2e7d32';
+  pickedZoneColor=z.color||'#43a047';
   document.querySelectorAll('#f-color-grid .color-dot').forEach(el=>{el.classList.remove('on');el.style.borderColor='transparent';});
-  const cd=document.getElementById('cdot-'+(z.color||'#2e7d32').replace('#',''));
+  const cd=document.getElementById('cdot-'+(z.color||'#43a047').replace('#',''));
   if(cd){cd.classList.add('on');cd.style.borderColor='#1a2e1a';}
+  revealColorInGrid(document.getElementById('f-color-grid'), pickedZoneColor);
   // 구간 관리 섹션 (기존 구역 편집 시에만, 새 구역 제외)
   const isExisting = z.name !== '새 관리구역' && (z.paths||z.path);
   const mpSec = document.getElementById('f-multipart-section');
@@ -9477,16 +9529,15 @@ function buildGrpEditColorGrid(gid) {
   const grid = document.getElementById('grp-edit-colorgrid-' + gid);
   if (!g || !grid) return;
   editGrpColorSel[gid] = g.color;
-  grid.innerHTML = GROUP_COLORS.map(c =>
-    `<div class="color-dot${c===g.color?' on':''}" onclick="selEditGrpColor('${gid}','${c}')" style="background:${c};width:16px;height:16px;border-width:2px"></div>`
-  ).join('');
+  grid.innerHTML = colorDotsHTML(GROUP_COLORS, 'gedot-'+gid, c => `selEditGrpColor('${gid}','${c}')`, 16, g.color, 'border-width:2px;');
+  revealColorInGrid(grid, g.color);
 }
 
 function selEditGrpColor(gid, c) {
   editGrpColorSel[gid] = c;
   const grid = document.getElementById('grp-edit-colorgrid-' + gid);
   if (grid) {
-    Array.from(grid.children).forEach((el, i) => el.classList.toggle('on', GROUP_COLORS[i] === c));
+    grid.querySelectorAll('.color-dot').forEach(el => el.classList.toggle('on', el.id === 'gedot-'+gid+'-'+c.replace('#','')));
   }
   const dot = document.getElementById('grp-edit-dot-' + gid);
   if (dot) dot.style.background = c;
