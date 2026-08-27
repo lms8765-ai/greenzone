@@ -108752,15 +108752,15 @@
     },
     {
       "id": "z_1787873851973",
-      "name": "새 관리구역",
+      "name": "송도솔밭 3구역",
       "team": "greenway",
       "status": "pending",
       "zoneType": "mowing",
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#43a047",
-      "groupId": "",
+      "color": "#00acc1",
+      "groupId": "g_1787729382060_19",
       "paths": [
         [
           {
@@ -108988,7 +108988,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 14143,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -109665,6 +109665,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T23:37:34.985Z",
+  "savedAt": "2026-08-27T23:38:00.251Z",
   "savedBy": "lms8765-ai"
 }
