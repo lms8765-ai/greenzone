@@ -113895,15 +113895,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_22",
-      "name": "형산강 서측구간",
-      "color": "#8e24aa",
-      "parentId": "g_1787729382060_20",
-      "order": 1,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_24",
       "name": "연일읍",
       "color": "#1e88e5",
@@ -114028,6 +114019,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T04:39:17.981Z",
+  "savedAt": "2026-08-27T04:39:24.844Z",
   "savedBy": "lms8765-ai"
 }
