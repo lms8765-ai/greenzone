@@ -113983,6 +113983,15 @@
       "order": 2,
       "tier": "mid",
       "zoneType": "mowing"
+    },
+    {
+      "id": "g_1787805496855",
+      "name": "형산강 서측구간",
+      "color": "#3949ab",
+      "parentId": "g_1787729382060_14",
+      "order": 1,
+      "tier": "mid",
+      "zoneType": "mowing"
     }
   ],
   "customDepts": [],
@@ -114019,6 +114028,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T04:35:34.116Z",
+  "savedAt": "2026-08-27T04:38:19.877Z",
   "savedBy": "lms8765-ai"
 }
