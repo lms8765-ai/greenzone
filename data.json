@@ -33577,7 +33577,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786665885805",
       "paths": [
         [
@@ -33988,7 +33988,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786665885805",
       "paths": [
         [
@@ -34495,7 +34495,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786665885805",
       "paths": [
         [
@@ -34890,7 +34890,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786665885805",
       "paths": [
         [
@@ -35093,7 +35093,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786665885805",
       "paths": [
         [
@@ -35376,7 +35376,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786665885805",
       "paths": [
         [
@@ -35771,7 +35771,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786665885805",
       "paths": [
         [
@@ -35918,7 +35918,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786665885805",
       "paths": [
         [
@@ -36161,7 +36161,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786665885805",
       "paths": [
         [
@@ -116191,7 +116191,7 @@
     {
       "id": "g_1786665885805",
       "name": "형산강 서측구간",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "parentId": "g_1786589430131",
       "order": 1,
       "tier": "mid",
@@ -116556,6 +116556,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T02:36:17.594Z",
+  "savedAt": "2026-08-27T02:36:29.330Z",
   "savedBy": "lms8765-ai"
 }
