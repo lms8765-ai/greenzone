@@ -114619,7 +114619,7 @@
       "status": "pending",
       "zoneType": "mowing",
       "workTypes": [],
-      "memo": "",
+      "memo": "풀베기 : 60%",
       "manager": "",
       "color": "#e65100",
       "groupId": "g_1787730460336",
@@ -116547,6 +116547,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T02:11:18.313Z",
+  "savedAt": "2026-08-27T02:11:58.804Z",
   "savedBy": "lms8765-ai"
 }
