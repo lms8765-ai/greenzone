@@ -102874,7 +102874,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -103125,7 +103125,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -103184,7 +103184,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -103261,7 +103261,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -103368,7 +103368,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -103427,7 +103427,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -103572,7 +103572,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -103733,7 +103733,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -103840,7 +103840,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -107533,7 +107533,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -107728,7 +107728,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -107867,7 +107867,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -108264,7 +108264,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "groupId": "g_1787798399591",
       "paths": [
         [
@@ -116515,7 +116515,7 @@
     {
       "id": "g_1787798399591",
       "name": "형산강 남측구간",
-      "color": "#5e35b1",
+      "color": "#8e24aa",
       "parentId": "g_1787729382060_20",
       "order": 2,
       "tier": "mid",
@@ -116556,6 +116556,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T02:41:57.739Z",
+  "savedAt": "2026-08-27T02:42:01.440Z",
   "savedBy": "lms8765-ai"
 }
