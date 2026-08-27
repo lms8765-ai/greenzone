@@ -12014,7 +12014,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 남구 효자동 622-5",
+      "memo": "풀베기 : 60%",
       "manager": "",
       "color": "#e65100",
       "groupId": "g_1785910611519",
@@ -12189,7 +12189,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 790.8,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -114851,6 +114851,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T03:53:44.376Z",
+  "savedAt": "2026-08-27T03:53:58.359Z",
   "savedBy": "lms8765-ai"
 }
