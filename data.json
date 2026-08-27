@@ -116236,7 +116236,7 @@
     {
       "id": "g_1787029720518",
       "name": "기계면",
-      "color": "#e65100",
+      "color": "#e53935",
       "parentId": null,
       "order": 20,
       "tier": "mid",
@@ -116547,6 +116547,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T00:51:14.821Z",
+  "savedAt": "2026-08-27T01:08:13.518Z",
   "savedBy": "lms8765-ai"
 }
