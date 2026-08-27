@@ -2277,6 +2277,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
       <span id="multi-select-count" style="font-size:11px;font-weight:700;color:#1b6b3a;flex:1">0개 선택됨</span>
       <button onclick="openBulkGroupModal()" style="background:#1b6b3a;color:#fff;border:none;border-radius:14px;padding:4px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">🗂 그룹으로 이동</button>
       <button onclick="openMergeZonesModal()" style="background:#1565c0;color:#fff;border:none;border-radius:14px;padding:4px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">🔗 구역 병합</button>
+      <button onclick="openCopyToTabModal()" style="background:#3949ab;color:#fff;border:none;border-radius:14px;padding:4px 12px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">🔀 다른 탭 복사</button>
       <button onclick="toggleMultiSelectMode()" style="background:#fff;color:#666;border:1px solid #ddd;border-radius:14px;padding:4px 10px;font-size:10px;cursor:pointer;font-family:inherit">취소</button>
     </div>
     <div id="sidebar-body"></div>
@@ -6137,6 +6138,7 @@ function renderDetailBody(el) {
         <div class="dp-action-btn" onclick="openLogModal()" style="background:#e3f2fd;color:#1565c0;border-color:#90caf9">📝 기록</div>
         <div class="dp-action-btn" onclick="toggleZoneHide()" style="background:${hiddenZones.has(z.id)?'#fff3e0':'#f3e5f5'};color:${hiddenZones.has(z.id)?'#e65100':'#7b1fa2'};border-color:${hiddenZones.has(z.id)?'#ffcc80':'#ce93d8'}">${hiddenZones.has(z.id)?'👁 표시':'🙈 숨김'}</div>
         <div class="dp-action-btn" onclick="duplicateZone()" style="background:#fff8e1;color:#e65100;border-color:#ffcc80">📋 복사</div>
+        <div class="dp-action-btn" onclick="openCopyToTabModal()" style="background:#e8eaf6;color:#3949ab;border-color:#c5cae9" title="이 구역을 다른 탭으로 복사(원본 유지)">🔀 탭복사</div>
         <div class="dp-action-btn" onclick="confirmDeleteZone()" style="background:#ffebee;color:#c62828;border-color:#ef9a9a">🗑</div>
       </div>
     </div>
@@ -15779,6 +15781,134 @@ function duplicateZone() {
   redrawAll(); renderDetail(); updateToolbar();
   showToast('📋 구역이 복사되었습니다. 이름을 변경하세요.');
   openEditModal();
+}
+
+/* ══════════════════════════════════════════════
+   🔀 선택 구역을 다른 탭으로 복사 (원본 유지)
+   — 탭마다 그룹이 서로 다르므로, 복사 전 대상 탭의 그룹을 직접 선택하게 하고
+     색상을 그룹 색상에 맞출지도 확인하도록 해서 탭 간 그룹·색상 불일치로
+     인한 혼란/오류를 사전에 막는다. 작업기록·수종/수량 등 모든 정보를
+     그대로 복사하며, 원본 구역은 손대지 않는다. (2026-08-27 요청)
+══════════════════════════════════════════════ */
+const COPY_TAB_LABEL = { green:'🌿 녹지관리', mowing:'✂️ 풀베기사업', flower:'🌸 초화식재', rose:'🌹 장미관리' };
+
+function openCopyToTabModal() {
+  if (!requireEditUnlock()) return;
+  let srcZones;
+  if (multiSelectMode && multiSelectedZones.size > 0) {
+    srcZones = Array.from(multiSelectedZones).map(id => zones.find(z=>z.id===id)).filter(Boolean);
+  } else if (selId) {
+    const z = zones.find(z=>z.id===selId);
+    srcZones = z ? [z] : [];
+  } else {
+    srcZones = [];
+  }
+  if (!srcZones.length) { showToast('⚠️ 먼저 구역을 하나 이상 선택해주세요.'); return; }
+  const curType = getCurrentZoneType();
+  if (srcZones.some(z => zoneTypeOf(z) !== curType)) {
+    showToast('⚠️ 같은 탭(구역 종류)의 구역끼리만 복사할 수 있습니다.');
+    return;
+  }
+  window._copyToTabSrcZones = srcZones;
+  showCopyToTabPicker(srcZones, curType);
+}
+
+function copyToTabGroupOptions(targetType) {
+  return groups.filter(g => (g.zoneType||'green') === targetType)
+    .slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'','ko'));
+}
+
+function showCopyToTabPicker(srcZones, curType) {
+  const targets = Object.keys(COPY_TAB_LABEL).filter(t => t !== curType);
+  const tabOptions = targets.map(t => `<option value="${t}">${COPY_TAB_LABEL[t]}</option>`).join('');
+  const modal = document.createElement('div');
+  modal.id = 'copy-to-tab-modal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:20000;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML = `
+    <div style="background:#fff;border-radius:14px;width:340px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.3)">
+      <div style="background:linear-gradient(135deg,#3949ab,#5c6bc0);color:#fff;padding:12px 16px">
+        <div style="font-size:13px;font-weight:700">🔀 다른 탭으로 복사</div>
+        <div style="font-size:10px;opacity:.85;margin-top:2px">${srcZones.length}개 구역 · 원본은 그대로 유지되고 새 복사본이 만들어집니다</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="font-size:10px;color:#666;margin-bottom:6px">복사할 대상 탭</div>
+        <select id="copy-to-tab-select" class="fsel" style="width:100%;margin-bottom:12px;font-size:12px" onchange="refreshCopyToTabGroupOptions()">
+          ${tabOptions}
+        </select>
+        <div style="font-size:10px;color:#666;margin-bottom:6px">대상 탭에서의 그룹 (탭마다 그룹이 다르므로 직접 선택해주세요)</div>
+        <select id="copy-to-tab-group-select" class="fsel" style="width:100%;margin-bottom:8px;font-size:12px" onchange="refreshCopyToTabColorOption()"></select>
+        <label id="copy-to-tab-color-label" style="display:none;align-items:center;gap:6px;font-size:11px;color:#444;margin-bottom:10px;cursor:pointer">
+          <input type="checkbox" id="copy-to-tab-color-align" checked style="cursor:pointer">
+          선택한 그룹의 색상으로 복사본 색상 통일 (해제하면 원래 색상 유지)
+        </label>
+        <div style="font-size:10px;color:#999;margin-bottom:12px;line-height:1.6">
+          ⚠️ 작업기록·수종/수량 등 구역의 모든 정보가 그대로 복사됩니다. 도형(위치·경계)도 동일하게 유지됩니다.
+        </div>
+        <div style="display:flex;gap:8px">
+          <button onclick="document.getElementById('copy-to-tab-modal').remove()" style="flex:1;padding:8px;background:#f5f5f5;color:#666;border:1px solid #ddd;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">취소</button>
+          <button onclick="confirmCopyToTab()" style="flex:1;padding:8px;background:#3949ab;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✅ 복사</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+  refreshCopyToTabGroupOptions();
+}
+
+function refreshCopyToTabGroupOptions() {
+  const tSel = document.getElementById('copy-to-tab-select');
+  const gSel = document.getElementById('copy-to-tab-group-select');
+  if (!tSel || !gSel) return;
+  const targetType = tSel.value;
+  const srcZones = window._copyToTabSrcZones || [];
+  // 선택된 구역들이 전부 같은 그룹 소속이고, 대상 탭에 같은 이름의 그룹이 있으면 미리 선택해줌
+  // (자동 확정이 아니라 "미리 선택"만 해주는 것 — 사용자가 직접 확인/변경 가능)
+  const srcGids = new Set(srcZones.map(z=>z.groupId).filter(Boolean));
+  let preselectId = '';
+  if (srcGids.size === 1) {
+    const srcGroup = groups.find(g => g.id === [...srcGids][0]);
+    if (srcGroup) {
+      const matched = copyToTabGroupOptions(targetType).find(g => g.name === srcGroup.name);
+      if (matched) preselectId = matched.id;
+    }
+  }
+  const opts = copyToTabGroupOptions(targetType);
+  gSel.innerHTML = '<option value="">그룹 없음(해제)</option>'
+    + opts.map(g => `<option value="${g.id}" ${g.id===preselectId?'selected':''}>${escapeHTML(g.name)}</option>`).join('');
+  refreshCopyToTabColorOption();
+}
+
+function refreshCopyToTabColorOption() {
+  const gSel = document.getElementById('copy-to-tab-group-select');
+  const label = document.getElementById('copy-to-tab-color-label');
+  if (!gSel || !label) return;
+  label.style.display = gSel.value ? 'flex' : 'none';
+}
+
+function confirmCopyToTab() {
+  if (!requireEditUnlock()) return;
+  const targetType = document.getElementById('copy-to-tab-select')?.value;
+  const targetGroupId = document.getElementById('copy-to-tab-group-select')?.value || '';
+  const alignColor = !!document.getElementById('copy-to-tab-color-align')?.checked && !!targetGroupId;
+  const srcZones = window._copyToTabSrcZones || [];
+  document.getElementById('copy-to-tab-modal')?.remove();
+  if (!targetType || !srcZones.length) return;
+  const targetColor = targetGroupId ? (groups.find(g=>g.id===targetGroupId)?.color || null) : null;
+  srcZones.forEach((z, i) => {
+    const nz = JSON.parse(JSON.stringify(z));
+    nz.id = 'z_' + Date.now() + '_' + i;
+    nz.zoneType = targetType;
+    nz.groupId = targetGroupId || '';
+    if (alignColor && targetColor) nz.color = targetColor;
+    nz.polygon = null; nz.polygons = []; nz.label = null; nz.labelD = null;
+    zones.push(nz);
+  });
+  saveAll();
+  redrawAll(); renderSidebar(); buildFilters(); updateHeaderStats();
+  multiSelectMode = false; multiSelectedZones.clear();
+  updateMultiSelectBar();
+  window._copyToTabSrcZones = null;
+  showToast(`✅ ${srcZones.length}개 구역을 "${COPY_TAB_LABEL[targetType]}" 탭으로 복사했습니다. (원본 유지)`);
 }
 function filterLogs(zid, q) {
   const items = document.querySelectorAll('.dp-log-item');
