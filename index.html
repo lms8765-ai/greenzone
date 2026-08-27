@@ -6189,7 +6189,7 @@ function renderDetailBody(el) {
         placeholder="기록 검색..." style="flex:1;padding:2px 7px;border:1px solid var(--green-br);border-radius:4px;font-size:10px;background:var(--green-bg);font-family:inherit;outline:none;color:var(--text)">
     </div>
     ${logs.length===0?`<div class="empty-state" style="padding:20px"><div class="ei" style="font-size:24px">📋</div><p>작업 기록이 없습니다</p></div>`:
-    logs.map(l=>{const w=WT.find(x=>x.id===l.type)||WT[8];
+    logs.map(l=>{const w=WT.find(x=>x.id===l.type)||{icon:'📋',label:l.type||'기타',color:'#546e7a'};
     const p=l.project;
     const projBadge = l.isProject ? `<span class="badge" style="background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;margin-left:4px">📋 ${PROJ_TYPE_LABEL[p?.type]||'사업'}</span>` : '';
     const projInfo = l.isProject && p ? `
