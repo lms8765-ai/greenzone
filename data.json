@@ -106513,7 +106513,7 @@
       "workTypes": [],
       "memo": "풀베기 : 40%",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -106948,7 +106948,7 @@
       "workTypes": [],
       "memo": "풀베기 : 60%",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -107327,7 +107327,7 @@
       "workTypes": [],
       "memo": "풀베기 : 70%",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -107450,7 +107450,7 @@
       "workTypes": [],
       "memo": "풀베기 : 60%",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -108157,7 +108157,7 @@
       "workTypes": [],
       "memo": "풀베기 : 70%",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -108617,7 +108617,7 @@
       "workTypes": [],
       "memo": "풀베기 : 60%",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -108948,7 +108948,7 @@
       "workTypes": [],
       "memo": "풀베기 : 60%",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -109159,7 +109159,7 @@
       "workTypes": [],
       "memo": "풀베기 : 60%",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -109458,7 +109458,7 @@
       "workTypes": [],
       "memo": "풀베기 : 50%",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -109653,7 +109653,7 @@
       "workTypes": [],
       "memo": "풀베기 : 50%",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -109912,7 +109912,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "groupId": "g_1787730460336",
       "paths": [
         [
@@ -111035,7 +111035,7 @@
     {
       "id": "g_1787730460336",
       "name": "냉천 하단구역",
-      "color": "#fdd835",
+      "color": "#fb8c00",
       "parentId": null,
       "order": 24,
       "tier": "mid",
@@ -111103,6 +111103,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T05:35:08.263Z",
+  "savedAt": "2026-08-27T05:35:23.535Z",
   "savedBy": "lms8765-ai"
 }
