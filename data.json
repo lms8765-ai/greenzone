@@ -87211,7 +87211,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1787729382060_21",
       "paths": [
         [
@@ -88086,7 +88086,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1787729382060_21",
       "paths": [
         [
@@ -88177,7 +88177,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1787729382060_21",
       "paths": [
         [
@@ -88300,7 +88300,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1787729382060_21",
       "paths": [
         [
@@ -88759,7 +88759,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1787729382060_21",
       "paths": [
         [
@@ -89140,7 +89140,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1787729382060_21",
       "paths": [
         [
@@ -89583,7 +89583,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1787729382060_21",
       "paths": [
         [
@@ -116425,7 +116425,7 @@
     {
       "id": "g_1787729382060_21",
       "name": "형산강 동측구간",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "parentId": "g_1787729382060_20",
       "order": 0,
       "tier": "mid",
@@ -116434,7 +116434,7 @@
     {
       "id": "g_1787729382060_22",
       "name": "형산강 서측구간",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "parentId": "g_1787729382060_20",
       "order": 1,
       "tier": "mid",
@@ -116556,6 +116556,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T02:42:13.617Z",
+  "savedAt": "2026-08-27T02:42:22.106Z",
   "savedBy": "lms8765-ai"
 }
