@@ -30634,7 +30634,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786664971377",
       "paths": [
         [
@@ -31509,7 +31509,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786664971377",
       "paths": [
         [
@@ -31600,7 +31600,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786664971377",
       "paths": [
         [
@@ -31723,7 +31723,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786664971377",
       "paths": [
         [
@@ -32182,7 +32182,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786664971377",
       "paths": [
         [
@@ -32563,7 +32563,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786664971377",
       "paths": [
         [
@@ -33006,7 +33006,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "groupId": "g_1786664971377",
       "paths": [
         [
@@ -116182,7 +116182,7 @@
     {
       "id": "g_1786664971377",
       "name": "형산강 동측구간",
-      "color": "#6a1b9a",
+      "color": "#8e24aa",
       "parentId": "g_1786589430131",
       "order": 0,
       "tier": "mid",
@@ -116556,6 +116556,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T02:36:29.330Z",
+  "savedAt": "2026-08-27T02:36:34.379Z",
   "savedBy": "lms8765-ai"
 }
