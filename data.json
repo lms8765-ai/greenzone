@@ -116433,7 +116433,7 @@
     },
     {
       "id": "g_1787729382060_22",
-      "name": "형산제방 서측구간",
+      "name": "형산강 서측구간",
       "color": "#6a1b9a",
       "parentId": "g_1787729382060_20",
       "order": 1,
@@ -116547,6 +116547,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T02:39:34.511Z",
+  "savedAt": "2026-08-27T02:39:39.990Z",
   "savedBy": "lms8765-ai"
 }
