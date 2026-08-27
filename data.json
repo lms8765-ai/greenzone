@@ -4879,7 +4879,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "지번 경계 자동 불러오기(브이월드 연속지적도): 경상북도 포항시 남구 지곡동 969-6",
+      "memo": "풀베기 : 50%",
       "manager": "",
       "color": "#6a1b9a",
       "groupId": "g_1785906237531",
@@ -5262,7 +5262,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 683.5,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -116547,6 +116547,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T01:14:41.959Z",
+  "savedAt": "2026-08-27T01:15:04.170Z",
   "savedBy": "lms8765-ai"
 }
