@@ -1831,6 +1831,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   <button class="tb-btn gray" onclick="fitAll()" title="전체 구역 보기">🔭 전체보기</button>
   <button class="tb-btn gray" onclick="goMyLocation()" title="현재 위치">📍 내 위치</button>
   <button class="tb-btn gray" id="btn-cadastral" onclick="toggleCadastralLayer()" title="실제 지적(필지) 경계선 표시/숨김 — 화면을 확대할수록 정확하게 표시됩니다">📐 지적경계</button>
+  <button class="tb-btn gray mut-btn" onclick="resetRoseTab()" title="장미관리 탭의 구역·그룹·장미 상세정보(품종/수량/보식이력)를 모두 삭제 (일회성 도구)">🔧 장미 탭 초기화</button>
   <button class="tb-btn gray" onclick="toggleFullscreen()" title="전체화면">⛶</button>
 </div>
 
@@ -15695,6 +15696,54 @@ function doResetMowingTabFromGreen(greenZones, mowingZonesExisting, mowingGroups
 
   saveAll(); redrawAll(); renderSidebar(); renderDetail(); buildFilters(); updateHeaderStats(); updateToolbar();
   showToast('✅ 풀베기사업 탭을 초기화하고 녹지관리 구역 ' + greenZones.length + '개를 복사했습니다.');
+}
+
+/* ══════════════════════════════════════════════
+   🔧 장미관리 탭 데이터 전체 삭제 (일회성 도구)
+   — 구역(도형)·그룹·작업묶음뿐 아니라, 별도로 관리되는 장미 상세정보
+     (roseZones: 품종·수량·보식이력 등)까지 모두 삭제한다.
+     (2026-08-27 요청)
+══════════════════════════════════════════════ */
+function resetRoseTab() {
+  if (!requireEditUnlock()) return;
+  const roseZonesExisting  = zones.filter(z => zoneTypeOf(z) === 'rose');
+  const roseGroupsExisting = groups.filter(g => (g.zoneType||'green') === 'rose');
+  const roseWpExisting     = workProjects.filter(wp => (wp.zoneType||'green') === 'rose');
+  const roseDetailCount    = roseZones.length; // 품종/수량/보식이력 등 장미 상세정보 전체
+  if (!roseZonesExisting.length && !roseGroupsExisting.length && !roseWpExisting.length && !roseDetailCount) {
+    showToast('ℹ️ 장미관리 탭에 삭제할 데이터가 없습니다.');
+    return;
+  }
+  const msg = `장미관리 탭의 모든 데이터를 삭제합니다.
+
+- 구역(도형) ${roseZonesExisting.length}개
+- 그룹 ${roseGroupsExisting.length}개
+- 작업묶음 ${roseWpExisting.length}개
+- 장미 상세정보(품종·수량·보식이력 등) ${roseDetailCount}건
+
+⚠️ 이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?`;
+  showConfirm(msg, '🌹', [
+    { label:'전체 삭제', cls:'danger', fn: () => doResetRoseTab(roseZonesExisting, roseGroupsExisting) },
+    { label:'취소', cls:'secondary', fn:null },
+  ]);
+}
+function doResetRoseTab(roseZonesExisting, roseGroupsExisting) {
+  const delZoneIds  = new Set(roseZonesExisting.map(z=>z.id));
+  const delGroupIds = new Set(roseGroupsExisting.map(g=>g.id));
+  roseZonesExisting.forEach(z => {
+    if (z.polygons) z.polygons.forEach(p=>{if(p)p.setMap(null);});
+    ['polygon','label','labelD'].forEach(k=>{if(z[k])z[k].setMap(null);});
+  });
+  zones = zones.filter(z => !delZoneIds.has(z.id));
+  groups = groups.filter(g => !delGroupIds.has(g.id));
+  workProjects = workProjects.filter(wp => (wp.zoneType||'green') !== 'rose');
+  workProjects.forEach(p => { p.zoneIds = (p.zoneIds||[]).filter(id => !delZoneIds.has(id)); });
+  delZoneIds.forEach(id => { hiddenZones.delete(id); pinnedZones.delete(id); });
+  delGroupIds.forEach(id => hiddenGroups.delete(id));
+  roseZones = []; // 장미 상세정보(품종/수량/보식이력) 전체 삭제
+  if (selId && delZoneIds.has(selId)) selId = null;
+  saveAll(); redrawAll(); renderSidebar(); renderDetail(); buildFilters(); updateHeaderStats(); updateToolbar();
+  showToast('✅ 장미관리 탭의 모든 데이터를 삭제했습니다.');
 }
 
 
