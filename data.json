@@ -109123,6 +109123,15 @@
       "order": 25,
       "tier": "mid",
       "zoneType": "mowing"
+    },
+    {
+      "id": "g_1787809747547",
+      "name": "영일대장미원",
+      "color": "#e53935",
+      "parentId": null,
+      "order": 26,
+      "tier": "mid",
+      "zoneType": "rose"
     }
   ],
   "customDepts": [],
@@ -109159,6 +109168,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T05:47:38.505Z",
+  "savedAt": "2026-08-27T05:49:10.741Z",
   "savedBy": "lms8765-ai"
 }
