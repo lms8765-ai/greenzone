@@ -2806,6 +2806,15 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
           <div class="fg">
             <label class="fl" style="font-size:10px">✂️ 풀베기 면적 (㎡)</label>
             <input type="number" min="0" step="1" class="fi" id="f-mowing-area" placeholder="0">
+            <!-- 비율(%)로 입력하면 구역 전체면적 × 비율 을 자동 계산해서 위 칸에 채워줌.
+                 직접 ㎡ 입력도 그대로 가능 (2가지 입력 방식 병행, 2026-08-27 요청) -->
+            <div style="display:flex;align-items:center;gap:5px;margin-top:5px">
+              <span style="font-size:9px;color:var(--text-l);white-space:nowrap">또는 비율</span>
+              <input type="number" min="0" max="100" step="1" id="f-mowing-pct" placeholder="%"
+                oninput="applyMowingPct()"
+                style="width:48px;padding:4px 5px;border:1px solid var(--border);border-radius:5px;font-size:11px;text-align:center">
+              <span style="font-size:9px;color:var(--text-l);white-space:nowrap">% × 전체 <span id="f-mowing-total-area">0</span>㎡</span>
+            </div>
           </div>
           <div class="fg">
             <label class="fl" style="font-size:10px">🏗 시설물 (EA)</label>
@@ -6263,6 +6272,25 @@ function toggleWT(id) {
     b.classList.toggle('on',on); b.style.background=on?w.color:'#f8f8f8'; b.style.color=on?'#fff':w.color;
   });
 }
+// ✂️ 풀베기 면적 — 비율(%) 입력 시 (구역 전체면적 × 비율)을 자동 계산해서
+// ㎡ 입력칸에 채워줌. ㎡ 직접 입력 방식은 그대로 유지되는 보조 입력 수단.
+// (2026-08-27 요청: 지금까지 손으로 "전체면적 × 비율"을 계산해 입력해왔는데,
+//  비율만 입력해도 자동으로 계산되게 해달라는 요청 — 기존 저장값은 건드리지 않음)
+function applyMowingPct() {
+  const pctEl = document.getElementById('f-mowing-pct');
+  const maEl  = document.getElementById('f-mowing-area');
+  if (!pctEl || !maEl) return;
+  const raw = pctEl.value;
+  if (raw === '') return; // 비율 칸을 비우면 ㎡ 값은 그대로 둠 (기존 입력 보존)
+  const pct = parseFloat(raw);
+  const totalArea = window._editZoneTotalArea || 0;
+  if (isNaN(pct) || pct < 0) return;
+  if (totalArea <= 0) {
+    showToast('⚠️ 구역 전체면적 정보가 없어 비율 계산을 할 수 없습니다. ㎡ 값을 직접 입력해주세요.');
+    return;
+  }
+  maEl.value = Math.round(totalArea * pct / 100);
+}
 function setZoneColor(c) {
   pickedZoneColor = c;
   document.querySelectorAll('#f-color-grid .color-dot').forEach(el=>{el.classList.remove('on');el.style.borderColor='transparent';});
@@ -6313,6 +6341,21 @@ function openEditModal() {
   const fcEl = document.getElementById('f-facility-count');
   if (maEl) maEl.value = z.mowingArea || '';
   if (fcEl) fcEl.value = z.facilityCount || '';
+  // ✂️ 풀베기 면적 비율(%) 입력 보조 — 구역 전체면적을 기억해뒀다가
+  // 비율을 입력하면 (전체면적 × 비율)을 자동 계산해서 채워줌.
+  // ⚠️ 여기서는 기존에 저장된 풀베기 면적(㎡)을 절대 건드리지 않음 —
+  //    참고용으로 "현재 비율이 몇 %에 해당하는지"만 표시(입력 이벤트 발생 없이 값만 세팅)
+  window._editZoneTotalArea = z.area || 0;
+  const totalAreaHint = document.getElementById('f-mowing-total-area');
+  if (totalAreaHint) totalAreaHint.textContent = (z.area || 0).toLocaleString();
+  const pctEl = document.getElementById('f-mowing-pct');
+  if (pctEl) {
+    if (z.area > 0 && z.mowingArea > 0) {
+      pctEl.value = Math.round((z.mowingArea / z.area) * 1000) / 10; // 소수 첫째자리까지
+    } else {
+      pctEl.value = '';
+    }
+  }
   window._editTreeCounts  = JSON.parse(JSON.stringify(z.treeCounts  || [])).sort((a,b)=>(a.species||'').localeCompare(b.species||'','ko'));
   window._editShrubCounts = JSON.parse(JSON.stringify(z.shrubCounts || [])).sort((a,b)=>(a.species||'').localeCompare(b.species||'','ko'));
   renderZoneCountRows('tree');
