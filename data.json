@@ -95379,8 +95379,8 @@
       "workTypes": [],
       "memo": "풀베기 : 80%",
       "manager": "",
-      "color": "#c62828",
-      "groupId": "g_1787730451239",
+      "color": "#43a047",
+      "groupId": "g_1787806061699",
       "paths": [
         [
           {
@@ -114028,6 +114028,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T04:47:41.927Z",
+  "savedAt": "2026-08-27T04:47:57.642Z",
   "savedBy": "lms8765-ai"
 }
