@@ -113986,7 +113986,7 @@
     },
     {
       "id": "g_1787806061699",
-      "name": "직영관리",
+      "name": "ㄱ직영관리",
       "color": "#43a047",
       "parentId": null,
       "order": 25,
@@ -114028,6 +114028,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T04:47:57.642Z",
+  "savedAt": "2026-08-27T04:48:04.982Z",
   "savedBy": "lms8765-ai"
 }
