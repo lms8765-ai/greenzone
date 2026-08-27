@@ -51697,7 +51697,7 @@
       "memo": "풀베기 : 10%",
       "manager": "",
       "color": "#8e24aa",
-      "groupId": "g_1787798160760",
+      "groupId": "g_1787026124955",
       "paths": [
         [
           {
@@ -116556,6 +116556,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-27T02:37:16.923Z",
+  "savedAt": "2026-08-27T02:37:51.028Z",
   "savedBy": "lms8765-ai"
 }
