@@ -5608,7 +5608,7 @@ function buildFilters() {
       // 부모그룹 칩
       const chip = `<span class="fchip ${on?'on':''}" onclick="setFGrp('${g.id}')"
         style="border-color:${g.color};color:${on?'#fff':g.color};${on?'background:'+g.color:''};">
-        ${g.name}
+        ${escapeHTML(g.name)}
       </span>`;
       // 하위그룹은 새 줄 + 들여쓰기
       const childWrap = children ? `<div style="padding-left:10px;margin-top:3px;display:flex;flex-wrap:wrap;gap:4px;border-left:2px solid ${g.color}44">${children}</div>` : '';
@@ -5732,7 +5732,7 @@ function renderList(el) {
     htmlStr += `<div class="grp-hd ${depth>0?'sub-grp':''}" style="${indent}opacity:${isHidden?'.5':'1'}" onclick="toggleGrp(this)" data-gid="${g.id}">
       <div class="grp-dot" style="background:${g.color};${isHidden?'filter:grayscale(1)':''}"></div>
       <div class="grp-name" style="${isHidden?'text-decoration:line-through;color:var(--text-l)':''}">
-        ${depth>0?'└ ':''}${g.name}
+        ${depth>0?'└ ':''}${escapeHTML(g.name)}
       </div>
       <div class="grp-cnt" style="flex-shrink:0">${allZones.length}개</div>
       <button onclick="event.stopPropagation();toggleGroupHide('${g.id}')"
@@ -7189,7 +7189,7 @@ function openWpDetail(wpId) {
   [...groups, {id:'__none__',name:'그룹 없음',color:'#aaa'}].forEach(g => {
     const gZones = grouped[g.id];
     if (!gZones || !gZones.length) return;
-    html += `<div style="font-size:10px;font-weight:800;color:${g.color};padding:6px 4px 4px;border-bottom:1px solid var(--border);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">${g.name}</div>`;
+    html += `<div style="font-size:10px;font-weight:800;color:${g.color};padding:6px 4px 4px;border-bottom:1px solid var(--border);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">${escapeHTML(g.name)}</div>`;
     html += gZones.map(z => {
       const checked = wpZoneIds.includes(z.id);
       const st = ST[z.status]||ST.active;
@@ -7197,7 +7197,7 @@ function openWpDetail(wpId) {
         <input type="checkbox" value="${z.id}" ${checked?'checked':''} onchange="updateWpZoneCount()" style="width:16px;height:16px;accent-color:${wp.color||'#3949ab'};cursor:pointer;flex-shrink:0">
         <div style="width:10px;height:10px;border-radius:50%;background:${z.color||'#2e7d32'};flex-shrink:0"></div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:12px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${z.name}</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHTML(z.name)}</div>
           <div style="font-size:10px;color:var(--text-l)">${TEAMS[z.team]||z.team}${z.area>0?' · '+formatArea(z.area):''}</div>
         </div>
         <span class="badge" style="background:${st.bg};color:${st.color};border:1px solid ${st.color}33;flex-shrink:0">${st.label}</span>
@@ -7857,7 +7857,7 @@ function openCpDetailPanel(cid) {
   document.getElementById('cp-dp-cpno').textContent = c.cpNo || '-';
   document.getElementById('cp-dp-title').textContent = (c.person||'미입력') + ' 민원';
   document.getElementById('cp-dp-meta').innerHTML =
-    `${c.date||'-'} 접수 · ${c.route||'-'} · 담당: ${c.manager||'미배정'}`;
+    `${escapeHTML(c.date||'-')} 접수 · ${escapeHTML(c.route||'-')} · 담당: ${escapeHTML(c.manager||'미배정')}`;
 
   // ── 기본 정보 ──
   document.getElementById('cp-dp-date').textContent    = c.date    || '-';
@@ -15821,8 +15821,17 @@ function exportCSV() {
 //   지도 객체 필드는 제외하고 순수 데이터만 깊은 복제한다. (2026-08-28 콘솔
 //   로그로 원인 확인: "Converting circular structure to JSON" at confirmCopyToTab)
 function cloneZoneDataOnly(z) {
-  const { polygon, polygons, label, labelD, ...plain } = z;
-  return JSON.parse(JSON.stringify(plain));
+  // 🛡️ 방어적 이중 안전장치: polygon/label 등을 제외해도 혹시 예상 못한
+  // 필드(향후 추가될 수 있는 라이브 객체 등)가 섞여 있어 실패하더라도,
+  // 화면 전체가 멈추지 않고 안내 메시지만 뜨도록 try/catch로 감싼다.
+  try {
+    const { polygon, polygons, label, labelD, ...plain } = z;
+    return JSON.parse(JSON.stringify(plain));
+  } catch (e) {
+    console.error('[cloneZoneDataOnly] 구역 복제 실패:', e);
+    showToast('⚠️ 구역 복제 중 오류가 발생했습니다. 페이지를 새로고침한 뒤 다시 시도해주세요.');
+    return null;
+  }
 }
 function duplicateZone() {
   if (!requireEditUnlock()) return;
@@ -15830,6 +15839,7 @@ function duplicateZone() {
   const z = zones.find(z=>z.id===selId);
   if (!z) return;
   const nz = cloneZoneDataOnly(z);
+  if (!nz) return; // 복제 실패 시 중단 (cloneZoneDataOnly에서 이미 안내 메시지 표시함)
   nz.id      = 'z_' + Date.now();
   nz.name    = z.name + ' (복사)';
   nz.zoneType = z.zoneType || 'green'; // 탭 분류 유지
@@ -15955,21 +15965,25 @@ function confirmCopyToTab() {
   document.getElementById('copy-to-tab-modal')?.remove();
   if (!targetType || !srcZones.length) return;
   const targetColor = targetGroupId ? (groups.find(g=>g.id===targetGroupId)?.color || null) : null;
+  let copiedCnt = 0, failedCnt = 0;
   srcZones.forEach((z, i) => {
     const nz = cloneZoneDataOnly(z);
+    if (!nz) { failedCnt++; return; } // 복제 실패한 구역은 건너뜀 (전체 중단하지 않음)
     nz.id = 'z_' + Date.now() + '_' + i;
     nz.zoneType = targetType;
     nz.groupId = targetGroupId || '';
     if (alignColor && targetColor) nz.color = targetColor;
     nz.polygon = null; nz.polygons = []; nz.label = null; nz.labelD = null;
     zones.push(nz);
+    copiedCnt++;
   });
   saveAll();
   redrawAll(); renderSidebar(); buildFilters(); updateHeaderStats();
   multiSelectMode = false; multiSelectedZones.clear();
   updateMultiSelectBar();
   window._copyToTabSrcZones = null;
-  showToast(`✅ ${srcZones.length}개 구역을 "${COPY_TAB_LABEL[targetType]}" 탭으로 복사했습니다. (원본 유지)`);
+  const failMsg = failedCnt > 0 ? ` (⚠️ ${failedCnt}개는 복제 실패)` : '';
+  showToast(`✅ ${copiedCnt}개 구역을 "${COPY_TAB_LABEL[targetType]}" 탭으로 복사했습니다. (원본 유지)${failMsg}`);
 }
 function filterLogs(zid, q) {
   const items = document.querySelectorAll('.dp-log-item');
