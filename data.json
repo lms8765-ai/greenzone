@@ -109556,15 +109556,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_9",
-      "name": "두호동",
-      "color": "#c2185b",
-      "parentId": null,
-      "order": 7,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_13",
       "name": "9호광장",
       "color": "#1565c0",
@@ -109824,6 +109815,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-28T00:44:40.262Z",
+  "savedAt": "2026-08-28T00:44:59.509Z",
   "savedBy": "lms8765-ai"
 }
