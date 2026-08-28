@@ -109773,7 +109773,7 @@
     },
     {
       "id": "g_1787877877247",
-      "name": "용흥동",
+      "name": "용흥동ㅂ",
       "color": "#fb8c00",
       "parentId": "g_1787877560889",
       "order": 2,
@@ -109815,6 +109815,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-28T00:49:51.934Z",
+  "savedAt": "2026-08-28T00:51:03.376Z",
   "savedBy": "lms8765-ai"
 }
