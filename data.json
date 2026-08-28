@@ -98817,29 +98817,6 @@
       "shrubCounts": []
     },
     {
-      "id": "z_1787729382062_210",
-      "name": "산 83-1",
-      "team": "greenway",
-      "status": "pending",
-      "zoneType": "mowing",
-      "workTypes": [],
-      "memo": "",
-      "manager": "",
-      "color": "#e53935",
-      "groupId": "",
-      "paths": [],
-      "path": null,
-      "area": 0,
-      "logs": [],
-      "workerDefault": "",
-      "nextWorkDate": "",
-      "nextWorkType": "",
-      "mowingArea": 0,
-      "facilityCount": 0,
-      "treeCounts": [],
-      "shrubCounts": []
-    },
-    {
       "id": "z_1787729382062_211",
       "name": "용흥동 17-8",
       "team": "greenway",
@@ -111102,6 +111079,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-28T02:54:05.795Z",
+  "savedAt": "2026-08-28T02:54:13.783Z",
   "savedBy": "lms8765-ai"
 }
