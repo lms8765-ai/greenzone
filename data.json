@@ -98825,7 +98825,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#e53935",
       "groupId": "g_1787729382060_28",
       "paths": [],
       "path": null,
@@ -99203,7 +99203,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#e53935",
       "groupId": "g_1787729382060_28",
       "paths": [],
       "path": null,
@@ -99226,7 +99226,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#e53935",
       "groupId": "g_1787729382060_28",
       "paths": [],
       "path": null,
@@ -99249,7 +99249,7 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#6a1b9a",
+      "color": "#e53935",
       "groupId": "g_1787729382060_28",
       "paths": [],
       "path": null,
@@ -109648,7 +109648,7 @@
     {
       "id": "g_1787729382060_28",
       "name": "용흥동",
-      "color": "#6a1b9a",
+      "color": "#e53935",
       "parentId": null,
       "order": 21,
       "tier": "mid",
@@ -109815,6 +109815,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-28T00:51:10.461Z",
+  "savedAt": "2026-08-28T00:51:35.319Z",
   "savedBy": "lms8765-ai"
 }
