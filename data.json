@@ -99195,29 +99195,6 @@
       "shrubCounts": []
     },
     {
-      "id": "z_1787729382062_213",
-      "name": "용흥동 20",
-      "team": "greenway",
-      "status": "pending",
-      "zoneType": "mowing",
-      "workTypes": [],
-      "memo": "",
-      "manager": "",
-      "color": "#e53935",
-      "groupId": "",
-      "paths": [],
-      "path": null,
-      "area": 0,
-      "logs": [],
-      "workerDefault": "",
-      "nextWorkDate": "",
-      "nextWorkType": "",
-      "mowingArea": 0,
-      "facilityCount": 0,
-      "treeCounts": [],
-      "shrubCounts": []
-    },
-    {
       "id": "z_1787729382062_214",
       "name": "용흥동 41-6",
       "team": "greenway",
@@ -111079,6 +111056,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-28T02:54:13.783Z",
+  "savedAt": "2026-08-28T02:54:17.692Z",
   "savedBy": "lms8765-ai"
 }
