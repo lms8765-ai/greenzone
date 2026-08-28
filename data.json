@@ -109770,6 +109770,15 @@
       "order": 0,
       "tier": "mid",
       "zoneType": "mowing"
+    },
+    {
+      "id": "g_1787877866409",
+      "name": "우현동",
+      "color": "#fb8c00",
+      "parentId": "g_1787877560889",
+      "order": 1,
+      "tier": "mid",
+      "zoneType": "mowing"
     }
   ],
   "customDepts": [],
@@ -109806,6 +109815,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-28T00:44:22.315Z",
+  "savedAt": "2026-08-28T00:44:29.424Z",
   "savedBy": "lms8765-ai"
 }
