@@ -109565,15 +109565,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_11",
-      "name": "우현동",
-      "color": "#e65100",
-      "parentId": null,
-      "order": 9,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_13",
       "name": "9호광장",
       "color": "#1565c0",
@@ -109806,6 +109797,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-28T00:43:19.534Z",
+  "savedAt": "2026-08-28T00:43:52.767Z",
   "savedBy": "lms8765-ai"
 }
