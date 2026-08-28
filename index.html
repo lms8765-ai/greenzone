@@ -15815,12 +15815,21 @@ function exportCSV() {
   document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
   showToast('📊 엑셀 파일로 내보냈습니다 (Excel에서 열기 가능)');
 }
+// 🛡️ 구역 복제 시 "circular structure" 오류 방지용 안전 복제 헬퍼
+// — z.polygon/label 등은 네이버맵 SDK의 실제 객체(내부에서 지도 객체를 다시
+//   참조하는 순환 구조)라서 JSON.stringify로 그대로 복제하면 반드시 오류가 남.
+//   지도 객체 필드는 제외하고 순수 데이터만 깊은 복제한다. (2026-08-28 콘솔
+//   로그로 원인 확인: "Converting circular structure to JSON" at confirmCopyToTab)
+function cloneZoneDataOnly(z) {
+  const { polygon, polygons, label, labelD, ...plain } = z;
+  return JSON.parse(JSON.stringify(plain));
+}
 function duplicateZone() {
   if (!requireEditUnlock()) return;
   if (!selId) return;
   const z = zones.find(z=>z.id===selId);
   if (!z) return;
-  const nz = JSON.parse(JSON.stringify(z));
+  const nz = cloneZoneDataOnly(z);
   nz.id      = 'z_' + Date.now();
   nz.name    = z.name + ' (복사)';
   nz.zoneType = z.zoneType || 'green'; // 탭 분류 유지
@@ -15947,7 +15956,7 @@ function confirmCopyToTab() {
   if (!targetType || !srcZones.length) return;
   const targetColor = targetGroupId ? (groups.find(g=>g.id===targetGroupId)?.color || null) : null;
   srcZones.forEach((z, i) => {
-    const nz = JSON.parse(JSON.stringify(z));
+    const nz = cloneZoneDataOnly(z);
     nz.id = 'z_' + Date.now() + '_' + i;
     nz.zoneType = targetType;
     nz.groupId = targetGroupId || '';
