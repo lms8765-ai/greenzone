@@ -109761,6 +109761,15 @@
       "order": 27,
       "tier": "mid",
       "zoneType": "mowing"
+    },
+    {
+      "id": "g_1787877859293",
+      "name": "두호동",
+      "color": "#fb8c00",
+      "parentId": "g_1787877560889",
+      "order": 0,
+      "tier": "mid",
+      "zoneType": "mowing"
     }
   ],
   "customDepts": [],
@@ -109797,6 +109806,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-28T00:44:06.115Z",
+  "savedAt": "2026-08-28T00:44:22.315Z",
   "savedBy": "lms8765-ai"
 }
