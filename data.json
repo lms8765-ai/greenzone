@@ -109761,6 +109761,15 @@
       "order": 2,
       "tier": "mid",
       "zoneType": "mowing"
+    },
+    {
+      "id": "g_1787877560889",
+      "name": "두호우현용흥",
+      "color": "#fb8c00",
+      "parentId": null,
+      "order": 27,
+      "tier": "mid",
+      "zoneType": "mowing"
     }
   ],
   "customDepts": [],
@@ -109797,6 +109806,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-28T00:31:13.950Z",
+  "savedAt": "2026-08-28T00:39:23.900Z",
   "savedBy": "lms8765-ai"
 }
