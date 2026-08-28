@@ -98826,7 +98826,7 @@
       "memo": "",
       "manager": "",
       "color": "#e53935",
-      "groupId": "g_1787729382060_28",
+      "groupId": "",
       "paths": [],
       "path": null,
       "area": 0,
@@ -99204,7 +99204,7 @@
       "memo": "",
       "manager": "",
       "color": "#e53935",
-      "groupId": "g_1787729382060_28",
+      "groupId": "",
       "paths": [],
       "path": null,
       "area": 0,
@@ -99227,7 +99227,7 @@
       "memo": "",
       "manager": "",
       "color": "#e53935",
-      "groupId": "g_1787729382060_28",
+      "groupId": "",
       "paths": [],
       "path": null,
       "area": 0,
@@ -99250,7 +99250,7 @@
       "memo": "",
       "manager": "",
       "color": "#e53935",
-      "groupId": "g_1787729382060_28",
+      "groupId": "",
       "paths": [],
       "path": null,
       "area": 0,
@@ -109646,15 +109646,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_28",
-      "name": "용흥동",
-      "color": "#e53935",
-      "parentId": null,
-      "order": 21,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_29",
       "name": "죽도동",
       "color": "#e65100",
@@ -109815,6 +109806,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-28T00:51:35.319Z",
+  "savedAt": "2026-08-28T00:52:24.439Z",
   "savedBy": "lms8765-ai"
 }
