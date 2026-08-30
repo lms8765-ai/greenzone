@@ -31816,9 +31816,14 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 274,
       "facilityCount": 0,
-      "treeCounts": [],
+      "treeCounts": [
+        {
+          "species": "배롱나무",
+          "qty": 6
+        }
+      ],
       "shrubCounts": []
     },
     {
@@ -111232,6 +111237,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-30T23:54:52.481Z",
+  "savedAt": "2026-08-30T23:56:29.888Z",
   "savedBy": "lms8765-ai"
 }
