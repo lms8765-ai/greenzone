@@ -33989,9 +33989,26 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 3081,
       "facilityCount": 0,
-      "treeCounts": [],
+      "treeCounts": [
+        {
+          "species": "모감주나무",
+          "qty": 43
+        },
+        {
+          "species": "무궁화",
+          "qty": 105
+        },
+        {
+          "species": "소나무",
+          "qty": 61
+        },
+        {
+          "species": "왕벚나무",
+          "qty": 179
+        }
+      ],
       "shrubCounts": []
     },
     {
@@ -111032,6 +111049,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-30T23:42:51.368Z",
+  "savedAt": "2026-08-30T23:43:36.601Z",
   "savedBy": "lms8765-ai"
 }
