@@ -31824,7 +31824,16 @@
           "qty": 6
         }
       ],
-      "shrubCounts": []
+      "shrubCounts": [
+        {
+          "species": "수수꽃다리",
+          "qty": 12.5
+        },
+        {
+          "species": "철쭉류",
+          "qty": 12
+        }
+      ]
     },
     {
       "id": "z_1786666498377",
@@ -111237,6 +111246,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-30T23:56:29.888Z",
+  "savedAt": "2026-08-30T23:57:04.582Z",
   "savedBy": "lms8765-ai"
 }
