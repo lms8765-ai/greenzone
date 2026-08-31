@@ -110384,15 +110384,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_2",
-      "name": "오천읍",
-      "color": "#c62828",
-      "parentId": null,
-      "order": 2,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_6",
       "name": "효자동",
       "color": "#f4511e",
@@ -110479,15 +110470,6 @@
       "color": "#8e24aa",
       "parentId": "g_1787729382060_20",
       "order": 0,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
-      "id": "g_1787729382060_24",
-      "name": "연일읍",
-      "color": "#1e88e5",
-      "parentId": null,
-      "order": 18,
       "tier": "mid",
       "zoneType": "mowing"
     },
@@ -110670,6 +110652,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:31:54.343Z",
+  "savedAt": "2026-08-31T00:39:06.401Z",
   "savedBy": "lms8765-ai"
 }
