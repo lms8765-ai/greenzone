@@ -110430,7 +110430,7 @@
     },
     {
       "id": "g_1787729382060_20",
-      "name": "형산강",
+      "name": "형산강변",
       "color": "#8e24aa",
       "parentId": null,
       "order": 14,
@@ -110643,6 +110643,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:51:50.726Z",
+  "savedAt": "2026-08-31T00:58:25.991Z",
   "savedBy": "lms8765-ai"
 }
