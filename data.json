@@ -110393,15 +110393,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_7",
-      "name": "장성동",
-      "color": "#6a1b9a",
-      "parentId": null,
-      "order": 5,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_13",
       "name": "9호광장",
       "color": "#1565c0",
@@ -110652,6 +110643,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:50:57.152Z",
+  "savedAt": "2026-08-31T00:51:04.746Z",
   "savedBy": "lms8765-ai"
 }
