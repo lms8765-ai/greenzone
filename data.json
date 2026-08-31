@@ -110607,6 +110607,15 @@
       "order": 0,
       "tier": "mid",
       "zoneType": "mowing"
+    },
+    {
+      "id": "g_1788137124755",
+      "name": "장성동",
+      "color": "#e53935",
+      "parentId": "g_1788137095509",
+      "order": 1,
+      "tier": "mid",
+      "zoneType": "mowing"
     }
   ],
   "customDepts": [],
@@ -110643,6 +110652,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:45:19.806Z",
+  "savedAt": "2026-08-31T00:45:27.777Z",
   "savedBy": "lms8765-ai"
 }
