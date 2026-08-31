@@ -110598,6 +110598,15 @@
       "order": 28,
       "tier": "mid",
       "zoneType": "mowing"
+    },
+    {
+      "id": "g_1788137116781",
+      "name": "양덕동",
+      "color": "#e53935",
+      "parentId": "g_1788137095509",
+      "order": 0,
+      "tier": "mid",
+      "zoneType": "mowing"
     }
   ],
   "customDepts": [],
@@ -110634,6 +110643,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:44:58.521Z",
+  "savedAt": "2026-08-31T00:45:19.806Z",
   "savedBy": "lms8765-ai"
 }
