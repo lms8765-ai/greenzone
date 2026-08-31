@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>포항시 풀베기사업 구역 조회</title>
+<meta name="robots" content="noindex, nofollow">
+<script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=10h233ymi8"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; width:100%; height:100%; font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif; overflow:hidden; }
+  #map { position:fixed; inset:0; width:100%; height:100%; }
+
+  /* 지도 타입 토글 (일반/위성) */
+  #maptype-toggle {
+    position:fixed; top:14px; left:14px; z-index:500;
+    background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,.25);
+    display:flex; overflow:hidden;
+  }
+  #maptype-toggle button {
+    border:none; background:#fff; color:#333; font-size:13px; font-weight:700;
+    padding:10px 16px; cursor:pointer; white-space:nowrap;
+  }
+  #maptype-toggle button.active { background:#2e7d32; color:#fff; }
+
+  /* 상단 안내 배너 */
+  #top-banner {
+    position:fixed; top:14px; left:50%; transform:translateX(-50%); z-index:500;
+    background:rgba(255,255,255,.95); border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,.2);
+    padding:8px 16px; font-size:12px; font-weight:700; color:#2e7d32; white-space:nowrap;
+    max-width:80vw; overflow:hidden; text-overflow:ellipsis;
+  }
+
+  /* 그룹 정보 패널 (구역 클릭 시) */
+  #info-panel {
+    position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
+    z-index:500; background:#fff; border-radius:14px; box-shadow:0 4px 20px rgba(0,0,0,.3);
+    padding:16px 20px; min-width:220px; max-width:88vw; text-align:center; display:none;
+  }
+  #info-panel .grp-label { font-size:11px; color:#888; font-weight:600; margin-bottom:4px; }
+  #info-panel .grp-name { font-size:18px; font-weight:800; color:#1a2e1a; }
+  #info-panel .grp-count { font-size:12px; color:#666; margin-top:4px; }
+  #info-panel .close-btn {
+    position:absolute; top:6px; right:8px; border:none; background:none; font-size:16px;
+    color:#999; cursor:pointer; padding:6px;
+  }
+
+  /* 로딩 / 만료 / 오류 오버레이 */
+  #overlay {
+    position:fixed; inset:0; z-index:2000; background:#f4f6f4;
+    display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center; padding:24px;
+  }
+  #overlay .icon { font-size:44px; margin-bottom:14px; }
+  #overlay .title { font-size:18px; font-weight:800; color:#333; margin-bottom:8px; }
+  #overlay .desc { font-size:13px; color:#777; line-height:1.6; max-width:320px; }
+  #overlay.hidden { display:none; }
+
+  .spinner {
+    width:34px; height:34px; border:3px solid #dcdcdc; border-top-color:#2e7d32; border-radius:50%;
+    animation:spin 0.8s linear infinite; margin-bottom:14px;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  #footer-note {
+    position:fixed; bottom:8px; right:10px; z-index:400; font-size:10px; color:#999;
+    background:rgba(255,255,255,.7); padding:2px 8px; border-radius:6px;
+  }
+</style>
+</head>
+<body>
+
+<div id="overlay">
+  <div class="spinner"></div>
+  <div class="title">구역 정보를 불러오는 중입니다…</div>
+</div>
+
+<div id="map"></div>
+
+<div id="top-banner">✂️ 풀베기사업 구역 위치 조회</div>
+
+<div id="maptype-toggle">
+  <button id="btn-normal" class="active" onclick="setMapType('normal')">일반</button>
+  <button id="btn-satellite" onclick="setMapType('satellite')">위성</button>
+</div>
+
+<div id="info-panel">
+  <button class="close-btn" onclick="closeInfoPanel()">✕</button>
+  <div class="grp-label">소속 그룹</div>
+  <div class="grp-name" id="info-grp-name">-</div>
+  <div class="grp-count" id="info-grp-count"></div>
+</div>
+
+<div id="footer-note">조회 전용 · 2026-09-30 까지</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   포항시 풀베기사업 구역 열람용 공개 페이지
+   - 링크만으로 열람 가능 (로그인/코드 없음)
+   - 풀베기사업(mowing) 탭 구역 도형만 표시
+   - 구역 클릭 시 소속 그룹 전체를 하나로 강조, 그룹명만 안내
+   - 만료: 2026-09-30 (클라이언트 측 날짜 체크)
+══════════════════════════════════════════════ */
+
+const EXPIRE_DATE = new Date('2026-09-30T23:59:59+09:00');
+const DATA_URL = 'https://raw.githubusercontent.com/lms8765-ai/greenzone/main/data.json';
+
+let map, zones = [], groups = [];
+let zonePolysByGroup = {}; // groupId -> [polygon, ...]
+let allPolys = []; // {poly, zone}
+let selectedGroupId = null;
+
+function showOverlay(icon, title, desc) {
+  const ov = document.getElementById('overlay');
+  ov.classList.remove('hidden');
+  ov.innerHTML = `<div class="icon">${icon}</div><div class="title">${escHTML(title)}</div><div class="desc">${escHTML(desc)}</div>`;
+}
+function hideOverlay() {
+  document.getElementById('overlay').classList.add('hidden');
+}
+function escHTML(s) {
+  return String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function init() {
+  // 1) 만료일 체크 (클라이언트 시각 기준)
+  const now = new Date();
+  if (now > EXPIRE_DATE) {
+    showOverlay('⏰', '조회 기간이 만료되었습니다', '이 링크의 열람 가능 기간(~2026.09.30)이 종료되었습니다. 담당 부서(포항시 그린웨이추진과)로 문의해 주세요.');
+    return;
+  }
+
+  // 2) 데이터 로드
+  fetch(DATA_URL + '?_=' + Date.now())
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      zones  = (data.zones  || []).filter(z => (z.zoneType || 'green') === 'mowing');
+      groups = (data.groups || []).filter(g => (g.zoneType || 'green') === 'mowing');
+      if (!zones.length) {
+        showOverlay('🗺️', '표시할 구역이 없습니다', '풀베기사업 탭에 등록된 구역이 없습니다.');
+        return;
+      }
+      initMap();
+      hideOverlay();
+    })
+    .catch(err => {
+      console.error(err);
+      showOverlay('⚠️', '구역 정보를 불러오지 못했습니다', '네트워크 상태를 확인한 뒤 새로고침해 주세요.');
+    });
+}
+
+function initMap() {
+  map = new naver.maps.Map('map', {
+    center: new naver.maps.LatLng(36.042, 129.370),
+    zoom: 14,
+    mapTypeId: naver.maps.MapTypeId.NORMAL,
+    mapTypeControl: false,
+    scaleControl: false,
+    logoControlOptions: { position: naver.maps.Position.BOTTOM_LEFT },
+    tileSpare: 2,
+  });
+
+  naver.maps.Event.addListener(map, 'click', () => closeInfoPanel());
+
+  const bounds = new naver.maps.LatLngBounds();
+  let hasBounds = false;
+
+  zones.forEach(z => {
+    const allPaths = z.paths && z.paths.length > 0 ? z.paths : (z.path && z.path.length >= 3 ? [z.path] : []);
+    if (!allPaths.length) return;
+    const col = z.color || '#43a047';
+
+    allPaths.forEach(singlePath => {
+      const latlngs = singlePath.map(p => new naver.maps.LatLng(p.lat, p.lng));
+      const poly = new naver.maps.Polygon({
+        paths: latlngs,
+        fillColor: col, fillOpacity: .22,
+        strokeColor: col, strokeWeight: 2,
+        strokeOpacity: .8,
+        map: map, clickable: true, zIndex: 1
+      });
+      naver.maps.Event.addListener(poly, 'click', (e) => {
+        if (e && e.pointerEvent) e.pointerEvent.stopPropagation();
+        selectGroupOf(z);
+      });
+      latlngs.forEach(ll => bounds.extend(ll));
+      hasBounds = true;
+
+      allPolys.push({ poly, zone: z });
+      const gid = z.groupId || '';
+      if (!zonePolysByGroup[gid]) zonePolysByGroup[gid] = [];
+      zonePolysByGroup[gid].push(poly);
+    });
+  });
+
+  if (hasBounds) {
+    map.fitBounds(bounds);
+  }
+}
+
+function selectGroupOf(z) {
+  const gid = z.groupId || '';
+  selectedGroupId = gid;
+
+  // 전체 스타일 초기화
+  allPolys.forEach(({poly, zone}) => {
+    const col = zone.color || '#43a047';
+    poly.setOptions({ fillOpacity:.22, strokeWeight:2, strokeOpacity:.8, zIndex:1 });
+  });
+
+  // 같은 그룹 전체 강조
+  const polysInGroup = zonePolysByGroup[gid] || [];
+  polysInGroup.forEach(poly => {
+    poly.setOptions({ fillOpacity:.5, strokeWeight:4, strokeOpacity:1, zIndex:10 });
+  });
+
+  const grp = groups.find(g => g.id === gid);
+  const grpName = grp ? grp.name : '그룹 없음';
+  const zoneCountInGroup = zones.filter(z2 => (z2.groupId||'') === gid).length;
+
+  document.getElementById('info-grp-name').textContent = grpName;
+  document.getElementById('info-grp-count').textContent = gid ? `이 그룹에 속한 구역 ${zoneCountInGroup}개` : '';
+  document.getElementById('info-panel').style.display = 'block';
+}
+
+function closeInfoPanel() {
+  selectedGroupId = null;
+  allPolys.forEach(({poly, zone}) => {
+    poly.setOptions({ fillOpacity:.22, strokeWeight:2, strokeOpacity:.8, zIndex:1 });
+  });
+  document.getElementById('info-panel').style.display = 'none';
+}
+
+function setMapType(type) {
+  if (!map) return;
+  if (type === 'satellite') {
+    map.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
+    document.getElementById('btn-satellite').classList.add('active');
+    document.getElementById('btn-normal').classList.remove('active');
+  } else {
+    map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
+    document.getElementById('btn-normal').classList.add('active');
+    document.getElementById('btn-satellite').classList.remove('active');
+  }
+}
+
+window.onload = init;
+</script>
+
+</body>
+</html>
