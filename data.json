@@ -110589,6 +110589,15 @@
       "order": 2,
       "tier": "mid",
       "zoneType": "mowing"
+    },
+    {
+      "id": "g_1788137095509",
+      "name": "장성양덕지구",
+      "color": "#e53935",
+      "parentId": null,
+      "order": 28,
+      "tier": "mid",
+      "zoneType": "mowing"
     }
   ],
   "customDepts": [],
@@ -110625,6 +110634,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:44:25.037Z",
+  "savedAt": "2026-08-31T00:44:58.521Z",
   "savedBy": "lms8765-ai"
 }
