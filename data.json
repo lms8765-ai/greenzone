@@ -110402,15 +110402,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_8",
-      "name": "양덕동",
-      "color": "#c62828",
-      "parentId": null,
-      "order": 6,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_13",
       "name": "9호광장",
       "color": "#1565c0",
@@ -110661,6 +110652,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:48:40.466Z",
+  "savedAt": "2026-08-31T00:48:51.852Z",
   "savedBy": "lms8765-ai"
 }
