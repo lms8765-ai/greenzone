@@ -76911,8 +76911,8 @@
       "workTypes": [],
       "memo": "",
       "manager": "",
-      "color": "#c62828",
-      "groupId": "g_1787729612626",
+      "color": "#e53935",
+      "groupId": "g_1788137137539",
       "paths": [
         [
           {
@@ -110661,6 +110661,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:46:01.350Z",
+  "savedAt": "2026-08-31T00:46:06.404Z",
   "savedBy": "lms8765-ai"
 }
