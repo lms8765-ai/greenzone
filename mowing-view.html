@@ -13,7 +13,7 @@
 
   /* 지도 타입 토글 (일반/위성) */
   #maptype-toggle {
-    position:fixed; top:14px; left:14px; z-index:500;
+    position:fixed; bottom:14px; left:14px; z-index:500;
     background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,.25);
     display:flex; overflow:hidden;
   }
@@ -105,9 +105,23 @@ const EXPIRE_DATE = new Date('2026-09-30T23:59:59+09:00');
 const DATA_URL = 'https://raw.githubusercontent.com/lms8765-ai/greenzone/main/data.json';
 
 let map, zones = [], groups = [];
-let zonePolysByGroup = {}; // groupId -> [polygon, ...]
+let groupById = {};
+let zonePolysByGroup = {}; // 최상위 그룹id -> [polygon, ...]
 let allPolys = []; // {poly, zone}
 let selectedGroupId = null;
+
+// 그룹은 상/중/하위 계층 구조(parentId)를 가질 수 있음 — 어떤 하위 그룹에
+// 속한 구역을 클릭해도 항상 "최상위 그룹" 기준으로 함께 묶어 강조하기 위한 함수
+function getRootGroupId(gid) {
+  if (!gid || !groupById[gid]) return gid || '';
+  let cur = groupById[gid];
+  let guard = 0;
+  while (cur.parentId && groupById[cur.parentId] && guard < 20) {
+    cur = groupById[cur.parentId];
+    guard++;
+  }
+  return cur.id;
+}
 
 function showOverlay(icon, title, desc) {
   const ov = document.getElementById('overlay');
@@ -138,6 +152,8 @@ function init() {
     .then(data => {
       zones  = (data.zones  || []).filter(z => (z.zoneType || 'green') === 'mowing');
       groups = (data.groups || []).filter(g => (g.zoneType || 'green') === 'mowing');
+      groupById = {};
+      groups.forEach(g => { groupById[g.id] = g; });
       if (!zones.length) {
         showOverlay('🗺️', '표시할 구역이 없습니다', '풀베기사업 탭에 등록된 구역이 없습니다.');
         return;
@@ -189,9 +205,9 @@ function initMap() {
       hasBounds = true;
 
       allPolys.push({ poly, zone: z });
-      const gid = z.groupId || '';
-      if (!zonePolysByGroup[gid]) zonePolysByGroup[gid] = [];
-      zonePolysByGroup[gid].push(poly);
+      const rootGid = getRootGroupId(z.groupId || '');
+      if (!zonePolysByGroup[rootGid]) zonePolysByGroup[rootGid] = [];
+      zonePolysByGroup[rootGid].push(poly);
     });
   });
 
@@ -201,27 +217,26 @@ function initMap() {
 }
 
 function selectGroupOf(z) {
-  const gid = z.groupId || '';
-  selectedGroupId = gid;
+  const rootGid = getRootGroupId(z.groupId || '');
+  selectedGroupId = rootGid;
 
   // 전체 스타일 초기화
-  allPolys.forEach(({poly, zone}) => {
-    const col = zone.color || '#43a047';
+  allPolys.forEach(({poly}) => {
     poly.setOptions({ fillOpacity:.22, strokeWeight:2, strokeOpacity:.8, zIndex:1 });
   });
 
-  // 같은 그룹 전체 강조
-  const polysInGroup = zonePolysByGroup[gid] || [];
+  // 최상위 그룹 기준으로 하위 그룹 소속 구역까지 모두 함께 강조
+  const polysInGroup = zonePolysByGroup[rootGid] || [];
   polysInGroup.forEach(poly => {
     poly.setOptions({ fillOpacity:.5, strokeWeight:4, strokeOpacity:1, zIndex:10 });
   });
 
-  const grp = groups.find(g => g.id === gid);
+  const grp = groupById[rootGid];
   const grpName = grp ? grp.name : '그룹 없음';
-  const zoneCountInGroup = zones.filter(z2 => (z2.groupId||'') === gid).length;
+  const zoneCountInGroup = zones.filter(z2 => getRootGroupId(z2.groupId||'') === rootGid).length;
 
   document.getElementById('info-grp-name').textContent = grpName;
-  document.getElementById('info-grp-count').textContent = gid ? `이 그룹에 속한 구역 ${zoneCountInGroup}개` : '';
+  document.getElementById('info-grp-count').textContent = rootGid ? `이 그룹에 속한 구역 ${zoneCountInGroup}개` : '';
   document.getElementById('info-panel').style.display = 'block';
 }
 
