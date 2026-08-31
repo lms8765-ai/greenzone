@@ -110422,7 +110422,7 @@
     {
       "id": "g_1787729382060_18",
       "name": "송도동",
-      "color": "#2e7d32",
+      "color": "#039be5",
       "parentId": null,
       "order": 13,
       "tier": "mid",
@@ -110643,6 +110643,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:51:04.746Z",
+  "savedAt": "2026-08-31T00:51:18.774Z",
   "savedBy": "lms8765-ai"
 }
