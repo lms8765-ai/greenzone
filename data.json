@@ -110492,15 +110492,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787805496855",
-      "name": "형산강 서측구간",
-      "color": "#3949ab",
-      "parentId": "g_1787729382060_14",
-      "order": 1,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787806061699",
       "name": "ㄱ직영관리",
       "color": "#43a047",
@@ -110652,6 +110643,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T01:21:24.332Z",
+  "savedAt": "2026-08-31T01:21:32.130Z",
   "savedBy": "lms8765-ai"
 }
