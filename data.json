@@ -110465,15 +110465,6 @@
       "zoneType": "mowing"
     },
     {
-      "id": "g_1787729382060_26",
-      "name": "기계면",
-      "color": "#e65100",
-      "parentId": null,
-      "order": 20,
-      "tier": "mid",
-      "zoneType": "mowing"
-    },
-    {
       "id": "g_1787729382060_27",
       "name": "서숲",
       "color": "#e65100",
@@ -110634,6 +110625,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:39:13.137Z",
+  "savedAt": "2026-08-31T00:44:25.037Z",
   "savedBy": "lms8765-ai"
 }
