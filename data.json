@@ -110616,6 +110616,15 @@
       "order": 1,
       "tier": "mid",
       "zoneType": "mowing"
+    },
+    {
+      "id": "g_1788137137539",
+      "name": "영일만 4산단",
+      "color": "#e53935",
+      "parentId": "g_1788137095509",
+      "order": 2,
+      "tier": "mid",
+      "zoneType": "mowing"
     }
   ],
   "customDepts": [],
@@ -110652,6 +110661,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:45:27.777Z",
+  "savedAt": "2026-08-31T00:45:40.551Z",
   "savedBy": "lms8765-ai"
 }
