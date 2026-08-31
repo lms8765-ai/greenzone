@@ -65635,7 +65635,7 @@
       "workerDefault": "",
       "nextWorkDate": "",
       "nextWorkType": "",
-      "mowingArea": 0,
+      "mowingArea": 1560,
       "facilityCount": 0,
       "treeCounts": [],
       "shrubCounts": []
@@ -110672,6 +110672,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-08-31T00:19:31.956Z",
+  "savedAt": "2026-08-31T00:20:14.616Z",
   "savedBy": "lms8765-ai"
 }
