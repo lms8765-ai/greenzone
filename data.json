@@ -6003,8 +6003,146 @@
       "nextWorkType": "",
       "mowingArea": 0,
       "facilityCount": 0,
-      "treeCounts": [],
-      "shrubCounts": []
+      "treeCounts": [
+        {
+          "species": "감나무",
+          "qty": 1
+        },
+        {
+          "species": "굴참나무",
+          "qty": 3
+        },
+        {
+          "species": "꽃복숭아",
+          "qty": 5
+        },
+        {
+          "species": "꽃사과",
+          "qty": 6
+        },
+        {
+          "species": "느릅나무",
+          "qty": 4
+        },
+        {
+          "species": "떡갈나무",
+          "qty": 1
+        },
+        {
+          "species": "떼죽나무",
+          "qty": 8
+        },
+        {
+          "species": "모과나무",
+          "qty": 22
+        },
+        {
+          "species": "무궁화",
+          "qty": 2
+        },
+        {
+          "species": "배롱나무",
+          "qty": 4
+        },
+        {
+          "species": "복자기나무",
+          "qty": 2
+        },
+        {
+          "species": "산벚나무",
+          "qty": 5
+        },
+        {
+          "species": "산사나무",
+          "qty": 1
+        },
+        {
+          "species": "산수유",
+          "qty": 2
+        },
+        {
+          "species": "상수리나무",
+          "qty": 1
+        },
+        {
+          "species": "소나무",
+          "qty": 76
+        },
+        {
+          "species": "에메랄드그린",
+          "qty": 4
+        },
+        {
+          "species": "왕벚나무",
+          "qty": 20
+        },
+        {
+          "species": "은목서",
+          "qty": 1
+        },
+        {
+          "species": "은행나무",
+          "qty": 1
+        },
+        {
+          "species": "이팝나무",
+          "qty": 36
+        },
+        {
+          "species": "팥배나무",
+          "qty": 8
+        },
+        {
+          "species": "회화나무",
+          "qty": 6
+        }
+      ],
+      "shrubCounts": [
+        {
+          "species": "국수나무",
+          "qty": 3
+        },
+        {
+          "species": "남천",
+          "qty": 34.55
+        },
+        {
+          "species": "매자나무",
+          "qty": 8
+        },
+        {
+          "species": "사철나무",
+          "qty": 7.9
+        },
+        {
+          "species": "수국",
+          "qty": 11.75
+        },
+        {
+          "species": "조팝나무",
+          "qty": 68.5
+        },
+        {
+          "species": "철쭉류",
+          "qty": 147.63
+        },
+        {
+          "species": "홍가시나무",
+          "qty": 6.5
+        },
+        {
+          "species": "화살나무",
+          "qty": 32.55
+        },
+        {
+          "species": "황금사철나무",
+          "qty": 15.3
+        },
+        {
+          "species": "황매화",
+          "qty": 5.2
+        }
+      ]
     },
     {
       "id": "z_1785907820138",
@@ -112806,6 +112944,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-09-01T07:36:39.622Z",
+  "savedAt": "2026-09-01T07:47:11.687Z",
   "savedBy": "lms8765-ai"
 }
