@@ -1775,8 +1775,9 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
     <!-- ▸ 보조 그룹 (기타 메뉴로 접을 수 있음) -->
     <button class="hd-btn" onclick="exportData()" title="JSON 내보내기" style="flex-shrink:0">💾</button>
     <button class="hd-btn" onclick="exportCSV()"  title="엑셀 내보내기" style="flex-shrink:0">📊</button>
-    <button class="hd-btn mut-btn" onclick="importData()" title="JSON 불러오기" style="flex-shrink:0">📂</button>
+    <button class="hd-btn mut-btn" onclick="importData()" title="JSON 불러오기 (병합 — 다른 기기의 추가 데이터를 지금 데이터에 합침)" style="flex-shrink:0">📂</button>
     <input type="file" id="import-file" accept=".json" style="display:none" onchange="handleImport(event)">
+    <button class="hd-btn mut-btn" onclick="importDataBackup()" title="백업 파일로 전체 교체 (병합 아님 — 지금 화면의 모든 데이터를 파일 내용으로 완전히 덮어씀)" style="flex-shrink:0">🔁</button>
 
     <div class="hd-divider" style="flex-shrink:0"></div>
 
