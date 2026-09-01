@@ -4435,10 +4435,6 @@
       "facilityCount": 0,
       "treeCounts": [
         {
-          "species": "(조형)소나무",
-          "qty": 8
-        },
-        {
           "species": "굴참나무",
           "qty": 14
         },
@@ -4468,7 +4464,7 @@
         },
         {
           "species": "소나무",
-          "qty": 89
+          "qty": 97
         },
         {
           "species": "에메랄드그린",
@@ -4489,12 +4485,24 @@
         {
           "species": "호두나무",
           "qty": 1
+        },
+        {
+          "species": "홍가시나무",
+          "qty": 4
         }
       ],
       "shrubCounts": [
         {
+          "species": "꽃댕강나무",
+          "qty": 12
+        },
+        {
           "species": "남천",
           "qty": 81.5
+        },
+        {
+          "species": "명자나무",
+          "qty": 7.5
         },
         {
           "species": "사철나무",
@@ -4527,6 +4535,10 @@
         {
           "species": "황매화",
           "qty": 3.2
+        },
+        {
+          "species": "흰말채나무",
+          "qty": 3
         }
       ]
     },
@@ -5068,10 +5080,6 @@
       "facilityCount": 0,
       "treeCounts": [
         {
-          "species": "(조형)소나무",
-          "qty": 6
-        },
-        {
           "species": "굴참나무",
           "qty": 3
         },
@@ -5093,7 +5101,7 @@
         },
         {
           "species": "소나무",
-          "qty": 99
+          "qty": 105
         },
         {
           "species": "에메랄드그린",
@@ -7307,10 +7315,6 @@
       "facilityCount": 0,
       "treeCounts": [
         {
-          "species": "(조형)소나무",
-          "qty": 9
-        },
-        {
           "species": "가시나무",
           "qty": 9
         },
@@ -7343,6 +7347,14 @@
           "qty": 11
         },
         {
+          "species": "모감주나무",
+          "qty": 3
+        },
+        {
+          "species": "모과나무",
+          "qty": 1
+        },
+        {
           "species": "목련",
           "qty": 4
         },
@@ -7368,7 +7380,7 @@
         },
         {
           "species": "소나무",
-          "qty": 31
+          "qty": 40
         },
         {
           "species": "에메랄드그린",
@@ -7397,6 +7409,10 @@
         {
           "species": "청단풍",
           "qty": 29
+        },
+        {
+          "species": "편백나무",
+          "qty": 7
         },
         {
           "species": "홍가시나무",
@@ -8300,10 +8316,6 @@
       "facilityCount": 0,
       "treeCounts": [
         {
-          "species": "(조형)소나무",
-          "qty": 6
-        },
-        {
           "species": "가시나무",
           "qty": 5
         },
@@ -8344,6 +8356,10 @@
           "qty": 35
         },
         {
+          "species": "복자기나무",
+          "qty": 3
+        },
+        {
           "species": "산딸나무",
           "qty": 6
         },
@@ -8361,7 +8377,7 @@
         },
         {
           "species": "소나무",
-          "qty": 27
+          "qty": 33
         },
         {
           "species": "스트로브잣나무",
@@ -8394,6 +8410,10 @@
         {
           "species": "팥배나무",
           "qty": 1
+        },
+        {
+          "species": "편백나무",
+          "qty": 12
         },
         {
           "species": "홍가시나무",
@@ -9255,6 +9275,10 @@
           "qty": 3
         },
         {
+          "species": "메타세콰이어",
+          "qty": 11
+        },
+        {
           "species": "모감주나무",
           "qty": 6
         },
@@ -9322,7 +9346,7 @@
         },
         {
           "species": "사철나무",
-          "qty": 4
+          "qty": 44.39
         },
         {
           "species": "조팝나무",
@@ -11420,61 +11444,61 @@
       "treeCounts": [
         {
           "species": "공작단풍",
-          "qty": 26
+          "qty": 13
         },
         {
           "species": "느티나무",
-          "qty": 4
+          "qty": 2
         },
         {
           "species": "메타세콰이어",
-          "qty": 40
-        },
-        {
-          "species": "배롱나무",
-          "qty": 26
-        },
-        {
-          "species": "복자기나무",
-          "qty": 8
-        },
-        {
-          "species": "소나무",
-          "qty": 10
-        },
-        {
-          "species": "은행나무",
           "qty": 20
         },
         {
-          "species": "중국단풍",
+          "species": "배롱나무",
+          "qty": 13
+        },
+        {
+          "species": "복자기나무",
           "qty": 4
+        },
+        {
+          "species": "소나무",
+          "qty": 5
+        },
+        {
+          "species": "은행나무",
+          "qty": 10
+        },
+        {
+          "species": "중국단풍",
+          "qty": 2
         }
       ],
       "shrubCounts": [
         {
           "species": "꽃댕강나무",
-          "qty": 31
+          "qty": 31.1
         },
         {
           "species": "남천",
-          "qty": 22
+          "qty": 11
         },
         {
           "species": "수국",
-          "qty": 8.05
+          "qty": 4.05
         },
         {
           "species": "조팝나무",
-          "qty": 55.5
+          "qty": 28.5
         },
         {
           "species": "철쭉류",
-          "qty": 164.1
+          "qty": 82.1
         },
         {
           "species": "화살나무",
-          "qty": 40.2
+          "qty": 20.2
         }
       ]
     },
@@ -11564,32 +11588,28 @@
           "qty": 2
         },
         {
-          "species": "단풍나무",
-          "qty": 3
-        },
-        {
           "species": "메타세콰이어",
-          "qty": 36
+          "qty": 18
         },
         {
           "species": "배롱나무",
-          "qty": 2
+          "qty": 1
         },
         {
           "species": "복자기나무",
-          "qty": 6
+          "qty": 3
         },
         {
           "species": "소나무",
-          "qty": 14
+          "qty": 7
         },
         {
           "species": "은행나무",
-          "qty": 14
+          "qty": 7
         },
         {
           "species": "주목",
-          "qty": 2
+          "qty": 1
         },
         {
           "species": "중국단풍",
@@ -11597,33 +11617,33 @@
         },
         {
           "species": "편백나무",
-          "qty": 4
+          "qty": 2
         }
       ],
       "shrubCounts": [
         {
           "species": "남천",
-          "qty": 85.45
+          "qty": 42.45
         },
         {
           "species": "조팝나무",
-          "qty": 15.82
+          "qty": 7.82
         },
         {
           "species": "쥐똥나무",
-          "qty": 11.1
+          "qty": 5.6
         },
         {
           "species": "철쭉류",
-          "qty": 57.99
+          "qty": 28.99
         },
         {
           "species": "화살나무",
-          "qty": 18
+          "qty": 9
         },
         {
           "species": "황매화",
-          "qty": 14.2
+          "qty": 7.2
         }
       ]
     },
@@ -12608,6 +12628,10 @@
       ],
       "shrubCounts": [
         {
+          "species": "꽃댕강나무",
+          "qty": 6.5
+        },
+        {
           "species": "남천",
           "qty": 7.35
         },
@@ -12634,6 +12658,10 @@
         {
           "species": "화살나무",
           "qty": 12
+        },
+        {
+          "species": "황금사철나무",
+          "qty": 4
         }
       ]
     },
@@ -12772,6 +12800,10 @@
         }
       ],
       "shrubCounts": [
+        {
+          "species": "꽃댕강나무",
+          "qty": 96.5
+        },
         {
           "species": "수국",
           "qty": 16.3
@@ -12930,6 +12962,10 @@
       ],
       "shrubCounts": [
         {
+          "species": "꽃댕강나무",
+          "qty": 60.95
+        },
+        {
           "species": "사철나무",
           "qty": 4.5
         },
@@ -13079,8 +13115,16 @@
       ],
       "shrubCounts": [
         {
+          "species": "꽃댕강나무",
+          "qty": 37.8
+        },
+        {
           "species": "남천",
           "qty": 6
+        },
+        {
+          "species": "장미",
+          "qty": 4
         },
         {
           "species": "철쭉류",
@@ -16298,10 +16342,6 @@
       "facilityCount": 0,
       "treeCounts": [
         {
-          "species": "(조형)소나무",
-          "qty": 1
-        },
-        {
           "species": "공작단풍",
           "qty": 6
         },
@@ -16339,7 +16379,7 @@
         },
         {
           "species": "소나무",
-          "qty": 46
+          "qty": 47
         },
         {
           "species": "은행나무",
@@ -16474,6 +16514,10 @@
       "mowingArea": 0,
       "facilityCount": 0,
       "treeCounts": [
+        {
+          "species": "계수나무",
+          "qty": 3
+        },
         {
           "species": "공작단풍",
           "qty": 1
@@ -29190,14 +29234,26 @@
       "facilityCount": 0,
       "treeCounts": [
         {
+          "species": "가이즈까향나무",
+          "qty": 40
+        },
+        {
           "species": "소나무",
           "qty": 14
         }
       ],
       "shrubCounts": [
         {
+          "species": "장미",
+          "qty": 6
+        },
+        {
           "species": "철쭉류",
           "qty": 14
+        },
+        {
+          "species": "회양목",
+          "qty": 30.8
         }
       ]
     },
@@ -31445,16 +31501,12 @@
       "facilityCount": 0,
       "treeCounts": [
         {
-          "species": "(조형)소나무",
-          "qty": 2
-        },
-        {
           "species": "배롱나무",
           "qty": 84
         },
         {
           "species": "소나무",
-          "qty": 4
+          "qty": 6
         },
         {
           "species": "왕벚나무",
@@ -112944,6 +112996,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-09-01T07:54:48.170Z",
+  "savedAt": "2026-09-01T23:40:04.371Z",
   "savedBy": "lms8765-ai"
 }
