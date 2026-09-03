@@ -112916,7 +112916,12 @@
   "complaints": [],
   "roseZones": [],
   "editPasswordHash": "abd3f2ed90f684b305ed7632ee24e58ed439de9158399ce9a5952281ef804b43",
-  "hiddenGroups": [],
+  "hiddenGroups": [
+    "g_1787877560889",
+    "g_1787877859293",
+    "g_1787877866409",
+    "g_1787877877247"
+  ],
   "hiddenZones": [],
   "pinnedZones": [],
   "treeData": {
@@ -112944,6 +112949,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-09-03T04:27:17.868Z",
+  "savedAt": "2026-09-03T04:27:26.701Z",
   "savedBy": "lms8765-ai"
 }
