@@ -1702,6 +1702,10 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   #map-area { width: 100% !important; }
   #header { background: var(--green) !important; -webkit-print-color-adjust: exact; }
 }
+/* ── 고급 기능 숨김 (미사용 기능 정리: 기본 숨김, 🧰 버튼으로 표시) ── */
+body:not(.adv-on) .adv-feature { display: none !important; }
+#adv-toggle { opacity:.75; }
+body.adv-on #adv-toggle { opacity:1; background:#ffd54f33 !important; border-color:#ffd54f !important; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 </style>
@@ -1730,8 +1734,8 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
     <button class="hd-tab active" id="tab-green" onclick="switchAppTab('green')">🌿 녹지관리</button>
     <button class="hd-tab" id="tab-mowing" onclick="switchAppTab('mowing')">✂️ 풀베기사업</button>
     <button class="hd-tab" id="tab-flower" onclick="switchAppTab('flower')">🌸 초화식재</button>
-    <button class="hd-tab" id="tab-rose"  onclick="switchAppTab('rose')">🌹 장미관리</button>
-    <button class="hd-tab" id="tab-cp"    onclick="switchAppTab('cp')">📋 민원관리</button>
+    <button class="hd-tab adv-feature" id="tab-rose"  onclick="switchAppTab('rose')">🌹 장미관리</button>
+    <button class="hd-tab adv-feature" id="tab-cp"    onclick="switchAppTab('cp')">📋 민원관리</button>
   </div>
   <!-- 2행: 기능 버튼 -->
   <div id="hd-row2">
@@ -1753,12 +1757,12 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
       title="다른 기기에서 저장한 최신 데이터를 지금 바로 불러오기">
       🔄 최신 불러오기
     </button>
-    <button class="hd-btn" onclick="openMonthlyReport()"
+    <button class="hd-btn adv-feature" onclick="openMonthlyReport()"
       style="color:#ffd700;font-weight:700;flex-shrink:0"
       title="월간 업무보고서 자동 생성">
       📋 보고서
     </button>
-    <button class="hd-btn" onclick="openScheduleCalendar()"
+    <button class="hd-btn adv-feature" onclick="openScheduleCalendar()"
       style="color:#80cbc4;flex-shrink:0"
       title="작업 예정일 캘린더">
       📅 일정
@@ -1792,6 +1796,7 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
       title="동기화 설정">
       ⚙️
     </button>
+    <button class="hd-btn" id="adv-toggle" onclick="toggleAdvFeatures()" title="고급 기능 보기/숨기기 (민원·장미·보고서·일정·작업기록)" style="background:#ffffff22;border:1px solid #ffffff44;flex-shrink:0">🧰</button>
     <button id="dark-toggle" onclick="toggleDarkMode()" title="다크모드" style="flex-shrink:0">🌙</button>
     <button id="help-btn" onclick="showOnboard()" title="사용 안내"
       style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0">
@@ -1818,13 +1823,13 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   <button class="tb-btn red mut-btn"  id="btn-del"  onclick="confirmDeleteZone()" disabled>🗑 삭제</button>
   <div class="tb-sep"></div>
   <!-- 기록 -->
-  <span class="tb-label">기록</span>
-  <button class="tb-btn mut-btn" id="btn-log" onclick="openLogModal()" disabled>📝 작업기록 추가</button>
-  <div class="tb-sep"></div>
+  <span class="tb-label adv-feature">기록</span>
+  <button class="tb-btn mut-btn adv-feature" id="btn-log" onclick="openLogModal()" disabled>📝 작업기록 추가</button>
+  <div class="tb-sep adv-feature"></div>
   <!-- 그룹 -->
   <span class="tb-label">그룹</span>
   <button class="tb-btn orange mut-btn" onclick="openGroupModal()">📁 그룹 관리</button>
-  <button class="tb-btn orange mut-btn" onclick="openBulkLogModal()" title="여러 구역에 작업기록 동시 등록">📝 일괄기록</button>
+  <button class="tb-btn orange mut-btn adv-feature" onclick="openBulkLogModal()" title="여러 구역에 작업기록 동시 등록">📝 일괄기록</button>
   <button class="tb-btn orange active" id="btn-grp-vis" onclick="toggleGroupVis()" title="지도에서 그룹 라벨 표시/숨김">👁 그룹 표시</button>
   <div class="tb-sep"></div>
   <!-- 보기 -->
@@ -7002,6 +7007,25 @@ function handleImport(e){
 /* ══════════════════════════════════════════════
    헤더 통계
 ══════════════════════════════════════════════ */
+/* 고급 기능 표시 토글 (미사용 기능 숨김) */
+function applyAdvFeatures(on) {
+  document.body.classList.toggle('adv-on', !!on);
+  try { localStorage.setItem('gz_adv', on ? '1' : '0'); } catch(e) {}
+}
+function toggleAdvFeatures() {
+  const on = !document.body.classList.contains('adv-on');
+  applyAdvFeatures(on);
+  // 숨기는 순간 숨겨질 탭에 있었다면 녹지관리로 이동
+  if (!on && (currentAppTab === 'rose' || currentAppTab === 'cp')) switchAppTab('green');
+  showToast(on ? '🧰 고급 기능 표시 (민원·장미·보고서·일정·작업기록)' : '🧰 고급 기능 숨김 — 핵심 기능만 표시');
+}
+(function initAdvFeatures() {
+  let on = false;
+  try { on = localStorage.getItem('gz_adv') === '1'; } catch(e) {}
+  if (document.body) applyAdvFeatures(on);
+  else document.addEventListener('DOMContentLoaded', () => applyAdvFeatures(on));
+})();
+
 function updateHeaderStats() {
   const tab = currentAppTab || 'green';
   if (tab === 'tree') {
@@ -7028,11 +7052,19 @@ function updateHeaderStats() {
     const area  = tabZones.reduce((s,z)=>s+(z.area||0),0);
     const issue = tabZones.filter(z=>z.status==='issue').length;
     document.getElementById('hs-zones').textContent = total;
-    document.getElementById('hs-logs').textContent  = logs;
+    const l2el=document.getElementById('hs-stat-l2');
+    if (logs === 0 && total > 0) {
+      // 작업기록을 쓰지 않는 경우: 수목·관목 조사 입력 진행률을 대신 표시
+      const surveyed = tabZones.filter(z=>(z.treeCounts&&z.treeCounts.length)||(z.shrubCounts&&z.shrubCounts.length)).length;
+      document.getElementById('hs-logs').textContent = surveyed + '/' + total;
+      if (l2el) l2el.textContent = '수목조사';
+    } else {
+      document.getElementById('hs-logs').textContent = logs;
+      if (l2el) l2el.textContent = '작업기록';
+    }
     document.getElementById('hs-area').textContent  = area>9999?(area/10000).toFixed(1)+'ha':Math.round(area).toLocaleString();
     document.getElementById('hs-issue').textContent = issue;
     const l1=document.getElementById('hs-stat-l1'); if(l1) l1.textContent='관리구역';
-    const l2=document.getElementById('hs-stat-l2'); if(l2) l2.textContent='작업기록';
     const l3=document.getElementById('hs-stat-l3'); if(l3) l3.textContent='총면적';
     const l4=document.getElementById('hs-stat-l4'); if(l4) l4.textContent='문제발생';
   } else if (tab === 'cp') {
@@ -12143,26 +12175,45 @@ function importDataBackup() {
   input.onchange = (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
-    showConfirm(
-      '백업 파일을 복원하면 현재 화면의 모든 데이터가 백업 시점 상태로 교체됩니다. 계속하시겠습니까?',
-      '⚠️',
-      [
-        { label: '복원', cls: 'danger', fn: () => {
-          const reader = new FileReader();
-          reader.onload = (ev) => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      let data;
+      try {
+        data = JSON.parse(ev.target.result);
+        if (!data || !Array.isArray(data.zones)) throw new Error('zones 없음');
+      } catch(err) {
+        showToast('❌ 복원 실패: 올바른 백업 파일이 아닙니다.');
+        return;
+      }
+      // 🛡 복원 전 안전 점검: 파일 내용 요약 + 현재 데이터보다 오래된 파일이면 경고
+      const cnt = (arr) => (arr||[]).filter(z=>(z.treeCounts&&z.treeCounts.length)||(z.shrubCounts&&z.shrubCounts.length)).length;
+      const fileSaved = data.savedAt ? new Date(data.savedAt) : null;
+      const fileTxt = fileSaved && !isNaN(fileSaved) ? fileSaved.toLocaleString('ko-KR') : '(저장일 정보 없음)';
+      const curSurveyed = cnt(zones), fileSurveyed = cnt(data.zones);
+      let warn = '';
+      if (fileSurveyed < curSurveyed) warn += '\n⚠️ 파일의 수목조사 구역(' + fileSurveyed + ')이 현재(' + curSurveyed + ')보다 적습니다 — 옛 백업일 수 있습니다.';
+      if (data.zones.length < zones.length) warn += '\n⚠️ 파일의 구역 수(' + data.zones.length + ')가 현재(' + zones.length + ')보다 적습니다.';
+      showConfirm(
+        '백업 파일로 전체 교체합니다.\n\n· 파일 저장일: ' + fileTxt +
+        '\n· 파일: 구역 ' + data.zones.length + '개 / 수목조사 ' + fileSurveyed + '개' +
+        '\n· 현재: 구역 ' + zones.length + '개 / 수목조사 ' + curSurveyed + '개' + warn +
+        '\n\n복원 직전의 현재 데이터는 자동으로 파일로 저장(되돌리기용)됩니다.',
+        warn ? '⚠️' : '🔁',
+        [
+          { label: '복원', cls: 'danger', fn: () => {
             try {
-              const data = JSON.parse(ev.target.result);
+              exportDataBackup(); // 되돌리기용 현재 데이터 자동 백업
               applyData(data);
-              showToast('✅ 백업 파일에서 데이터가 복원되었습니다.');
+              showToast('✅ 복원 완료. 이전 데이터는 "포항시녹지관리_백업_…json"으로 다운로드되었습니다.');
             } catch(err) {
-              showToast('❌ 복원 실패: 올바른 백업 파일이 아닙니다.');
+              showToast('❌ 복원 실패: ' + err.message);
             }
-          };
-          reader.readAsText(file);
-        }},
-        { label: '취소', cls: 'secondary', fn: null }
-      ]
-    );
+          }},
+          { label: '취소', cls: 'secondary', fn: null }
+        ]
+      );
+    };
+    reader.readAsText(file);
   };
   input.click();
 }
