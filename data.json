@@ -8500,8 +8500,90 @@
       "nextWorkType": "",
       "mowingArea": 820.5,
       "facilityCount": 0,
-      "treeCounts": [],
-      "shrubCounts": []
+      "treeCounts": [
+        {
+          "species": "느티나무",
+          "qty": 10
+        },
+        {
+          "species": "대추나무",
+          "qty": 1
+        },
+        {
+          "species": "동백나무",
+          "qty": 1
+        },
+        {
+          "species": "섬잣나무",
+          "qty": 1
+        },
+        {
+          "species": "스트로브잣나무",
+          "qty": 2
+        },
+        {
+          "species": "은목서",
+          "qty": 1
+        },
+        {
+          "species": "이팝나무",
+          "qty": 21
+        },
+        {
+          "species": "자귀나무",
+          "qty": 2
+        },
+        {
+          "species": "잣나무",
+          "qty": 35
+        },
+        {
+          "species": "청단풍",
+          "qty": 8
+        }
+      ],
+      "shrubCounts": [
+        {
+          "species": "개나리",
+          "qty": 4
+        },
+        {
+          "species": "광나무",
+          "qty": 3.5
+        },
+        {
+          "species": "꽃댕강나무",
+          "qty": 33
+        },
+        {
+          "species": "남천",
+          "qty": 3.6
+        },
+        {
+          "species": "매자나무",
+          "qty": 2
+        },
+        {
+          "species": "사철나무",
+          "qty": 6
+        },
+        {
+          "species": "수수꽃다리",
+          "qty": 2
+        },
+        {
+          "species": "장미",
+          "qty": 2.4
+        },
+        {
+          "species": "철쭉류",
+          "qty": 38.5
+        },
+        {
+          "species": "회양목",
+          "qty": 7.2
+        }
+      ]
     },
     {
       "id": "z_1785910444942",
@@ -23004,7 +23086,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 우현동 543-3",
+      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 우현동 543-3 / 포항문화원 구역",
       "manager": "",
       "color": "#e65100",
       "groupId": "g_1785976972552",
@@ -23245,7 +23327,7 @@
       "status": "pending",
       "zoneType": "green",
       "workTypes": [],
-      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 우현동 543-5",
+      "memo": "지번 경계 자동 불러오기(브이월드 PNU 정확매칭): 경상북도 포항시 북구 우현동 543-5 / 포항문화원 구역",
       "manager": "",
       "color": "#e65100",
       "groupId": "g_1785976972552",
@@ -23392,14 +23474,66 @@
       "facilityCount": 0,
       "treeCounts": [
         {
+          "species": "느티나무",
+          "qty": 5
+        },
+        {
+          "species": "모감주나무",
+          "qty": 3
+        },
+        {
+          "species": "목련",
+          "qty": 1
+        },
+        {
+          "species": "배롱나무",
+          "qty": 9
+        },
+        {
           "species": "소나무",
           "qty": 17
+        },
+        {
+          "species": "왕벚나무",
+          "qty": 10
+        },
+        {
+          "species": "은행나무",
+          "qty": 2
+        },
+        {
+          "species": "이팝나무",
+          "qty": 10
+        },
+        {
+          "species": "청단풍",
+          "qty": 1
+        },
+        {
+          "species": "팽나무",
+          "qty": 2
         }
       ],
       "shrubCounts": [
         {
           "species": "광나무",
           "qty": 39
+        },
+        {
+          "species": "장미",
+          "qty": 45
+        },
+        {
+          "species": "조팝나무",
+          "qty": 4
+        },
+        {
+          "species": "철쭉류",
+          "qty": 99.7
+        },
+        {
+          "species": "회양목",
+          "qty": 50.5
         }
       ]
     },
@@ -116929,6 +117063,6 @@
     "estimates": [],
     "activeLayerId": "layer-default"
   },
-  "savedAt": "2026-09-30T04:26:43.419Z",
+  "savedAt": "2026-10-12T02:20:36.322Z",
   "savedBy": "lms8765-ai"
 }
