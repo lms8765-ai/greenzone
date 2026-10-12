@@ -1702,6 +1702,29 @@ body.dark-mode #cp-stats > div   { border-color: #2d4433 !important; }
   #map-area { width: 100% !important; }
   #header { background: var(--green) !important; -webkit-print-color-adjust: exact; }
 }
+/* ── A단계 디자인 보완 ── */
+/* 읽기 전용: 흐린 비활성 버튼 대신 숨김 (편집 잠금 해제 시에만 도구 표시) */
+body.read-only-mode .mut-btn { display: none !important; }
+/* 보조 글자 크기 상향 (현장 가독성) */
+.tb-label { font-size: 11px !important; }
+.zcard-team { font-size: 11px !important; }
+.zcard-meta { font-size: 11.5px !important; }
+.fchip { font-size: 11px; }
+/* 수목조사 뱃지/필터 */
+.sv-badge { display:inline-flex; align-items:center; padding:2px 9px; border-radius:10px; font-size:10.5px; font-weight:800; white-space:nowrap; }
+.sv-badge.done { background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; }
+.sv-badge.todo { background:#fff3e0; color:#e65100; border:1px dashed #ffb74d; }
+.sv-chips { display:flex; gap:6px; padding:8px 10px; border-bottom:1px solid #e0e8e0; background:#fafcfa; position:sticky; top:0; z-index:5; }
+.sv-chip { flex:1; text-align:center; padding:6px 4px; border-radius:8px; border:1.5px solid #cfd8cf; background:#fff; color:#546e7a; font-size:11.5px; font-weight:700; cursor:pointer; font-family:inherit; }
+.sv-chip b { display:block; font-size:15px; color:#263238; }
+.sv-chip.on { border-color:#2e7d32; background:#2e7d32; color:#fff; }
+.sv-chip.on b { color:#fff; }
+.sv-chip.todo:not(.on) { border-color:#ffb74d; }
+#survey-legend { position:fixed; right:12px; bottom:58px; z-index:9990; background:rgba(255,255,255,.95); border:1px solid #cfd8cf; border-radius:10px; padding:6px 10px; font-size:11px; font-weight:700; color:#37474f; cursor:pointer; box-shadow:0 1px 6px rgba(0,0,0,.18); display:none; line-height:1.7; }
+#survey-legend .lg-done { display:inline-block; width:14px; height:10px; background:#2e7d3333; border:2px solid #2e7d32; vertical-align:middle; margin-right:4px; }
+#survey-legend .lg-todo { display:inline-block; width:14px; height:10px; background:#ef6c0018; border:2px dashed #ef6c00; vertical-align:middle; margin-right:4px; }
+#survey-legend.off { opacity:.7; }
+@media (pointer: coarse) { .tb-btn, .hd-btn, .sv-chip { min-height: 40px; } }
 /* ── 고급 기능 숨김 (미사용 기능 정리: 기본 숨김, 🧰 버튼으로 표시) ── */
 body:not(.adv-on) .adv-feature { display: none !important; }
 #adv-toggle { opacity:.75; }
@@ -1726,7 +1749,7 @@ body.adv-on #adv-toggle { opacity:1; background:#ffd54f33 !important; border-col
       <div class="hd-stat" onclick="setFSt('all');switchTab('list')" title="전체 구역 보기"><div class="hd-stat-n" id="hs-zones">0</div><div class="hd-stat-l" id="hs-stat-l1">관리구역</div></div>
       <div class="hd-stat" onclick="switchTab('stats')" title="통계 보기"><div class="hd-stat-n" id="hs-logs">0</div><div class="hd-stat-l" id="hs-stat-l2">작업기록</div></div>
       <div class="hd-stat" onclick="switchTab('stats')" title="면적 통계"><div class="hd-stat-n" id="hs-area">0</div><div class="hd-stat-l" id="hs-stat-l3">총면적㎡</div></div>
-      <div class="hd-stat red" onclick="setFSt('issue');switchTab('list')" title="문제발생 구역만 보기"><div class="hd-stat-n" id="hs-issue">0</div><div class="hd-stat-l" id="hs-stat-l4">문제발생</div></div>
+      <div class="hd-stat red adv-feature" onclick="setFSt('issue');switchTab('list')" title="문제발생 구역만 보기"><div class="hd-stat-n" id="hs-issue">0</div><div class="hd-stat-l" id="hs-stat-l4">문제발생</div></div>
     </div>
   </div>
   <!-- 메인 탭 -->
@@ -5309,6 +5332,10 @@ function drawPoly(z) {
 
   const isSel = z.id === selId;
   const col   = z.color || '#2e7d32';
+  // 📊 녹지관리 탭: 수목조사 현황 색상 (완료=초록 실선 / 미조사=주황 점선)
+  const svMode = (zt === 'green' && surveyColorMode);
+  const svDone = svMode ? zoneSurveyed(z) : true;
+  const pcol   = svMode ? (svDone ? '#2e7d32' : '#ef6c00') : col;
   // 숨김 처리 — hiddenZones(개별) + hiddenGroups(그룹) 모두 반영
   const grpHidden = !!(z.groupId && hiddenGroups.has(z.groupId));
   const mapTarget = (hiddenZones.has(z.id) || grpHidden) ? null : map;
@@ -5321,8 +5348,8 @@ function drawPoly(z) {
   allPaths.forEach((singlePath, idx) => {
     const poly = new naver.maps.Polygon({
       paths: singlePath.map(p => new naver.maps.LatLng(p.lat, p.lng)),
-      fillColor: col, fillOpacity: isSel ? .38 : .18,
-      strokeColor: col, strokeWeight: isSel ? 3.5 : 2,
+      fillColor: pcol, fillOpacity: isSel ? .38 : (svMode && !svDone ? .08 : .18),
+      strokeColor: pcol, strokeWeight: isSel ? 3.5 : 2, strokeStyle: (svMode && !svDone) ? 'shortdash' : 'solid',
       strokeOpacity: isSel ? 1 : .75,
       map: mapTarget, clickable: !grpHidden && !hiddenZones.has(z.id),
       zIndex: isSel ? 10 : 1
@@ -5613,11 +5640,11 @@ function buildFilters() {
       const children = grpChips(g.id, depth+1);
       // 부모그룹 칩
       const chip = `<span class="fchip ${on?'on':''}" onclick="setFGrp('${g.id}')"
-        style="border-color:${g.color};color:${on?'#fff':g.color};${on?'background:'+g.color:''};">
+        style="border-color:#2e7d32;color:${on?'#fff':'#2e7d32'};${on?'background:#2e7d32':''};">
         ${escapeHTML(g.name)}
       </span>`;
       // 하위그룹은 새 줄 + 들여쓰기
-      const childWrap = children ? `<div style="padding-left:10px;margin-top:3px;display:flex;flex-wrap:wrap;gap:4px;border-left:2px solid ${g.color}44">${children}</div>` : '';
+      const childWrap = children ? `<div style="padding-left:10px;margin-top:3px;display:flex;flex-wrap:wrap;gap:4px;border-left:2px solid #2e7d3244">${children}</div>` : '';
       return chip + childWrap;
     }).join('');
   }
@@ -5649,12 +5676,22 @@ function setFGrp(v) { fGrp=v; buildFilters(); renderSidebar(); }
 function setFSt(v)  { fSt=v;  buildFilters(); renderSidebar(); }
 function setFWP(v)  { fWP=v;  buildFilters(); renderSidebar(); }
 
+let fSurvey = 'all'; // 녹지관리 탭 수목조사 필터: all | done | todo
+function setFSurvey(v) { fSurvey = (fSurvey === v ? 'all' : v); renderSidebar(); }
+function surveyChipsHTML() {
+  if (currentAppTab !== 'green') return '';
+  const gz = zones.filter(z => zoneTypeOf(z) === 'green');
+  const done = gz.filter(zoneSurveyed).length, todo = gz.length - done;
+  const chip = (id, label, n, extra) => '<button class="sv-chip ' + (extra || '') + (fSurvey === id ? ' on' : '') + '" onclick="setFSurvey(\'' + id + '\')">' + label + '<b>' + n + '</b></button>';
+  return '<div class="sv-chips">' + chip('all', '전체', gz.length, '') + chip('done', '조사완료', done, '') + chip('todo', '미조사', todo, 'todo') + '</div>';
+}
 function getFiltered() {
   // 현재 탭에 맞는 구역만 표시 (zoneType 기반 완전 분리 — 5개 탭 서로 독립)
   const tabType = getCurrentZoneType();
   return zones.filter(z => {
     if (zoneTypeOf(z) !== tabType) return false;
     if (zoneQ && !z.name.includes(zoneQ) && !(z.memo||'').includes(zoneQ) && !(z.manager||'').includes(zoneQ)) return false;
+    if (tabType === 'green' && fSurvey !== 'all' && zoneSurveyed(z) !== (fSurvey === 'done')) return false;
     if (fGrp!=='all' && z.groupId!==fGrp) return false;
     if (fSt !=='all' && z.status !==fSt)  return false;
     if (fWP !=='all') {
@@ -5683,7 +5720,7 @@ function renderList(el) {
         ? '🌸 수목관리 구역 없음<br>✏️ 구역 그리기로 박가혜 구역 추가'
         : '등록된 녹지구역 없음<br>🖊 구역 그리기 → 지도 클릭 → Enter 완성';
     const emptyIcon = currentAppTab === 'rose' ? '🌹' : currentAppTab === 'tree' ? '🌸' : '🌿';
-    el.innerHTML = `<div class="empty-state"><div class="ei">${emptyIcon}</div><p>${emptyMsg}</p></div>`;
+    el.innerHTML = surveyChipsHTML() + `<div class="empty-state"><div class="ei">${emptyIcon}</div><p>${emptyMsg}</p></div>`;
     return;
   }
 
@@ -5769,7 +5806,7 @@ function renderList(el) {
     </div>
     <div class="grp-body ${isOpen?'open':''}" data-gid="__none__">${noGrp.map(zcardHTML).join('')}</div>`;
   }
-  el.innerHTML = htmlStr;
+  el.innerHTML = surveyChipsHTML() + htmlStr;
 }
 
 // 그룹 ID + 모든 하위그룹 ID 반환
@@ -5810,6 +5847,28 @@ function toggleGrp(hd) {
   }
 }
 
+/* 📊 수목조사 여부/수량 헬퍼 */
+function zoneSurveyed(z) { return !!((z.treeCounts && z.treeCounts.length) || (z.shrubCounts && z.shrubCounts.length)); }
+function zoneQtySum(arr) { return Math.round((arr || []).reduce((s, x) => s + (+x.qty || 0), 0) * 10) / 10; }
+function zcardBadgeHTML(z, st) {
+  let out = '';
+  if (zoneTypeOf(z) === 'green') out += zoneSurveyed(z) ? '<span class="sv-badge done">✓ 조사완료</span>' : '<span class="sv-badge todo">미조사</span>';
+  if (z.status !== 'pending') out += ' <span class="badge" style="background:' + st.bg + ';color:' + st.color + ';border:1px solid ' + st.color + '33">' + st.label + '</span>';
+  return out;
+}
+function zcardMetaHTML(z, nl) {
+  const parts = [];
+  if (z.area > 0) parts.push('📐 ' + formatArea(z.area));
+  if (zoneTypeOf(z) === 'green' && zoneSurveyed(z)) {
+    const t = zoneQtySum(z.treeCounts), s = zoneQtySum(z.shrubCounts);
+    if (t > 0) parts.push('🌳 교목 ' + t.toLocaleString() + '주');
+    if (s > 0) parts.push('🌿 관목 ' + s.toLocaleString() + '㎡');
+  }
+  const lg = (z.logs || []).length;
+  if (lg > 0) parts.push('기록 ' + lg + '건');
+  if (nl && nl.next) parts.push('⏰ ' + nl.next);
+  return parts.join(' · ');
+}
 function zcardHTML(z) {
   const st=ST[z.status]||ST.active, col=z.color||st.color;
   const tags=(z.workTypes||[]).map(id=>{const w=WT.find(x=>x.id===id);return w?`<span class="badge" style="background:${w.color}18;color:${w.color};border:1px solid ${w.color}33">${w.icon}${w.label}</span>`:''}).join('');
@@ -5822,7 +5881,7 @@ function zcardHTML(z) {
     <div class="zcard-top">
       <div class="zcard-name">${escapeHTML(z.name)}${roseZones.some(r=>r.zoneId===z.id)?'<span style="font-size:9px;background:#fce4ec;color:#c0392b;border:1px solid #f8a5a5;border-radius:8px;padding:1px 5px;margin-left:3px">🌹</span>':''}</div>
       ${!isMultiSel ? `<span onclick="event.stopPropagation();toggleZonePin('${z.id}')" title="${pinnedZones.has(z.id)?'고정 해제':'목록 맨 위에 고정'}" style="cursor:pointer;font-size:13px;flex-shrink:0;margin-right:4px">${pinnedZones.has(z.id)?'📌':'📍'}</span>` : ''}
-      <span class="badge" style="background:${st.bg};color:${st.color};border:1px solid ${st.color}33">${st.label}</span>
+      ${zcardBadgeHTML(z,st)}
     </div>
     <div class="zcard-team">
       ${TEAMS[z.team]||z.team}
@@ -5832,7 +5891,7 @@ function zcardHTML(z) {
     </div>
     <div class="zcard-tags">${tags}</div>
     ${getZoneWpBadges(z.id)?`<div class="zcard-tags" style="margin-top:4px">${getZoneWpBadges(z.id)}</div>`:''}
-    <div class="zcard-meta">${z.area>0?`📐 ${formatArea(z.area)} · `:''}기록 ${(z.logs||[]).length}건${nl?.next?` · ⏰ ${nl.next}`:''}</div>
+    <div class="zcard-meta">${zcardMetaHTML(z,nl)}</div>
     </div>
   </div>`;
 }
@@ -7026,7 +7085,31 @@ function toggleAdvFeatures() {
   else document.addEventListener('DOMContentLoaded', () => applyAdvFeatures(on));
 })();
 
+/* 📊 수목조사 색상 범례 (녹지관리 탭 지도 위, 클릭하면 켜기/끄기) */
+let surveyColorMode = true;
+try { if (localStorage.getItem('gz_sv') === '0') surveyColorMode = false; } catch(e) {}
+function toggleSurveyColor() {
+  surveyColorMode = !surveyColorMode;
+  try { localStorage.setItem('gz_sv', surveyColorMode ? '1' : '0'); } catch(e) {}
+  redrawAll();
+  updateSurveyLegend();
+}
+function updateSurveyLegend() {
+  let el = document.getElementById('survey-legend');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'survey-legend';
+    el.onclick = toggleSurveyColor;
+    document.body.appendChild(el);
+  }
+  el.style.display = (currentAppTab === 'green') ? 'block' : 'none';
+  el.classList.toggle('off', !surveyColorMode);
+  el.title = '클릭: 수목조사 색상 표시 켜기/끄기';
+  el.innerHTML = '<span class="lg-done"></span>조사완료 &nbsp;<span class="lg-todo"></span>미조사' + (surveyColorMode ? '' : ' <span style="color:#999">(꺼짐)</span>');
+}
+
 function updateHeaderStats() {
+  try { updateSurveyLegend(); } catch(e) {}
   const tab = currentAppTab || 'green';
   if (tab === 'tree') {
     // 박가혜 탭은 녹지 통계 방식과 동일
@@ -10475,7 +10558,7 @@ function checkSeasonalAlerts() {
     badge = document.createElement('div');
     badge.id = 'seasonal-alert-badge';
     // 좌하단 지도 버튼열(브이월드150·범례100·내위치56)과 겹치지 않도록 그 위쪽에 배치
-    badge.style.cssText = 'position:fixed;bottom:210px;left:12px;z-index:9998;background:#fff;border:1.5px solid;border-radius:10px;padding:8px 30px 8px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 2px 10px rgba(0,0,0,.15);max-width:220px;position:relative';
+    badge.style.cssText = 'position:fixed;bottom:100px;right:12px;z-index:9998;background:#fff;border:1.5px solid;border-radius:10px;padding:8px 30px 8px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 2px 10px rgba(0,0,0,.15);max-width:220px';
     document.body.appendChild(badge);
   }
   const a = current[0] || upcoming[0];
